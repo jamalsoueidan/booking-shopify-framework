@@ -1,0 +1,39 @@
+---
+description: Toast context.
+labels: ["context"]
+---
+
+import { BasicToastUsage } from "./toast-context.composition";
+
+## Toast Context
+
+Toast show message at the bottom of the page
+
+### Component usage
+
+```tsx
+const MockComponent = () => {
+  const toast = useContext(ToastContext);
+  useEffect(() => {
+    toast?.show({ content: "hej med dig" });
+    const timer = setTimeout(() => {
+      toast?.show({ content: "hej there" });
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <></>;
+};
+
+<ToastProvider>
+  <MockComponent />
+</ToastProvider>;
+```
+
+### Demo
+
+```tsx live
+() => {
+  return <BasicToastUsage />;
+};
+```

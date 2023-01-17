@@ -1,0 +1,44 @@
+---
+description: SaveBar context.
+labels: ["context"]
+---
+
+import { BasicSaveBarUsage } from "./save-bar-context.composition";
+
+## SaveBar
+
+Use this component to handle saveBar in the whole application.
+
+### Component usage
+
+```tsx
+export const MockComponent = () => {
+  const saveBar = useContext(SaveBarContext);
+  useEffect(() => {
+    saveBar?.setContextualSaveBar({
+      message: "unsaved changes",
+      saveAction: {
+        content: "Save",
+      },
+      discardAction: {
+        content: "Discard",
+      },
+    });
+    saveBar?.setForm({ show: true, dirty: true });
+  }, []);
+
+  return <></>;
+};
+
+<SaveBarProvider>
+  <MockComponent />
+</SaveBarProvider>;
+```
+
+### Demo
+
+```tsx live
+() => {
+  return <BasicSaveBarUsage />;
+};
+```

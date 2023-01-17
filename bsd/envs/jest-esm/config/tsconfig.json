@@ -1,0 +1,4 @@
+{
+  "extends": "@teambit/react.react-env/config/tsconfig.json",
+  "include": ["**/*", "**/*.json"]
+}

@@ -1,0 +1,33 @@
+---
+description: "A React Hook that toggle on and off ContextualSaveBar"
+labels: ["use-save-bar", "hook"]
+---
+
+import { useSaveBar } from "./use-save-bar";
+
+## A React Hook to increment a count
+
+Configure ContextualSaveBar and then show it.
+
+### Component usage
+
+In this example we are showing the contextual savebar straight away, in real life you use it with useForm
+
+```js
+import { useSaveBar } from "./use-save-bar";
+
+const { setForm, setContextualSaveBar } = useSaveBar({ show: true });
+
+useEffect(() => {
+  setContextualSaveBar({
+    message: "unsaved changes",
+    saveAction: {
+      content: "Save",
+    },
+    discardAction: {
+      content: "Discard",
+    },
+  });
+  setForm({ show: true, dirty: true });
+}, []);
+```

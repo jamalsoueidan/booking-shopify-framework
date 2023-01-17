@@ -1,0 +1,20 @@
+---
+description: "A React Hook that increments a count by 1 each time it is called."
+labels: ["hook", "counter"]
+---
+
+import { useTranslation } from "./use-translation";
+
+## A React Hook to translation words
+
+### Component usage
+
+In this example we use the hook with scope set to bookings, and access all the nested translation when using the t method.
+
+```js
+import { useTranslation } from "./use-translation";
+
+const { t } = useTranslation("bookings");
+
+<h1>{t("all")}</h1>;
+```
