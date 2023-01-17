@@ -1,13 +1,13 @@
 // COMPONENTS
 export { BookingStaff } from "@jamalsoueidan/bsf.components.booking.booking-staff";
 export type { BookingStaffProps } from "@jamalsoueidan/bsf.components.booking.booking-staff";
-//export { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
-//export type { FormErrorsProps } from "@jamalsoueidan/bsf.components.form-errors";
-//export { LoadingPage } from "@jamalsoueidan/bsf.components.loading.loading-page";
-//export type { LoadingPageProps } from "@jamalsoueidan/bsf.components.loading.loading-page";
+export { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
+export type { FormErrorsProps } from "@jamalsoueidan/bsf.components.form-errors";
+export { LoadingPage } from "@jamalsoueidan/bsf.components.loading.loading-page";
+export type { LoadingPageProps } from "@jamalsoueidan/bsf.components.loading.loading-page";
 export { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
-//export { StaffForm } from "@jamalsoueidan/bsf.components.staff.staff-form";
-//export type { StaffFormProps } from "@jamalsoueidan/bsf.components.staff.staff-form";
+export { StaffForm } from "@jamalsoueidan/bsf.components.staff.staff-form";
+export type { StaffFormProps } from "@jamalsoueidan/bsf.components.staff.staff-form";
 export { useForm } from "@jamalsoueidan/bsf.hooks.use-form";
 export { usePosition } from "@jamalsoueidan/bsf.hooks.use-position";
 

@@ -1,16 +1,10 @@
-import React, { ReactNode } from 'react';
+import { BookingStaffProps } from "@jamalsoueidan/bsf.components.booking.booking-staff";
+import React from "react";
 
-export type BsfPkgProps = {
-  /**
-   * a node to be rendered in the special component.
-   */
-  children?: ReactNode;
+export type BsfPkgReturn = {
+  BookingStaff: BookingStaffProps;
 };
 
-export function BsfPkg({ children }: BsfPkgProps) {
-  return (
-    <div>
-      {children}
-    </div>
-  );
+export function BsfPkg(): BookingStaffProps {
+  return {} as any;
 }

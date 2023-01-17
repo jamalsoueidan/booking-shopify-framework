@@ -1,9 +1,23 @@
+import { Application } from "@jamalsoueidan/bsd.preview.application";
+import { render, screen } from "@jamalsoueidan/bsd.testing-library.react";
 import React from "react";
-import { render } from "@jamalsoueidan/bsd.testing-library.react";
-import { BasicFormErrors } from "./form-errors.composition";
+import { FormErrors } from "./form-errors";
 
-it("should render with the correct text", () => {
-  const { getByText } = render(<BasicFormErrors />);
+it("should not render", async () => {
+  const { getByText } = render(<FormErrors />, {
+    wrapper: Application,
+  });
+  const myComponent = screen.queryByTestId("form-errors");
+  expect(myComponent).not.toBeInTheDocument();
+});
+
+it("should render when error exists", async () => {
+  const { getByText } = render(
+    <FormErrors errors={[{ message: "fejl i din besked" }]} />,
+    {
+      wrapper: Application,
+    }
+  );
   const rendered = getByText("fejl i din besked");
   expect(rendered).toBeTruthy();
 });
