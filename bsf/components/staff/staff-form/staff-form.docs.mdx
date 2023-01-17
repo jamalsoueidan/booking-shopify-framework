@@ -1,0 +1,24 @@
+---
+description: A StaffForm component.
+---
+
+import { BasicStaffForm } from "./staff-form.composition";
+
+A component that does something special and renders text in a div.
+
+### Component usage
+
+```js
+<StaffForm
+  data={staff}
+  action={() => {}}
+  titleMetadata={<Badge status="success">Active</Badge>}
+  disallowEditing={{ group: false, active: false }}
+></StaffForm>
+```
+
+### Render hello world!
+
+```js live
+<BasicStaffForm></BasicStaffForm>
+```

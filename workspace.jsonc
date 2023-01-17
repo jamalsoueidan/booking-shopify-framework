@@ -72,7 +72,7 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{components/**}, {hooks/**}, {providers/**}, {testing-library/**}": {
+    "{components/**}, {hooks/**}, {providers/**}, {testing-library/**}, {helpers/**}": {
       "jamalsoueidan.bsd/envs/react-18-env": {}
     },
     "{preview/**}": {
