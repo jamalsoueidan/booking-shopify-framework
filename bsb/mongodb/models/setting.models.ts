@@ -15,7 +15,7 @@ export const SettingSchema = new mongoose.Schema({
   },
   language: {
     type: String,
-    default: "da-DK",
+    default: "da",
   },
   status: {
     type: Boolean,
@@ -36,13 +36,13 @@ SettingModel.createCollection().then(async (collection) => {
       {
         shop: "testeriphone.myshopify.com",
         timeZone: "Europe/Copenhagen",
-        language: "da-DK",
+        language: "da",
         status: true,
       },
       {
         shop: "bysistersdk.myshopify.com",
         timeZone: "Europe/Copenhagen",
-        language: "da-DK",
+        language: "da",
         status: true,
       },
     ]);

@@ -21,7 +21,7 @@ export const NotificationTemplateSchema = new mongoose.Schema({
   language: {
     type: String,
     required: true,
-    default: "da-DK",
+    default: "da",
   },
 });
 
@@ -43,49 +43,49 @@ NotificationTemplateModel.createCollection().then(async (collection) => {
           name: "BOOKING_UPDATE",
           message: `Hej {fullname}, din behandlingstid er opdatere til d. {date}`,
           shop,
-          language: "da-DK",
+          language: "da",
         },
         {
           name: "BOOKING_CONFIRMATION",
           message: `Hej {fullname}, Tak for din reservation, som indeholder {total} behandling(er)`,
           shop,
-          language: "da-DK",
+          language: "da",
         },
         {
           name: "BOOKING_REMINDER_CUSTOMER",
           message: `Hej {fullname}, Husk din {title} behandling {time}, Vi ser frem til at se dig!`,
           shop,
-          language: "da-DK",
+          language: "da",
         },
         {
           name: "BOOKING_REMINDER_STAFF",
           message: `Hej {fullname}, Husk du har en kunde som skal lave {title} behandling, {time}`,
           shop,
-          language: "da-DK",
+          language: "da",
         },
         {
           name: "BOOKING_UPDATE",
           message: `Hey {fullname}, your booking time have changed to {date}`,
           shop,
-          language: "en-US",
+          language: "en",
         },
         {
           name: "BOOKING_CONFIRMATION",
           message: `hey {fullname}, thank you for your order, you have booked {total} treatments`,
           shop,
-          language: "en-US",
+          language: "en",
         },
         {
           name: "BOOKING_REMINDER_CUSTOMER",
           message: `hey {fullname}, remember your {title} treatment {time}, we look forward to see you!`,
           shop,
-          language: "en-US",
+          language: "en",
         },
         {
           name: "BOOKING_REMINDER_STAFF",
           message: `hey {fullname}, remember your customer needs to do {title} treatment, {time}`,
           shop,
-          language: "en-US",
+          language: "en",
         },
       ];
     });

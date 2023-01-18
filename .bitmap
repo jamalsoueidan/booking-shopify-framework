@@ -17,13 +17,13 @@
     },
     "bsb-pkg": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "mainFile": "index.ts",
         "rootDir": "bsb/bsb-pkg"
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.12",
+        "version": "0.0.13",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
@@ -35,9 +35,21 @@
     },
     "components/form-errors": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/form-errors"
+    },
+    "components/inputs/language-input": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/language-input"
+    },
+    "components/inputs/time-zone-input": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/time-zone-input"
     },
     "components/loading/loading-page": {
         "scope": "jamalsoueidan.bsf",
@@ -53,7 +65,7 @@
     },
     "components/staff/staff-form": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/staff/staff-form"
     },
@@ -107,13 +119,13 @@
     },
     "mongodb/models": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/models"
     },
     "mongodb/services": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/services"
     },

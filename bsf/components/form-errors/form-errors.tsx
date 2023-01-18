@@ -3,10 +3,6 @@ import { Banner } from "@shopify/polaris";
 import { FormError } from "@shopify/react-form";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 
-export interface FormErrorsProps {
-  errors?: FormError[];
-}
-
 const locales = [
   {
     error: "Fejl",
@@ -16,9 +12,13 @@ const locales = [
   },
 ];
 
+export interface FormErrorsProps {
+  errors?: FormError[];
+}
+
 export const FormErrors = ({ errors }: FormErrorsProps) => {
   const { t } = useTranslation({
-    id: "inject",
+    id: "form-errors",
     locales,
   });
 
