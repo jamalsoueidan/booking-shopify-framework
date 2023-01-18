@@ -15,8 +15,8 @@ export interface BookingStaffProps {
 export const BookingStaff = memo(
   ({ data, selected, onSelect, isLoadingBookings }: BookingStaffProps) => {
     const { t } = useTranslation({
-      id: "bookingStaff",
-      locales: [da, en],
+      id: "booking-staff",
+      locales: { da, en },
     });
 
     const onClick = useCallback(() => {

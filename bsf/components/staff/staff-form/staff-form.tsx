@@ -42,7 +42,7 @@ export const StaffForm = memo(
   }: StaffFormProps) => {
     const { options } = usePosition();
     const { show } = useToast();
-    const { t } = useTranslation({ id: "staff", locales: [da, en] });
+    const { t } = useTranslation({ id: "staff", locales: { da, en } });
 
     //https://codesandbox.io/s/1wpxz?file=/src/MyForm.tsx:2457-2473
     const { fields, submit, submitErrors, primaryAction } = useForm({

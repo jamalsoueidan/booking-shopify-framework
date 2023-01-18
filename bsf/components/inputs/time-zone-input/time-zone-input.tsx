@@ -3,16 +3,16 @@ import { Autocomplete, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 
-const locales = [
-  {
+const locales = {
+  da: {
     label: "Tidszone",
     placeholder: "Vælge tidszone",
   },
-  {
+  en: {
     label: "Timezone",
     placeholder: "Choose timezone",
   },
-];
+};
 
 export interface TimeZoneInputProps
   extends Field<string>,

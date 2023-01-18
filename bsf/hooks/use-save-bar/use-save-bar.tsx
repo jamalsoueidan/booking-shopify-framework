@@ -5,18 +5,18 @@ import {
 } from "@jamalsoueidan/bsf.providers.save-bar";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 
-const locales = [
-  {
+const locales = {
+  da: {
     save: "Gem",
     discard: "Annullere",
     unsaved: "Ikke-gemte ændringer",
   },
-  {
+  en: {
     save: "Save",
     discard: "Discard",
     unsaved: "Unsaved changes",
   },
-];
+};
 
 export interface UseSaveBarProps {
   show: boolean;

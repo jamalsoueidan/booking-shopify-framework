@@ -3,14 +3,14 @@ import { Banner } from "@shopify/polaris";
 import { FormError } from "@shopify/react-form";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 
-const locales = [
-  {
+const locales = {
+  da: {
     error: "Fejl",
   },
-  {
+  en: {
     error: "Error",
   },
-];
+};
 
 export interface FormErrorsProps {
   errors?: FormError[];

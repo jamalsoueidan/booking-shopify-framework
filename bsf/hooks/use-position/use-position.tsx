@@ -3,16 +3,16 @@ import { useCallback, useMemo } from "react";
 
 type positions = "1" | "2";
 
-const locales = [
-  {
+const locales = {
+  da: {
     makeup: "Makeup",
     hairdresser: "Frisør",
   },
-  {
+  en: {
     makeup: "Makeup",
     hairdresser: "Hairdresser",
   },
-];
+};
 
 interface UseTagOptionsReturn {
   options: UseTagOptions[];

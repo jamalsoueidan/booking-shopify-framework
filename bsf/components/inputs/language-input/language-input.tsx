@@ -3,8 +3,8 @@ import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useMemo } from "react";
 
-const locales = [
-  {
+const locales = {
+  da: {
     label: "Sprog",
     placeholder: "Vælge sprog",
     languages: {
@@ -12,7 +12,7 @@ const locales = [
       english: "Engelsk",
     },
   },
-  {
+  en: {
     label: "Language",
     placeholder: "Choose language",
     languages: {
@@ -20,7 +20,7 @@ const locales = [
       english: "English",
     },
   },
-];
+};
 
 export interface LanguageInputProps
   extends Field<string>,

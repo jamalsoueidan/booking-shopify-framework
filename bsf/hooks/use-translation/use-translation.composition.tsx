@@ -7,20 +7,20 @@ import { useTranslation } from "./use-translation";
 const FilesTranslation = () => {
   const { t } = useTranslation({
     id: "file",
-    locales: [da, en],
+    locales: { da, en },
   });
 
   return <div>{t("all")}</div>;
 };
 
-const locales = [
-  {
+const locales = {
+  da: {
     lang: "Dansk",
   },
-  {
+  en: {
     lang: "English",
   },
-];
+};
 
 const InjectTranslation = () => {
   const { t } = useTranslation({
