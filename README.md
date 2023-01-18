@@ -22,7 +22,7 @@ This framework covers all MongoDB models, services, and types and frontend UI, i
   <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsf-2.png?raw=true" width="600"/>
 </p>
 
-### bsd, Booking Shopify Development (envs for bit.dev)
+### = bsd, Booking Shopify Development (envs for bit.dev)
 
 These files in this folder is for bit.dev environment to run React 18, and build to ESM modules.
 
