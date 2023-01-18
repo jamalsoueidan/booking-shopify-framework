@@ -8,11 +8,11 @@ This framework covers all MongoDB models, services, and types and frontend UI, i
 
 ### = bsb, Booking Shopify Backend
 
-<a href="https://bit.cloud/jamalsoueidan/bsd" target="_blank">Backend Documentation</a><br />
+<a href="https://bit.cloud/jamalsoueidan/bsd" target="_blank">Bit.dev Backend Documentation</a><br />
 
 ### = bsf, Booking Shopify Frontend
 
-<a href="https://bit.cloud/jamalsoueidan/bsf" target="_blank">Frontend Documentation</a>
+<a href="https://bit.cloud/jamalsoueidan/bsf" target="_blank">Bit.dev Frontend Documentation</a>
 
 ### bsd, Booking Shopify Development (envs for bit.dev)
 
