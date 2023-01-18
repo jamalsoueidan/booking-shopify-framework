@@ -6,30 +6,21 @@ This framework covers all MongoDB models, services, and types and frontend UI, i
 
 <a href="https://bit.cloud/jamalsoueidan/bsb" target="_blank">Bit.dev Backend Documentation</a><br />
 
-<table>
-  <tr>
-   <td>
-      <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsb.png?raw=true" width="500" />
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsb.png?raw=true" width="600"/>
+</p>
 
 ### = bsf, Booking Shopify Frontend
 
 <a href="https://bit.cloud/jamalsoueidan/bsf" target="_blank">Bit.dev Frontend Documentation</a>
 
-<table>
-  <tr>
-   <td>
-      <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsf.png?raw=true" width="500" />
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsf-2.png?raw=true" width="500" />
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsf.png?raw=true" width="600"/>
+</p>
+
+<p align="center">
+  <img src="https://github.com/jamalsoueidan/booking-shopify-framework/blob/main/screens/bsf-2.png?raw=true" width="600"/>
+</p>
 
 ### bsd, Booking Shopify Development (envs for bit.dev)
 
