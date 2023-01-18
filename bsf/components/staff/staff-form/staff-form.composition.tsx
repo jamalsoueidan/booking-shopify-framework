@@ -30,6 +30,22 @@ export const BasicStaffForm = () => {
             data={staff}
             action={() => {}}
             titleMetadata={<Badge status="success">Active</Badge>}
+          ></StaffForm>
+        </ToastProvider>
+      </SaveBarProvider>
+    </ApplicationFramePage>
+  );
+};
+
+export const BasicStaffFormDisallow = () => {
+  return (
+    <ApplicationFramePage>
+      <SaveBarProvider>
+        <ToastProvider>
+          <StaffForm
+            data={staff}
+            action={() => {}}
+            titleMetadata={<Badge status="success">Active</Badge>}
             disallowEditing={{ group: false, active: false }}
           ></StaffForm>
         </ToastProvider>
