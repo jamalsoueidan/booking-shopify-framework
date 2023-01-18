@@ -133,7 +133,7 @@ export class React18EnvMain {
           },
           {
             name: "@types/jest",
-            version: "^29.2.2",
+            version: "^26.0.20",
             hidden: true,
             force: true,
           },

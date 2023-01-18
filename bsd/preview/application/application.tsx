@@ -47,8 +47,11 @@ export const ApplicationFramePage = ({
   children,
   title,
 }: ApplicationFramePageProps) => {
-  return window.location.href.includes("viewport") ||
-    window.location.href.includes("=overview") ? (
+  const h = window.location.href;
+  const isOnProfile = h.endsWith("compositions&");
+  const isOnOverview = h.includes("viewport");
+  const isOnDoc = h.includes("=overview");
+  return isOnProfile || isOnOverview || isOnDoc ? (
     <ApplicationFrame>
       <Page fullWidth title={title || ""}>
         {children}
