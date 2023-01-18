@@ -8,7 +8,7 @@ export interface IShopifySession {
   scope: string;
 }
 
-const ShopifySessionSchema = new mongoose.Schema({
+export const ShopifySessionsSchema = new mongoose.Schema({
   id: String,
   state: String,
   shop: {
@@ -23,6 +23,6 @@ const ShopifySessionSchema = new mongoose.Schema({
 
 export const ShopifySessionsModel = mongoose.model<IShopifySession>(
   "shopify_sessions",
-  ShopifySessionSchema,
+  ShopifySessionsSchema,
   "shopify_sessions"
 );

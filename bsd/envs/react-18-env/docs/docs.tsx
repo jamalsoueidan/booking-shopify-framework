@@ -8,7 +8,6 @@ import { createRoot } from "react-dom/client";
  */
 
 function DocsRoot({ componentId, docs, compositions, context }) {
-  console.log("before running");
   const rootElm = document.getElementById("root");
   const root = createRoot(rootElm!);
   root.render(

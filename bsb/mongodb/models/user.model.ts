@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 
 export interface IUserModel extends Omit<User, "_id">, Document {}
 
-const UserSchema = new Schema({
+export const UserSchema = new Schema({
   shop: {
     type: String,
     required: true,

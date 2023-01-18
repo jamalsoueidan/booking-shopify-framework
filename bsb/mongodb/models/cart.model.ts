@@ -9,7 +9,7 @@ export interface ICartModel {
   createdAt: Date;
 }
 
-const CartSchema = new mongoose.Schema({
+export const CartSchema = new mongoose.Schema({
   cartId: {
     type: String,
     required: true,

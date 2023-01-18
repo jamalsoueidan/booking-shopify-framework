@@ -3,7 +3,7 @@ import { Customer } from "@jamalsoueidan/bsb.mongodb.types";
 
 export interface ICustomerModel extends Omit<Customer, "_id">, Document {}
 
-const CustomerSchema = new mongoose.Schema({
+export const CustomerSchema = new mongoose.Schema({
   customerId: { type: Number, required: true, index: true },
   firstName: String,
   lastName: String,

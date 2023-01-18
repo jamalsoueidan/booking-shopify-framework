@@ -39,14 +39,14 @@ export class React18EnvMain {
        * bit lint
        * bit lint --fix
        */
-      // react.useEslint({
-      //   transformers: [
-      //     (config) => {
-      //       config.setRule('no-console', ['error']);
-      //       return config;
-      //     }
-      //   ]
-      // }),
+      react.useEslint({
+        transformers: [
+          (config) => {
+            config.setRule("no-console", ["error"]);
+            return config;
+          },
+        ],
+      }),
 
       /**
        * override the Prettier default config here the check your formatting

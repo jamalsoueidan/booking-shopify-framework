@@ -3,7 +3,7 @@ import { Collection } from "@jamalsoueidan/bsb.mongodb.types";
 
 export interface ICollectionModel extends Omit<Collection, "_id">, Document {}
 
-const CollectionSchema = new mongoose.Schema({
+export const CollectionSchema = new mongoose.Schema({
   shop: {
     type: String,
     required: true,

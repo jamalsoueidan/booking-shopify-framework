@@ -9,7 +9,7 @@ export interface IProductModel
   extends Omit<Product<ProductStaff>, "_id">,
     Document {}
 
-const ProductSchema = new Schema({
+export const ProductSchema = new Schema({
   shop: {
     type: String,
     required: true,

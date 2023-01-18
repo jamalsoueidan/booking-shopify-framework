@@ -5,7 +5,7 @@ export interface INotificationModel
   extends Omit<Notification, "_id">,
     Document {}
 
-const NotificationSchema = new mongoose.Schema(
+export const NotificationSchema = new mongoose.Schema(
   {
     orderId: { type: Number, required: true, index: true },
     lineItemId: { type: Number, default: -1, index: true },

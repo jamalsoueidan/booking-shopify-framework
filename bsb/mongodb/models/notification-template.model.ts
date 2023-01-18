@@ -6,7 +6,7 @@ export interface INotificationTemplateModel
   extends Omit<NotificationTemplate, "_id">,
     Document {}
 
-const NotificationTemplateSchema = new mongoose.Schema({
+export const NotificationTemplateSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,

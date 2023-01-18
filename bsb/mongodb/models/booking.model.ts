@@ -3,7 +3,7 @@ import { Booking } from "@jamalsoueidan/bsb.mongodb.types";
 
 export interface IBookingModel extends Omit<Booking, "_id">, Document {}
 
-const BookingSchema = new mongoose.Schema({
+export const BookingSchema = new mongoose.Schema({
   productId: Number,
   orderId: {
     type: Number,

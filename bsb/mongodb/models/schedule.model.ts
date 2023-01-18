@@ -3,7 +3,7 @@ import mongoose, { Document } from "mongoose";
 
 export interface IScheduleModel extends Omit<Schedule, "_id">, Document {}
 
-const ScheduleSchema = new mongoose.Schema({
+export const ScheduleSchema = new mongoose.Schema({
   staff: { type: mongoose.Schema.Types.ObjectId, ref: "Staff", index: true },
   groupId: String,
   start: {

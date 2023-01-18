@@ -3,7 +3,7 @@ import { Setting } from "@jamalsoueidan/bsb.mongodb.types";
 
 export interface ISettingModel extends Omit<Setting, "_id">, Document {}
 
-const SettingSchema = new mongoose.Schema({
+export const SettingSchema = new mongoose.Schema({
   shop: {
     type: String,
     required: true,

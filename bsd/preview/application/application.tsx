@@ -33,11 +33,9 @@ export interface ApplicationFrameProps {
 
 export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
   return (
-    <I18nContext.Provider value={i18nManager}>
-      <PolarisProvider>
-        <Frame>{children}</Frame>
-      </PolarisProvider>
-    </I18nContext.Provider>
+    <Application>
+      <Frame>{children}</Frame>
+    </Application>
   );
 };
 
@@ -49,16 +47,21 @@ export const ApplicationFramePage = ({
   children,
   title,
 }: ApplicationFramePageProps) => {
-  return (
-    <I18nContext.Provider value={i18nManager}>
-      <PolarisProvider>
-        <FrameChangeLanguage>
-          <Page fullWidth title={title || ""}>
-            {children}
-          </Page>
-        </FrameChangeLanguage>
-      </PolarisProvider>
-    </I18nContext.Provider>
+  return window.location.href.includes("viewport") ||
+    window.location.href.includes("=overview") ? (
+    <ApplicationFrame>
+      <Page fullWidth title={title || ""}>
+        {children}
+      </Page>
+    </ApplicationFrame>
+  ) : (
+    <Application>
+      <FrameChangeLanguage>
+        <Page fullWidth title={title || ""}>
+          {children}
+        </Page>
+      </FrameChangeLanguage>
+    </Application>
   );
 };
 

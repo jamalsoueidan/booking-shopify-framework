@@ -4,7 +4,7 @@ import { Staff } from "@jamalsoueidan/bsb.mongodb.types";
 
 export interface IStaffModel extends Omit<Staff, "_id">, Document {}
 
-const StaffSchema = new Schema({
+export const StaffSchema = new Schema({
   shop: {
     type: String,
     required: true,
