@@ -12,9 +12,11 @@ export interface BookingStaffProps {
   onSelect: (value?: Staff) => void;
 }
 
+export type BookingStaffTranslationKeys = keyof typeof da;
+
 export const BookingStaff = memo(
   ({ data, selected, onSelect, isLoadingBookings }: BookingStaffProps) => {
-    const { t } = useTranslation({
+    const { t } = useTranslation<BookingStaffTranslationKeys>({
       id: "booking-staff",
       locales: { da, en },
     });

@@ -105,6 +105,12 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-save-bar"
     },
+    "hooks/use-tag": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/hooks/use-tag"
+    },
     "hooks/use-toast": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.13",

@@ -1,2 +1,5 @@
-export { BookingStaff } from './booking-staff';
-export type { BookingStaffProps } from './booking-staff';
+export { BookingStaff } from "./booking-staff";
+export type {
+  BookingStaffProps,
+  BookingStaffTranslationKeys,
+} from "./booking-staff";

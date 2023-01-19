@@ -2,6 +2,6 @@ export const da = {
   all: "Alle medarbejder",
 };
 
-export const en: typeof da = {
+export const en = {
   all: "All staff",
 };

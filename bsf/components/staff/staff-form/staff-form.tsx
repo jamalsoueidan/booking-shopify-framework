@@ -1,11 +1,10 @@
+import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.bsb-pkg";
 import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
+import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useForm } from "@jamalsoueidan/bsf.hooks.use-form";
 import { usePosition } from "@jamalsoueidan/bsf.hooks.use-position";
 import { useToast } from "@jamalsoueidan/bsf.hooks.use-toast";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import React from "react";
-import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.bsb-pkg";
-import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import {
   Box,
   BreadcrumbsProps,
@@ -20,9 +19,8 @@ import {
   TextField,
 } from "@shopify/polaris";
 import { lengthMoreThan, notEmpty, useField } from "@shopify/react-form";
-import { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { da, en } from "./translations";
-import { memo } from "react";
 
 export interface StaffFormProps {
   action: (body: StaffBodyUpdate) => void;
@@ -42,7 +40,10 @@ export const StaffForm = memo(
   }: StaffFormProps) => {
     const { options } = usePosition();
     const { show } = useToast();
-    const { t } = useTranslation({ id: "staff", locales: { da, en } });
+    const { t } = useTranslation({
+      id: "staff",
+      locales: { da, en },
+    });
 
     //https://codesandbox.io/s/1wpxz?file=/src/MyForm.tsx:2457-2473
     const { fields, submit, submitErrors, primaryAction } = useForm({

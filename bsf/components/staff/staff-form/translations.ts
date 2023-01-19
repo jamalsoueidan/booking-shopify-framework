@@ -44,9 +44,9 @@ export const da = {
     title: "Medarbejder overblik",
   },
   title: "Ny medarbejder",
-};
+} as const;
 
-export const en: typeof da = {
+export const en = {
   image: {
     title: "Upload",
   },

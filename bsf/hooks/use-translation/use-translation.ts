@@ -5,22 +5,31 @@ import {
 } from "@shopify/react-i18n";
 import { useCallback } from "react";
 
-export interface useTranslationProps extends Partial<RegisterOptions> {
+// https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
+type NestedKeyOf<ObjectType extends object> = {
+  [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
+    ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key]>}`
+    : `${Key}`;
+}[keyof ObjectType & (string | number)];
+
+export interface useTranslationProps<T> extends Partial<RegisterOptions> {
   id: string;
-  locales: { da: TranslationDictionary; en: TranslationDictionary };
+  locales: { da: T; en: TranslationDictionary };
 }
 
-export const useTranslation = ({ id, locales }: useTranslationProps) => {
+export const useTranslation = <T extends object>({
+  id,
+  locales,
+}: useTranslationProps<T>) => {
   const [i18n] = useI18n({
     id: id,
     fallback: locales.da,
-    translations(locale: string) {
-      return locale === "da" ? locales.da : locales.en;
-    },
+    translations: (locale: string) =>
+      locale === "da" ? locales.da : locales.en,
   });
 
   const t = useCallback(
-    (id: string, replacements?: any) => {
+    (id: NestedKeyOf<T>, replacements?: any) => {
       return i18n.translate(id, replacements);
     },
     [i18n]
