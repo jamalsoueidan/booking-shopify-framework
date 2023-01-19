@@ -1,0 +1,23 @@
+---
+description: "A React Hook that get application settings."
+labels: ["hook", "use-settings"]
+---
+
+## A React Hook to application settings
+
+```js
+const MockComponent = () => {
+  const settings = useSettings();
+  return <>{settings.language}</>;
+};
+
+export const BasicuseSettings = () => {
+  const { count, increment } = useSettings();
+
+  return (
+    <SettingsProvider value={{ language: "da", timeZone: "europe" }}>
+      <MockComponent />
+    </SettingsProvider>
+  );
+};
+```

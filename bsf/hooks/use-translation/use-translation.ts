@@ -7,10 +7,10 @@ import { useCallback } from "react";
 
 // https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
 type NestedKeyOf<ObjectType extends object> = {
-  [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
-    ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key]>}`
+  [Key in keyof ObjectType & string]: ObjectType[Key] extends object
+    ? `${Key}.${keyof ObjectType[Key] & string}`
     : `${Key}`;
-}[keyof ObjectType & (string | number)];
+}[keyof ObjectType & string];
 
 export interface useTranslationProps<T> extends Partial<RegisterOptions> {
   id: string;

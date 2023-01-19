@@ -7,7 +7,7 @@ function MockComponent() {
   return <>{select("#d24e01")}</>;
 }
 
-export const BasicuseToast = () => {
+export const BasicUseTag = () => {
   return (
     <ApplicationFramePage title="useToast">
       <MockComponent />

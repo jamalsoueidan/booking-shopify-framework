@@ -124,45 +124,45 @@ export const StaffForm = memo(
         >
           <Layout>
             <FormErrors errors={submitErrors} />
-            <Layout.AnnotatedSection title={t("staff.title")}>
+            <Layout.AnnotatedSection title={t("form.title")}>
               <Card sectioned>
                 <FormLayout>
                   <TextField
-                    label={t("staff.fullname.label")}
+                    label={t("fullname.label")}
                     type="text"
                     autoComplete="fullname"
-                    placeholder={t("staff.fullname.placeholder")}
+                    placeholder={t("fullname.placeholder")}
                     {...fields?.fullname}
                   />
                   <TextField
-                    label={t("staff.email.label")}
+                    label={t("email.label")}
                     type="email"
                     autoComplete="email"
-                    placeholder={t("staff.email.placeholder")}
-                    helpText={<span>{t("staff.email.help")}</span>}
+                    placeholder={t("email.placeholder")}
+                    helpText={<span>{t("email.help")}</span>}
                     {...fields?.email}
                   />
                   <TextField
-                    label={t("staff.phone.label")}
+                    label={t("phone.label")}
                     type="text"
                     autoComplete="phone"
-                    placeholder={t("staff.phone.placeholder")}
-                    helpText={<span>{t("staff.phone.help")}</span>}
+                    placeholder={t("phone.placeholder")}
+                    helpText={<span>{t("phone.help")}</span>}
                     {...fields?.phone}
                   />
                   <TextField
-                    label={t("staff.address.label")}
+                    label={t("address.label")}
                     type="text"
                     autoComplete="address"
-                    placeholder={t("staff.address.placeholder")}
+                    placeholder={t("address.placeholder")}
                     {...fields?.address}
                   />
                   <TextField
-                    label={t("staff.postal.label")}
+                    label={t("postal.label")}
                     type="text"
                     autoComplete="postal"
-                    placeholder={t("staff.postal.placeholder")}
-                    helpText={<span>{t("staff.postal.help")}</span>}
+                    placeholder={t("postal.placeholder")}
+                    helpText={<span>{t("postal.help")}</span>}
                     {...fields?.postal}
                     value={fields?.postal?.value?.toString()}
                     onChange={changePostal}
@@ -170,21 +170,21 @@ export const StaffForm = memo(
                 </FormLayout>
               </Card>
             </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection title={t("staff.position.title")}>
+            <Layout.AnnotatedSection title={t("position.title")}>
               <Card sectioned>
                 <FormLayout>
                   <Select
-                    label={t("staff.position.label")}
+                    label={t("position.label")}
                     options={options}
                     {...fields?.position}
                   />
                   {disallowEditing.group ? (
                     <TextField
-                      label={t("staff.group.label")}
+                      label={t("group.label")}
                       type="text"
                       autoComplete="false"
-                      placeholder={t("staff.group.placeholder")}
-                      helpText={<span>{t("staff.group.help")}</span>}
+                      placeholder={t("group.placeholder")}
+                      helpText={<span>{t("group.help")}</span>}
                       {...fields?.group}
                     />
                   ) : null}
@@ -195,11 +195,11 @@ export const StaffForm = memo(
               <Card>
                 <Card.Section>
                   <TextField
-                    label={t("staff.avatarUrl.label")}
+                    label={t("avatarUrl.label")}
                     type="text"
                     autoComplete="avatarUrl"
-                    placeholder={t("staff.avatarUrl.placeholder")}
-                    helpText={<span>{t("staff.avatarUrl.help")}</span>}
+                    placeholder={t("avatarUrl.placeholder")}
+                    helpText={<span>{t("avatarUrl.help")}</span>}
                     {...fields?.avatar}
                   />
                   {fields?.avatar.value && (

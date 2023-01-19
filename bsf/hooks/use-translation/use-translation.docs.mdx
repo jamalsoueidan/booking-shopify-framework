@@ -1,6 +1,6 @@
 ---
-description: "A React Hook that increments a count by 1 each time it is called."
-labels: ["hook", "counter"]
+description: "A React Hook that are used for translation"
+labels: ["hook", "translation"]
 ---
 
 import { useTranslation } from "./use-translation";
@@ -14,7 +14,16 @@ In this example we use the hook with scope set to bookings, and access all the n
 ```js
 import { useTranslation } from "./use-translation";
 
-const { t } = useTranslation("bookings");
+const locales = {
+  da: {
+    lang: "Dansk",
+  },
+  en: {
+    lang: "English",
+  },
+};
 
-<h1>{t("all")}</h1>;
+const { t } = useTranslation({ id: "bookings", locales });
+
+<h1>{t("lang")}</h1>;
 ```

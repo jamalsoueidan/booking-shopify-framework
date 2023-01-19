@@ -16,7 +16,7 @@ export type BookingStaffTranslationKeys = keyof typeof da;
 
 export const BookingStaff = memo(
   ({ data, selected, onSelect, isLoadingBookings }: BookingStaffProps) => {
-    const { t } = useTranslation<BookingStaffTranslationKeys>({
+    const { t } = useTranslation({
       id: "booking-staff",
       locales: { da, en },
     });
