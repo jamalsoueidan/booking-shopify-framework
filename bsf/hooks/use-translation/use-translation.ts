@@ -23,9 +23,9 @@ export const useTranslation = <T extends object>({
 }: useTranslationProps<T>) => {
   const [i18n] = useI18n({
     id: id,
-    fallback: locales.da,
+    fallback: locales.da as any,
     translations: (locale: string) =>
-      locale === "da" ? locales.da : locales.en,
+      locale === "da" ? locales.da : (locales.en as any),
   });
 
   const t = useCallback(
