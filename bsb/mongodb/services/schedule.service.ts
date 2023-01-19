@@ -23,6 +23,7 @@ import {
 import mongoose, { Aggregate, Types } from "mongoose";
 import { beginningOfDay, closeOfDay } from "./helpers/date";
 import { StaffServiceFindOne } from "./staff.service";
+import { Stats } from "fs";
 
 interface CreateProps extends ScheduleBodyCreate {
   shop: string;
@@ -94,14 +95,16 @@ export const ScheduleServiceFindByIdAndUpdate = (scheduleId, document) => {
 
 interface ScheduleServiceDestroyProps {
   schedule: string;
+  staff: string;
   shop: string;
 }
 
-export const ScheduleServiceDestroy = ({
+export const ScheduleServiceDestroy = async ({
   schedule,
+  staff,
   shop,
-}: ScheduleServiceDestroyProps) => {
-  ScheduleModel.updateOne({ _id: schedule, shop });
+}: ScheduleServiceDestroyProps): Promise<any> => {
+  return ScheduleModel.deleteOne({ _id: schedule, staff, shop });
 };
 
 interface GetByDateRangeProps {

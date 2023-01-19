@@ -70,6 +70,13 @@ export class React18EnvMain {
         devDependencies: {
           "@types/react": "^18.0.7",
           "@types/react-dom": "^18.0.6",
+          "@types/testing-library__jest-dom": "^5.9.5",
+          "@testing-library/react-hooks": "^8.0.1",
+          "@testing-library/react": "^13.4.0",
+          "@testing-library/dom": "8.20.0",
+          graphql: "15.8.0",
+          "graphql-request": "4.3.0",
+          "react-error-boundary": "3.1.4",
         },
         peers: [
           {
