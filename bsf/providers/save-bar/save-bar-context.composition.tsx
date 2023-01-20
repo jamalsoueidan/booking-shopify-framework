@@ -1,7 +1,8 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { Button } from "@shopify/polaris";
 import React, { useCallback, useContext, useEffect } from "react";
 import { SaveBarContext } from "./save-bar-context";
+import { SaveBarProvider } from "./save-bar-context-provider";
+import { PreviewI18n } from "@jamalsoueidan/bsd.preview.preview-i18n";
+import { Button } from "@shopify/polaris";
 
 const MockComponent = () => {
   const saveBar = useContext(SaveBarContext);
@@ -35,8 +36,10 @@ const MockComponent = () => {
 
 export const BasicSaveBarUsage = () => {
   return (
-    <ApplicationFramePage title="saveBarProvider">
-      <MockComponent />
-    </ApplicationFramePage>
+    <PreviewI18n>
+      <SaveBarProvider>
+        <MockComponent />
+      </SaveBarProvider>
+    </PreviewI18n>
   );
 };

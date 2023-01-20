@@ -75,7 +75,7 @@
     "linkCoreAspects": true
   },
   "teambit.component/issues": {
-    "ignoreIssues": ["MultipleEnvs", "CircularDependencies"]
+    "ignoreIssues": ["MultipleEnvs"]
   },
   /**
    * workspace variants allow to set different subsets of configuration for components in your

@@ -1,6 +1,7 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { PreviewI18n } from "@jamalsoueidan/bsd.preview.preview-i18n";
 import React, { useContext, useEffect } from "react";
 import { ToastContext } from "./toast-context";
+import { ToastProvider } from "./toast-context-provider";
 
 const MockComponent = () => {
   const toast = useContext(ToastContext);
@@ -17,8 +18,10 @@ const MockComponent = () => {
 
 export const BasicToastUsage = () => {
   return (
-    <ApplicationFramePage>
-      <MockComponent />
-    </ApplicationFramePage>
+    <PreviewI18n>
+      <ToastProvider>
+        <MockComponent />
+      </ToastProvider>
+    </PreviewI18n>
   );
 };
