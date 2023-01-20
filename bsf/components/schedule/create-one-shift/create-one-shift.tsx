@@ -1,9 +1,9 @@
-import { TagInput, useTag } from "@jamalsoueidan/bsf.bsf-pkg";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { TagColors } from "@jamalsoueidan/bsf.hooks.use-tag";
+import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Card, Columns, Layout, Modal, TextField } from "@shopify/polaris";
 import { SubmitResult, useField, useForm } from "@shopify/react-form";
+import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
 import { setHours, setMinutes } from "date-fns";
 import React, { forwardRef, useImperativeHandle } from "react";
 
