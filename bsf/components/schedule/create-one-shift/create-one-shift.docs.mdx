@@ -7,10 +7,10 @@ You must handle submit via ref, as this component can be used in modal and other
 
 ### Component usage
 
-```js
-const ref = useRef<CreateOneShiftRefMethod>();
+```ts
+const ref = useRef < CreateOneShiftRefMethod > null;
 
-const onSubmit = useCallback((fieldValues): SubmitResult => {
+const onSubmit = useCallback((fieldValues): CreateOneShiftSubmitResult => {
   return {
     status: "success",
   };
@@ -21,10 +21,7 @@ const submit = useCallback(() => {
 }, [ref]);
 
 return (
-  <Card
-    sectioned
-    primaryFooterAction={{ content: "Submit", onAction: submit }}
-  >
+  <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
     <CreateOneShift
       selectedDate={new Date().toDateString()}
       onSubmit={onSubmit}

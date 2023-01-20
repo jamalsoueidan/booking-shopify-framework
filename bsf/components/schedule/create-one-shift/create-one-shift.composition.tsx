@@ -3,14 +3,18 @@ import { useToast } from "@jamalsoueidan/bsf.hooks.use-toast";
 import { Card } from "@shopify/polaris";
 import { SubmitResult } from "@shopify/react-form";
 import React, { useCallback, useRef, useState } from "react";
-import { CreateOneShift, CreateOneShiftRefMethod } from "./create-one-shift";
+import {
+  CreateOneShift,
+  CreateOneShiftRefMethod,
+  CreateOneShiftSubmitResult,
+} from "./create-one-shift";
 
 const MockComponent = () => {
-  const ref = useRef<CreateOneShiftRefMethod>();
+  const ref = useRef<CreateOneShiftRefMethod>(null);
   const { show } = useToast();
   const [body, setBody] = useState({});
 
-  const onSubmit = useCallback((fieldValues): SubmitResult => {
+  const onSubmit = useCallback((fieldValues): CreateOneShiftSubmitResult => {
     setBody(fieldValues);
     show({ content: "Schedules created" });
     return {

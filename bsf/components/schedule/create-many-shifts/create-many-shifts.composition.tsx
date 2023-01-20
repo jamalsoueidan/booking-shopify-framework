@@ -6,14 +6,15 @@ import { Button, Card } from "@shopify/polaris";
 import {
   CreateManyShifts,
   CreateManyShiftsRefMethod,
+  CreateManyShiftsSubmitResult,
 } from "./create-many-shifts";
 
 const MockComponent = () => {
-  const ref = useRef<CreateManyShiftsRefMethod>();
+  const ref = useRef<CreateManyShiftsRefMethod>(null);
   const { show } = useToast();
   const [body, setBody] = useState({});
 
-  const onSubmit = useCallback((fieldValues): SubmitResult => {
+  const onSubmit = useCallback((fieldValues): CreateManyShiftsSubmitResult => {
     setBody(fieldValues);
     show({ content: "Schedules created" });
     return {
