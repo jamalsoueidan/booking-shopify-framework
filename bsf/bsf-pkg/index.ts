@@ -6,6 +6,11 @@ export * from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";
 export * from "@jamalsoueidan/bsf.components.inputs.time-zone-input";
 export * from "@jamalsoueidan/bsf.components.inputs.language-input";
+export * from "@jamalsoueidan/bsf.components.inputs.dropdown-multi-select-input";
+export * from "@jamalsoueidan/bsf.components.inputs.select-days-input";
+export * from "@jamalsoueidan/bsf.components.inputs.tag-input";
+export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
+export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
 
 // HOOKS
 export * from "@jamalsoueidan/bsf.hooks.use-form";

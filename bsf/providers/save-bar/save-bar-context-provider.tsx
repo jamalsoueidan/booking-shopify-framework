@@ -40,8 +40,8 @@ export const SaveBarProvider = ({ children }: SaveBarProviderProps) => {
 
   return (
     <SaveBarContext.Provider value={value}>
-      <SaveBarConsumer></SaveBarConsumer>
       {children}
+      <SaveBarConsumer></SaveBarConsumer>
     </SaveBarContext.Provider>
   );
 };

@@ -64,24 +64,24 @@ export interface CreateManyShiftsRefMethod {
 }
 
 export interface CreateManyShiftsProps {
-  date: string;
+  selectedDate: string;
   onSubmit: (fields: FieldValues[]) => SubmitResult;
 }
 
 export const CreateManyShifts = forwardRef(
-  ({ date, onSubmit }: CreateManyShiftsProps, ref) => {
+  ({ selectedDate, onSubmit }: CreateManyShiftsProps, ref) => {
     const { options } = useTag();
     const { toUtc } = useDate();
     const { t, locale } = useTranslation({ id: "create-many-shifts", locales });
 
     const [{ month, year }, setDate] = useState({
-      month: getMonth(new Date(date)) - 1,
-      year: getYear(new Date(date)),
+      month: getMonth(new Date(selectedDate)) - 1,
+      year: getYear(new Date(selectedDate)),
     });
 
     const [selectedDates, setSelectedDates] = useState<Range>({
-      start: new Date(date),
-      end: endOfMonth(new Date(date)),
+      start: new Date(selectedDate),
+      end: endOfMonth(new Date(selectedDate)),
     });
 
     const getDatesFromSelectedDaysInCalendar = useCallback(
@@ -107,7 +107,7 @@ export const CreateManyShifts = forwardRef(
     const { fields, submit, validate, submitErrors } = useForm({
       fields: {
         days: useField({
-          value: [format(new Date(date), "EEEE").toLowerCase()],
+          value: [format(new Date(selectedDate), "EEEE").toLowerCase()],
           validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
         }),
         startTime: useField({

@@ -162,14 +162,14 @@ const FrameChangeLanguage = ({ children }) => {
   );
 
   return (
-    <Frame topBar={topBarMarkup}>
-      <SettingsProvider
-        value={{ language: value || "da", timeZone: "Europe/Copenhagen" }}
-      >
+    <SettingsProvider
+      value={{ language: value || "da", timeZone: "Europe/Copenhagen" }}
+    >
+      <Frame topBar={topBarMarkup}>
         <ToastProvider>
           <SaveBarProvider>{children}</SaveBarProvider>
         </ToastProvider>
-      </SettingsProvider>
-    </Frame>
+      </Frame>
+    </SettingsProvider>
   );
 };

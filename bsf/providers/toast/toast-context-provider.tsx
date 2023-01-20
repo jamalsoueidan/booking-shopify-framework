@@ -22,10 +22,10 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
 
   return (
     <ToastContext.Provider value={value}>
+      {children}
       {active && (
         <Toast duration={3500} content="" onDismiss={toggleActive} {...toast} />
       )}
-      {children}
     </ToastContext.Provider>
   );
 };

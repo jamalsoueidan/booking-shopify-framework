@@ -2,17 +2,34 @@
 description: A CreateOneShift component.
 ---
 
-import { CreateOneShift } from './create-one-shift';
-
-A component that does something special and renders text in a div.
+This component generates one shift and has a onSubmit handler that dispatches an event when the form is successfully submitted.
+You must handle submit via ref, as this component can be used in modal and other pages, that needs to place submit button different locations on the page (see example)!
 
 ### Component usage
+
 ```js
-<CreateOneShift>Hello world!</CreateOneShift>
-```
+const ref = useRef<CreateOneShiftRefMethod>();
 
-### Render hello world!
+const onSubmit = useCallback((fieldValues): SubmitResult => {
+  return {
+    status: "success",
+  };
+}, []);
 
-```js live
-<CreateOneShift>Hello world!</CreateOneShift>
+const submit = useCallback(() => {
+  ref?.current?.submit();
+}, [ref]);
+
+return (
+  <Card
+    sectioned
+    primaryFooterAction={{ content: "Submit", onAction: submit }}
+  >
+    <CreateOneShift
+      selectedDate={new Date().toDateString()}
+      onSubmit={onSubmit}
+      ref={ref}
+    />
+  </Card>
+);
 ```

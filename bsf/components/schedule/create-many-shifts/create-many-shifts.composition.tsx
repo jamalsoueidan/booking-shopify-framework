@@ -31,7 +31,7 @@ const MockComponent = () => {
       primaryFooterAction={{ content: "Submit", onAction: submit }}
     >
       <CreateManyShifts
-        date={new Date().toDateString()}
+        selectedDate={new Date().toJSON()}
         onSubmit={onSubmit}
         ref={ref}
       />
