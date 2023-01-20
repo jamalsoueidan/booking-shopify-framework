@@ -2,5 +2,10 @@ import { SettingsContext } from "@jamalsoueidan/bsf.providers.settings";
 import { useContext } from "react";
 
 export const useSettings = () => {
-  return useContext(SettingsContext);
+  const context = useContext(SettingsContext);
+  if (context === undefined) {
+    throw new Error("useSettings must be used within a SettingsProvider");
+  }
+
+  return context;
 };

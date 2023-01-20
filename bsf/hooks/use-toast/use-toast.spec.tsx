@@ -12,7 +12,6 @@ it("should show toast message", () => {
   });
 
   act(() => {
-    console.log("act", result.current);
     result.current?.show({ content: "hej med dig" });
   });
 });

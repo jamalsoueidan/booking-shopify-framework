@@ -1,5 +1,8 @@
+import { SettingsProvider } from "@jamalsoueidan/bsf.providers.settings";
+import { ToastProvider } from "@jamalsoueidan/bsf.providers.toast";
 import { AppProvider, Frame, Icon, Page, Text, TopBar } from "@shopify/polaris";
 import { LanguageMinor } from "@shopify/polaris-icons";
+import { SaveBarProvider } from "@jamalsoueidan/bsf.providers.save-bar";
 import "@shopify/polaris/build/esm/styles.css";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
@@ -34,7 +37,15 @@ export interface ApplicationFrameProps {
 export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
   return (
     <Application>
-      <Frame>{children}</Frame>
+      <SettingsProvider
+        value={{ language: "en", timeZone: "Europe/Copenhagen" }}
+      >
+        <Frame>
+          <ToastProvider>
+            <SaveBarProvider>{children}</SaveBarProvider>
+          </ToastProvider>
+        </Frame>
+      </SettingsProvider>
     </Application>
   );
 };
@@ -77,7 +88,13 @@ const PolarisProvider = ({ children }: any) => {
     },
   });
 
-  return <AppProvider i18n={i18n.translations[0]}>{children}</AppProvider>;
+  return (
+    <AppProvider
+      i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}
+    >
+      {children}
+    </AppProvider>
+  );
 };
 
 const FrameChangeLanguage = ({ children }) => {
@@ -144,5 +161,15 @@ const FrameChangeLanguage = ({ children }) => {
     <TopBar showNavigationToggle secondaryMenu={secondaryMenuMarkup} />
   );
 
-  return <Frame topBar={topBarMarkup}>{children}</Frame>;
+  return (
+    <Frame topBar={topBarMarkup}>
+      <SettingsProvider
+        value={{ language: value || "da", timeZone: "Europe/Copenhagen" }}
+      >
+        <ToastProvider>
+          <SaveBarProvider>{children}</SaveBarProvider>
+        </ToastProvider>
+      </SettingsProvider>
+    </Frame>
+  );
 };

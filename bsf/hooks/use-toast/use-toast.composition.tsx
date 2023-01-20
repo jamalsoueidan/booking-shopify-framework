@@ -1,5 +1,4 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { ToastProvider } from "@jamalsoueidan/bsf.providers.toast";
 import React, { useEffect } from "react";
 import { useToast } from "./use-toast";
 
@@ -20,9 +19,7 @@ function MockComponent() {
 export const BasicuseToast = () => {
   return (
     <ApplicationFramePage title="useToast">
-      <ToastProvider>
-        <MockComponent />
-      </ToastProvider>
+      <MockComponent />
     </ApplicationFramePage>
   );
 };

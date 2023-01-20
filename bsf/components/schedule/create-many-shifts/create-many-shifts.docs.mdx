@@ -1,0 +1,38 @@
+---
+description: A CreateManyShifts component.
+---
+
+This component generates a shift array and has a onSubmit handler that dispatches an event when the form is successfully submitted.
+You must handle submit via ref, as this component can be used in both modal and other pages, that needs to place submit button different locations on the page (see example)!
+
+### Component usage
+
+```js
+const ref = useRef<CreateManyShiftsRefMethod>();
+const { show } = useToast();
+
+const onSubmit = useCallback((fieldValues): SubmitResult => {
+  console.log(fieldValues);
+  show({ content: "Schedules created" });
+  return {
+    status: "success",
+  };
+}, []);
+
+const submit = useCallback(() => {
+  console.log(ref?.current?.submit());
+}, [ref]);
+
+return (
+  <Card
+    sectioned
+    primaryFooterAction={{ content: "Submit", onAction: submit }}
+  >
+    <CreateManyShifts
+      date={new Date().toDateString()}
+      onSubmit={onSubmit}
+      ref={ref}
+    />
+  </Card>
+);
+```

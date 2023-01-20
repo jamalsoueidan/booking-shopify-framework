@@ -16,9 +16,6 @@ it("should show saveBar", () => {
   );
 
   act(() => {
-    console.log("act", result.current);
     result.current?.setForm({ show: false });
   });
-
-  console.log(result.current);
 });

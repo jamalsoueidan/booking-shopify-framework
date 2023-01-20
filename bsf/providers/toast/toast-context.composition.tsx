@@ -1,14 +1,24 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import React from "react";
-import { ToastProvider } from "./toast-context-provider";
-import { MockComponent } from "./toast-context.mock";
+import React, { useContext, useEffect } from "react";
+import { ToastContext } from "./toast-context";
+
+const MockComponent = () => {
+  const toast = useContext(ToastContext);
+  useEffect(() => {
+    toast?.show({ content: "hej med dig" });
+    const timer = setTimeout(() => {
+      toast?.show({ content: "hej there" });
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <></>;
+};
 
 export const BasicToastUsage = () => {
   return (
     <ApplicationFramePage>
-      <ToastProvider>
-        <MockComponent />
-      </ToastProvider>
+      <MockComponent />
     </ApplicationFramePage>
   );
 };

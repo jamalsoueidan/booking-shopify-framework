@@ -3,7 +3,7 @@ import {
   TranslationDictionary,
   useI18n,
 } from "@shopify/react-i18n";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
 // https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
 type NestedKeyOf<ObjectType extends object> = {
@@ -35,5 +35,7 @@ export const useTranslation = <T extends object>({
     [i18n]
   );
 
-  return { t };
+  const locale = useMemo(() => i18n.locale, [i18n]);
+
+  return { t, locale };
 };

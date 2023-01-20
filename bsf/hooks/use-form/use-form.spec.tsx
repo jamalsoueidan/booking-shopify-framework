@@ -22,7 +22,7 @@ it("should increment counter", () => {
   );
 
   act(() => {
-    console.log(result.current);
+    //console.log(result.current);
   });
   //expect(result.current.count).toBe(1)
 });
