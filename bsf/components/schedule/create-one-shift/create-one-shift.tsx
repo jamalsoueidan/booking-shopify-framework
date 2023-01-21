@@ -78,44 +78,42 @@ export const CreateOneShift = forwardRef<
   }));
 
   return (
-    <Modal.Section>
-      <Layout>
-        <Layout.Section>
-          <Card>
-            <Card.Section>
-              {t("title", {
-                day: <strong>{format(new Date(selectedDate), "EEEE")}</strong>,
-                date: <strong>{format(new Date(selectedDate), "PPP")}</strong>,
-              })}
-            </Card.Section>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <Columns
-            columns={{
-              xs: "3fr 3fr",
-              md: "3fr 3fr",
-            }}
-          >
-            <TextField
-              label={t("time_from.label")}
-              type="time"
-              autoComplete="off"
-              {...fields.startTime}
-            />
-            <TextField
-              label={t("time_to.label")}
-              type="time"
-              autoComplete="off"
-              {...fields.endTime}
-            />
-          </Columns>
-        </Layout.Section>
-        <Layout.Section>
-          <TagInput field={fields.tag} />
-        </Layout.Section>
-      </Layout>
-    </Modal.Section>
+    <Layout>
+      <Layout.Section>
+        <Card>
+          <Card.Section>
+            {t("title", {
+              day: <strong>{format(new Date(selectedDate), "EEEE")}</strong>,
+              date: <strong>{format(new Date(selectedDate), "PPP")}</strong>,
+            })}
+          </Card.Section>
+        </Card>
+      </Layout.Section>
+      <Layout.Section>
+        <Columns
+          columns={{
+            xs: "3fr 3fr",
+            md: "3fr 3fr",
+          }}
+        >
+          <TextField
+            label={t("time_from.label")}
+            type="time"
+            autoComplete="off"
+            {...fields.startTime}
+          />
+          <TextField
+            label={t("time_to.label")}
+            type="time"
+            autoComplete="off"
+            {...fields.endTime}
+          />
+        </Columns>
+      </Layout.Section>
+      <Layout.Section>
+        <TagInput field={fields.tag} />
+      </Layout.Section>
+    </Layout>
   );
 });
 
