@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render } from "@jamalsoueidan/bsd.testing-library.react";
 import { BasicTranslation } from "./use-translation.composition";
 
 it("should increment counter", () => {
