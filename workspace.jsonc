@@ -70,8 +70,8 @@
      * "*" is a special rule which applied on all components in the workspace.
      **/
     "{preview/**}, {components/**}, {hooks/**}, {providers/**}, {helpers/**}, {preview/**}": {
-      "jamalsoueidan.bsd/envs/react-18-env": {}
-      //"jamalsoueidan.bsd/envs/jest-esm": {}
+      //"jamalsoueidan.bsd/envs/react-18-env": {}
+      "jamalsoueidan.bsd/envs/jest-esm": {}
     }
   }
 }
