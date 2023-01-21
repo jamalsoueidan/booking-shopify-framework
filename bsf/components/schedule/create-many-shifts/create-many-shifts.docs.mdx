@@ -31,7 +31,7 @@ const onSubmit = useCallback((fieldValues): CreateManyShiftsSubmitResult => {
 }, []);
 
 const submit = useCallback(() => {
-  console.log(ref?.current?.submit());
+  ref?.current?.submit();
 }, [ref]);
 
 return (

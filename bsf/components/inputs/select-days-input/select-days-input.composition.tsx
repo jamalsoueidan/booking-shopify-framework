@@ -7,7 +7,7 @@ export const BasicSelectDaysInput = () => {
   const field = useField<string[]>([]);
   return (
     <ApplicationFramePage title="Select days input">
-      <SelectDaysInput field={field} />
+      <SelectDaysInput {...field} />
     </ApplicationFramePage>
   );
 };

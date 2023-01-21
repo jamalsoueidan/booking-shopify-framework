@@ -1,38 +1,20 @@
+import { DatePickerInput } from "@jamalsoueidan/bsf.components.inputs.date-picker-input";
 import { SelectDaysInput } from "@jamalsoueidan/bsf.components.inputs.select-days-input";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
-import {
-  Columns,
-  DatePicker,
-  Layout,
-  Range,
-  TextField,
-} from "@shopify/polaris";
+import { Columns, Layout, Range, TextField } from "@shopify/polaris";
 import {
   FormError,
   SubmitResult,
   useField,
   useForm,
 } from "@shopify/react-form";
-import da from "date-fns/locale/da";
 
 import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import {
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  getMonth,
-  getYear,
-  subDays,
-} from "date-fns";
-import React, {
-  forwardRef,
-  useCallback,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { eachDayOfInterval } from "date-fns";
+import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
 export interface CreateManyShiftsValue {
   start: string;
@@ -56,34 +38,22 @@ export const CreateManyShifts = forwardRef<
   CreateManyShiftsProps
 >(({ selectedDate, onSubmit }, ref) => {
   const { options } = useTag();
-  const { toUtc } = useDate();
+  const { toUtc, format } = useDate();
   const { t, locale } = useTranslation({
     id: "create-many-shifts",
     locales,
   });
 
-  const [{ month, year }, setDate] = useState({
-    month: getMonth(new Date(selectedDate)) - 1,
-    year: getYear(new Date(selectedDate)),
-  });
-
-  const [selectedDates, setSelectedDates] = useState<Range>({
-    start: new Date(selectedDate),
-    end: endOfMonth(new Date(selectedDate)),
-  });
-
   const getDatesFromSelectedDaysInCalendar = useCallback(
-    (days: string[]) => {
-      const allDaysInCalendarRange = eachDayOfInterval(selectedDates);
+    (days: string[], range: Range) => {
+      const allDaysInCalendarRange = eachDayOfInterval(range);
       const lowerCaseDayNames = days.map((d) => d.toLowerCase());
       return allDaysInCalendarRange.filter((date) => {
-        const currentDayTextInDate = format(date, "EEEE", {
-          locale: locale === "da" ? da : undefined,
-        }).toLowerCase();
+        const currentDayTextInDate = format(date, "EEEE").toLowerCase();
         return lowerCaseDayNames.includes(currentDayTextInDate);
       });
     },
-    [selectedDates, locale]
+    [locale]
   );
 
   const getZonedTime = useCallback(
@@ -98,6 +68,11 @@ export const CreateManyShifts = forwardRef<
         value: [format(new Date(selectedDate), "EEEE").toLowerCase()],
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
       }),
+      startDate: useField<Date | undefined>({
+        value: undefined,
+        validates: [Validators.isDate("invalid date")],
+      }),
+      endDate: useField<Date | undefined>(undefined),
       startTime: useField({
         value: "09:00",
         validates: [],
@@ -112,7 +87,13 @@ export const CreateManyShifts = forwardRef<
       }),
     },
     onSubmit: async (fieldValues) => {
-      const daysSelected = getDatesFromSelectedDaysInCalendar(fieldValues.days);
+      const daysSelected =
+        fieldValues.startDate && fieldValues.endDate
+          ? getDatesFromSelectedDaysInCalendar(fieldValues.days, {
+              start: fieldValues.startDate,
+              end: fieldValues.endDate,
+            })
+          : [];
 
       return onSubmit(
         daysSelected.map((date) => {
@@ -126,11 +107,6 @@ export const CreateManyShifts = forwardRef<
     },
   });
 
-  const handleMonthChange = useCallback(
-    (month: number, year: number) => setDate({ month, year }),
-    []
-  );
-
   useImperativeHandle(ref, () => ({
     submit() {
       submit();
@@ -141,19 +117,18 @@ export const CreateManyShifts = forwardRef<
   return (
     <Layout>
       <Layout.Section>
-        <SelectDaysInput field={fields.days}></SelectDaysInput>
+        <SelectDaysInput {...fields.days}></SelectDaysInput>
       </Layout.Section>
       <Layout.Section>
-        <DatePicker
-          month={month}
-          year={year}
-          onChange={setSelectedDates}
-          onMonthChange={handleMonthChange}
-          selected={selectedDates}
-          multiMonth
-          allowRange
-          disableDatesBefore={subDays(new Date(), 1)}
-        />
+        <Columns
+          columns={{
+            xs: "3fr 3fr",
+            md: "3fr 3fr",
+          }}
+        >
+          <DatePickerInput label={t("date_from.label")} {...fields.startDate} />
+          <DatePickerInput label={t("date_to.label")} {...fields.endDate} />
+        </Columns>
       </Layout.Section>
       <Layout.Section>
         <Columns
@@ -188,6 +163,12 @@ const locales = {
     select_days: {
       error_empty: "Du skal mindst vælge en dag",
     },
+    date_from: {
+      label: "Dato fra",
+    },
+    date_to: {
+      label: "Dato til",
+    },
     time_from: {
       label: "Tid fra",
     },
@@ -198,6 +179,12 @@ const locales = {
   en: {
     select_days: {
       error_empty: "You must select atleast one day",
+    },
+    date_from: {
+      label: "Date from",
+    },
+    date_to: {
+      label: "Date to",
     },
     time_from: {
       label: "Time from",

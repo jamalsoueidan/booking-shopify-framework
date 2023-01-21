@@ -10,6 +10,14 @@ export const isEmail = (
   };
 };
 
+export const isDate = (error: string): ((input: any) => string | undefined) => {
+  return (input: string) => {
+    if (new Date(input).toString() === "Invalid Date") {
+      return error;
+    }
+  };
+};
+
 export const isPhoneNumber = (
   error: string
 ): ((input: string) => string | undefined) => {
