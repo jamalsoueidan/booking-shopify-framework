@@ -2,7 +2,7 @@ import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useId, useMemo } from "react";
-
+import { Text } from "@jamalsoueidan/bsf.helpers.text";
 export interface SelectDaysInputProps
   extends Partial<Omit<LabelledProps, "error">>,
     Field<string[]> {
@@ -20,7 +20,7 @@ export const SelectDaysInput = ({
 
   const options = useMemo(() => {
     return getDays().map((d) => {
-      const label = titlize(
+      const label = Text.titlize(
         d.toLocaleString(locale === "da" ? "da-DK" : "en-US", {
           weekday: "long",
         })
@@ -80,13 +80,6 @@ const getDays = (current = new Date(2017, 1, 27)) => {
 };
 
 // TODO: should be removed to another location
-const titlize = (string: string) => {
-  return string
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.replace(word[0], word[0].toUpperCase()))
-    .join("");
-};
 
 const locales = {
   da: {
