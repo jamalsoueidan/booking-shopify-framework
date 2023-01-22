@@ -5,6 +5,7 @@ import { LanguageMinor } from "@shopify/polaris-icons";
 import { SaveBarProvider } from "@jamalsoueidan/bsf.providers.save-bar";
 import "@shopify/polaris/build/esm/styles.css";
 import da from "@shopify/polaris/locales/da.json";
+import { da as daDateFns } from "date-fns/locale";
 import en from "@shopify/polaris/locales/en.json";
 import {
   I18nContext,
@@ -13,6 +14,7 @@ import {
   useI18n,
 } from "@shopify/react-i18n";
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { setDefaultOptions } from "date-fns";
 
 const i18nManager = new I18nManager({
   locale: "da",
@@ -122,6 +124,8 @@ const FrameChangeLanguage = ({ children }) => {
     () => setIsSecondaryMenuOpen((isSecondaryMenuOpen) => !isSecondaryMenuOpen),
     []
   );
+
+  setDefaultOptions({ locale: value === "da" ? daDateFns : undefined });
 
   const secondaryMenuMarkup = (
     <TopBar.Menu

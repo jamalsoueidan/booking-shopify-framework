@@ -63,6 +63,18 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/dropdown-multi-select-input"
     },
+    "components/inputs/input-staff": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-staff"
+    },
+    "components/inputs/input-timer": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-timer"
+    },
     "components/inputs/language-input": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.16",
