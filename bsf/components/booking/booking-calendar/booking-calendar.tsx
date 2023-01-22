@@ -1,7 +1,7 @@
 import { DatesSetArg, EventClickArg } from "@fullcalendar/core";
 import { EventImpl } from "@fullcalendar/core/internal";
 import { Text } from "@jamalsoueidan/bsf.helpers.text";
-import { LoadingSpinner } from "@jamalsoueidan/bsf.bsf-pkg";
+import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { Avatar, Tooltip } from "@shopify/polaris";
 import React, { Suspense, memo, useCallback, useMemo, useState } from "react";
 import { BookingAggreate } from "@jamalsoueidan/bsb.mongodb.types";
