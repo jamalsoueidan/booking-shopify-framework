@@ -1,13 +1,13 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { useField } from "@shopify/react-form";
 import React from "react";
-import { LanguageInput } from "./language-input";
+import { InputLanguage } from "./input-language";
 
 export const BasicLanguageInput = () => {
   const field = useField("");
   return (
     <ApplicationFramePage>
-      <LanguageInput {...field} />
+      <InputLanguage {...field} />
     </ApplicationFramePage>
   );
 };
@@ -16,7 +16,7 @@ export const CustomLabelPlaceholderLanguageInput = () => {
   const field = useField("");
   return (
     <ApplicationFramePage>
-      <LanguageInput label="speech" placeholder="hej" {...field} />
+      <InputLanguage label="speech" placeholder="hej" {...field} />
     </ApplicationFramePage>
   );
 };
@@ -25,7 +25,7 @@ export const PreSelectValueLanguageInput = () => {
   const field = useField("da");
   return (
     <ApplicationFramePage>
-      <LanguageInput {...field} />
+      <InputLanguage {...field} />
     </ApplicationFramePage>
   );
 };

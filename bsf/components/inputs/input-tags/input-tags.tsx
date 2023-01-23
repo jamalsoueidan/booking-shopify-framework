@@ -15,13 +15,13 @@ const locales = {
   },
 };
 
-export interface TagInputProps {
+export interface InputTagsProps {
   field: Field<string>;
   label?: string;
   placeholder?: string;
 }
 
-export function TagInput({ field, label, placeholder }: TagInputProps) {
+export const InputTags = ({ field, label, placeholder }: InputTagsProps) => {
   const { options } = useTag();
   const { t } = useTranslation({ id: "tag-input", locales });
 
@@ -33,4 +33,4 @@ export function TagInput({ field, label, placeholder }: TagInputProps) {
       {...field}
     />
   );
-}
+};

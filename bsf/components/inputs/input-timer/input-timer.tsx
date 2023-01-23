@@ -1,5 +1,6 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
-import { Text, useDate } from "@jamalsoueidan/bsf.bsf-pkg";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
+import { Text } from "@jamalsoueidan/bsf.helpers.text";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";

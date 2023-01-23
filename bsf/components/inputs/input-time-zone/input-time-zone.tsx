@@ -14,7 +14,7 @@ const locales = {
   },
 };
 
-export interface TimeZoneInputProps
+export interface InputTimeZoneProps
   extends Field<string>,
     Field<string>,
     Omit<SelectProps, "error" | "onBlur" | "onChange" | "value" | "label"> {
@@ -22,7 +22,7 @@ export interface TimeZoneInputProps
   placeholder?: string;
 }
 
-export const TimeZoneInput = memo((field: TimeZoneInputProps) => {
+export const InputTimeZone = memo((field: InputTimeZoneProps) => {
   const { t } = useTranslation({
     id: "time-zone-input",
     locales,

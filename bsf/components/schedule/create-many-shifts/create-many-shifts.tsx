@@ -1,5 +1,5 @@
 import { InputDate } from "@jamalsoueidan/bsf.components.inputs.input-date";
-import { SelectDaysInput } from "@jamalsoueidan/bsf.components.inputs.select-days-input";
+import { InputDays } from "@jamalsoueidan/bsf.components.inputs.input-days";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { Columns, Layout, Range, TextField } from "@shopify/polaris";
@@ -10,7 +10,7 @@ import {
   useForm,
 } from "@shopify/react-form";
 
-import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
+import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { eachDayOfInterval, format } from "date-fns";
@@ -117,7 +117,7 @@ export const CreateManyShifts = forwardRef<
   return (
     <Layout>
       <Layout.Section>
-        <SelectDaysInput {...fields.days}></SelectDaysInput>
+        <InputDays {...fields.days} />
       </Layout.Section>
       <Layout.Section>
         <Columns
@@ -152,7 +152,7 @@ export const CreateManyShifts = forwardRef<
         </Columns>
       </Layout.Section>
       <Layout.Section>
-        <TagInput field={fields.tag} />
+        <InputTags field={fields.tag} />
       </Layout.Section>
     </Layout>
   );

@@ -3,18 +3,19 @@ import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useId, useMemo } from "react";
 import { Text } from "@jamalsoueidan/bsf.helpers.text";
-export interface SelectDaysInputProps
+
+export interface InputDaysProps
   extends Partial<Omit<LabelledProps, "error">>,
     Field<string[]> {
   placeholder?: string;
 }
 
-export const SelectDaysInput = ({
+export const InputDays = ({
   label,
   helpText,
   requiredIndicator,
   ...rest
-}: SelectDaysInputProps) => {
+}: InputDaysProps) => {
   const id = useId();
   const { t, locale } = useTranslation({ id: "select-days-input", locales });
 

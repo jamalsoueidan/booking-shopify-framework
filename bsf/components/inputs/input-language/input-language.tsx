@@ -3,14 +3,14 @@ import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useMemo } from "react";
 
-export interface LanguageInputProps
+export interface InputLanguageProps
   extends Field<string>,
     Omit<SelectProps, "error" | "onBlur" | "onChange" | "value" | "label"> {
   label?: string;
   placeholder?: string;
 }
 
-export function LanguageInput(field: LanguageInputProps) {
+export const InputLanguage = (field: InputLanguageProps) => {
   const { t } = useTranslation({
     id: "language-input",
     locales,
@@ -38,7 +38,7 @@ export function LanguageInput(field: LanguageInputProps) {
       {...field}
     />
   );
-}
+};
 
 const locales = {
   da: {

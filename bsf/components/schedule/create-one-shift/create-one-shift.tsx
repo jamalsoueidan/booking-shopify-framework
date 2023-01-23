@@ -1,4 +1,4 @@
-import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
+import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
@@ -111,7 +111,7 @@ export const CreateOneShift = forwardRef<
         </Columns>
       </Layout.Section>
       <Layout.Section>
-        <TagInput field={fields.tag} />
+        <InputTags field={fields.tag} />
       </Layout.Section>
     </Layout>
   );
