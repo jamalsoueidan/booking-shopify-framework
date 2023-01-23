@@ -1,15 +1,15 @@
+import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { Card, Columns, Layout, Modal, TextField } from "@shopify/polaris";
+import { Card, Columns, Layout, TextField } from "@shopify/polaris";
 import {
   FormError,
   SubmitResult,
   useField,
   useForm,
 } from "@shopify/react-form";
-import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
-import { setHours, setMinutes } from "date-fns";
+import { format, setHours, setMinutes } from "date-fns";
 import React, { forwardRef, useImperativeHandle } from "react";
 
 export type CreateOneShiftSubmitResult = SubmitResult;
@@ -34,7 +34,7 @@ export const CreateOneShift = forwardRef<
 >(({ selectedDate, onSubmit }, ref) => {
   const { t } = useTranslation({ id: "create-one-day", locales });
   const { options } = useTag();
-  const { toUtc, format } = useDate();
+  const { toUtc } = useDate();
 
   const { fields, submit, validate } = useForm({
     fields: {

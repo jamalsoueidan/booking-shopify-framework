@@ -13,7 +13,7 @@ import {
 import { TagInput } from "@jamalsoueidan/bsf.components.inputs.tag-input";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { eachDayOfInterval } from "date-fns";
+import { eachDayOfInterval, format } from "date-fns";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
 export interface CreateManyShiftsValue {
@@ -38,7 +38,7 @@ export const CreateManyShifts = forwardRef<
   CreateManyShiftsProps
 >(({ selectedDate, onSubmit }, ref) => {
   const { options } = useTag();
-  const { toUtc, format } = useDate();
+  const { toUtc } = useDate();
   const { t, locale } = useTranslation({
     id: "create-many-shifts",
     locales,
