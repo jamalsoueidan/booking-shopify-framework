@@ -40,3 +40,16 @@ export const sortByDate = function (a: SortByDateItem, b: SortByDateItem) {
   }
   return 0;
 };
+
+export const sortByDateKey = (key: string) => (a: any, b: any) => {
+  const dateA = new Date(a[key]);
+  const dateB = new Date(b[key]);
+
+  if (dateA < dateB) {
+    return -1;
+  }
+  if (dateA > dateB) {
+    return 1;
+  }
+  return 0;
+};

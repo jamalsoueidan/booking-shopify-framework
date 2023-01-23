@@ -1,4 +1,8 @@
 {
-  "extends": "@teambit/react.react-env/config/tsconfig.json",
+  "extends": "@teambit/react/typescript/tsconfig.json",
+  "compilerOptions": {
+    "experimentalDecorators": true
+  },
+  "exclude": ["artifacts", "public", "dist", "node_modules", "package.json"],
   "include": ["**/*", "**/*.json"]
 }

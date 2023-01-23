@@ -99,7 +99,6 @@ export const InputDate = ({
       onChange={onChange}
       onMonthChange={handleMonthChange}
       selected={field.value}
-      disa
       disableDatesBefore={disableDatesBefore || subDays(new Date(), 1)}
       disableSpecificDates={disableSpecificDates}
     />

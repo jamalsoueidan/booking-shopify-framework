@@ -1,18 +1,23 @@
-import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
-import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
+import { WidgetHour } from "@jamalsoueidan/bsb.mongodb.types";
 import { Text } from "@jamalsoueidan/bsf.helpers.text";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { Select, SelectProps } from "@shopify/polaris";
+import { Select, SelectOption, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { format } from "date-fns";
 import React, { useCallback, useMemo } from "react";
 
-export type FieldType = { start: string; end: string };
+export type InputTimerFieldType =
+  | {
+      start: Date;
+      end: Date;
+    }
+  | undefined;
 
 export interface InputTimerProps
-  extends Field<FieldType>,
+  extends Field<InputTimerFieldType>,
     Partial<Omit<SelectProps, "onChange" | "error" | "onBlur" | "value">> {
-  data?: WidgetSchedule;
+  data?: WidgetHour[];
   optionLabel?: string;
 }
 
@@ -31,17 +36,19 @@ export const InputTimer = ({
   } as any;
 
   const timeOptions = useMemo(() => {
-    const hours: Array<{ label: string; value: string }> =
-      data?.hours.map((t) => ({
-        key: t.start,
+    if (!data) {
+      return;
+    }
+
+    const hours: Array<SelectOption> =
+      [...data].sort(Text.sortByDateKey("start")).map((t) => ({
+        key: t.start.toISOString(),
         label:
           format(toTimeZone(t.start), "p") +
           " - " +
           format(toTimeZone(t.end), "p"),
-        value: t.start,
+        value: t.start.toJSON(),
       })) || [];
-
-    hours.sort(Text.sortByDate);
 
     if (optionLabel) {
       hours.unshift(defaultOption);
@@ -52,15 +59,16 @@ export const InputTimer = ({
 
   const onChange = useCallback(
     (selected: string) => {
-      const selectedHour = data?.hours.find((t) => t.start === selected);
-      if (!selectedHour) {
-        return;
-      }
+      const selectedHour = data?.find((t) => t.start.toJSON() === selected);
 
-      field.onChange({
-        start: selectedHour.start,
-        end: selectedHour.end,
-      });
+      if (!selectedHour) {
+        field.onChange(undefined);
+      } else {
+        field.onChange({
+          start: selectedHour.start,
+          end: selectedHour.end,
+        });
+      }
     },
     [field.onChange, data]
   );
@@ -70,8 +78,8 @@ export const InputTimer = ({
       {...field}
       label={field?.label || t("label")}
       options={timeOptions}
-      value={field.value?.start}
-      disabled={timeOptions.length <= 1}
+      value={field.value?.start?.toISOString()}
+      disabled={!timeOptions || timeOptions.length <= 1}
       onChange={onChange}
     />
   );
