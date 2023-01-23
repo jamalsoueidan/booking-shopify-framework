@@ -10,6 +10,7 @@ import {
   addMinutes,
   format,
   isBefore,
+  isSameDay,
   isWithinInterval,
   subMinutes,
 } from "date-fns";
@@ -144,9 +145,7 @@ const WidgetScheduleReduce =
     let start = new Date(current.start);
     let end;
 
-    const date = format(start, "yyyy-MM-dd");
-
-    let previousHours = previous.find((p) => p.date === date);
+    let previousHours = previous.find((p) => isSameDay(p.date, start));
     let hours = previousHours?.hours || [];
 
     //TODO: needs to create more hours
@@ -156,7 +155,7 @@ const WidgetScheduleReduce =
     ) {
       end = addMinutes(start, duration + buffertime);
       hours.push({
-        start: start.toISOString(),
+        start,
         end,
         staff: current.staff,
       });
@@ -165,7 +164,7 @@ const WidgetScheduleReduce =
     }
 
     if (!previousHours) {
-      previous.push({ date, hours });
+      previous.push({ date: start, hours });
     }
     return previous;
   };

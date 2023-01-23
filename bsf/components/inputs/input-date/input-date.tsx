@@ -1,3 +1,4 @@
+import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
   DatePicker,
@@ -9,8 +10,16 @@ import {
 } from "@shopify/polaris";
 import { CalendarMajor } from "@shopify/polaris-icons";
 import { Field } from "@shopify/react-form";
-import { format, getMonth, getYear, subDays } from "date-fns";
-import React, { useCallback, useState } from "react";
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  format,
+  getMonth,
+  getYear,
+  isSameDay,
+  subDays,
+} from "date-fns";
+import React, { useCallback, useMemo, useState } from "react";
 
 export interface InputDateProps
   extends Field<Date | undefined>,
@@ -21,12 +30,14 @@ export interface InputDateProps
       >
     > {
   disableDatesBefore?: Date;
+  data?: WidgetSchedule[];
   mode?: "inline";
 }
 
 export const InputDate = ({
   disableDatesBefore,
   mode,
+  data,
   ...field
 }: InputDateProps) => {
   const { t } = useTranslation({ id: "input-date", locales });
@@ -54,6 +65,19 @@ export const InputDate = ({
     []
   );
 
+  const disableSpecificDates = useMemo(() => {
+    if (!data) {
+      return undefined;
+    }
+
+    const dayIntervals = eachDayOfInterval({
+      start: new Date(year, month),
+      end: endOfMonth(new Date(year, month)),
+    });
+
+    return dayIntervals.filter((r) => !data?.find((s) => isSameDay(s.date, r)));
+  }, [data, year, month]);
+
   const activator = (
     <TextField
       label={field.label || t("label")}
@@ -75,7 +99,9 @@ export const InputDate = ({
       onChange={onChange}
       onMonthChange={handleMonthChange}
       selected={field.value}
+      disa
       disableDatesBefore={disableDatesBefore || subDays(new Date(), 1)}
+      disableSpecificDates={disableSpecificDates}
     />
   );
 

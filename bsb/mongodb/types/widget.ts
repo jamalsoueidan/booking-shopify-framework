@@ -19,8 +19,8 @@ export interface WidgetStaff {
 }
 
 export interface WidgetHour {
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   staff: {
     _id: string;
     fullname: string;
@@ -28,6 +28,6 @@ export interface WidgetHour {
 }
 
 export interface WidgetSchedule {
-  date: string;
+  date: Date;
   hours: WidgetHour[];
 }
