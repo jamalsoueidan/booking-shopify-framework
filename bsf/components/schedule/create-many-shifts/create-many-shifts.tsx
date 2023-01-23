@@ -1,4 +1,4 @@
-import { DatePickerInput } from "@jamalsoueidan/bsf.components.inputs.date-picker-input";
+import { InputDate } from "@jamalsoueidan/bsf.components.inputs.input-date";
 import { SelectDaysInput } from "@jamalsoueidan/bsf.components.inputs.select-days-input";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
@@ -126,8 +126,8 @@ export const CreateManyShifts = forwardRef<
             md: "3fr 3fr",
           }}
         >
-          <DatePickerInput label={t("date_from.label")} {...fields.startDate} />
-          <DatePickerInput label={t("date_to.label")} {...fields.endDate} />
+          <InputDate label={t("date_from.label")} {...fields.startDate} />
+          <InputDate label={t("date_to.label")} {...fields.endDate} />
         </Columns>
       </Layout.Section>
       <Layout.Section>

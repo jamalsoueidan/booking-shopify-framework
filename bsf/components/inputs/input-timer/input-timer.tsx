@@ -1,10 +1,10 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
 import { Text, useDate } from "@jamalsoueidan/bsf.bsf-pkg";
-import { Select, SelectProps, SelectOption } from "@shopify/polaris";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { format } from "date-fns";
 import React, { useCallback, useMemo } from "react";
-import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 
 export type FieldType = { start: string; end: string };
 

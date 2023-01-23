@@ -1,0 +1,18 @@
+---
+description: A InputDate component.
+---
+
+A component that can pick date
+
+### Component usage
+
+```js
+const field = useField(undefined);
+
+return (
+  <InputDate label="Date" {...field} />
+  <Text variant="bodyMd" as="p">
+    {field.value ? format(field.value, "PPP") : ""}
+  </Text>
+);
+```
