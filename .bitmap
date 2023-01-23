@@ -51,18 +51,6 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/form-errors"
     },
-    "components/inputs/date-picker-input": {
-        "scope": "jamalsoueidan.bsf",
-        "version": "0.0.6",
-        "mainFile": "index.ts",
-        "rootDir": "bsf/components/inputs/date-picker-input"
-    },
-    "components/inputs/dropdown-multi-select-input": {
-        "scope": "jamalsoueidan.bsf",
-        "version": "0.0.10",
-        "mainFile": "index.ts",
-        "rootDir": "bsf/components/inputs/dropdown-multi-select-input"
-    },
     "components/inputs/input-date": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.1",
