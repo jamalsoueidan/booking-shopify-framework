@@ -16,10 +16,13 @@ import {
   format,
   getMonth,
   getYear,
+  isBefore,
   isSameDay,
+  startOfMonth,
   subDays,
 } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
+import { useEffect } from "react";
 
 export interface InputDateProps
   extends Field<Date | undefined>,
@@ -32,12 +35,14 @@ export interface InputDateProps
   disableDatesBefore?: Date;
   data?: WidgetSchedule[];
   mode?: "inline";
+  onMonthChange?: (value: Range) => void;
 }
 
 export const InputDate = ({
   disableDatesBefore,
   mode,
   data,
+  onMonthChange,
   ...field
 }: InputDateProps) => {
   const { t } = useTranslation({ id: "input-date", locales });
@@ -61,9 +66,22 @@ export const InputDate = ({
   );
 
   const handleMonthChange = useCallback(
-    (month, year) => setDate({ month, year }),
-    []
+    (month, year) => {
+      setDate({ month, year });
+    },
+    [onMonthChange]
   );
+
+  useEffect(() => {
+    if (onMonthChange) {
+      const start = startOfMonth(new Date(year, month));
+      const end = endOfMonth(start);
+      onMonthChange({
+        start: isBefore(start, new Date()) ? new Date() : start,
+        end,
+      });
+    }
+  }, [month, year, onMonthChange]);
 
   const disableSpecificDates = useMemo(() => {
     if (!data) {

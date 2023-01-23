@@ -38,10 +38,23 @@ export const BasicInputStaff = () => {
       <Card title="no optionLabel" sectioned>
         <InputStaff data={data} {...field} />
       </Card>
+      <div>
+        <pre>staffId: {field.value}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
 
+export const withOptionLabel = () => {
+  const field = useField("");
+  return (
+    <ApplicationFramePage>
       <Card title="optionLabel" sectioned>
         <InputStaff data={data} {...field} optionLabel="Vælg medarbejder" />
       </Card>
+      <div>
+        <pre>staffId: {field.value}</pre>
+      </div>
     </ApplicationFramePage>
   );
 };

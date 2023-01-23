@@ -4,6 +4,7 @@ import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
 import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { useMemo } from "react";
+import { useEffect } from "react";
 
 export interface InputStaffProps
   extends Field<string>,
@@ -36,6 +37,12 @@ export const InputStaff = ({
 
     [data]
   );
+
+  useEffect(() => {
+    if (!optionLabel && fieldOptions.length > 0) {
+      field.onChange(fieldOptions[0].value);
+    }
+  }, []);
 
   return (
     <Select

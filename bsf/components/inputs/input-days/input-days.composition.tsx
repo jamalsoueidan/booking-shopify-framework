@@ -8,6 +8,9 @@ export const BasicInputDays = () => {
   return (
     <ApplicationFramePage title="Select days input">
       <InputDays {...field} />
+      <div>
+        <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+      </div>
     </ApplicationFramePage>
   );
 };
