@@ -1,5 +1,6 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import {
   DatePicker,
   Icon,
@@ -82,6 +83,15 @@ export const InputDate = ({
       });
     }
   }, [month, year, onMonthChange]);
+
+  usePrevious(
+    ([prevData]) => {
+      if (prevData !== data) {
+        field.onChange(undefined);
+      }
+    },
+    [data, field.onChange]
+  );
 
   const disableSpecificDates = useMemo(() => {
     if (!data) {

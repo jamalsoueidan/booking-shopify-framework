@@ -8,7 +8,6 @@ export const BasicusePrevious = () => {
 
   usePrevious(
     ([prevDate, setPrevDate]) => {
-      console.log("init", prevDate, date);
       if (typeof setPrevDate === "function") {
         setPrevDate(prevDate as any);
       }

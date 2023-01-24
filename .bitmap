@@ -17,121 +17,121 @@
     },
     "bsb-pkg": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.13",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bsb/bsb-pkg"
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.44",
+        "version": "0.0.45",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.14",
+        "version": "0.0.15",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-calendar"
     },
     "components/booking/booking-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.39",
+        "version": "0.0.40",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-staff"
     },
     "components/calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.13",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/calendar"
     },
     "components/form-errors": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.35",
+        "version": "0.0.36",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/form-errors"
     },
     "components/inputs/input-date": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-date"
     },
     "components/inputs/input-days": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-days"
     },
     "components/inputs/input-dropdown": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-dropdown"
     },
     "components/inputs/input-language": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-language"
     },
     "components/inputs/input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.10",
+        "version": "0.0.11",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-staff"
     },
     "components/inputs/input-tags": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-tags"
     },
     "components/inputs/input-time-zone": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-time-zone"
     },
     "components/inputs/input-timer": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.11",
+        "version": "0.0.12",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-timer"
     },
     "components/loading/loading-modal": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/loading/loading-modal"
     },
     "components/loading/loading-page": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.33",
+        "version": "0.0.34",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/loading/loading-page"
     },
     "components/loading/loading-spinner": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.36",
+        "version": "0.0.37",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/loading/loading-spinner"
     },
     "components/schedule/create-many-shifts": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.23",
+        "version": "0.0.24",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-many-shifts"
     },
     "components/schedule/create-one-shift": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.21",
+        "version": "0.0.22",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-one-shift"
     },
     "components/staff/staff-form": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.38",
+        "version": "0.0.39",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/staff/staff-form"
     },
@@ -143,7 +143,7 @@
     },
     "envs/react-18-env": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.30",
+        "version": "0.0.31",
         "mainFile": "index.ts",
         "rootDir": "bsd/envs/react-18-env"
     },
@@ -167,7 +167,7 @@
     },
     "hooks/use-form": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.37",
+        "version": "0.0.38",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-form"
     },
@@ -179,7 +179,7 @@
     },
     "hooks/use-position": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.37",
+        "version": "0.0.38",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-position"
     },
@@ -191,7 +191,7 @@
     },
     "hooks/use-save-bar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.37",
+        "version": "0.0.38",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-save-bar"
     },
@@ -203,55 +203,55 @@
     },
     "hooks/use-tag": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.23",
+        "version": "0.0.24",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-tag"
     },
     "hooks/use-toast": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.35",
+        "version": "0.0.36",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-toast"
     },
     "hooks/use-translation": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.36",
+        "version": "0.0.37",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-translation"
     },
     "mongodb/models": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/models"
     },
     "mongodb/services": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.13",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/services"
     },
     "mongodb/types": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/types"
     },
     "preview/application": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.28",
+        "version": "0.0.29",
         "mainFile": "index.ts",
         "rootDir": "bsd/preview/application"
     },
     "preview/preview-i18n": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.15",
+        "version": "0.0.16",
         "mainFile": "index.ts",
         "rootDir": "bsd/preview/preview-i18n"
     },
     "providers/save-bar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.34",
+        "version": "0.0.35",
         "mainFile": "index.ts",
         "rootDir": "bsf/providers/save-bar"
     },
@@ -263,7 +263,7 @@
     },
     "providers/toast": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.34",
+        "version": "0.0.35",
         "mainFile": "index.ts",
         "rootDir": "bsf/providers/toast"
     },

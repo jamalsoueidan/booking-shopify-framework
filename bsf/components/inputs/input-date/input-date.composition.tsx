@@ -1,5 +1,5 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { Card, Range, Text } from "@shopify/polaris";
+import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, eachDayOfInterval, format } from "date-fns";
 import React, { useCallback } from "react";
@@ -25,7 +25,7 @@ export const Basic = () => {
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
         <div>
-          <pre>{JSON.stringify(date || {}, null, 2)}</pre>
+          <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
         </div>
       </Card>
     </ApplicationFramePage>
@@ -69,6 +69,36 @@ export const WithData = () => {
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
         <InputDate mode="inline" data={mock} {...field} />
+        <Text variant="bodyMd" as="p">
+          {field.value ? format(field.value, "PPP") : ""}
+        </Text>
+      </Card>
+    </ApplicationFramePage>
+  );
+};
+
+export const WithDataChange = () => {
+  const field = useField(undefined);
+  const [data, setData] = useState(mock);
+
+  const changeData = useCallback(() => {
+    const result = eachDayOfInterval({
+      start: addDays(new Date(), 5),
+      end: addDays(new Date(), 9),
+    });
+    setData(
+      result.map((r) => ({
+        date: r.toJSON(),
+        hours: [],
+      }))
+    );
+  }, []);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Inline mode with data" sectioned>
+        <InputDate mode="inline" data={data} {...field} />
+        <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>

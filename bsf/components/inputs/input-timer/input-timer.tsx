@@ -15,6 +15,7 @@ import {
   Text,
 } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
+import { CallTracker } from "assert";
 import { format, setHours } from "date-fns";
 import React, { memo, useCallback, useEffect, useMemo } from "react";
 
@@ -57,7 +58,7 @@ export const InputTimer = ({
   } as any;
 
   const timeOptions = useMemo(() => {
-    if (!data) {
+    if (!data || data.length === 0) {
       return [];
     }
 
@@ -94,7 +95,7 @@ export const InputTimer = ({
     [field.onChange, data]
   );
 
-  const dispatchOnChangeNoOptionLabel = useCallback(() => {
+  const dispatchChangeOnRenderNoOptionLabel = useCallback(() => {
     if (optionLabel || !timeOptions) {
       return;
     }
@@ -105,8 +106,8 @@ export const InputTimer = ({
     }
   }, [optionLabel, timeOptions, field.value, onChange]);
 
-  useEffect(dispatchOnChangeNoOptionLabel, []);
-  useEffect(dispatchOnChangeNoOptionLabel, [timeOptions]);
+  useEffect(dispatchChangeOnRenderNoOptionLabel, []);
+  useEffect(dispatchChangeOnRenderNoOptionLabel, [timeOptions]);
 
   const labelFields = {
     label: label || t("label"),
@@ -144,26 +145,30 @@ export const InputTimer = ({
 
   return (
     <Labelled id="input-timer" {...labelFields}>
-      <Columns columns={{ xs: 1, sm: 3 }}>
-        <ColumnPeriod
-          date={setHours(new Date(), 11)}
-          hours={morning}
-          onChange={onChange}
-          selected={field.value?.start}
-        />
-        <ColumnPeriod
-          date={setHours(new Date(), 13)}
-          hours={afternoon}
-          onChange={onChange}
-          selected={field.value?.start}
-        />
-        <ColumnPeriod
-          date={setHours(new Date(), 19)}
-          hours={evening}
-          onChange={onChange}
-          selected={field.value?.start}
-        />
-      </Columns>
+      {timeOptions?.length === 0 ? (
+        t("empty")
+      ) : (
+        <Columns columns={{ xs: 1, sm: 3 }}>
+          <ColumnPeriod
+            date={setHours(new Date(), 11)}
+            hours={morning}
+            onChange={onChange}
+            selected={field.value?.start}
+          />
+          <ColumnPeriod
+            date={setHours(new Date(), 13)}
+            hours={afternoon}
+            onChange={onChange}
+            selected={field.value?.start}
+          />
+          <ColumnPeriod
+            date={setHours(new Date(), 19)}
+            hours={evening}
+            onChange={onChange}
+            selected={field.value?.start}
+          />
+        </Columns>
+      )}
       {field.error && <InlineError message={field.error} fieldID="myFieldID" />}
     </Labelled>
   );
@@ -177,21 +182,40 @@ interface ColumnPeriod {
 }
 
 const ColumnPeriod = memo(
-  ({ date, hours, onChange, selected }: ColumnPeriod) => (
-    <AlphaStack gap="1" fullWidth>
-      <Text variant="headingSm" as="p" alignment="center">
-        {format(date, "B")}
-      </Text>
-      {hours.map((m) => (
-        <InlineButtonHour
-          key={m.value}
-          onClick={() => onChange(m.value)}
-          label={m.label}
-          pressed={m.value === selected}
-        />
-      ))}
-    </AlphaStack>
-  )
+  ({ date, hours, onChange, selected }: ColumnPeriod) => {
+    const { t } = useTranslation({
+      id: "column-period",
+      locales: {
+        da: {
+          ...locales.da.inline,
+        },
+        en: {
+          ...locales.en.inline,
+        },
+      },
+    });
+    return (
+      <AlphaStack gap="1" fullWidth>
+        <Text variant="headingSm" as="p" alignment="center">
+          {format(date, "B")}
+        </Text>
+        {hours.length === 0 ? (
+          <Text variant="bodyMd" as="span" alignment="center">
+            {t("empty")}
+          </Text>
+        ) : (
+          hours.map((m) => (
+            <InlineButtonHour
+              key={m.value}
+              onClick={() => onChange(m.value)}
+              label={m.label}
+              pressed={m.value === selected}
+            />
+          ))
+        )}
+      </AlphaStack>
+    );
+  }
 );
 
 const InlineButtonHour = memo(({ label, onClick, pressed }: any) => (
@@ -205,8 +229,16 @@ const InlineButtonHour = memo(({ label, onClick, pressed }: any) => (
 const locales = {
   da: {
     label: "Vælg tid",
+    empty: "Der findes ingen tidspunkter",
+    inline: {
+      empty: "Ingen tidspunkter",
+    },
   },
   en: {
     label: "Choose time",
+    empty: "There is no time available",
+    inline: {
+      empty: "No time",
+    },
   },
 };

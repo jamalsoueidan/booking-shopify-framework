@@ -28,6 +28,12 @@ export const Inline = () => {
       <Card title="optionLabel" sectioned>
         <InputTimer data={mock} {...field} mode="inline" />
       </Card>
+      <Card title="Some hours" sectioned>
+        <InputTimer data={mock.slice(5)} {...field} mode="inline" />
+      </Card>
+      <Card title="Empty state" sectioned>
+        <InputTimer {...field} mode="inline" />
+      </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
