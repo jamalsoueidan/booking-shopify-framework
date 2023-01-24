@@ -11,8 +11,8 @@ const result = eachHourOfInterval({
 });
 
 const mock = result.map((r) => ({
-  start: r,
-  end: addHours(r, 1),
+  start: r.toJSON(),
+  end: addHours(r, 1).toJSON(),
   staff: {
     _id: "2",
     fullname: "jamal soueidan",

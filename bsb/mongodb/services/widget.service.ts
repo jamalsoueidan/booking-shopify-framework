@@ -134,9 +134,9 @@ interface ScheduleReduceProduct
 const WidgetScheduleReduce =
   (product: ScheduleReduceProduct) =>
   (
-    previous: Array<WidgetSchedule>,
+    previous: Array<WidgetSchedule<Date>>,
     current: ScheduleGetByStaffAndTag
-  ): Array<WidgetSchedule> => {
+  ): Array<WidgetSchedule<Date>> => {
     const scheduleEnd = new Date(current.end);
     const duration = product.duration || 60;
     const buffertime = product.buffertime || 0;
@@ -171,9 +171,9 @@ const WidgetScheduleReduce =
 
 const WidgetScheduleCalculateBooking = (
   book: CartGetByStaff
-): ((schedule: WidgetSchedule) => WidgetSchedule) => {
+): ((schedule: WidgetSchedule<Date>) => WidgetSchedule<Date>) => {
   const { start, end, staff } = book;
-  return (schedule: WidgetSchedule): WidgetSchedule => {
+  return (schedule: WidgetSchedule<Date>): WidgetSchedule<Date> => {
     return {
       ...schedule,
       hours: schedule.hours.filter((hour) => {

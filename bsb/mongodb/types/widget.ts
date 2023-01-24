@@ -18,16 +18,16 @@ export interface WidgetStaff {
   anyAvailable?: boolean;
 }
 
-export interface WidgetHour {
-  start: Date;
-  end: Date;
+export interface WidgetHour<T = string> {
+  start: T;
+  end: T;
   staff: {
     _id: string;
     fullname: string;
   };
 }
 
-export interface WidgetSchedule {
-  date: Date;
-  hours: WidgetHour[];
+export interface WidgetSchedule<T = string> {
+  date: T;
+  hours: WidgetHour<T>[];
 }

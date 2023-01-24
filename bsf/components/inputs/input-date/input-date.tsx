@@ -3,6 +3,7 @@ import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
   DatePicker,
   Icon,
+  Labelled,
   Popover,
   Range,
   TextField,
@@ -16,13 +17,12 @@ import {
   format,
   getMonth,
   getYear,
-  isBefore,
+  isPast,
   isSameDay,
   startOfMonth,
   subDays,
 } from "date-fns";
-import React, { useCallback, useMemo, useState } from "react";
-import { useEffect } from "react";
+import React, { useCallback, useEffect, useId, useMemo, useState } from "react";
 
 export interface InputDateProps
   extends Field<Date | undefined>,
@@ -33,18 +33,21 @@ export interface InputDateProps
       >
     > {
   disableDatesBefore?: Date;
-  data?: WidgetSchedule[];
+  data?: Array<WidgetSchedule>;
   mode?: "inline";
   onMonthChange?: (value: Range) => void;
 }
 
 export const InputDate = ({
+  label,
   disableDatesBefore,
   mode,
   data,
+  labelHidden,
   onMonthChange,
   ...field
 }: InputDateProps) => {
+  const id = useId();
   const { t } = useTranslation({ id: "input-date", locales });
   const [popoverActive, setPopoverActive] = useState(false);
   const [{ month, year }, setDate] = useState({
@@ -65,19 +68,16 @@ export const InputDate = ({
     [togglePopoverActive]
   );
 
-  const handleMonthChange = useCallback(
-    (month, year) => {
-      setDate({ month, year });
-    },
-    [onMonthChange]
-  );
+  const handleMonthChange = useCallback((month, year) => {
+    setDate({ month, year });
+  }, []);
 
   useEffect(() => {
     if (onMonthChange) {
       const start = startOfMonth(new Date(year, month));
       const end = endOfMonth(start);
       onMonthChange({
-        start: isBefore(start, new Date()) ? new Date() : start,
+        start: isPast(start) ? new Date() : start,
         end,
       });
     }
@@ -93,14 +93,21 @@ export const InputDate = ({
       end: endOfMonth(new Date(year, month)),
     });
 
-    return dayIntervals.filter((r) => !data?.find((s) => isSameDay(s.date, r)));
+    return dayIntervals.filter(
+      (r) => !data?.find((s) => isSameDay(new Date(s.date), r))
+    );
   }, [data, year, month]);
 
+  const labelFields = {
+    label: label || t("label"),
+    helpText: field.helpText,
+    error: field.error,
+    labelHidden,
+  };
   const activator = (
     <TextField
-      label={field.label || t("label")}
+      {...labelFields}
       placeholder={field.placeholder}
-      helpText={field.helpText}
       autoComplete="off"
       value={field.value ? format(field.value, "PPP") : ""}
       readOnly
@@ -124,7 +131,9 @@ export const InputDate = ({
 
   const componentMarkup =
     mode === "inline" ? (
-      <Empty>{dateComponentMarkup}</Empty>
+      <Labelled id={`${id}-date-picker-id`} {...labelFields}>
+        {dateComponentMarkup}
+      </Labelled>
     ) : (
       <Popover
         sectioned
@@ -143,13 +152,9 @@ export const InputDate = ({
 
 const locales = {
   da: {
-    label: "Dato",
+    label: "Vælg dato",
   },
   en: {
-    label: "Date",
+    label: "Pick a date",
   },
-};
-
-const Empty = ({ children }) => {
-  return <>{children}</>;
 };

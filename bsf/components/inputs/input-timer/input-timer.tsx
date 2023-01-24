@@ -9,8 +9,8 @@ import React, { useCallback, useEffect, useMemo } from "react";
 
 export type InputTimerFieldType =
   | {
-      start: Date;
-      end: Date;
+      start: string;
+      end: string;
     }
   | undefined;
 
@@ -42,12 +42,12 @@ export const InputTimer = ({
 
     const hours: Array<SelectOption> =
       [...data].sort(Text.sortByDateKey("start")).map((t) => ({
-        key: t.start.toISOString(),
+        key: t.start,
         label:
           format(toTimeZone(t.start), "p") +
           " - " +
           format(toTimeZone(t.end), "p"),
-        value: t.start.toJSON(),
+        value: t.start,
       })) || [];
 
     if (optionLabel) {
@@ -59,7 +59,7 @@ export const InputTimer = ({
 
   const onChange = useCallback(
     (selected: string) => {
-      const selectedHour = data?.find((t) => t.start.toJSON() === selected);
+      const selectedHour = data?.find((t) => t.start === selected);
 
       if (!selectedHour) {
         field.onChange(undefined);
@@ -92,7 +92,7 @@ export const InputTimer = ({
       {...field}
       label={field?.label || t("label")}
       options={timeOptions}
-      value={field.value?.start?.toISOString()}
+      value={field.value?.start}
       disabled={timeOptions.length === 0}
       onChange={onChange}
     />
