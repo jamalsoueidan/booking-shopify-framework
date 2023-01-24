@@ -5,7 +5,7 @@ import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Select, SelectOption, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { format } from "date-fns";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 
 export type InputTimerFieldType =
   | {
@@ -37,7 +37,7 @@ export const InputTimer = ({
 
   const timeOptions = useMemo(() => {
     if (!data) {
-      return;
+      return [];
     }
 
     const hours: Array<SelectOption> =
@@ -73,13 +73,27 @@ export const InputTimer = ({
     [field.onChange, data]
   );
 
+  const dispatchOnChangeNoOptionLabel = useCallback(() => {
+    if (optionLabel || !timeOptions) {
+      return;
+    }
+
+    if (timeOptions?.length > 0 && !field.value) {
+      const option = timeOptions[0] as any;
+      onChange(option.value);
+    }
+  }, [optionLabel, timeOptions, field.value, onChange]);
+
+  useEffect(dispatchOnChangeNoOptionLabel, []);
+  useEffect(dispatchOnChangeNoOptionLabel, [timeOptions]);
+
   return (
     <Select
       {...field}
       label={field?.label || t("label")}
       options={timeOptions}
       value={field.value?.start?.toISOString()}
-      disabled={!timeOptions || timeOptions.length <= 1}
+      disabled={timeOptions.length === 0}
       onChange={onChange}
     />
   );

@@ -30,6 +30,7 @@ export * from "@jamalsoueidan/bsf.hooks.use-translation";
 export * from "@jamalsoueidan/bsf.hooks.use-tag";
 export * from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 export * from "@jamalsoueidan/bsf.hooks.use-settings";
+export * from "@jamalsoueidan/bsf.hooks.use-previous";
 
 // PROVIDERS
 export * from "@jamalsoueidan/bsf.providers.save-bar";

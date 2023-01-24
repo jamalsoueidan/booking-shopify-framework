@@ -27,6 +27,18 @@ export const BasicInputTimer = () => {
       <Card title="no optionLabel" sectioned>
         <InputTimer data={mock} {...field} />
       </Card>
+      <div>
+        <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
+
+export const WithOptionLabel = () => {
+  const field = useField<InputTimerFieldType>(undefined);
+
+  return (
+    <ApplicationFramePage>
       <Card title="optionLabel" sectioned>
         <InputTimer data={mock} {...field} optionLabel="Vælge fra listen" />
       </Card>
