@@ -104,6 +104,7 @@ export const InputDate = ({
     error: field.error,
     labelHidden,
   };
+
   const activator = (
     <TextField
       {...labelFields}
