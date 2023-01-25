@@ -108,6 +108,7 @@ export const WithDataChange = () => {
         hours: [],
       }))
     );
+    field.onChange(undefined);
   }, []);
 
   return (
