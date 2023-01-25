@@ -21,7 +21,6 @@ export const usePrevious = <T extends any[]>(
 
   useEffect(() => {
     if (initial && callbackRef.current !== null) {
-      console.log(depsRef?.current);
       callbackRef.current(depsRef?.current);
     }
 

@@ -77,6 +77,13 @@ export const SmsApiSend = async ({
       }
     );
     return response.data;
+  } else {
+    console.log({
+      receiver,
+      message,
+      senderName: "BySisters",
+      scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
+    });
   }
 
   return {

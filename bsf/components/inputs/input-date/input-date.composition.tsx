@@ -1,8 +1,8 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
-import { addDays, eachDayOfInterval, format } from "date-fns";
-import React, { useCallback } from "react";
+import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
+import React, { useCallback, useMemo } from "react";
 import { InputDate } from "./input-date";
 import { useState } from "react";
 
@@ -39,6 +39,22 @@ export const Inline = () => {
     <ApplicationFramePage>
       <Card title="Inline mode" sectioned>
         <InputDate mode="inline" {...field} />
+        <Text variant="bodyMd" as="p">
+          {field.value ? format(field.value, "PPP") : ""}
+        </Text>
+      </Card>
+    </ApplicationFramePage>
+  );
+};
+
+export const Selected = () => {
+  const date = useMemo(() => addMonths(new Date(), 1), []);
+  const field = useField(date);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Inline mode" sectioned>
+        <InputDate mode="inline" labelHidden={true} {...field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
