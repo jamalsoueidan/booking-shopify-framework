@@ -10,7 +10,11 @@ import {
 } from "@shopify/polaris";
 import { format, setHours } from "date-fns";
 import React, { memo } from "react";
-import { InputTimerModeProps, StrictOption } from "../input-timer.types";
+import {
+  InputTimerModeProps,
+  StrictOption,
+  onChange,
+} from "../input-timer.types";
 
 export const InputTimerList = ({
   options,
@@ -55,19 +59,19 @@ export const InputTimerList = ({
             date={setHours(new Date(), 11)}
             hours={morning}
             onChange={onChange}
-            selected={value}
+            selected={value?.start}
           />
           <ColumnPeriod
             date={setHours(new Date(), 13)}
             hours={afternoon}
             onChange={onChange}
-            selected={value}
+            selected={value?.start}
           />
           <ColumnPeriod
             date={setHours(new Date(), 19)}
             hours={evening}
             onChange={onChange}
-            selected={value}
+            selected={value?.start}
           />
         </Columns>
       )}
@@ -79,7 +83,7 @@ export const InputTimerList = ({
 interface ColumnPeriod {
   date: Date;
   hours: StrictOption[];
-  onChange: (value: string) => void;
+  onChange?: onChange;
   selected?: string;
 }
 
@@ -110,7 +114,7 @@ const ColumnPeriod = memo(
           hours.map((m) => (
             <InlineButtonHour
               key={m.value}
-              onClick={() => onChange(m.value)}
+              onClick={() => onChange && onChange(m.value)}
               label={m.label}
               pressed={m.value === selected}
             />

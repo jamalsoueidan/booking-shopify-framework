@@ -89,10 +89,10 @@ export const InputTimer = ({
   return (
     <Component
       {...field}
+      onChange={onChange}
       optionLabel={optionLabel}
       options={options}
-      value={field.value?.start}
-      onChange={onChange}
+      value={field.value}
     />
   );
 };

@@ -2,10 +2,13 @@ import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { ReactNode } from "react";
 
+export type onChange = (selected: string) => void;
 export interface InputTimerModeProps
-  extends Field<InputTimerFieldType>,
-    Partial<Omit<SelectProps, "onChange" | "error" | "onBlur" | "value">> {
+  extends Omit<Field<InputTimerFieldType>, "onChange">,
+    Partial<Pick<SelectProps, "label" | "helpText" | "labelHidden">> {
   options?: StrictOption[];
+  optionLabel?: string;
+  onChange?: onChange;
 }
 
 export interface StrictOption {
