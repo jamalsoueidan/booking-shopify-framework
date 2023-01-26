@@ -3,7 +3,8 @@ import { Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
 import React from "react";
-import { InputTimer, InputTimerFieldType } from "./input-timer";
+import { InputTimer } from "./input-timer";
+import { InputTimerFieldType } from "./input-timer.types";
 
 export const BasicInputTimer = () => {
   const field = useField<InputTimerFieldType>(undefined);
@@ -20,19 +21,31 @@ export const BasicInputTimer = () => {
   );
 };
 
-export const Inline = () => {
+export const ListMode = () => {
   const field = useField<InputTimerFieldType>(undefined);
 
   return (
     <ApplicationFramePage>
       <Card title="optionLabel" sectioned>
-        <InputTimer data={mock} {...field} mode="inline" />
+        <InputTimer data={mock} {...field} mode="list" />
       </Card>
       <Card title="Some hours" sectioned>
-        <InputTimer data={mock.slice(5)} {...field} mode="inline" />
+        <InputTimer data={mock.slice(5)} {...field} mode="list" />
       </Card>
+      <div>
+        <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
+
+export const EmptyState = () => {
+  const field = useField<InputTimerFieldType>(undefined);
+
+  return (
+    <ApplicationFramePage>
       <Card title="Empty state" sectioned>
-        <InputTimer {...field} mode="inline" />
+        <InputTimer {...field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
