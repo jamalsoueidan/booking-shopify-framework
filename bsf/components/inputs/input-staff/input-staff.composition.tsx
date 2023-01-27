@@ -1,10 +1,9 @@
-import React from "react";
-import { InputStaff } from "./input-staff";
-import { useField } from "@shopify/react-form";
+import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
-import { useState } from "react";
-import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
+import { useField } from "@shopify/react-form";
+import React, { useState } from "react";
+import { InputStaff } from "./input-staff";
 
 const data: WidgetStaff[] = [
   {
@@ -24,7 +23,7 @@ export const BasicInputStaff = () => {
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel" sectioned>
-        <InputStaff data={data} {...field} />
+        <InputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value}</pre>
@@ -40,7 +39,7 @@ export const laterStaffLoaded = () => {
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel and staff loading" sectioned>
-        <InputStaff data={staff} {...field} />
+        <InputStaff data={staff} field={field} />
       </Card>
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
@@ -56,7 +55,7 @@ export const withOptionLabel = () => {
   return (
     <ApplicationFramePage>
       <Card title="optionLabel" sectioned>
-        <InputStaff data={data} {...field} optionLabel="Vælg medarbejder" />
+        <InputStaff data={data} field={field} input={{placeholder: "Vælg medarbejder"}} />
       </Card>
       <div>
         <pre>staffId: {field.value}</pre>

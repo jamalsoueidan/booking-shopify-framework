@@ -1,27 +1,90 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
-import { Range, TextFieldProps } from "@shopify/polaris";
+import { DatePicker, DatePickerProps, Range } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import React from "react";
-import { InputDateInline } from "./components/inline";
-import { InputDatePopOver } from "./components/pop-over";
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  getMonth,
+  getYear,
+  isPast,
+  isSameDay,
+  startOfMonth,
+  subDays,
+} from "date-fns";
+import React, { useCallback, useId, useMemo, useState } from "react";
 
-export interface InputDateProps
-  extends Field<Date | undefined>,
-    Partial<
-      Omit<
-        TextFieldProps,
-        "error" | "onBlur" | "onChange" | "value" | "autoComplete"
-      >
-    > {
-  disableDatesBefore?: Date;
-  data?: Array<WidgetSchedule>;
-  mode?: "inline";
+interface InputDatePickerProps extends Partial<Omit<DatePickerProps, 'onMonthChange'>> {
   onMonthChange?: (value: Range) => void;
 }
+interface InputDateProps {
+  field: Field<Date|undefined>,
+  data?: Array<WidgetSchedule>;
+  input?: InputDatePickerProps;
+}
 
-export const InputDate = (props: InputDateProps) => {
-  if (props.mode === "inline") {
-    return <InputDateInline {...props} />;
-  }
-  return <InputDatePopOver {...props} />;
+export const InputDate = ({
+  field,
+  data,
+  input
+}: InputDateProps) => {
+  const id = useId();
+
+  const getMonthFromValue = useMemo(
+    () => ({
+      month: getMonth(field.value || new Date()),
+      year: getYear(field.value || new Date()),
+    }),
+    []
+  );
+
+  const handleOnChange = useCallback(
+    (value: Range) => {
+      field.onChange(value.start);
+    },
+    [field]
+  );
+
+  const [{ month, year }, setMonthYear] = useState(getMonthFromValue);
+
+  const handleMonthChange = useCallback(
+    (month: number, year: number) => {
+      setMonthYear({ month, year });
+      if (input?.onMonthChange) {
+        const start = startOfMonth(new Date(year, month));
+        const end = endOfMonth(start);
+        input?.onMonthChange({
+          start: isPast(start) ? new Date() : start,
+          end,
+        });
+      }
+    },
+    [setMonthYear, input]
+  );
+
+  const disableSpecificDates = useMemo(() => {
+    if (!data) {
+      return undefined;
+    }
+
+    const dayIntervals = eachDayOfInterval({
+      start: new Date(year, month),
+      end: endOfMonth(new Date(year, month)),
+    });
+
+    return dayIntervals.filter(
+      (r) => !data?.find((s) => isSameDay(new Date(s.date), r))
+    );
+  }, [data, year, month]);
+
+  return (
+    <DatePicker
+      month={month}
+      year={year}
+      onChange={handleOnChange}
+      onMonthChange={handleMonthChange}
+      selected={field?.value}
+      disableDatesBefore={input?.disableDatesBefore || subDays(new Date(), 1)}
+      disableSpecificDates={disableSpecificDates}
+    />
+  );
 };

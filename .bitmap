@@ -57,6 +57,18 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-date"
     },
+    "components/inputs/input-date-drop": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-date-drop"
+    },
+    "components/inputs/input-date-flat": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-date-flat"
+    },
     "components/inputs/input-days": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.11",

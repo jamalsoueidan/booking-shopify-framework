@@ -1,50 +1,37 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
+import { InputDate } from '@jamalsoueidan/bsf.components.inputs.input-date';
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Labelled, Range, TextFieldProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { subDays } from "date-fns";
 import React, { useId } from "react";
-import { InputDateBase } from "./date";
 
-export interface InputDateInlineProps
-  extends Field<Date | undefined>,
-    Partial<
+export interface InputDateFlatProps {
+  field: Field<Date | undefined>;
+  input?: Partial<
       Omit<
         TextFieldProps,
         "error" | "onBlur" | "onChange" | "value" | "autoComplete"
       >
-    > {
-  disableDatesBefore?: Date;
+    >;
   data?: Array<WidgetSchedule>;
   onMonthChange?: (value: Range) => void;
 }
 
-export const InputDateInline = ({
-  label,
-  disableDatesBefore,
+export const InputDateFlat = ({
   data,
-  labelHidden,
   onMonthChange,
-  ...field
-}: InputDateInlineProps) => {
+  input,
+  field
+}: InputDateFlatProps) => {
   const id = useId();
   const { t } = useTranslation({ id: "input-date-inline", locales });
 
-  const labelFields = {
-    label: label || t("label"),
-    helpText: field.helpText,
-    error: field.error,
-    labelHidden,
-  };
-
   return (
-    <Labelled id={`${id}-date-picker-id`} {...labelFields}>
-      <InputDateBase
-        onChange={field.onChange}
-        onMonthChange={onMonthChange}
+    <Labelled id={`${id}-date-picker-id`} label={input?.label || t("label")} helpText={input?.helpText} error={field.error} labelHidden={input?.labelHidden}>
+      <InputDate
+        field={field}
+        input={{onMonthChange}}
         data={data}
-        selected={field.value}
-        disableDatesBefore={disableDatesBefore || subDays(new Date(), 1)}
       />
     </Labelled>
   );

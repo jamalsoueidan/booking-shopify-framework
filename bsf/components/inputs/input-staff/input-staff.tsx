@@ -1,30 +1,18 @@
 import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
 import { Text } from "@jamalsoueidan/bsf.helpers.text";
-import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import React, { useMemo } from "react";
-import { useCallback } from "react";
-import { useEffect } from "react";
+import React, { useMemo } from 'react';
 
-export interface InputStaffProps
-  extends Field<string>,
-    Partial<Omit<SelectProps, "onChange" | "error" | "onBlur" | "value">> {
-  data: WidgetStaff[];
-  optionLabel?: string;
+export interface InputStaffProps {
+  data?: WidgetStaff[];
+  field: Field<string>;
+  input?: Partial<Omit<SelectProps, "onChange" | "error" | "onBlur" | "value">>;
 }
 
-export const InputStaff = ({
-  data,
-  optionLabel,
-  ...field
-}: InputStaffProps) => {
-  const defaultOption = {
-    key: optionLabel || "",
-    label: optionLabel || "",
-    value: "",
-  } as any;
-
+export const InputStaff = ({ data, input, field }: InputStaffProps) => {
+  const { t } = useTranslation({ id: "input-staff", locales });
   const fieldOptions = useMemo(
     () =>
       data
@@ -33,32 +21,21 @@ export const InputStaff = ({
           label: o.fullname,
           value: o.staff,
         }))
-        .concat(optionLabel ? [defaultOption] : [])
         .sort(Text.soryByTextKey("label")) || [],
 
-    [data]
+    [data],
   );
-
-  const dispatchOnChangeNoOptionLabel = useCallback(() => {
-    if (optionLabel || !fieldOptions) {
-      return;
-    }
-
-    if (fieldOptions?.length > 0 && !field.value) {
-      const option = fieldOptions[0] as any;
-      field.onChange(option.value);
-    }
-  }, [optionLabel, fieldOptions, field.value, field.onChange]);
-
-  useEffect(dispatchOnChangeNoOptionLabel, []);
-  useEffect(dispatchOnChangeNoOptionLabel, [fieldOptions]);
 
   return (
-    <Select
-      label="Vælg medarbejder"
-      disabled={fieldOptions.length === 0}
-      {...field}
-      options={fieldOptions}
-    />
+    <Select label={t("label")} disabled={fieldOptions.length === 0} options={fieldOptions} {...input} {...field} />
   );
+};
+
+const locales = {
+  da: {
+    label: "Vælg medarbejder",
+  },
+  en: {
+    label: "Choose staff",
+  },
 };

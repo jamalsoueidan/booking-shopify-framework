@@ -3,7 +3,7 @@ import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
-import { InputDate } from "./input-date";
+import { InputDateFlat } from "./input-date-flat";
 
 export const Basic = () => {
   const [date, setDate] = useState<Range | undefined>(undefined);
@@ -18,8 +18,8 @@ export const Basic = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Normal mode" sectioned>
-        <InputDate field={field} input={{onMonthChange}} />
+      <Card sectioned>
+        <InputDateFlat field={field} onMonthChange={onMonthChange} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -31,29 +31,14 @@ export const Basic = () => {
   );
 };
 
-export const Inline = () => {
-  const field = useField(undefined);
-
-  return (
-    <ApplicationFramePage>
-      <Card title="Inline mode" sectioned>
-        <InputDate field={field} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-      </Card>
-    </ApplicationFramePage>
-  );
-};
-
-export const Selected = () => {
+export const SelectedTodayDate = () => {
   const date = useMemo(() => addMonths(new Date(), 1), []);
   const field = useField(date);
 
   return (
     <ApplicationFramePage>
-      <Card title="Inline mode" sectioned>
-        <InputDate field={field} />
+      <Card sectioned>
+        <InputDateFlat field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -67,8 +52,8 @@ export const LabelHidden = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Inline mode" sectioned>
-        <InputDate field={field} />
+      <Card sectioned>
+        <InputDateFlat field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -82,8 +67,8 @@ export const WithData = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Inline mode with data" sectioned>
-        <InputDate data={mock} field={field} />
+      <Card sectioned>
+        <InputDateFlat data={mock} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -112,8 +97,9 @@ export const WithDataChange = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Inline mode with data" sectioned>
-        <InputDate  data={data} field={field} />
+      <Card sectioned>
+        <InputDateFlat  data={data} field={field} />
+        <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}

@@ -1,4 +1,5 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
+import { InputDate } from '@jamalsoueidan/bsf.components.inputs.input-date';
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
   Icon,
@@ -9,26 +10,22 @@ import {
 } from "@shopify/polaris";
 import { CalendarMajor } from "@shopify/polaris-icons";
 import { Field } from "@shopify/react-form";
-import { format, subDays } from "date-fns";
+import { format } from "date-fns";
 import React, { useCallback, useState } from "react";
-import { InputDateBase } from "./date";
 
-export interface InputDatePopOverProps
-  extends Field<Date | undefined>,
-    Partial<Omit<TextFieldProps, "error" | "onBlur" | "onChange" | "value">> {
-  disableDatesBefore?: Date;
+export interface InputDateDropProps {
+  field: Field<Date | undefined>;
+  input?: Partial<Omit<TextFieldProps, "error" | "onBlur" | "onChange" | "value">>;
   data?: Array<WidgetSchedule>;
   onMonthChange?: (value: Range) => void;
 }
 
-export const InputDatePopOver = ({
-  label,
-  disableDatesBefore,
+export const InputDateDrop = ({
+  field,
   data,
-  labelHidden,
+  input,
   onMonthChange,
-  ...field
-}: InputDatePopOverProps) => {
+}: InputDateDropProps) => {
   const { t } = useTranslation({ id: "input-date-pop-over", locales });
   const [popoverActive, setPopoverActive] = useState(false);
 
@@ -45,17 +42,9 @@ export const InputDatePopOver = ({
     [togglePopoverActive, field.onChange]
   );
 
-  const labelFields = {
-    label: label || t("label"),
-    helpText: field.helpText,
-    error: field.error,
-    labelHidden,
-  };
-
   const activator = (
     <TextField
-      {...labelFields}
-      placeholder={field.placeholder}
+      label={input?.label || t("label")} helpText={input?.helpText} error={field.error} labelHidden={input?.labelHidden}
       autoComplete="off"
       value={field.value ? format(field.value, "PPP") : ""}
       readOnly
@@ -74,12 +63,10 @@ export const InputDatePopOver = ({
       activator={activator}
       onClose={togglePopoverActive}
     >
-      <InputDateBase
-        onChange={handleOnChange}
-        onMonthChange={onMonthChange}
+      <InputDate
+        field={{...field, onChange: handleOnChange}}
+        input={{onMonthChange}}
         data={data}
-        selected={field.value}
-        disableDatesBefore={disableDatesBefore || subDays(new Date(), 1)}
       />
     </Popover>
   );
