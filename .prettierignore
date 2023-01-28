@@ -1,3 +1,25 @@
-node_modules/
+node_modules
+
+# Ignore Apple macOS Desktop Services Store
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# vite build output
 dist/
+stats.html
+
+# Partners can use npm, yarn or pnpm with the CLI.
+# We ignore lock files so they don't get a package manager mis-match
+# Without this, they may get a warning if using a different package manager to us
+yarn.lock
+.yarn/
+package-lock.json
+.env
+
+.bit
+public/bit
+pnpm-lock.yaml
 .prettierrc.js
