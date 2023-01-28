@@ -23,13 +23,7 @@ export interface InputTimerProps
   mode?: "select" | "list";
 }
 
-export const InputTimer = ({
-  data,
-  optionLabel,
-  mode = "select",
-  label,
-  ...field
-}: InputTimerProps) => {
+export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field }: InputTimerProps) => {
   const { toTimeZone } = useDate();
   const { locale } = useTranslation({
     id: "input-timer",
@@ -44,10 +38,7 @@ export const InputTimer = ({
     const hours: Array<StrictOption> =
       [...data].sort(HelperText.sortByDateKey("start")).map((t) => ({
         key: t.start,
-        label:
-          format(toTimeZone(t.start), "p") +
-          " - " +
-          format(toTimeZone(t.end), "p"),
+        label: format(toTimeZone(t.start), "p") + " - " + format(toTimeZone(t.end), "p"),
         value: t.start,
       })) || [];
 
@@ -67,7 +58,7 @@ export const InputTimer = ({
         });
       }
     },
-    [field.onChange, data]
+    [field.onChange, data],
   );
 
   const dispatchChangeOnRenderNoOptionLabel = useCallback(() => {
@@ -86,13 +77,5 @@ export const InputTimer = ({
 
   const Component = modeTypes[mode] || InputTimerSelect;
 
-  return (
-    <Component
-      {...field}
-      onChange={onChange}
-      optionLabel={optionLabel}
-      options={options}
-      value={field.value}
-    />
-  );
+  return <Component {...field} onChange={onChange} optionLabel={optionLabel} options={options} value={field.value} />;
 };
