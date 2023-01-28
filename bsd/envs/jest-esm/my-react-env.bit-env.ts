@@ -1,18 +1,17 @@
 import { Pipeline } from "@teambit/builder";
 import { Compiler } from "@teambit/compiler";
+import { ESLintLinter } from "@teambit/defender.eslint-linter";
 import { EnvHandler } from "@teambit/envs";
 import { PackageGenerator } from "@teambit/pkg";
 import type { ReactEnvInterface } from "@teambit/react.react-env";
 import { ReactEnv } from "@teambit/react.react-env";
-import {
-  TypescriptCompiler,
-  TypescriptTask,
-  resolveTypes,
-} from "@teambit/typescript.typescript-compiler";
+import { TypescriptCompiler, TypescriptTask, resolveTypes } from "@teambit/typescript.typescript-compiler";
+import { ESLint as ESLintLib } from "eslint";
 import typescript from "typescript";
 
 export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
   name = "my-custom-react";
+
   icon = "https://static.bit.dev/extensions-icons/react.svg";
 
   compiler(): EnvHandler<Compiler> {
@@ -20,6 +19,16 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
       tsconfig: require.resolve("./config/tsconfig.json"),
       types: resolveTypes(__dirname, ["./types"]),
       typescript,
+    });
+  }
+
+  linter() {
+    return ESLintLinter.from({
+      eslint: ESLintLib,
+      configPath: require.resolve("./config/eslintrc.js"),
+      // resolve all plugins from the react environment.
+      pluginsPath: __dirname,
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
     });
   }
 
