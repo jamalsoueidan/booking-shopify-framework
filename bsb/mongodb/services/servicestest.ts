@@ -30,6 +30,4 @@ afterEach(async () => await clearDatabase());
 
 afterAll(async () => await closeDatabase()); */
 
-describe("schedule-service", () => {
-  it("should return the correct value", () => {});
-});
+describe("schedule-service", () => {});

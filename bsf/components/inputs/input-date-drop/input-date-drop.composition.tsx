@@ -13,7 +13,7 @@ export const Basic = () => {
     (value: Range) => {
       setDate(value);
     },
-    [setDate]
+    [setDate],
   );
 
   return (
@@ -75,15 +75,15 @@ export const WithDataChange = () => {
       result.map((r) => ({
         date: r.toJSON(),
         hours: [],
-      }))
+      })),
     );
     field.onChange(undefined);
-  }, []);
+  }, [field]);
 
   return (
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
-        <InputDateDrop  data={data} field={field} />
+        <InputDateDrop data={data} field={field} />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">

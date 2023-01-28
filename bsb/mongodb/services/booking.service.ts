@@ -1,10 +1,5 @@
 import { BookingModel, ProductModel } from "@jamalsoueidan/bsb.mongodb.models";
-import {
-  BookingAggreate,
-  BookingBodyCreate,
-  BookingBodyUpdate,
-  BookingQuery,
-} from "@jamalsoueidan/bsb.mongodb.types";
+import { BookingAggreate, BookingBodyCreate, BookingBodyUpdate, BookingQuery } from "@jamalsoueidan/bsb.mongodb.types";
 import mongoose, { Types } from "mongoose";
 import { beginningOfDay, closeOfDay } from "./helpers/date";
 import {
@@ -50,13 +45,12 @@ export const BookingServiceCreate = async (body: CreateProps) => {
     });
 
     return booking;
-  } 
-    throw new Error("no product found");
-  
+  }
+  throw new Error("no product found");
 };
 
 export const BookingServiceFind = async (shop) => {
-  return await BookingModel.find({ shop });
+  return BookingModel.find({ shop });
 };
 
 interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
@@ -64,12 +58,7 @@ interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
   staff: Types.ObjectId[];
 }
 
-export const BookingServiceGetForWidget = ({
-  shop,
-  start,
-  end,
-  staff,
-}: GetBookingsByStaffProps) => {
+export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBookingsByStaffProps) => {
   return BookingModel.aggregate<BookingAggreate>([
     {
       $match: {
@@ -121,12 +110,7 @@ interface GetBookingsProps extends BookingQuery {
   shop: string;
 }
 
-export const BookingServiceGetAll = ({
-  shop,
-  start,
-  end,
-  staff,
-}: GetBookingsProps) => {
+export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsProps) => {
   return BookingModel.aggregate<BookingAggreate>([
     {
       $match: {
@@ -150,7 +134,7 @@ interface UpdateProps {
 }
 
 export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
-  const {shop} = filter;
+  const { shop } = filter;
   const booking = await BookingModel.findOne(filter);
   if (!booking) {
     throw new Error("Not found");
@@ -181,7 +165,7 @@ export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
     shop,
   });
 
-  return await booking.save();
+  return booking.save();
 };
 
 interface GetByIdProps {
@@ -189,10 +173,7 @@ interface GetByIdProps {
   shop: string;
 }
 
-export const BookingServiceGetById = async ({
-  shop,
-  id,
-}: GetByIdProps): Promise<BookingAggreate | null> => {
+export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise<BookingAggreate | null> => {
   const bookings = await BookingModel.aggregate([
     {
       $match: {

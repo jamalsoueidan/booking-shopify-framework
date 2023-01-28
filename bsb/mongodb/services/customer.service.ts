@@ -1,7 +1,4 @@
-import {
-  CustomerModel,
-  ShopifySessionsModel,
-} from "@jamalsoueidan/bsb.mongodb.models";
+import { CustomerModel, ShopifySessionsModel } from "@jamalsoueidan/bsb.mongodb.models";
 import Shopify from "@shopify/shopify-api";
 
 const getCustomerQuery = `
@@ -29,11 +26,8 @@ export const CustomerServiceFindAndUpdate = async ({
   // customer saving
   const session = await ShopifySessionsModel.findOne({ shop });
 
-  const client = new Shopify.Clients.Graphql(
-    session?.shop || "",
-    session?.accessToken
-  );
-  const customerData: any = await client.query({
+  const client = new Shopify.Clients.Graphql(session?.shop || "", session?.accessToken);
+  const customerData = await client.query<{ data: { customer: object } }>({
     data: {
       query: getCustomerQuery,
       variables: {
@@ -42,14 +36,14 @@ export const CustomerServiceFindAndUpdate = async ({
     },
   });
 
-  return await CustomerModel.findOneAndUpdate(
+  return CustomerModel.findOneAndUpdate(
     { customerId, shop },
     {
       customerId,
       shop,
       ...customerData.body.data.customer,
     },
-    { upsert: true, new: true }
+    { upsert: true, new: true },
   );
 };
 
@@ -64,13 +58,10 @@ export const CustomerServiceFind = ({ shop, name }: FindCustomerProps) => {
 
   return CustomerModel.find(
     {
-      $or: [
-        { firstName: { $regex: searchRgx, $options: "i" } },
-        { lastName: { $regex: searchRgx, $options: "i" } },
-      ],
+      $or: [{ firstName: { $regex: searchRgx, $options: "i" } }, { lastName: { $regex: searchRgx, $options: "i" } }],
       shop,
     },
-    "customerId firstName lastName"
+    "customerId firstName lastName",
   )
     .limit(10)
     .lean();

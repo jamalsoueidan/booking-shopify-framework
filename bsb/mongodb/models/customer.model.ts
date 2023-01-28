@@ -1,5 +1,5 @@
-import mongoose, { Document } from "mongoose";
 import { Customer } from "@jamalsoueidan/bsb.mongodb.types";
+import mongoose, { Document } from "mongoose";
 
 export interface ICustomerModel extends Omit<Customer, "_id">, Document {}
 
@@ -12,8 +12,8 @@ export const CustomerSchema = new mongoose.Schema({
   shop: { type: String, index: true },
 });
 
-CustomerSchema.virtual("fullname").get(function () {
-  return `${this.firstName  } ${  this.lastName}`;
+CustomerSchema.virtual("fullname").get(function test() {
+  return `${this.firstName} ${this.lastName}`;
 });
 
 CustomerSchema.index(
@@ -23,11 +23,7 @@ CustomerSchema.index(
   },
   {
     unique: true,
-  }
+  },
 );
 
-export const CustomerModel = mongoose.model<ICustomerModel>(
-  "customer",
-  CustomerSchema,
-  "Customer"
-);
+export const CustomerModel = mongoose.model<ICustomerModel>("customer", CustomerSchema, "Customer");

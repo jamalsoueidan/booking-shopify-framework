@@ -1,21 +1,14 @@
+import { Text } from "@jamalsoueidan/bsf.helpers.text";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useId, useMemo } from "react";
-import { Text } from "@jamalsoueidan/bsf.helpers.text";
 
-export interface InputDaysProps
-  extends Partial<Omit<LabelledProps, "error">>,
-    Field<string[]> {
+export interface InputDaysProps extends Partial<Omit<LabelledProps, "error">>, Field<string[]> {
   placeholder?: string;
 }
 
-export const InputDays = ({
-  label,
-  helpText,
-  requiredIndicator,
-  ...rest
-}: InputDaysProps) => {
+export const InputDays = ({ label, helpText, requiredIndicator, ...rest }: InputDaysProps) => {
   const id = useId();
   const { t, locale } = useTranslation({ id: "select-days-input", locales });
 
@@ -24,7 +17,7 @@ export const InputDays = ({
       const label = Text.titlize(
         d.toLocaleString(locale === "da" ? "da-DK" : "en-US", {
           weekday: "long",
-        })
+        }),
       );
       const value = label.toLocaleLowerCase();
 
@@ -44,7 +37,7 @@ export const InputDays = ({
         rest.onChange([...values, value]);
       }
     },
-    [rest]
+    [rest],
   );
 
   return (
@@ -53,7 +46,7 @@ export const InputDays = ({
       error={rest.error}
       helpText={helpText}
       requiredIndicator={requiredIndicator || false}
-      id={id + "select-days-input"}
+      id={`${id}-select-days-input`}
     >
       {options.map((day) => (
         <Button
@@ -70,10 +63,10 @@ export const InputDays = ({
 };
 
 const getDays = (current = new Date(2017, 1, 27)) => {
-  var week: Date[] = [];
-  var first = current.getDate() - current.getDay() + 1;
+  const week: Date[] = [];
+  const first = current.getDate() - current.getDay() + 1;
   current.setDate(first);
-  for (var i = 0; i < 7; i++) {
+  for (let i = 0; i < 7; i += 1) {
     week.push(new Date(current));
     current.setDate(current.getDate() + 1);
   }

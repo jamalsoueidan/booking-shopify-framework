@@ -1,7 +1,4 @@
-import {
-  IScheduleModel,
-  ScheduleModel,
-} from "@jamalsoueidan/bsb.mongodb.models";
+import { IScheduleModel, ScheduleModel } from "@jamalsoueidan/bsb.mongodb.models";
 import {
   ScheduleBodyCreate,
   ScheduleBodyUpdate,
@@ -21,7 +18,6 @@ import {
   subHours,
 } from "date-fns";
 import mongoose, { Aggregate, Types } from "mongoose";
-import { Stats } from "fs";
 import { beginningOfDay, closeOfDay } from "./helpers/date";
 import { StaffServiceFindOne } from "./staff.service";
 
@@ -56,18 +52,18 @@ export const ScheduleServiceCreate = async ({
             shop,
             tag: b.tag,
           };
-        })
+        }),
       );
-    } 
-      return ScheduleModel.create({
-        staff,
-        shop,
-        start: resetSecMil(schedules.start),
-        end: resetSecMil(schedules.end),
-        tag: schedules.tag,
-      });
-    
+    }
+    return ScheduleModel.create({
+      staff,
+      shop,
+      start: resetSecMil(schedules.start),
+      end: resetSecMil(schedules.end),
+      tag: schedules.tag,
+    });
   }
+  return undefined;
 };
 
 export const ScheduleServicefind = (document) => {
@@ -99,12 +95,8 @@ interface ScheduleServiceDestroyProps {
   shop: string;
 }
 
-export const ScheduleServiceDestroy = async ({
-  schedule,
-  staff,
-  shop,
-}: ScheduleServiceDestroyProps): Promise<any> => {
-  return ScheduleModel.deleteOne({ _id: schedule, staff, shop });
+export const ScheduleServiceDestroy = ({ schedule, staff, shop }: ScheduleServiceDestroyProps) => {
+  ScheduleModel.deleteOne({ _id: schedule, staff, shop });
 };
 
 interface GetByDateRangeProps {
@@ -114,13 +106,8 @@ interface GetByDateRangeProps {
   end: string;
 }
 
-export const ScheduleServiceGetByDateRange = async ({
-  shop,
-  staff,
-  start,
-  end,
-}: GetByDateRangeProps) => {
-  return await ScheduleModel.find({
+export const ScheduleServiceGetByDateRange = ({ shop, staff, start, end }: GetByDateRangeProps) => {
+  return ScheduleModel.find({
     staff: new mongoose.Types.ObjectId(staff),
     start: {
       $gte: beginningOfDay(start),
@@ -193,8 +180,7 @@ export const ScheduleServiceGetByStaffAndTag = ({
   ]);
 };
 
-interface ScheduleServiceUpdateGroupFilterProps
-  extends ScheduleUpdateOrDestroyQuery {
+interface ScheduleServiceUpdateGroupFilterProps extends ScheduleUpdateOrDestroyQuery {
   groupId: string;
   shop: string;
 }
@@ -204,10 +190,7 @@ interface ScheduleServiceUpdateGroupProps {
   body: ScheduleBodyUpdate;
 }
 
-export const ScheduleServiceUpdateGroup = async ({
-  filter,
-  body,
-}: ScheduleServiceUpdateGroupProps) => {
+export const ScheduleServiceUpdateGroup = async ({ filter, body }: ScheduleServiceUpdateGroupProps) => {
   const { staff, shop, schedule, groupId } = filter;
 
   const documents = await ScheduleServicefind({
@@ -267,7 +250,7 @@ export const ScheduleServiceUpdateGroup = async ({
             },
           },
         };
-      })
+      }),
     );
   }
 };

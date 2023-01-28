@@ -24,6 +24,8 @@ module.exports = {
     "react/prop-types": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/no-use-before-define": "off",
   },
   parserOptions: {
     createDefaultProgram: true,

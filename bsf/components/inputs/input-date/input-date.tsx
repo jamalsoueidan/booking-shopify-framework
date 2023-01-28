@@ -1,47 +1,32 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
 import { DatePicker, DatePickerProps, Range } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import {
-  eachDayOfInterval,
-  endOfMonth,
-  getMonth,
-  getYear,
-  isPast,
-  isSameDay,
-  startOfMonth,
-  subDays,
-} from "date-fns";
-import React, { useCallback, useId, useMemo, useState } from "react";
+import { eachDayOfInterval, endOfMonth, getMonth, getYear, isPast, isSameDay, startOfMonth, subDays } from "date-fns";
+import React, { useCallback, useMemo, useState } from "react";
 
-interface InputDatePickerProps extends Partial<Omit<DatePickerProps, 'onMonthChange'>> {
+interface InputDatePickerProps extends Partial<Omit<DatePickerProps, "onMonthChange">> {
   onMonthChange?: (value: Range) => void;
 }
-interface InputDateProps {
-  field: Field<Date|undefined>,
+export interface InputDateProps {
+  field: Field<Date | undefined>;
   data?: Array<WidgetSchedule>;
   input?: InputDatePickerProps;
 }
 
-export const InputDate = ({
-  field,
-  data,
-  input
-}: InputDateProps) => {
-  const id = useId();
-
+export const InputDate = ({ field, data, input }: InputDateProps) => {
   const getMonthFromValue = useMemo(
     () => ({
       month: getMonth(field.value || new Date()),
       year: getYear(field.value || new Date()),
     }),
-    []
+    [field.value],
   );
 
   const handleOnChange = useCallback(
     (value: Range) => {
       field.onChange(value.start);
     },
-    [field]
+    [field],
   );
 
   const [{ month, year }, setMonthYear] = useState(getMonthFromValue);
@@ -58,7 +43,7 @@ export const InputDate = ({
         });
       }
     },
-    [setMonthYear, input]
+    [setMonthYear, input],
   );
 
   const disableSpecificDates = useMemo(() => {
@@ -71,9 +56,7 @@ export const InputDate = ({
       end: endOfMonth(new Date(year, month)),
     });
 
-    return dayIntervals.filter(
-      (r) => !data?.find((s) => isSameDay(new Date(s.date), r))
-    );
+    return dayIntervals.filter((r) => !data?.find((s) => isSameDay(new Date(s.date), r)));
   }, [data, year, month]);
 
   return (

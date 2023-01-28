@@ -22,6 +22,7 @@ import axios, { AxiosResponse } from "axios";
     }
   */
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace SMSDK {
   export interface Accepted {
     receiver: string;
@@ -32,7 +33,7 @@ namespace SMSDK {
 
   export interface Report {
     accepted: Accepted[];
-    rejected: any[];
+    rejected: unknown[];
   }
 
   export interface Result {
@@ -75,6 +76,7 @@ export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) =>
     return response.data;
   }
 
+  // eslint-disable-next-line no-console
   console.log({
     receiver,
     message,

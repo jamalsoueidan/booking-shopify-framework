@@ -1,4 +1,3 @@
-import { CalendarOptions } from "@fullcalendar/core";
 import da from "@fullcalendar/core/locales/da";
 import en from "@fullcalendar/core/locales/en-gb";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -9,9 +8,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
 import React, { forwardRef } from "react";
 
-export type CalendarProps = CalendarOptions;
-
-export const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => {
+export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
   const { language } = useSettings();
 
   return (
@@ -26,7 +23,7 @@ export const Calendar = forwardRef<FullCalendar, CalendarProps>((props, ref) => 
         right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
       }}
       firstDay={1}
-      dayMaxEvents={true}
+      dayMaxEvents
       slotDuration="00:15:00"
       slotLabelFormat={[
         {

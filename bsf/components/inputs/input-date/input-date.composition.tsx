@@ -13,13 +13,13 @@ export const Basic = () => {
     (value: Range) => {
       setDate(value);
     },
-    [setDate]
+    [setDate],
   );
 
   return (
     <ApplicationFramePage>
       <Card title="Normal mode" sectioned>
-        <InputDate field={field} input={{onMonthChange}} />
+        <InputDate field={field} input={{ onMonthChange }} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -105,15 +105,15 @@ export const WithDataChange = () => {
       result.map((r) => ({
         date: r.toJSON(),
         hours: [],
-      }))
+      })),
     );
     field.onChange(undefined);
-  }, []);
+  }, [field]);
 
   return (
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
-        <InputDate  data={data} field={field} />
+        <InputDate data={data} field={field} />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}

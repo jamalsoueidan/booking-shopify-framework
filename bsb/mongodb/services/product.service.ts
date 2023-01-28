@@ -25,11 +25,9 @@ export const ProductUpdate = async ({
     }) || [];
 
   // turn active ON=true first time customer add staff to product
-  const product = await ProductModel.findById(
-    new mongoose.Types.ObjectId(query.id)
-  ).lean();
+  const product = await ProductModel.findById(new mongoose.Types.ObjectId(query.id)).lean();
 
-  let {active} = properties;
+  let { active } = properties;
   if (product?.staff.length === 0 && newStaffier.length > 0) {
     active = true;
   }
@@ -37,7 +35,7 @@ export const ProductUpdate = async ({
     active = false;
   }
 
-  return await ProductModel.findOneAndUpdate(
+  return ProductModel.findOneAndUpdate(
     {
       _id: new mongoose.Types.ObjectId(query.id),
       shop: query.shop,
@@ -47,6 +45,6 @@ export const ProductUpdate = async ({
     },
     {
       new: true,
-    }
+    },
   ).lean();
 };
