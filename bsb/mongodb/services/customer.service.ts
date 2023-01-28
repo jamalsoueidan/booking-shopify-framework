@@ -27,7 +27,7 @@ export const CustomerServiceFindAndUpdate = async ({
   customerId,
 }: FindCustomerAndUpdateProps) => {
   // customer saving
-  const session = await ShopifySessionsModel.findOne({ shop: shop });
+  const session = await ShopifySessionsModel.findOne({ shop });
 
   const client = new Shopify.Clients.Graphql(
     session?.shop || "",

@@ -50,9 +50,9 @@ export const BookingServiceCreate = async (body: CreateProps) => {
     });
 
     return booking;
-  } else {
+  } 
     throw new Error("no product found");
-  }
+  
 };
 
 export const BookingServiceFind = async (shop) => {
@@ -150,7 +150,7 @@ interface UpdateProps {
 }
 
 export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
-  const shop = filter.shop;
+  const {shop} = filter;
   const booking = await BookingModel.findOne(filter);
   if (!booking) {
     throw new Error("Not found");
@@ -167,7 +167,7 @@ export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
   });
 
   await NotifcationServiceSendBookingUpdateCustomer({
-    booking: booking,
+    booking,
     shop,
   });
 

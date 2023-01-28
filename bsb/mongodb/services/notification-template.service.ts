@@ -51,7 +51,7 @@ export const NotificationTemplateServiceReplace = (
   notificationTemplate: GetMessageReturn,
   replace: ReplaceMessageProps
 ) => {
-  let message = notificationTemplate.message;
+  let {message} = notificationTemplate;
   if (replace.receiver) {
     message = message.replace(/{fullname}/g, replace.receiver.fullname);
   }

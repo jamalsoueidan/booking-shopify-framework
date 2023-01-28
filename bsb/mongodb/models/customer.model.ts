@@ -13,7 +13,7 @@ export const CustomerSchema = new mongoose.Schema({
 });
 
 CustomerSchema.virtual("fullname").get(function () {
-  return this.firstName + " " + this.lastName;
+  return `${this.firstName  } ${  this.lastName}`;
 });
 
 CustomerSchema.index(

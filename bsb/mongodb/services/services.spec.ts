@@ -1,4 +1,4 @@
-/*import { MongoMemoryServer } from "mongodb-memory-server";
+/* import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 
 let mongod;
@@ -28,7 +28,7 @@ beforeAll(async () => await connect());
 
 afterEach(async () => await clearDatabase());
 
-afterAll(async () => await closeDatabase());*/
+afterAll(async () => await closeDatabase()); */
 
 describe("schedule-service", () => {
   it("should return the correct value", () => {});

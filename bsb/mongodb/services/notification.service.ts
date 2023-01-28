@@ -1,4 +1,3 @@
-import { beginningOfDay } from "./helpers/date";
 import { subDays, subMinutes } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import mongoose from "mongoose";
@@ -14,11 +13,12 @@ import {
   NotificationBody,
   NotificationQuery,
 } from "@jamalsoueidan/bsb.mongodb.types";
+import { SmsApiSend, SmsdkApiCancel } from "@jamalsoueidan/bsb.api.sms-dk";
 import {
   NotificationTemplateServiceGet,
   NotificationTemplateServiceReplace,
 } from "./notification-template.service";
-import { SmsApiSend, SmsdkApiCancel } from "@jamalsoueidan/bsb.api.sms-dk";
+import { beginningOfDay } from "./helpers/date";
 
 interface SendProps {
   orderId: number;
@@ -41,7 +41,7 @@ const send = async ({
   scheduled,
   isStaff,
 }: SendProps) => {
-  //clear out all old schedules messages before sending new one.
+  // clear out all old schedules messages before sending new one.
 
   const notification = new NotificationModel({
     orderId,
@@ -117,8 +117,8 @@ export const NotificationServiceSendCustom = async (query: SendCustomProps) => {
 
   const messageSend = await noMesageSendLastMinutes({
     shop,
-    orderId: orderId,
-    lineItemId: lineItemId,
+    orderId,
+    lineItemId,
     receiver: to.replace("+", ""),
   });
 
@@ -126,7 +126,7 @@ export const NotificationServiceSendCustom = async (query: SendCustomProps) => {
     throw new Error("after_fifteen_minutes_send_message");
   }
 
-  //TODO: 15 minutes must pass between each message.
+  // TODO: 15 minutes must pass between each message.
   const booking = await BookingModel.findOne({
     shop,
     orderId,
@@ -182,7 +182,7 @@ export const NotificationServiceResend = async ({ shop, id }: ResendProps) => {
       notification.updatedAt = new Date();
       await notification.save();
 
-      /*const template = notification.template;
+      /* const template = notification.template;
       const NotificationServiceTemplate =
         await notificationTemplateService.getNotificationTemplate({
           type: template,
@@ -198,7 +198,7 @@ export const NotificationServiceResend = async ({ shop, id }: ResendProps) => {
 
           }
         );
-      }*/
+      } */
 
       return send(notification);
     }
@@ -308,7 +308,7 @@ export const NotificationServiceSendBookingReminderCustomer = async ({
   });
 
   if (notificationTemplate) {
-    for (let booking of bookings) {
+    for (const booking of bookings) {
       const message = NotificationTemplateServiceReplace(notificationTemplate, {
         booking,
         receiver,
@@ -347,7 +347,7 @@ export const NotificationServiceSendBookingReminderStaff = async ({
   });
 
   if (notificationTemplate) {
-    for (let booking of bookings) {
+    for (const booking of bookings) {
       const receiver = await StaffModel.findById(booking.staff);
       if (receiver) {
         const message = NotificationTemplateServiceReplace(
@@ -420,7 +420,7 @@ export const NotificationServiceCancelAll = async ({
     },
   }).lean();
 
-  for (let notification of notifications) {
+  for (const notification of notifications) {
     SmsdkApiCancel(notification.batchId);
   }
 

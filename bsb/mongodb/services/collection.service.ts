@@ -71,7 +71,7 @@ export const CollectionServiceFindAll = (): Aggregate<
         "products.foreignStaff": 0,
       },
     },
-    //{ $sort: { "products.staff.fullname": 1 } },
+    // { $sort: { "products.staff.fullname": 1 } },
     {
       $group: {
         _id: {
@@ -93,7 +93,7 @@ export const CollectionServiceFindAll = (): Aggregate<
         staff: 0,
       },
     },
-    //{ $sort: { "products.title": 1 } },
+    // { $sort: { "products.title": 1 } },
     { $replaceRoot: { newRoot: "$collection" } },
     {
       $group: {
@@ -113,7 +113,7 @@ export const CollectionServiceFindAll = (): Aggregate<
       },
     },
     { $replaceRoot: { newRoot: "$collection" } },
-    //{ $sort: { title: 1 } },
+    // { $sort: { title: 1 } },
   ]);
 };
 

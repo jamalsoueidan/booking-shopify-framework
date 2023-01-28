@@ -1,6 +1,7 @@
 import mongoose, { Document } from "mongoose";
-const { Schema } = mongoose;
 import { Staff } from "@jamalsoueidan/bsb.mongodb.types";
+
+const { Schema } = mongoose;
 
 export interface IStaffModel extends Omit<Staff, "_id">, Document {}
 
@@ -28,7 +29,7 @@ export const StaffSchema = new Schema({
   group: {
     type: String,
     index: true,
-    default: "all", //should be changed later to null, nobody can see each other till they are part of group
+    default: "all", // should be changed later to null, nobody can see each other till they are part of group
   },
 });
 

@@ -21,9 +21,9 @@ import {
   subHours,
 } from "date-fns";
 import mongoose, { Aggregate, Types } from "mongoose";
+import { Stats } from "fs";
 import { beginningOfDay, closeOfDay } from "./helpers/date";
 import { StaffServiceFindOne } from "./staff.service";
-import { Stats } from "fs";
 
 interface CreateProps extends ScheduleBodyCreate {
   shop: string;
@@ -58,7 +58,7 @@ export const ScheduleServiceCreate = async ({
           };
         })
       );
-    } else {
+    } 
       return ScheduleModel.create({
         staff,
         shop,
@@ -66,7 +66,7 @@ export const ScheduleServiceCreate = async ({
         end: resetSecMil(schedules.end),
         tag: schedules.tag,
       });
-    }
+    
   }
 };
 

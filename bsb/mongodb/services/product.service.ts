@@ -29,7 +29,7 @@ export const ProductUpdate = async ({
     new mongoose.Types.ObjectId(query.id)
   ).lean();
 
-  let active = properties.active;
+  let {active} = properties;
   if (product?.staff.length === 0 && newStaffier.length > 0) {
     active = true;
   }

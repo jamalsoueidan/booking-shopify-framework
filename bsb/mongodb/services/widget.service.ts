@@ -6,15 +6,8 @@ import {
   WidgetSchedule,
   WidgetStaff,
 } from "@jamalsoueidan/bsb.mongodb.types";
-import {
-  addMinutes,
-  format,
-  isBefore,
-  isSameDay,
-  isWithinInterval,
-  subMinutes,
-} from "date-fns";
-import mongoose from "mongoose";
+import { addMinutes, isBefore, isSameDay, isWithinInterval, subMinutes } from "date-fns";
+import mongoose, { Aggregate } from "mongoose";
 
 interface WidgetSericeGetProductProps {
   shop: string;
@@ -59,17 +52,13 @@ export const WidgetServiceGetProduct = async ({
       ...product,
       staff: [product.staff],
     };
-  } else {
-    return null;
   }
+  return null;
 };
 
 // get all staff from product for widget
-export const WidgetServiceGetStaff = async ({
-  shop,
-  productId,
-}: Partial<IProductModel>): Promise<Array<WidgetStaff>> => {
-  return await ProductModel.aggregate([
+export const WidgetServiceGetStaff = ({ shop, productId }: Partial<IProductModel>): Aggregate<Array<WidgetStaff>> => {
+  return ProductModel.aggregate([
     {
       $match: {
         productId,
@@ -128,15 +117,11 @@ export const WidgetServiceGetStaff = async ({
   ]);
 };
 
-interface ScheduleReduceProduct
-  extends Pick<IProductModel, "duration" | "buffertime"> {}
+interface ScheduleReduceProduct extends Pick<IProductModel, "duration" | "buffertime"> {}
 
 const WidgetScheduleReduce =
   (product: ScheduleReduceProduct) =>
-  (
-    previous: Array<WidgetSchedule<Date>>,
-    current: ScheduleGetByStaffAndTag
-  ): Array<WidgetSchedule<Date>> => {
+  (previous: Array<WidgetSchedule<Date>>, current: ScheduleGetByStaffAndTag): Array<WidgetSchedule<Date>> => {
     const scheduleEnd = new Date(current.end);
     const duration = product.duration || 60;
     const buffertime = product.buffertime || 0;
@@ -145,10 +130,10 @@ const WidgetScheduleReduce =
     let start = new Date(current.start);
     let end;
 
-    let previousHours = previous.find((p) => isSameDay(p.date, start));
-    let hours = previousHours?.hours || [];
+    const previousHours = previous.find((p) => isSameDay(p.date, start));
+    const hours = previousHours?.hours || [];
 
-    //TODO: needs to create more hours
+    // TODO: needs to create more hours
     while (
       isBefore(addMinutes(start, 1), scheduleEnd) &&
       isBefore(addMinutes(start, duration + buffertime), scheduleEnd)
@@ -170,7 +155,7 @@ const WidgetScheduleReduce =
   };
 
 const WidgetScheduleCalculateBooking = (
-  book: CartGetByStaff
+  book: CartGetByStaff,
 ): ((schedule: WidgetSchedule<Date>) => WidgetSchedule<Date>) => {
   const { start, end, staff } = book;
   return (schedule: WidgetSchedule<Date>): WidgetSchedule<Date> => {
@@ -212,12 +197,7 @@ interface WidgetServiceCalculatorProps {
   product: IProductModel;
 }
 
-export const WidgetServiceCalculator = ({
-  schedules,
-  bookings,
-  carts,
-  product,
-}: WidgetServiceCalculatorProps) => {
+export const WidgetServiceCalculator = ({ schedules, bookings, carts, product }: WidgetServiceCalculatorProps) => {
   let scheduleDates = schedules.reduce(WidgetScheduleReduce(product), []);
 
   bookings.forEach((book) => {
@@ -226,7 +206,7 @@ export const WidgetServiceCalculator = ({
         end: book.end,
         start: book.start,
         staff: book.staff._id,
-      })
+      }),
     );
   });
 
