@@ -55,11 +55,7 @@ interface SendProps {
   scheduled?: Date;
 }
 
-export const SmsApiSend = async ({
-  receiver,
-  message,
-  scheduled,
-}: SendProps) => {
+export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) => {
   if (process.env.NODE_ENV === "production") {
     const response: AxiosResponse<SMSDK.Response> = await axios.post(
       "https://api.sms.dk/v1/sms/send",
@@ -74,17 +70,17 @@ export const SmsApiSend = async ({
           "content-type": "application/json",
           Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
         },
-      }
+      },
     );
     return response.data;
-  } else {
-    console.log({
-      receiver,
-      message,
-      senderName: "BySisters",
-      scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
-    });
   }
+
+  console.log({
+    receiver,
+    message,
+    senderName: "BySisters",
+    scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
+  });
 
   return {
     status: "success",
@@ -96,15 +92,12 @@ export const SmsApiSend = async ({
 
 export const SmsdkApiCancel = async (batchId: string) => {
   if (process.env.NODE_ENV === "production") {
-    const response = await axios.delete(
-      `https://api.sms.dk/v1/sms/delete?batchId=${batchId}`,
-      {
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
-        },
-      }
-    );
+    const response = await axios.delete(`https://api.sms.dk/v1/sms/delete?batchId=${batchId}`, {
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
+      },
+    });
     return response;
   }
 

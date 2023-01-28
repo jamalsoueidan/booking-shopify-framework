@@ -1,3 +1,3 @@
 it("should return the correct value", () => {
-  //expect(smsDk()).toBe('Hello world!');
+  // expect(smsDk()).toBe('Hello world!');
 });
