@@ -1,5 +1,4 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
-import { InputTimerFieldType } from "@jamalsoueidan/bsf.components.inputs.input-timer";
 import { Text as HelperText } from "@jamalsoueidan/bsf.helpers.text";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
@@ -28,7 +27,7 @@ export interface InputProps extends Partial<SelectProps> {
 
 export interface WithTimerProps {
   data?: WidgetHourRange[];
-  field: Field<InputTimerFieldType>;
+  field: Field<WithTimerFieldType>;
   input?: InputProps;
 }
 
