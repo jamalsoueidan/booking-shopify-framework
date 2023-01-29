@@ -9,9 +9,9 @@ export const isEmail =
   };
 
 export const isDate =
-  (error: string): ((input: string) => string | undefined) =>
-  (input: string) => {
-    if (new Date(input).toString() === "Invalid Date") {
+  (error: string): ((input: Date | undefined) => string | undefined) =>
+  (input: Date | undefined) => {
+    if (new Date(input || "").toString() === "Invalid Date") {
       return error;
     }
     return undefined;

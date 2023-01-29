@@ -1,7 +1,6 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
 import { Text as HelperText } from "@jamalsoueidan/bsf.helpers.text";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { format } from "date-fns";
@@ -25,10 +24,6 @@ export interface InputTimerProps
 
 export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field }: InputTimerProps) => {
   const { toTimeZone } = useDate();
-  const { locale } = useTranslation({
-    id: "input-timer",
-    locales: { da: {}, en: {} },
-  });
 
   const options = useMemo(() => {
     if (!data || data.length === 0) {
@@ -43,7 +38,7 @@ export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field
       })) || [];
 
     return hours;
-  }, [data, locale]);
+  }, [data, toTimeZone]);
 
   const onChange = useCallback(
     (selected: string) => {
@@ -53,8 +48,8 @@ export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field
         field.onChange(undefined);
       } else {
         field.onChange({
-          start: selectedHour.start,
           end: selectedHour.end,
+          start: selectedHour.start,
         });
       }
     },

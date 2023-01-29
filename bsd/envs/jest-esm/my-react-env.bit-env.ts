@@ -24,11 +24,11 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
 
   linter() {
     return ESLintLinter.from({
-      eslint: ESLintLib,
       configPath: require.resolve("./config/eslintrc.js"),
+      eslint: ESLintLib,
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
       // resolve all plugins from the react environment.
       pluginsPath: __dirname,
-      extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
     });
   }
 
@@ -37,12 +37,12 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
    */
   package() {
     return PackageGenerator.from({
+      npmIgnore: [],
       packageJson: {
         main: "dist/index.js",
-        types: "index.ts",
         type: "module",
+        types: "index.ts",
       },
-      npmIgnore: [],
     });
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const titlize = (string: string) =>
   string
     .toLowerCase()
@@ -7,9 +8,9 @@ export const titlize = (string: string) =>
 
 export const padTo2Digits = (num: number) => String(num).padStart(2, "0");
 
-export const soryByLabel = (a: Record<string, string>, b: Record<string, string>) => soryByTextKey("label")(a, b);
+export const soryByLabel = (a: any, b: any) => soryByTextKey("label")(a, b);
 
-export const soryByTextKey = (key: string) => (a: Record<string, string>, b: Record<string, string>) => {
+export const soryByTextKey = (key: string) => (a: any, b: any) => {
   if (a[key] < b[key]) {
     return -1;
   }
@@ -19,9 +20,9 @@ export const soryByTextKey = (key: string) => (a: Record<string, string>, b: Rec
   return 0;
 };
 
-export const sortByDate = (a: Record<string, string>, b: Record<string, string>) => sortByDateKey("value")(a, b);
+export const sortByDate = (a: any, b: any) => sortByDateKey("value")(a, b);
 
-export const sortByDateKey = (key: string) => (a: Record<string, string>, b: Record<string, string>) => {
+export const sortByDateKey = (key: string) => (a: any, b: any) => {
   const dateA = new Date(a[key]);
   const dateB = new Date(b[key]);
 
