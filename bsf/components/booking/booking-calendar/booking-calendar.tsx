@@ -31,8 +31,8 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
   const dateChanged = useCallback(
     (props: DatesSetArg) => {
       const newDate = {
-        start: props.start.toISOString().slice(0, 10),
         end: props.end.toISOString().slice(0, 10),
+        start: props.start.toISOString().slice(0, 10),
       };
 
       if (newDate.start !== date?.start || newDate.end !== date?.end) {
@@ -49,10 +49,10 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
     () =>
       data?.map((d) => ({
         ...d,
-        start: toTimeZone(new Date(d.start)),
-        end: toTimeZone(new Date(d.end)),
         backgroundColor: getColor(d.fulfillmentStatus),
         color: getColor(d.fulfillmentStatus),
+        end: toTimeZone(new Date(d.end)),
+        start: toTimeZone(new Date(d.start)),
         textColor: "#202223",
       })) || [],
     [data, getColor, toTimeZone],
@@ -76,14 +76,14 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
           <div>{extendHour}</div>
           <div
             style={{
-              position: "absolute",
-              top: 0,
+              alignItems: "center",
               bottom: 0,
-              left: 0,
-              right: "4px",
               display: "flex",
               justifyContent: "flex-end",
-              alignItems: "center",
+              left: 0,
+              position: "absolute",
+              right: "4px",
+              top: 0,
             }}
           >
             <Avatar size="small" name={booking.staff?.fullname} shape="square" source={booking.staff?.avatar} />

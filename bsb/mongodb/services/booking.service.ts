@@ -21,12 +21,12 @@ export const BookingServiceCreate = async (body: CreateProps) => {
   if (product) {
     const booking = await BookingModel.create({
       ...body,
-      orderId: Date.now() + Math.floor(100000 + Math.random() * 900000),
-      lineItemId: Date.now() + Math.floor(100000 + Math.random() * 900000),
       fulfillmentStatus: "booked",
-      lineItemTotal: 1,
-      title: product.title,
       isSelfBooked: true,
+      lineItemId: Date.now() + Math.floor(100000 + Math.random() * 900000),
+      lineItemTotal: 1,
+      orderId: Date.now() + Math.floor(100000 + Math.random() * 900000),
+      title: product.title,
     });
 
     await NotificationServiceSendBookingConfirmationCustomer({
@@ -49,23 +49,17 @@ export const BookingServiceCreate = async (body: CreateProps) => {
   throw new Error("no product found");
 };
 
-export const BookingServiceFind = async (shop) => {
-  return BookingModel.find({ shop });
-};
+export const BookingServiceFind = async (shop) => BookingModel.find({ shop });
 
 interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
   shop: string;
   staff: Types.ObjectId[];
 }
 
-export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBookingsByStaffProps) => {
-  return BookingModel.aggregate<BookingAggreate>([
+export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBookingsByStaffProps) =>
+  BookingModel.aggregate<BookingAggreate>([
     {
       $match: {
-        shop,
-        staff: {
-          $in: staff,
-        },
         $or: [
           {
             start: {
@@ -78,6 +72,10 @@ export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBooki
             },
           },
         ],
+        shop,
+        staff: {
+          $in: staff,
+        },
       },
     },
     {
@@ -99,34 +97,32 @@ export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBooki
     {
       $project: {
         _id: 0,
-        shop: 0,
         productId: 0,
+        shop: 0,
       },
     },
   ]);
-};
 
 interface GetBookingsProps extends BookingQuery {
   shop: string;
 }
 
-export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsProps) => {
-  return BookingModel.aggregate<BookingAggreate>([
+export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsProps) =>
+  BookingModel.aggregate<BookingAggreate>([
     {
       $match: {
+        end: {
+          $lt: closeOfDay(end),
+        },
         shop,
         start: {
           $gte: beginningOfDay(start),
-        },
-        end: {
-          $lt: closeOfDay(end),
         },
         ...(staff && { staff: new mongoose.Types.ObjectId(staff) }),
       },
     },
     ...lookupCustomerStaffProduct,
   ]);
-};
 
 interface UpdateProps {
   filter: { _id: string; shop: string };
@@ -145,8 +141,8 @@ export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
   booking.isEdit = true;
 
   await NotificationServiceCancelAll({
-    orderId: booking.orderId,
     lineItemId: booking.lineItemId,
+    orderId: booking.orderId,
     shop,
   });
 
@@ -177,8 +173,8 @@ export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise
   const bookings = await BookingModel.aggregate([
     {
       $match: {
-        shop,
         _id: new mongoose.Types.ObjectId(id),
+        shop,
       },
     },
     ...lookupCustomerStaffProduct,
@@ -190,10 +186,10 @@ export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise
 const lookupCustomerStaffProduct = [
   {
     $lookup: {
+      as: "customer",
+      foreignField: "customerId",
       from: "Customer",
       localField: "customerId",
-      foreignField: "customerId",
-      as: "customer",
     },
   },
   {
@@ -201,10 +197,10 @@ const lookupCustomerStaffProduct = [
   },
   {
     $lookup: {
+      as: "staff",
+      foreignField: "_id",
       from: "Staff",
       localField: "staff",
-      foreignField: "_id",
-      as: "staff",
     },
   },
   {
@@ -215,10 +211,10 @@ const lookupCustomerStaffProduct = [
   },
   {
     $lookup: {
+      as: "product",
+      foreignField: "productId",
       from: "Product",
       localField: "productId",
-      foreignField: "productId",
-      as: "product",
     },
   },
   {

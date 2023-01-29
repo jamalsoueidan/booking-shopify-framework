@@ -1,7 +1,7 @@
-import React from "react";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Banner } from "@shopify/polaris";
 import { FormError } from "@shopify/react-form";
-import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import React from "react";
 
 const locales = {
   da: {
@@ -27,8 +27,8 @@ export const FormErrors = ({ errors }: FormErrorsProps) => {
       <Banner status="critical">
         <p>{t("error")}:</p>
         <ul>
-          {errors.map(({ message }, index) => (
-            <li key={index}>{message}</li>
+          {errors.map(({ message }) => (
+            <li key={message}>{message}</li>
           ))}
         </ul>
       </Banner>

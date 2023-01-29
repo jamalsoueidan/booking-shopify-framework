@@ -1,11 +1,5 @@
 import { ContextualSaveBar, ContextualSaveBarProps } from "@shopify/polaris";
-import React, {
-  ReactNode,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { SaveBarContext, ShowBarFormProps } from "./save-bar-context";
 
 export interface SaveBarProviderProps {
@@ -14,33 +8,29 @@ export interface SaveBarProviderProps {
 
 export const SaveBarProvider = ({ children }: SaveBarProviderProps) => {
   const [form, setForm] = useState<ShowBarFormProps>();
-  const [contextualSaveBar, setContextualSaveBar] =
-    useState<ContextualSaveBarProps>();
+  const [contextualSaveBar, setContextualSaveBar] = useState<ContextualSaveBarProps>();
 
   const changeForm = useCallback((newValues: Partial<ShowBarFormProps>) => {
     setForm((value) => ({ ...value, ...newValues }));
   }, []);
 
-  const changeSaveBar = useCallback(
-    (newValues: Partial<ContextualSaveBarProps>) => {
-      setContextualSaveBar(() => newValues);
-    },
-    []
-  );
+  const changeSaveBar = useCallback((newValues: Partial<ContextualSaveBarProps>) => {
+    setContextualSaveBar(() => newValues);
+  }, []);
 
   const value = useMemo(
     () => ({
-      form,
-      setForm: changeForm,
       contextualSaveBar,
+      form,
       setContextualSaveBar: changeSaveBar,
+      setForm: changeForm,
     }),
-    [form, contextualSaveBar]
+    [contextualSaveBar, form, changeSaveBar, changeForm],
   );
 
   return (
     <SaveBarContext.Provider value={value}>
-      <SaveBarConsumer></SaveBarConsumer>
+      <SaveBarConsumer />
       {children}
     </SaveBarContext.Provider>
   );
@@ -48,8 +38,9 @@ export const SaveBarProvider = ({ children }: SaveBarProviderProps) => {
 
 export const SaveBarConsumer = () => {
   const context = useContext(SaveBarContext);
-
-  return context?.form?.dirty && context?.form?.show ? (
-    <ContextualSaveBar {...context?.contextualSaveBar} />
-  ) : null;
+  if (context) {
+    const { form, contextualSaveBar } = context;
+    return form?.dirty && form?.show ? <ContextualSaveBar {...contextualSaveBar} /> : null;
+  }
+  return <></>;
 };

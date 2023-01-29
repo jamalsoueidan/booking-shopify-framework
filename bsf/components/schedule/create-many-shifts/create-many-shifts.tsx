@@ -32,10 +32,7 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
   ({ selectedDate, onSubmit }, ref) => {
     const { options } = useTag();
     const { toUtc } = useDate();
-    const { t } = useTranslation({
-      id: "create-many-shifts",
-      locales,
-    });
+    const { t } = useTranslation({ id: "create-many-shifts", locales });
 
     const getDatesFromSelectedDaysInCalendar = useCallback((days: string[], range: Range) => {
       const allDaysInCalendarRange = eachDayOfInterval(range);
@@ -54,44 +51,30 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
     const { fields, submit, validate } = useForm({
       fields: {
         days: useField({
-          value: [format(new Date(selectedDate), "EEEE").toLowerCase()],
           validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
-        }),
-        startDate: useField<Date | undefined>({
-          value: undefined,
-          validates: [Validators.isDate("invalid date")],
+          value: [format(new Date(selectedDate), "EEEE").toLowerCase()],
         }),
         endDate: useField<Date | undefined>(undefined),
-        startTime: useField({
-          value: "09:00",
-          validates: [],
-        }),
-        endTime: useField({
-          value: "16:00",
-          validates: [],
-        }),
-        tag: useField({
-          value: options[0].value,
-          validates: [],
-        }),
+        endTime: useField("16:00"),
+        startDate: useField<Date | undefined>({ validates: [Validators.isDate("invalid date")], value: undefined }),
+        startTime: useField("09:00"),
+        tag: useField(options[0].value),
       },
       onSubmit: async (fieldValues) => {
         const daysSelected =
           fieldValues.startDate && fieldValues.endDate
             ? getDatesFromSelectedDaysInCalendar(fieldValues.days, {
-                start: fieldValues.startDate,
                 end: fieldValues.endDate,
+                start: fieldValues.startDate,
               })
             : [];
 
         return onSubmit(
-          daysSelected.map((date) => {
-            return {
-              start: getZonedTime(date, fieldValues.startTime),
-              end: getZonedTime(date, fieldValues.endTime),
-              tag: fieldValues.tag,
-            };
-          }),
+          daysSelected.map((date) => ({
+            end: getZonedTime(date, fieldValues.endTime),
+            start: getZonedTime(date, fieldValues.startTime),
+            tag: fieldValues.tag,
+          })),
         );
       },
     });
@@ -109,23 +92,13 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
           <InputDays {...fields.days} />
         </Layout.Section>
         <Layout.Section>
-          <Columns
-            columns={{
-              xs: "3fr 3fr",
-              md: "3fr 3fr",
-            }}
-          >
+          <Columns columns={{ md: "3fr 3fr", xs: "3fr 3fr" }}>
             <InputDateFlat input={{ label: t("date_from.label") }} field={fields.startDate} />
             <InputDateFlat input={{ label: t("date_to.label") }} field={fields.endDate} />
           </Columns>
         </Layout.Section>
         <Layout.Section>
-          <Columns
-            columns={{
-              xs: "3fr 3fr",
-              md: "3fr 3fr",
-            }}
-          >
+          <Columns columns={{ md: "3fr 3fr", xs: "3fr 3fr" }}>
             <TextField label={t("time_from.label")} type="time" autoComplete="off" {...fields.startTime} />
             <TextField label={t("time_to.label")} type="time" autoComplete="off" {...fields.endTime} />
           </Columns>
@@ -140,37 +113,17 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
 
 const locales = {
   da: {
-    select_days: {
-      error_empty: "Du skal mindst vælge en dag",
-    },
-    date_from: {
-      label: "Dato fra",
-    },
-    date_to: {
-      label: "Dato til",
-    },
-    time_from: {
-      label: "Tid fra",
-    },
-    time_to: {
-      label: "Tid til",
-    },
+    date_from: { label: "Dato fra" },
+    date_to: { label: "Dato til" },
+    select_days: { error_empty: "Du skal mindst vælge en dag" },
+    time_from: { label: "Tid fra" },
+    time_to: { label: "Tid til" },
   },
   en: {
-    select_days: {
-      error_empty: "You must select atleast one day",
-    },
-    date_from: {
-      label: "Date from",
-    },
-    date_to: {
-      label: "Date to",
-    },
-    time_from: {
-      label: "Time from",
-    },
-    time_to: {
-      label: "Time to",
-    },
+    date_from: { label: "Date from" },
+    date_to: { label: "Date to" },
+    select_days: { error_empty: "You must select atleast one day" },
+    time_from: { label: "Time from" },
+    time_to: { label: "Time to" },
   },
 };

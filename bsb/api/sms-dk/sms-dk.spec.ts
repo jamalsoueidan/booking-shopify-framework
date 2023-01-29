@@ -1,3 +1,1 @@
-it("should return the correct value", () => {
-  // expect(smsDk()).toBe('Hello world!');
-});
+describe("should return the correct value", () => {});

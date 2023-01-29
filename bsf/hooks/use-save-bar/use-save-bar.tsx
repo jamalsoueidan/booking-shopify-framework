@@ -1,19 +1,16 @@
-import { useContext, useEffect } from "react";
-import {
-  SaveBarContextType,
-  SaveBarContext,
-} from "@jamalsoueidan/bsf.providers.save-bar";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { SaveBarContext, SaveBarContextType } from "@jamalsoueidan/bsf.providers.save-bar";
+import { useContext, useEffect } from "react";
 
 const locales = {
   da: {
-    save: "Gem",
     discard: "Annullere",
+    save: "Gem",
     unsaved: "Ikke-gemte ændringer",
   },
   en: {
-    save: "Save",
     discard: "Discard",
+    save: "Save",
     unsaved: "Unsaved changes",
   },
 };
@@ -31,27 +28,27 @@ export const useSaveBar = ({ show }: UseSaveBarProps): SaveBarContextType => {
   const { t } = useTranslation({ id: "use-save-bar", locales });
 
   useEffect(() => {
-    const form = context.form;
+    const { form } = context;
     if (form) {
       context.setContextualSaveBar({
-        saveAction: {
-          content: t("save"),
-          loading: form.submitting,
-          disabled: !form.dirty,
-          onAction: () => form.submit && form?.submit(),
-        },
         discardAction: {
           content: t("discard"),
           onAction: () => form.reset && form.reset(),
         },
         message: t("unsaved"),
+        saveAction: {
+          content: t("save"),
+          disabled: !form.dirty,
+          loading: form.submitting,
+          onAction: () => form.submit && form?.submit(),
+        },
       });
     }
-  }, [context.form]);
+  }, [context, context.form, t]);
 
   useEffect(() => {
     context.setForm({ show });
-  }, [show]);
+  }, [context, show]);
 
   return {
     ...context,

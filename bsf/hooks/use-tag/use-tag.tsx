@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from "react";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { useCallback, useMemo } from "react";
 
 const locales = {
   da: {
@@ -22,18 +22,16 @@ const locales = {
 
 export type TagText = keyof typeof locales.da;
 
-type TagTypes = { [t in TagText]: string };
-
-export const TagTypes = {
-  everyday: "#4b6043",
-  weekend: "#235284",
+export const TagTypesValues = {
   all: "#d24e01",
   end: "#2980B9",
-  start: "#8E44AD",
+  everyday: "#4b6043",
   middle: "#A93226",
+  start: "#8E44AD",
+  weekend: "#235284",
 } as const;
 
-export type TagColors = typeof TagTypes[TagText];
+export type TagColors = typeof TagTypesValues[TagText];
 
 interface UseTag {
   label: string;
@@ -50,21 +48,19 @@ export const useTag = (): UseTagReturn => {
 
   const options: UseTag[] = useMemo(
     () => [
-      { label: t("everyday"), value: TagTypes.everyday },
-      { label: t("weekend"), value: TagTypes.weekend },
-      { label: t("all"), value: TagTypes.all },
-      { label: t("end"), value: TagTypes.end },
-      { label: t("start"), value: TagTypes.start },
-      { label: t("middle"), value: TagTypes.middle },
+      { label: t("everyday"), value: TagTypesValues.everyday },
+      { label: t("weekend"), value: TagTypesValues.weekend },
+      { label: t("all"), value: TagTypesValues.all },
+      { label: t("end"), value: TagTypesValues.end },
+      { label: t("start"), value: TagTypesValues.start },
+      { label: t("middle"), value: TagTypesValues.middle },
     ],
-    [t]
+    [t],
   );
 
   const select = useCallback(
-    (value: TagColors) => {
-      return options.find((o) => o.value === value)?.label || "no found";
-    },
-    [options]
+    (value: TagColors) => options.find((o) => o.value === value)?.label || "no found",
+    [options],
   );
 
   return {

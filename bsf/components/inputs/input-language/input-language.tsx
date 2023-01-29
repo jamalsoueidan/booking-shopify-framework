@@ -27,34 +27,27 @@ export const InputLanguage = (field: InputLanguageProps) => {
         value: "en",
       },
     ],
-    [t]
+    [t],
   );
 
-  return (
-    <Select
-      label={t("label")}
-      placeholder={t("placeholder")}
-      options={languageOptions}
-      {...field}
-    />
-  );
+  return <Select label={t("label")} placeholder={t("placeholder")} options={languageOptions} {...field} />;
 };
 
 const locales = {
   da: {
     label: "Sprog",
-    placeholder: "Vælge sprog",
     languages: {
       danish: "Dansk",
       english: "Engelsk",
     },
+    placeholder: "Vælge sprog",
   },
   en: {
     label: "Language",
-    placeholder: "Choose language",
     languages: {
       danish: "Danish",
       english: "English",
     },
+    placeholder: "Choose language",
   },
 };

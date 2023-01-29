@@ -1,16 +1,15 @@
-import { createContext } from "react";
+import { createContext, FormEvent } from "react";
 
 import { ContextualSaveBarProps } from "@shopify/polaris";
-import { FormEvent } from "react";
 
-type setReset = () => void;
-type setSubmit = (event?: FormEvent<Element>) => Promise<void>;
+type SetReset = () => void;
+type SetSubmit = (event?: FormEvent<Element>) => Promise<void>;
 
 export interface ShowBarFormProps {
   dirty?: boolean;
   submitting?: boolean;
-  reset?: setReset;
-  submit?: setSubmit;
+  reset?: SetReset;
+  submit?: SetSubmit;
   show?: boolean;
 }
 
@@ -24,8 +23,8 @@ interface SaveBarValues {
   contextualSaveBar?: ContextualSaveBarProps;
 }
 
-interface SaveBarContext extends SaveBarActions, SaveBarValues {}
+interface SaveBarContextActionsValues extends SaveBarActions, SaveBarValues {}
 
-export type SaveBarContextType = SaveBarContext | undefined;
+export type SaveBarContextType = SaveBarContextActionsValues | undefined;
 
 export const SaveBarContext = createContext<SaveBarContextType>(undefined);

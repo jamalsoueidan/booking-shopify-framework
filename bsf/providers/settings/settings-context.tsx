@@ -5,7 +5,7 @@ export interface SettingsContextValues {
   timeZone: string;
   language: string;
   features?: FeaturesConfig;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SettingsContextType extends SettingsContextValues {

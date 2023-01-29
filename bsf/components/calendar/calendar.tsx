@@ -18,8 +18,8 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
       plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin, listPlugin]}
       initialView="dayGridMonth"
       headerToolbar={{
-        left: "today prev,next",
         center: "title",
+        left: "today prev,next",
         right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
       }}
       firstDay={1}
@@ -28,9 +28,9 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
       slotLabelFormat={[
         {
           hour: "numeric",
+          meridiem: "short",
           minute: "2-digit",
           omitZeroMinute: false,
-          meridiem: "short",
         },
       ]}
       eventDisplay="block"
@@ -39,8 +39,8 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
       locales={[da, en]}
       locale={language}
       buttonText={{
-        prev: "<<",
         next: ">>",
+        prev: "<<",
       }}
       {...props}
     />

@@ -31,13 +31,7 @@ export interface StaffFormProps {
 }
 
 export const StaffForm = memo(
-  ({
-    action,
-    breadcrumbs,
-    titleMetadata,
-    data,
-    disallowEditing = { group: true, active: true },
-  }: StaffFormProps) => {
+  ({ action, breadcrumbs, titleMetadata, data, disallowEditing = { active: true, group: true } }: StaffFormProps) => {
     const { options } = usePosition();
     const { show } = useToast();
     const { t } = useTranslation({
@@ -45,60 +39,55 @@ export const StaffForm = memo(
       locales: { da, en },
     });
 
-    //https://codesandbox.io/s/1wpxz?file=/src/MyForm.tsx:2457-2473
+    const group = useField({
+      validates: [notEmpty("group must be filled")],
+      value: data?.group || "",
+    });
+
+    const active = useField({
+      validates: [],
+      value: data?.active || true,
+    });
+
+    // https://codesandbox.io/s/1wpxz?file=/src/MyForm.tsx:2457-2473
     const { fields, submit, submitErrors, primaryAction } = useForm({
       fields: {
-        fullname: useField({
-          value: data?.fullname || "",
-          validates: [
-            notEmpty("Fullname is required"),
-            lengthMoreThan(3, "Fullname must be more than 3 characters"),
-          ],
-        }),
-        email: useField({
-          value: data?.email || "",
-          validates: [
-            notEmpty("Email is required"),
-            Validators.isEmail("Invalid email"),
-          ],
-        }),
-        phone: useField({
-          value: data?.phone || "",
-          validates: [
-            notEmpty("Phone is required"),
-            Validators.isPhoneNumber("Invalid phonenumber"),
-          ],
+        address: useField({
+          validates: [notEmpty("postal must be filled")],
+          value: data?.address || "",
         }),
         avatar: useField({
-          value: data?.avatar || "",
           validates: [notEmpty("avatarUrl is required")],
+          value: data?.avatar || "",
+        }),
+        email: useField({
+          validates: [notEmpty("Email is required"), Validators.isEmail("Invalid email")],
+          value: data?.email || "",
+        }),
+        fullname: useField({
+          validates: [notEmpty("Fullname is required"), lengthMoreThan(3, "Fullname must be more than 3 characters")],
+          value: data?.fullname || "",
+        }),
+        phone: useField({
+          validates: [notEmpty("Phone is required"), Validators.isPhoneNumber("Invalid phonenumber")],
+          value: data?.phone || "",
         }),
         position: useField({
-          value: data?.position || options[0].value,
           validates: [notEmpty("position must be selected")],
+          value: data?.position || options[0].value,
         }),
         postal: useField<number | undefined>({
+          validates: [notEmpty("postal must be filled")],
           value: data?.postal || undefined,
-          validates: [notEmpty("postal must be filled")],
-        }),
-        address: useField({
-          value: data?.address || "",
-          validates: [notEmpty("postal must be filled")],
         }),
         ...(disallowEditing.group
           ? {
-              group: useField({
-                value: data?.group || "",
-                validates: [notEmpty("group must be filled")],
-              }),
+              group,
             }
           : null),
         ...(disallowEditing.active
           ? {
-              active: useField({
-                value: data?.active || true,
-                validates: [],
-              }),
+              active,
             }
           : null),
       },
@@ -109,13 +98,16 @@ export const StaffForm = memo(
       },
     });
 
-    const changePostal = useCallback(
-      (value: string) => fields?.postal.onChange(parseInt(value)),
-      [fields?.postal.onChange]
-    );
+    const changePostal = useCallback((value: string) => fields?.postal.onChange(parseInt(value, 2)), [fields?.postal]);
+
+    const onSubmit = useCallback(() => {
+      if (submit) {
+        submit();
+      }
+    }, [submit]);
 
     return (
-      <Form onSubmit={submit!}>
+      <Form onSubmit={onSubmit}>
         <Page
           fullWidth
           title={data ? data?.fullname : t("title")}
@@ -173,11 +165,7 @@ export const StaffForm = memo(
             <Layout.AnnotatedSection title={t("position.title")}>
               <Card sectioned>
                 <FormLayout>
-                  <Select
-                    label={t("position.label")}
-                    options={options}
-                    {...fields?.position}
-                  />
+                  <Select label={t("position.label")} options={options} {...fields?.position} />
                   {disallowEditing.group ? (
                     <TextField
                       label={t("group.label")}
@@ -204,11 +192,7 @@ export const StaffForm = memo(
                   />
                   {fields?.avatar.value && (
                     <Box paddingBlockStart="4">
-                      <Image
-                        source={fields?.avatar.value}
-                        alt="avatar url"
-                        width="100px"
-                      />
+                      <Image source={fields?.avatar.value} alt="avatar url" width="100px" />
                     </Box>
                   )}
                 </Card.Section>
@@ -220,5 +204,5 @@ export const StaffForm = memo(
         </Page>
       </Form>
     );
-  }
+  },
 );

@@ -8,23 +8,21 @@ export type LoadingPageProps = {
   title: string;
 };
 
-export const LoadingPage = memo(({ title }: LoadingPageProps) => {
-  return (
-    <Frame>
-      <Loading />
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <AlphaStack align="center" gap="2">
-          <Spinner accessibilityLabel="Loading" hasFocusableParent={false} />
-          {title}
-        </AlphaStack>
-      </div>
-    </Frame>
-  );
-});
+export const LoadingPage = memo(({ title }: LoadingPageProps) => (
+  <Frame>
+    <Loading />
+    <div
+      style={{
+        left: "50%",
+        position: "fixed",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      <AlphaStack align="center" gap="2">
+        <Spinner accessibilityLabel="Loading" hasFocusableParent={false} />
+        {title}
+      </AlphaStack>
+    </div>
+  </Frame>
+));

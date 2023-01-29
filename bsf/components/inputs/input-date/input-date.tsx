@@ -38,8 +38,8 @@ export const InputDate = ({ field, data, input }: InputDateProps) => {
         const start = startOfMonth(new Date(year, month));
         const end = endOfMonth(start);
         input?.onMonthChange({
-          start: isPast(start) ? new Date() : start,
           end,
+          start: isPast(start) ? new Date() : start,
         });
       }
     },
@@ -52,8 +52,8 @@ export const InputDate = ({ field, data, input }: InputDateProps) => {
     }
 
     const dayIntervals = eachDayOfInterval({
-      start: new Date(year, month),
       end: endOfMonth(new Date(year, month)),
+      start: new Date(year, month),
     });
 
     return dayIntervals.filter((r) => !data?.find((s) => isSameDay(new Date(s.date), r)));

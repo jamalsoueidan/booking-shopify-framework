@@ -12,19 +12,14 @@ export interface InputDropdownProps {
   }>;
 }
 
-export const InputDropdown = ({
-  field,
-  label,
-  placeholder,
-  options: defaultOptions,
-}: InputDropdownProps) => {
+export const InputDropdown = ({ field, label, placeholder, options: defaultOptions }: InputDropdownProps) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState(defaultOptions);
 
   useEffect(() => {
     setOptions(defaultOptions);
     field.onChange([]);
-  }, defaultOptions);
+  }, [defaultOptions, field]);
 
   const updateText = useCallback(
     (value: string) => {
@@ -36,12 +31,10 @@ export const InputDropdown = ({
       }
 
       const filterRegex = new RegExp(value, "i");
-      const resultOptions = defaultOptions.filter((option) =>
-        option.label.match(filterRegex)
-      );
+      const resultOptions = defaultOptions.filter((option) => option.label.match(filterRegex));
       setOptions(resultOptions);
     },
-    [defaultOptions]
+    [defaultOptions],
   );
 
   const removeTag = useCallback(
@@ -50,7 +43,7 @@ export const InputDropdown = ({
       options.splice(options.indexOf(tag), 1);
       field.onChange(options);
     },
-    [field.value]
+    [field],
   );
 
   const verticalContentMarkup =
@@ -88,7 +81,7 @@ export const InputDropdown = ({
         textField={textField}
         onSelect={field.onChange}
       />
-      <InlineError message={field.error || ""} fieldID={""} />
+      <InlineError message={field.error || ""} fieldID="" />
     </>
   );
 };

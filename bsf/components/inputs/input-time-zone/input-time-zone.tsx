@@ -32,10 +32,10 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
     () =>
       timeZones.map((timeZone) => ({
         key: timeZone,
-        value: timeZone,
         label: timeZone,
+        value: timeZone,
       })),
-    []
+    [],
   );
 
   const [inputValue, setInputValue] = useState("");
@@ -46,20 +46,16 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
     (value: string) => {
       setInputValue(value);
       const filterRegex = new RegExp(value, "i");
-      const resultOptions = deselectedOptions.filter((option) =>
-        option.label.match(filterRegex)
-      );
+      const resultOptions = deselectedOptions.filter((option) => option.label.match(filterRegex));
       setOptions(resultOptions);
     },
-    [deselectedOptions]
+    [deselectedOptions],
   );
 
   const updateSelection = useCallback(
     (selected: string[]) => {
       const selectedValue = selected.map((selectedItem: string) => {
-        const matchedOption = options.find((option) => {
-          return option.value.match(selectedItem);
-        });
+        const matchedOption = options.find((option) => option.value.match(selectedItem));
         return matchedOption && matchedOption.label;
       });
 
@@ -67,14 +63,14 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
       setInputValue(selectedValue[0] || "");
       field.onChange(selectedValue[0] || "");
     },
-    [options]
+    [field, options],
   );
 
   useEffect(() => {
     if (!field.dirty) {
       setInputValue(field.value);
     }
-  }, [field.dirty]);
+  }, [field.dirty, field.value]);
 
   const textField = (
     <Autocomplete.TextField
@@ -87,14 +83,7 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
     />
   );
 
-  return (
-    <Autocomplete
-      options={options}
-      selected={selectedOptions}
-      onSelect={updateSelection}
-      textField={textField}
-    />
-  );
+  return <Autocomplete options={options} selected={selectedOptions} onSelect={updateSelection} textField={textField} />;
 });
 
 const timeZones = [

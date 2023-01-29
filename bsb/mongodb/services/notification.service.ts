@@ -1,24 +1,11 @@
+import { SmsApiSend, SmsdkApiCancel } from "@jamalsoueidan/bsb.api.sms-dk";
+import { BookingModel, CustomerModel, NotificationModel, StaffModel } from "@jamalsoueidan/bsb.mongodb.models";
+import { Booking, Notification, NotificationBody, NotificationQuery } from "@jamalsoueidan/bsb.mongodb.types";
 import { subDays, subMinutes } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import mongoose from "mongoose";
-import {
-  BookingModel,
-  CustomerModel,
-  NotificationModel,
-  StaffModel,
-} from "@jamalsoueidan/bsb.mongodb.models";
-import {
-  Booking,
-  Notification,
-  NotificationBody,
-  NotificationQuery,
-} from "@jamalsoueidan/bsb.mongodb.types";
-import { SmsApiSend, SmsdkApiCancel } from "@jamalsoueidan/bsb.api.sms-dk";
-import {
-  NotificationTemplateServiceGet,
-  NotificationTemplateServiceReplace,
-} from "./notification-template.service";
 import { beginningOfDay } from "./helpers/date";
+import { NotificationTemplateServiceGet, NotificationTemplateServiceReplace } from "./notification-template.service";
 
 interface SendProps {
   orderId: number;
@@ -31,32 +18,23 @@ interface SendProps {
   isStaff: boolean;
 }
 
-const send = async ({
-  orderId,
-  lineItemId,
-  shop,
-  receiver,
-  message,
-  template,
-  scheduled,
-  isStaff,
-}: SendProps) => {
+const send = async ({ orderId, lineItemId, shop, receiver, message, template, scheduled, isStaff }: SendProps) => {
   // clear out all old schedules messages before sending new one.
 
   const notification = new NotificationModel({
-    orderId,
+    isStaff,
     lineItemId,
     message,
-    template,
+    orderId,
     receiver,
     scheduled,
     shop,
-    isStaff,
+    template,
   });
 
   const response = await SmsApiSend({
-    receiver,
     message,
+    receiver,
     scheduled,
   });
 
@@ -73,17 +51,12 @@ interface NoMesageSendLastMinutesProps {
   receiver: string;
 }
 
-const noMesageSendLastMinutes = async ({
-  shop,
-  orderId,
-  lineItemId,
-  receiver,
-}: NoMesageSendLastMinutesProps) => {
+const noMesageSendLastMinutes = async ({ shop, orderId, lineItemId, receiver }: NoMesageSendLastMinutesProps) => {
   const totalSend = await NotificationModel.find({
-    shop,
-    orderId,
     lineItemId,
+    orderId,
     receiver,
+    shop,
     updatedAt: {
       $gte: subMinutes(new Date(), 15),
     },
@@ -96,17 +69,12 @@ interface GetProps extends NotificationQuery {
   shop: string;
 }
 
-export const NotificationServiceGet = ({
-  shop,
-  orderId,
-  lineItemId,
-}: GetProps) => {
-  return NotificationModel.find({
-    shop,
-    orderId,
+export const NotificationServiceGet = ({ shop, orderId, lineItemId }: GetProps) =>
+  NotificationModel.find({
     lineItemId: { $in: [lineItemId, -1] },
+    orderId,
+    shop,
   }).sort({ createdAt: 1 });
-};
 
 interface SendCustomProps extends NotificationQuery, NotificationBody {
   shop: string;
@@ -116,10 +84,10 @@ export const NotificationServiceSendCustom = async (query: SendCustomProps) => {
   const { shop, orderId, lineItemId, message, to } = query;
 
   const messageSend = await noMesageSendLastMinutes({
-    shop,
-    orderId,
     lineItemId,
+    orderId,
     receiver: to.replace("+", ""),
+    shop,
   });
 
   if (!messageSend) {
@@ -128,9 +96,9 @@ export const NotificationServiceSendCustom = async (query: SendCustomProps) => {
 
   // TODO: 15 minutes must pass between each message.
   const booking = await BookingModel.findOne({
-    shop,
-    orderId,
     lineItemId,
+    orderId,
+    shop,
   }).lean();
 
   if (booking) {
@@ -145,13 +113,13 @@ export const NotificationServiceSendCustom = async (query: SendCustomProps) => {
 
     if (receiver) {
       return send({
-        shop,
-        orderId,
+        isStaff: to === "staff",
         lineItemId,
         message,
-        template: "cusom",
+        orderId,
         receiver: receiver?.phone,
-        isStaff: to === "staff",
+        shop,
+        template: "cusom",
       });
     }
   }
@@ -166,16 +134,16 @@ interface ResendProps {
 
 export const NotificationServiceResend = async ({ shop, id }: ResendProps) => {
   const notification = await NotificationModel.findOne({
-    shop,
     _id: new mongoose.Types.ObjectId(id),
+    shop,
   });
 
   if (notification) {
     const noMessage = await noMesageSendLastMinutes({
-      shop,
-      orderId: notification.orderId,
       lineItemId: notification.lineItemId,
+      orderId: notification.orderId,
       receiver: notification.receiver.replace("+", ""),
+      shop,
     });
 
     if (noMessage) {
@@ -225,8 +193,8 @@ export const NotificationServiceSendBookingConfirmationCustomer = async ({
 
   const template = "BOOKING_CONFIRMATION";
   const notificationTemplate = await NotificationTemplateServiceGet({
-    type: template,
     shop,
+    type: template,
   });
 
   if (notificationTemplate) {
@@ -235,13 +203,13 @@ export const NotificationServiceSendBookingConfirmationCustomer = async ({
       receiver: customer,
     });
 
-    return send({
-      orderId: booking.orderId,
-      shop,
-      receiver: customer.phone?.replace("+", ""),
-      message,
-      template,
+    send({
       isStaff: false,
+      message,
+      orderId: booking.orderId,
+      receiver: customer.phone?.replace("+", ""),
+      shop,
+      template,
     });
   }
 };
@@ -264,8 +232,8 @@ export const NotifcationServiceSendBookingUpdateCustomer = async ({
 
   const template = "BOOKING_UPDATE";
   const notificationTemplate = await NotificationTemplateServiceGet({
-    type: template,
     shop,
+    type: template,
   });
 
   if (notificationTemplate) {
@@ -274,13 +242,13 @@ export const NotifcationServiceSendBookingUpdateCustomer = async ({
       receiver: customer,
     });
 
-    return send({
-      orderId: booking.orderId,
-      shop,
-      receiver: customer.phone?.replace("+", ""),
-      message,
-      template,
+    send({
       isStaff: false,
+      message,
+      orderId: booking.orderId,
+      receiver: customer.phone?.replace("+", ""),
+      shop,
+      template,
     });
   }
 };
@@ -303,31 +271,28 @@ export const NotificationServiceSendBookingReminderCustomer = async ({
 
   const template = "BOOKING_REMINDER_CUSTOMER";
   const notificationTemplate = await NotificationTemplateServiceGet({
-    type: template,
     shop,
+    type: template,
   });
 
   if (notificationTemplate) {
-    for (const booking of bookings) {
+    bookings.forEach(async (booking) => {
       const message = NotificationTemplateServiceReplace(notificationTemplate, {
         booking,
         receiver,
       });
 
       await send({
-        shop,
-        orderId: booking.orderId,
-        lineItemId: booking.lineItemId,
-        receiver: receiver.phone?.replace("+", ""),
-        message,
-        template,
-        scheduled: utcToZonedTime(
-          subDays(booking.start, 1),
-          notificationTemplate.timeZone
-        ),
         isStaff: false,
+        lineItemId: booking.lineItemId,
+        message,
+        orderId: booking.orderId,
+        receiver: receiver.phone?.replace("+", ""),
+        scheduled: utcToZonedTime(subDays(booking.start, 1), notificationTemplate.timeZone),
+        shop,
+        template,
       });
-    }
+    });
   }
 };
 
@@ -342,37 +307,31 @@ export const NotificationServiceSendBookingReminderStaff = async ({
 }: SendBookingReminderStaffProps) => {
   const template = "BOOKING_REMINDER_STAFF";
   const notificationTemplate = await NotificationTemplateServiceGet({
-    type: template,
     shop,
+    type: template,
   });
 
   if (notificationTemplate) {
-    for (const booking of bookings) {
+    bookings.forEach(async (booking) => {
       const receiver = await StaffModel.findById(booking.staff);
       if (receiver) {
-        const message = NotificationTemplateServiceReplace(
-          notificationTemplate,
-          {
-            booking,
-            receiver,
-          }
-        );
+        const message = NotificationTemplateServiceReplace(notificationTemplate, {
+          booking,
+          receiver,
+        });
 
         await send({
-          shop,
-          orderId: booking.orderId,
-          lineItemId: booking.lineItemId,
-          receiver: receiver?.phone?.replace("+", "") || "",
-          scheduled: utcToZonedTime(
-            subDays(booking.start, 1),
-            notificationTemplate.timeZone
-          ),
-          message,
-          template,
           isStaff: true,
+          lineItemId: booking.lineItemId,
+          message,
+          orderId: booking.orderId,
+          receiver: receiver?.phone?.replace("+", "") || "",
+          scheduled: utcToZonedTime(subDays(booking.start, 1), notificationTemplate.timeZone),
+          shop,
+          template,
         });
       }
-    }
+    });
   }
 };
 
@@ -381,10 +340,7 @@ interface CancelProps {
   shop: string;
 }
 
-export const NotificationServiceCancel = async ({
-  id: _id,
-  shop,
-}: CancelProps) => {
+export const NotificationServiceCancel = async ({ id: _id, shop }: CancelProps) => {
   const notification = await NotificationModel.findOneAndUpdate(
     {
       _id,
@@ -392,7 +348,7 @@ export const NotificationServiceCancel = async ({
     },
     {
       status: "cancelled",
-    }
+    },
   );
 
   if (notification) {
@@ -405,35 +361,31 @@ interface CancelAllProps extends Pick<Notification, "orderId" | "lineItemId"> {
   shop: string;
 }
 
-export const NotificationServiceCancelAll = async ({
-  orderId,
-  lineItemId,
-  shop,
-}: CancelAllProps) => {
+export const NotificationServiceCancelAll = async ({ orderId, lineItemId, shop }: CancelAllProps) => {
   const notifications = await NotificationModel.find({
-    orderId,
     lineItemId,
-    shop,
-    status: "pending",
+    orderId,
     scheduled: {
       $gte: beginningOfDay(new Date()),
     },
+    shop,
+    status: "pending",
   }).lean();
 
-  for (const notification of notifications) {
+  notifications.forEach((notification) => {
     SmsdkApiCancel(notification.batchId);
-  }
+  });
 
   NotificationModel.updateMany(
     {
-      orderId,
       lineItemId,
-      shop,
-      status: "pending",
+      orderId,
       scheduled: {
         $gte: beginningOfDay(new Date()),
       },
+      shop,
+      status: "pending",
     },
-    { status: "cancelled" }
+    { status: "cancelled" },
   );
 };

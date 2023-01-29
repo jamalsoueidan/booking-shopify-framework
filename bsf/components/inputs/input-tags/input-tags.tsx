@@ -26,11 +26,6 @@ export const InputTags = ({ field, label, placeholder }: InputTagsProps) => {
   const { t } = useTranslation({ id: "tag-input", locales });
 
   return (
-    <Select
-      label={label || t("label")}
-      placeholder={placeholder || t("placeholder")}
-      options={options}
-      {...field}
-    />
+    <Select label={label || t("label")} placeholder={placeholder || t("placeholder")} options={options} {...field} />
   );
 };

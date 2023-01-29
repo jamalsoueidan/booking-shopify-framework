@@ -12,21 +12,23 @@ export const InputDays = ({ label, helpText, requiredIndicator, ...rest }: Input
   const id = useId();
   const { t, locale } = useTranslation({ id: "select-days-input", locales });
 
-  const options = useMemo(() => {
-    return getDays().map((d) => {
-      const label = Text.titlize(
-        d.toLocaleString(locale === "da" ? "da-DK" : "en-US", {
-          weekday: "long",
-        }),
-      );
-      const value = label.toLocaleLowerCase();
+  const options = useMemo(
+    () =>
+      getDays().map((d) => {
+        const label = Text.titlize(
+          d.toLocaleString(locale === "da" ? "da-DK" : "en-US", {
+            weekday: "long",
+          }),
+        );
+        const value = label.toLocaleLowerCase();
 
-      return {
-        value,
-        label,
-      };
-    });
-  }, [locale]);
+        return {
+          label,
+          value,
+        };
+      }),
+    [locale],
+  );
 
   const onPressed = useCallback(
     (value: string) => {

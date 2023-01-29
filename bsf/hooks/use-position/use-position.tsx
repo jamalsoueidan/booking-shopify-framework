@@ -1,22 +1,22 @@
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { useCallback, useMemo } from "react";
 
-type positions = "1" | "2";
+export type Positions = "1" | "2";
 
 const locales = {
   da: {
-    makeup: "Makeup",
     hairdresser: "Frisør",
+    makeup: "Makeup",
   },
   en: {
-    makeup: "Makeup",
     hairdresser: "Hairdresser",
+    makeup: "Makeup",
   },
 };
 
 interface UseTagOptionsReturn {
   options: UseTagOptions[];
-  select: (value: positions) => string;
+  select: (value: Positions) => string;
 }
 
 interface UseTagOptions {
@@ -32,18 +32,18 @@ export const usePosition = (): UseTagOptionsReturn => {
       { label: t("makeup"), value: "1" },
       { label: t("hairdresser"), value: "2" },
     ],
-    [t]
+    [t],
   );
 
   const select = useCallback(
-    (value: positions) => {
+    (value: Positions) => {
       const option = options.find((o) => o.value === value);
       if (!option) {
         throw Error("usePosition couldnt find this position");
       }
       return option.label;
     },
-    [options]
+    [options],
   );
 
   return {

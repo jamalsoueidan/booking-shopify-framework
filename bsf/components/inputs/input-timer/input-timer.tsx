@@ -38,7 +38,7 @@ export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field
     const hours: Array<StrictOption> =
       [...data].sort(HelperText.sortByDateKey("start")).map((t) => ({
         key: t.start,
-        label: format(toTimeZone(t.start), "p") + " - " + format(toTimeZone(t.end), "p"),
+        label: `${format(toTimeZone(t.start), "p")} - ${format(toTimeZone(t.end), "p")}`,
         value: t.start,
       })) || [];
 
@@ -58,22 +58,19 @@ export const InputTimer = ({ data, optionLabel, mode = "select", label, ...field
         });
       }
     },
-    [field.onChange, data],
+    [data, field],
   );
 
-  const dispatchChangeOnRenderNoOptionLabel = useCallback(() => {
+  useEffect(() => {
     if (optionLabel || !options) {
       return;
     }
 
     if (options?.length > 0 && !field.value) {
-      const option = options[0] as any;
+      const option = options[0] as StrictOption;
       onChange(option.value);
     }
   }, [optionLabel, options, field.value, onChange]);
-
-  useEffect(dispatchChangeOnRenderNoOptionLabel, []);
-  useEffect(dispatchChangeOnRenderNoOptionLabel, [options]);
 
   const Component = modeTypes[mode] || InputTimerSelect;
 

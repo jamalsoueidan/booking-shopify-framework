@@ -18,28 +18,25 @@ export const InputTimerSelect = ({
     locales,
   });
 
-  const defaultOption = {
-    key: optionLabel || "",
-    label: optionLabel || "",
-    value: "",
-  } as any;
-
   const modifiedOptions = useMemo(() => {
     if (!options || options.length === 0) {
       return [];
     }
 
     if (optionLabel) {
-      options.unshift(defaultOption);
+      options.unshift({
+        label: optionLabel || "",
+        value: "",
+      });
     }
 
     return options;
-  }, [options]);
+  }, [optionLabel, options]);
 
   const labelFields = {
-    label: label || t("label"),
-    helpText,
     error,
+    helpText,
+    label: label || t("label"),
     labelHidden,
   };
 
