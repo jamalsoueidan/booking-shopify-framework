@@ -13,7 +13,7 @@ export const Basic = () => {
     (value: Range) => {
       setDate(value);
     },
-    [setDate]
+    [setDate],
   );
 
   return (
@@ -83,22 +83,22 @@ export const WithDataChange = () => {
 
   const changeData = useCallback(() => {
     const result = eachDayOfInterval({
-      start: addDays(new Date(), 5),
       end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
     });
     setData(
       result.map((r) => ({
         date: r.toJSON(),
         hours: [],
-      }))
+      })),
     );
     field.onChange(undefined);
-  }, []);
+  }, [field]);
 
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat  data={data} field={field} />
+        <InputDateFlat data={data} field={field} />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
@@ -110,8 +110,8 @@ export const WithDataChange = () => {
 };
 
 const result = eachDayOfInterval({
-  start: addDays(new Date(), 2),
   end: addDays(new Date(), 4),
+  start: addDays(new Date(), 2),
 });
 
 const mock = result.map((r) => ({

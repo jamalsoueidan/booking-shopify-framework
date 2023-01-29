@@ -2,11 +2,25 @@
 description: A InputDateFlat component.
 ---
 
-
-A component that does something special and renders text in a div.
+A component that render flat date component with label
 
 ### Component usage
-```js
-<InputDateFlat>Hello world!</InputDateFlat>
-```
 
+```js
+const [date, setDate] = useState<Range | undefined>(undefined);
+const field = useField(undefined);
+
+const onMonthChange = useCallback(
+  (value: Range) => {
+    setDate(value);
+  },
+  [setDate]
+);
+<InputDateFlat field={field} onMonthChange={onMonthChange} />
+<Text variant="bodyMd" as="p">
+  {field.value ? format(field.value, "PPP") : ""}
+</Text>
+<div>
+  <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
+</div>
+```
