@@ -1,4 +1,4 @@
-import { InputDateFlat } from "@jamalsoueidan/bsf.components.inputs.input-date-flat";
+import { InputDateDrop } from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 import { InputDays } from "@jamalsoueidan/bsf.components.inputs.input-days";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
@@ -93,8 +93,8 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
         </Layout.Section>
         <Layout.Section>
           <Columns columns={{ md: "3fr 3fr", xs: "3fr 3fr" }}>
-            <InputDateFlat input={{ label: t("date_from.label") }} field={fields.startDate} />
-            <InputDateFlat input={{ label: t("date_to.label") }} field={fields.endDate} />
+            <InputDateDrop input={{ label: t("date_from.label") }} field={fields.startDate} />
+            <InputDateDrop input={{ label: t("date_to.label") }} field={fields.endDate} />
           </Columns>
         </Layout.Section>
         <Layout.Section>

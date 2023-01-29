@@ -37,11 +37,13 @@ export const isSelectedDays =
   };
 
 export const notEmptyObject =
-  (error: string): ((input: Record<string, string>) => string | undefined) =>
-  (input: Record<string, string>) => {
-    const foundError = Object.keys(input).some((k) => !input[k]);
-    if (foundError) {
-      return error;
+  (error: string): ((input: unknown) => string | undefined) =>
+  (input: unknown) => {
+    if (input) {
+      const foundError = Object.keys(input).some((k) => !input[k]);
+      if (foundError) {
+        return error;
+      }
     }
     return undefined;
   };
