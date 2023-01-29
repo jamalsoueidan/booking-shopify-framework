@@ -1,0 +1,20 @@
+---
+description: A InputTimerDrop component.
+---
+
+import { InputTimerDrop } from "./input-timer-drop";
+
+A component that render time in a select
+
+### Component usage
+
+```js
+const field = useField<InputTimerFieldType>(undefined);
+
+<Card title="no optionLabel" sectioned>
+  <InputTimerDrop data={mock} field={field} />
+</Card>
+<div>
+  <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+</div>
+```

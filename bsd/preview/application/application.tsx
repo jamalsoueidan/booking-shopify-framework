@@ -1,20 +1,15 @@
+import { SaveBarProvider } from "@jamalsoueidan/bsf.providers.save-bar";
 import { SettingsProvider } from "@jamalsoueidan/bsf.providers.settings";
 import { ToastProvider } from "@jamalsoueidan/bsf.providers.toast";
 import { AppProvider, Frame, Icon, Page, Text, TopBar } from "@shopify/polaris";
 import { LanguageMinor } from "@shopify/polaris-icons";
-import { SaveBarProvider } from "@jamalsoueidan/bsf.providers.save-bar";
 import "@shopify/polaris/build/esm/styles.css";
 import da from "@shopify/polaris/locales/da.json";
-import { da as daDateFns } from "date-fns/locale";
 import en from "@shopify/polaris/locales/en.json";
-import {
-  I18nContext,
-  I18nDetails,
-  I18nManager,
-  useI18n,
-} from "@shopify/react-i18n";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { I18nContext, I18nDetails, I18nManager, useI18n } from "@shopify/react-i18n";
 import { setDefaultOptions } from "date-fns";
+import { da as daDateFns } from "date-fns/locale";
+import React, { ReactNode, useCallback, useContext, useEffect, useState } from "react";
 
 const i18nManager = new I18nManager({
   locale: "da",
@@ -25,6 +20,7 @@ export interface ApplicationProps {
 }
 
 export const Application = ({ children }: ApplicationProps) => {
+  setDefaultOptions({ locale: daDateFns });
   return (
     <I18nContext.Provider value={i18nManager}>
       <PolarisProvider>{children}</PolarisProvider>
@@ -36,30 +32,23 @@ export interface ApplicationFrameProps {
   children?: React.ReactNode;
 }
 
-export const ApplicationFrame = ({ children }: ApplicationFrameProps) => {
-  return (
-    <Application>
-      <SettingsProvider
-        value={{ language: "en", timeZone: "Europe/Copenhagen" }}
-      >
-        <Frame>
-          <ToastProvider>
-            <SaveBarProvider>{children}</SaveBarProvider>
-          </ToastProvider>
-        </Frame>
-      </SettingsProvider>
-    </Application>
-  );
-};
+export const ApplicationFrame = ({ children }: ApplicationFrameProps) => (
+  <Application>
+    <SettingsProvider value={{ language: "en", timeZone: "Europe/Copenhagen" }}>
+      <Frame>
+        <ToastProvider>
+          <SaveBarProvider>{children}</SaveBarProvider>
+        </ToastProvider>
+      </Frame>
+    </SettingsProvider>
+  </Application>
+);
 
 export interface ApplicationFramePageProps extends ApplicationProps {
   title?: string;
 }
 
-export const ApplicationFramePage = ({
-  children,
-  title,
-}: ApplicationFramePageProps) => {
+export const ApplicationFramePage = ({ children, title }: ApplicationFramePageProps) => {
   const h = window.location.href;
   const isOnProfile = h.endsWith("compositions&");
   const isOnOverview = h.includes("viewport");
@@ -81,21 +70,17 @@ export const ApplicationFramePage = ({
   );
 };
 
-const PolarisProvider = ({ children }: any) => {
+const PolarisProvider = ({ children }: { children: ReactNode }) => {
   const [i18n] = useI18n({
-    id: "Polaris",
     fallback: en,
+    id: "Polaris",
     async translations(locale) {
       return locale === "en-US" ? en : da;
     },
   });
 
   return (
-    <AppProvider
-      i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}
-    >
-      {children}
-    </AppProvider>
+    <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}>{children}</AppProvider>
   );
 };
 
@@ -109,20 +94,20 @@ const FrameChangeLanguage = ({ children }) => {
 
   useEffect(() => {
     setValue(i18n?.details?.locale || "da");
-  }, []);
+  }, [i18n?.details?.locale]);
 
   const onChange = useCallback(
     (locale: string) => {
       i18n?.update({ locale });
     },
-    [i18n]
+    [i18n],
   );
 
   const [isSecondaryMenuOpen, setIsSecondaryMenuOpen] = useState(false);
 
   const toggleIsSecondaryMenuOpen = useCallback(
     () => setIsSecondaryMenuOpen((isSecondaryMenuOpen) => !isSecondaryMenuOpen),
-    []
+    [],
   );
 
   setDefaultOptions({ locale: value === "da" ? daDateFns : undefined });
@@ -161,14 +146,10 @@ const FrameChangeLanguage = ({ children }) => {
     />
   );
 
-  const topBarMarkup = (
-    <TopBar showNavigationToggle secondaryMenu={secondaryMenuMarkup} />
-  );
+  const topBarMarkup = <TopBar showNavigationToggle secondaryMenu={secondaryMenuMarkup} />;
 
   return (
-    <SettingsProvider
-      value={{ language: value || "da", timeZone: "Europe/Copenhagen" }}
-    >
+    <SettingsProvider value={{ language: value || "da", timeZone: "Europe/Copenhagen" }}>
       <Frame topBar={topBarMarkup}>
         <ToastProvider>
           <SaveBarProvider>{children}</SaveBarProvider>

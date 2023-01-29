@@ -4,11 +4,12 @@ import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useId, useMemo } from "react";
 
-export interface InputDaysProps extends Partial<Omit<LabelledProps, "error">>, Field<string[]> {
-  placeholder?: string;
+export interface InputDaysProps {
+  input?: Partial<Omit<LabelledProps, "error">>;
+  field: Field<string[]>;
 }
 
-export const InputDays = ({ label, helpText, requiredIndicator, ...rest }: InputDaysProps) => {
+export const InputDays = ({ input, field }: InputDaysProps) => {
   const id = useId();
   const { t, locale } = useTranslation({ id: "select-days-input", locales });
 
@@ -32,29 +33,23 @@ export const InputDays = ({ label, helpText, requiredIndicator, ...rest }: Input
 
   const onPressed = useCallback(
     (value: string) => {
-      const values = rest.value;
+      const values = field.value;
       if (values.includes(value)) {
-        rest.onChange(values.filter((v) => v !== value));
+        field.onChange(values.filter((v) => v !== value));
       } else {
-        rest.onChange([...values, value]);
+        field.onChange([...values, value]);
       }
     },
-    [rest],
+    [field],
   );
 
   return (
-    <Labelled
-      label={label || t("label")}
-      error={rest.error}
-      helpText={helpText}
-      requiredIndicator={requiredIndicator || false}
-      id={`${id}-select-days-input`}
-    >
+    <Labelled {...input} label={input?.label || t("label")} error={field.error} id={`${id}-select-days-input`}>
       {options.map((day) => (
         <Button
           size="slim"
           key={day.value}
-          pressed={rest.value.includes(day.value.toLowerCase())}
+          pressed={field.value.includes(day.value.toLowerCase())}
           onClick={() => onPressed(day.value)}
         >
           {day.label}

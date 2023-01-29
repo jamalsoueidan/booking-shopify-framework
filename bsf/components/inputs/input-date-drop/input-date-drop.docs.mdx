@@ -7,5 +7,21 @@ A component that render a input, with date selector.
 ### Component usage
 
 ```js
-<InputDateDrop>Hello world!</InputDateDrop>
+const [date, setDate] = useState<Range | undefined>(undefined);
+const field = useField(undefined);
+
+const onMonthChange = useCallback(
+  (value: Range) => {
+    setDate(value);
+  },
+  [setDate],
+);
+
+<InputDateDrop field={field} onMonthChange={onMonthChange} />
+<Text variant="bodyMd" as="p">
+  {field.value ? format(field.value, "PPP") : ""}
+</Text>
+<div>
+  <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
+</div>
 ```

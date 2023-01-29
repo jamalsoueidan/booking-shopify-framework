@@ -1,27 +1,21 @@
+import {
+  WithTimerFieldType,
+  WithTimerProps,
+  WithTimerStrictOption,
+  withTimer,
+} from "@jamalsoueidan/bsf.hocs.with-timer";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { AlphaStack, Button, Columns, Inline, InlineError, Labelled, Text } from "@shopify/polaris";
+import { AlphaStack, Button, Columns, Inline, Labelled, Text } from "@shopify/polaris";
 import { format, setHours } from "date-fns";
 import React, { memo } from "react";
-import { InputTimerModeProps, OnChangeFunc, StrictOption } from "../input-timer.types";
 
-export const InputTimerList = ({
-  options,
-  label,
-  helpText,
-  onChange,
-  value,
-  error,
-  labelHidden,
-}: InputTimerModeProps) => {
+export type InputTimerDividerFieldType = WithTimerFieldType;
+export type InputTimerDividerProps = WithTimerProps;
+
+export const InputTimerDivider = withTimer(({ field, input }) => {
   const { t } = useTranslation({ id: "input-timer-list", locales });
 
-  const labelFields = {
-    error,
-    helpText,
-    label: label || t("label"),
-    labelHidden,
-  };
-
+  const options = input?.options;
   const morning = options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) || [];
 
   const afternoon =
@@ -37,25 +31,39 @@ export const InputTimerList = ({
     }) || [];
 
   return (
-    <Labelled id="input-timer" {...labelFields}>
+    <Labelled id="input-timer" label={input?.label || t("label")} {...input} error={field.error}>
       {options?.length === 0 ? (
         t("empty")
       ) : (
         <Columns columns={{ sm: 3, xs: 1 }}>
-          <ColumnPeriod date={setHours(new Date(), 11)} hours={morning} onChange={onChange} selected={value?.start} />
-          <ColumnPeriod date={setHours(new Date(), 13)} hours={afternoon} onChange={onChange} selected={value?.start} />
-          <ColumnPeriod date={setHours(new Date(), 19)} hours={evening} onChange={onChange} selected={value?.start} />
+          <ColumnPeriod
+            date={setHours(new Date(), 11)}
+            hours={morning}
+            onChange={input?.onChange}
+            selected={field.value?.start}
+          />
+          <ColumnPeriod
+            date={setHours(new Date(), 13)}
+            hours={afternoon}
+            onChange={input?.onChange}
+            selected={field.value?.start}
+          />
+          <ColumnPeriod
+            date={setHours(new Date(), 19)}
+            hours={evening}
+            onChange={input?.onChange}
+            selected={field.value?.start}
+          />
         </Columns>
       )}
-      {error && <InlineError message={error} fieldID="myFieldID" />}
     </Labelled>
   );
-};
+});
 
 interface ColumnPeriodProps {
   date: Date;
-  hours: StrictOption[];
-  onChange?: OnChangeFunc;
+  hours: WithTimerStrictOption[];
+  onChange?: (selected: string, id: string) => void;
   selected?: string;
 }
 
@@ -85,7 +93,7 @@ const ColumnPeriod = memo(({ date, hours, onChange, selected }: ColumnPeriodProp
         hours.map((m) => (
           <InlineButtonHour
             key={m.value}
-            onClick={() => onChange && onChange(m.value)}
+            onClick={() => onChange && onChange(m.value, m.label)}
             label={m.label}
             pressed={m.value === selected}
           />

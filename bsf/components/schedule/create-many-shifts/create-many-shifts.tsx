@@ -89,7 +89,7 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
     return (
       <Layout>
         <Layout.Section>
-          <InputDays {...fields.days} />
+          <InputDays field={fields.days} />
         </Layout.Section>
         <Layout.Section>
           <Columns columns={{ md: "3fr 3fr", xs: "3fr 3fr" }}>

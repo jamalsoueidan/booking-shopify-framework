@@ -13,7 +13,8 @@ export * from "@jamalsoueidan/bsf.components.inputs.input-language";
 export * from "@jamalsoueidan/bsf.components.inputs.input-staff";
 export * from "@jamalsoueidan/bsf.components.inputs.input-tags";
 export * from "@jamalsoueidan/bsf.components.inputs.input-time-zone";
-export * from "@jamalsoueidan/bsf.components.inputs.input-timer";
+export * from "@jamalsoueidan/bsf.components.inputs.input-timer-divider";
+export * from "@jamalsoueidan/bsf.components.inputs.input-timer-drop";
 export * from "@jamalsoueidan/bsf.components.loading.loading-modal";
 // COMPONENTS / LOADING
 export * from "@jamalsoueidan/bsf.components.loading.loading-page";
@@ -39,7 +40,3 @@ export * from "@jamalsoueidan/bsf.hooks.use-translation";
 export * from "@jamalsoueidan/bsf.providers.save-bar";
 export * from "@jamalsoueidan/bsf.providers.settings";
 export * from "@jamalsoueidan/bsf.providers.toast";
-
-
-
-

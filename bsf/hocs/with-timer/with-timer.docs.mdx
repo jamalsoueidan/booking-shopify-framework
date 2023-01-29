@@ -1,0 +1,14 @@
+---
+description: A WithTimer HOC Component.
+labels: ["hoc"]
+---
+
+A higher order component that extend timer components.
+
+### Component usage
+
+```js
+const InputTimer = withTimer(({ input, field }) => (
+  <Select options={input?.options} label={input?.label} {...input} value={field.value?.start} />
+));
+```

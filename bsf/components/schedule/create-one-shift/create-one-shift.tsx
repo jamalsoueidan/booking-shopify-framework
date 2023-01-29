@@ -39,7 +39,7 @@ export const CreateOneShift = forwardRef<CreateOneShiftRefMethod, CreateOneShift
         const date = new Date(selectedDate);
 
         const convert = (time: string) => {
-          const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 2));
+          const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
           return toUtc(setHours(setMinutes(date, minuttes), hour));
         };
 

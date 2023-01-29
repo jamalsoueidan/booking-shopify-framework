@@ -68,8 +68,8 @@ export const WithDataChange = () => {
 
   const changeData = useCallback(() => {
     const result = eachDayOfInterval({
-      start: addDays(new Date(), 5),
       end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
     });
     setData(
       result.map((r) => ({
@@ -95,8 +95,8 @@ export const WithDataChange = () => {
 };
 
 const result = eachDayOfInterval({
-  start: addDays(new Date(), 2),
   end: addDays(new Date(), 4),
+  start: addDays(new Date(), 2),
 });
 
 const mock = result.map((r) => ({

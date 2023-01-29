@@ -61,15 +61,15 @@ export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) =>
     const response: AxiosResponse<SMSDK.Response> = await axios.post(
       "https://api.sms.dk/v1/sms/send",
       {
-        receiver,
         message,
-        senderName: "BySisters",
+        receiver,
         scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
+        senderName: "BySisters",
       },
       {
         headers: {
-          "content-type": "application/json",
           Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
+          "content-type": "application/json",
         },
       },
     );
@@ -78,17 +78,17 @@ export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) =>
 
   // eslint-disable-next-line no-console
   console.log({
-    receiver,
     message,
-    senderName: "BySisters",
+    receiver,
     scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
+    senderName: "BySisters",
   });
 
   return {
-    status: "success",
     result: {
       batchId: "bb3ddc53-8969-6d90-de09-134d570c28c1",
     },
+    status: "success",
   };
 };
 
@@ -96,17 +96,17 @@ export const SmsdkApiCancel = async (batchId: string) => {
   if (process.env.NODE_ENV === "production") {
     const response = await axios.delete(`https://api.sms.dk/v1/sms/delete?batchId=${batchId}`, {
       headers: {
-        "content-type": "application/json",
         Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
+        "content-type": "application/json",
       },
     });
     return response;
   }
 
   return {
-    status: "success",
     result: {
       batchId: "bb3ddc53-8969-6d90-de09-134d570c28c1",
     },
+    status: "success",
   };
 };

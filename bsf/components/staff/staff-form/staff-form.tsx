@@ -98,7 +98,7 @@ export const StaffForm = memo(
       },
     });
 
-    const changePostal = useCallback((value: string) => fields?.postal.onChange(parseInt(value, 2)), [fields?.postal]);
+    const changePostal = useCallback((value: string) => fields?.postal.onChange(parseInt(value, 10)), [fields?.postal]);
 
     const onSubmit = useCallback(() => {
       if (submit) {
