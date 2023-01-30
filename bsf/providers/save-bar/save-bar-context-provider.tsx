@@ -1,46 +1,87 @@
-import { ContextualSaveBar, ContextualSaveBarProps } from "@shopify/polaris";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { ContextualSaveBar } from "@shopify/polaris";
 import React, { ReactNode, useCallback, useContext, useMemo, useState } from "react";
-import { SaveBarContext, ShowBarFormProps } from "./save-bar-context";
+import { DiscardActions, SaveActions, SaveBarContext } from "./save-bar-context";
 
 export interface SaveBarProviderProps {
   children?: ReactNode;
 }
 
 export const SaveBarProvider = ({ children }: SaveBarProviderProps) => {
-  const [form, setForm] = useState<ShowBarFormProps>();
-  const [contextualSaveBar, setContextualSaveBar] = useState<ContextualSaveBarProps>();
+  const { t } = useTranslation({ id: "save-bar-provider", locales });
 
-  const changeForm = useCallback((newValues: Partial<ShowBarFormProps>) => {
-    setForm((value) => ({ ...value, ...newValues }));
-  }, []);
+  const [message, updateMessage] = useState<string>(t("unsaved"));
+  const [discardAction, setDiscardAction] = useState<DiscardActions>({
+    content: t("discard"),
+  });
 
-  const changeSaveBar = useCallback((newValues: Partial<ContextualSaveBarProps>) => {
-    setContextualSaveBar(() => newValues);
-  }, []);
+  const [saveAction, setSaveAction] = useState<SaveActions>({
+    content: t("save"),
+  });
 
-  const value = useMemo(
+  const [visibility, updateVisibility] = useState<boolean>(false);
+
+  const updateDiscardAction = useCallback(
+    (value: Partial<DiscardActions>) => {
+      setDiscardAction((prev) => ({ ...prev, ...value }));
+    },
+    [setDiscardAction],
+  );
+
+  const updateSaveAction = useCallback(
+    (value: Partial<SaveActions>) => {
+      setSaveAction((prev) => ({ ...prev, ...value }));
+    },
+    [setSaveAction],
+  );
+
+  const contextualSaveBar = useMemo(
     () => ({
-      contextualSaveBar,
-      form,
-      setContextualSaveBar: changeSaveBar,
-      setForm: changeForm,
+      discardAction,
+      message,
+      saveAction,
+      updateDiscardAction,
+      updateMessage,
+      updateSaveAction,
+      updateVisibility,
+      visibility,
     }),
-    [contextualSaveBar, form, changeSaveBar, changeForm],
+    [
+      message,
+      updateMessage,
+      discardAction,
+      updateDiscardAction,
+      saveAction,
+      updateSaveAction,
+      visibility,
+      updateVisibility,
+    ],
   );
 
   return (
-    <SaveBarContext.Provider value={value}>
+    <SaveBarContext.Provider value={contextualSaveBar}>
       <SaveBarConsumer />
       {children}
     </SaveBarContext.Provider>
   );
 };
 
-export const SaveBarConsumer = () => {
-  const context = useContext(SaveBarContext);
-  if (context) {
-    const { form, contextualSaveBar } = context;
-    return form?.dirty && form?.show ? <ContextualSaveBar {...contextualSaveBar} /> : null;
-  }
-  return <></>;
+const SaveBarConsumer = () => {
+  const { visibility, message, discardAction, saveAction } = useContext(SaveBarContext);
+  return visibility ? (
+    <ContextualSaveBar message={message} discardAction={discardAction} saveAction={saveAction} />
+  ) : null;
+};
+
+const locales = {
+  da: {
+    discard: "Annullere",
+    save: "Gem",
+    unsaved: "Ikke-gemte ændringer",
+  },
+  en: {
+    discard: "Discard",
+    save: "Save",
+    unsaved: "Unsaved changes",
+  },
 };

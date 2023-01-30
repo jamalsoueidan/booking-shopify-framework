@@ -1,45 +1,37 @@
+import { PreviewI18n } from "@jamalsoueidan/bsd.preview.preview-i18n";
+import { Button } from "@shopify/polaris";
 import React, { useCallback, useContext, useEffect } from "react";
 import { SaveBarContext } from "./save-bar-context";
 import { SaveBarProvider } from "./save-bar-context-provider";
-import { PreviewI18n } from "@jamalsoueidan/bsd.preview.preview-i18n";
-import { Button } from "@shopify/polaris";
 
 const MockComponent = () => {
-  const saveBar = useContext(SaveBarContext);
-
-  useEffect(() => {
-    saveBar?.setContextualSaveBar({
-      message: "unsaved changes",
-      saveAction: {
-        content: "Save",
-        onAction: () => onClick(),
-      },
-      discardAction: {
-        content: "Discard",
-        onAction: () => onClick(),
-      },
-    });
-    saveBar?.setForm({ show: true, dirty: true });
-  }, []);
+  const { updateMessage, updateDiscardAction, updateSaveAction, updateVisibility, visibility } =
+    useContext(SaveBarContext);
 
   const onClick = useCallback(() => {
-    saveBar?.setForm({
-      show: !saveBar.form?.show,
-      dirty: !saveBar.form?.dirty,
+    updateVisibility(!visibility);
+  }, [updateVisibility, visibility]);
+
+  useEffect(() => {
+    updateMessage("unsaved changes");
+    updateSaveAction({
+      content: "Save",
+      onAction: () => onClick(),
     });
-  }, [saveBar]);
 
-  return (
-    <Button onClick={onClick}>{saveBar?.form?.show ? "hide" : "show"}</Button>
-  );
+    updateDiscardAction({
+      content: "Discard",
+      onAction: () => onClick(),
+    });
+  }, [onClick, updateDiscardAction, updateMessage, updateSaveAction]);
+
+  return <Button onClick={onClick}>{visibility ? "hide" : "show"}</Button>;
 };
 
-export const BasicSaveBarUsage = () => {
-  return (
-    <PreviewI18n>
-      <SaveBarProvider>
-        <MockComponent />
-      </SaveBarProvider>
-    </PreviewI18n>
-  );
-};
+export const BasicSaveBarUsage = () => (
+  <PreviewI18n>
+    <SaveBarProvider>
+      <MockComponent />
+    </SaveBarProvider>
+  </PreviewI18n>
+);

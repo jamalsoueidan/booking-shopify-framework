@@ -29,6 +29,9 @@
      **/
     "defaultScope": "jamalsoueidan.bsf"
   },
+  "teambit.component/issues": {
+    "ignoreIssues": ["CircularDependencies"]
+  },
   /**
    * main configuration for component dependency resolution.
    **/

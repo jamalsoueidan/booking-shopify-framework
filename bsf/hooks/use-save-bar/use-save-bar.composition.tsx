@@ -4,30 +4,19 @@ import React, { useEffect } from "react";
 import { useSaveBar } from "./use-save-bar";
 
 function MockComponent() {
-  const context = useSaveBar({ show: true });
+  const { updateVisibility } = useSaveBar();
 
   useEffect(() => {
-    context?.setContextualSaveBar({
-      message: "unsaved changes",
-      saveAction: {
-        content: "Save",
-      },
-      discardAction: {
-        content: "Discard",
-      },
-    });
-    context?.setForm({ show: true, dirty: true });
-  }, []);
+    updateVisibility(true);
+  }, [updateVisibility]);
 
   return <></>;
 }
 
-export const BasicuseSaveBar = () => {
-  return (
-    <ApplicationFramePage title="useSaveBar">
-      <SaveBarProvider>
-        <MockComponent />
-      </SaveBarProvider>
-    </ApplicationFramePage>
-  );
-};
+export const BasicuseSaveBar = () => (
+  <ApplicationFramePage title="useSaveBar">
+    <SaveBarProvider>
+      <MockComponent />
+    </SaveBarProvider>
+  </ApplicationFramePage>
+);

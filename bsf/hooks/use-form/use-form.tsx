@@ -20,7 +20,7 @@ interface FormProps<T extends FieldBag, D extends DynamicListBag> extends FormIn
 }
 
 export const useForm = <T extends FieldBag, D extends DynamicListBag>(form: FormProps<T, D>): FormReturn<T, D> => {
-  const saveBar = useSaveBar({ show: form.enableSaveBar !== false });
+  const { updateSaveAction, updateDiscardAction, updateVisibility, saveAction: primaryAction } = useSaveBar();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -31,6 +31,7 @@ export const useForm = <T extends FieldBag, D extends DynamicListBag>(form: Form
       setIsSubmitted(true);
       setIsSubmitting(true);
       if (form.onSubmit) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const response = await form.onSubmit(fieldValues as any);
         setIsSubmitting(false);
         return response;
@@ -40,23 +41,14 @@ export const useForm = <T extends FieldBag, D extends DynamicListBag>(form: Form
   });
 
   useEffect(() => {
-    saveBar?.setForm({ reset: customForm.reset, submit: customForm.submit });
+    updateSaveAction({ loading: false, onAction: () => customForm.submit() });
+    updateDiscardAction({ onAction: () => customForm.reset() });
 
     return () => {
-      saveBar?.setForm({});
+      updateVisibility(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(
-    () => () => {
-      // case we redirect in onSubmit
-      setIsSubmitting(false);
-      saveBar?.setForm({ dirty: false, submitting: false });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
 
   useEffect(() => {
     const isValidNew = isSubmitted && customForm.submitErrors.length === 0;
@@ -66,17 +58,17 @@ export const useForm = <T extends FieldBag, D extends DynamicListBag>(form: Form
   }, [isSubmitted, customForm.submitErrors, isValid]);
 
   useEffect(() => {
-    saveBar?.setForm({ dirty: customForm.dirty });
-  }, [customForm.dirty, saveBar]);
+    updateVisibility(customForm.dirty);
+  }, [customForm.dirty, updateVisibility]);
 
   useEffect(() => {
-    saveBar?.setForm({ submitting: isSubmitting });
-  }, [isSubmitting, saveBar]);
+    updateSaveAction({ loading: isSubmitting });
+  }, [isSubmitting, updateSaveAction]);
 
   return {
     isSubmitted,
     isValid,
-    primaryAction: saveBar?.contextualSaveBar?.saveAction,
+    primaryAction,
     ...customForm,
   };
 };

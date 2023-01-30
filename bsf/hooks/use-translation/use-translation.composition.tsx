@@ -31,12 +31,10 @@ const InjectTranslation = () => {
   return <div>{t("lang")}</div>;
 };
 
-export const BasicTranslation = () => {
-  return (
-    <ApplicationFramePage>
-      <FilesTranslation />
-      <br />
-      <InjectTranslation />
-    </ApplicationFramePage>
-  );
-};
+export const BasicTranslation = () => (
+  <ApplicationFramePage>
+    <FilesTranslation />
+    <br />
+    <InjectTranslation />
+  </ApplicationFramePage>
+);

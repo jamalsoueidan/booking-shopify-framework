@@ -12,22 +12,28 @@ Use this component to handle saveBar in the whole application.
 ### Component usage
 
 ```tsx
-export const MockComponent = () => {
-  const saveBar = useContext(SaveBarContext);
-  useEffect(() => {
-    saveBar?.setContextualSaveBar({
-      message: "unsaved changes",
-      saveAction: {
-        content: "Save",
-      },
-      discardAction: {
-        content: "Discard",
-      },
-    });
-    saveBar?.setForm({ show: true, dirty: true });
-  }, []);
+const MockComponent = () => {
+  const { updateMessage, updateDiscardAction, updateSaveAction, updateVisibility, visibility } =
+    useContext(SaveBarContext);
 
-  return <></>;
+  const onClick = useCallback(() => {
+    updateVisibility(!visibility);
+  }, [updateVisibility, visibility]);
+
+  useEffect(() => {
+    updateMessage("unsaved changes");
+    updateSaveAction({
+      content: "Save",
+      onAction: () => onClick(),
+    });
+
+    updateDiscardAction({
+      content: "Discard",
+      onAction: () => onClick(),
+    });
+  }, [onClick, updateDiscardAction, updateMessage, updateSaveAction]);
+
+  return <Button onClick={onClick}>{visibility ? "hide" : "show"}</Button>;
 };
 
 <SaveBarProvider>

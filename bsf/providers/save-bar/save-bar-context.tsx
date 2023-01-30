@@ -1,30 +1,25 @@
-import { createContext, FormEvent } from "react";
+import { createContext } from "react";
 
 import { ContextualSaveBarProps } from "@shopify/polaris";
 
-type SetReset = () => void;
-type SetSubmit = (event?: FormEvent<Element>) => Promise<void>;
+export type DiscardActions = ContextualSaveBarProps["discardAction"];
+export type SaveActions = ContextualSaveBarProps["saveAction"];
 
-export interface ShowBarFormProps {
-  dirty?: boolean;
-  submitting?: boolean;
-  reset?: SetReset;
-  submit?: SetSubmit;
-  show?: boolean;
+export interface SaveBarContextProps extends ContextualSaveBarProps {
+  updateMessage: (value: string) => void;
+  updateDiscardAction: (value: Partial<DiscardActions>) => void;
+  updateSaveAction: (value: Partial<SaveActions>) => void;
+  visibility: boolean;
+  updateVisibility: (value: boolean) => void;
 }
 
-interface SaveBarActions {
-  setContextualSaveBar: (value: ContextualSaveBarProps) => void;
-  setForm: (value: Partial<ShowBarFormProps>) => void;
-}
+const defaultValues: SaveBarContextProps = {
+  message: "",
+  updateDiscardAction: () => {},
+  updateMessage: () => {},
+  updateSaveAction: () => {},
+  updateVisibility: () => {},
+  visibility: false,
+};
 
-interface SaveBarValues {
-  form?: ShowBarFormProps;
-  contextualSaveBar?: ContextualSaveBarProps;
-}
-
-interface SaveBarContextActionsValues extends SaveBarActions, SaveBarValues {}
-
-export type SaveBarContextType = SaveBarContextActionsValues | undefined;
-
-export const SaveBarContext = createContext<SaveBarContextType>(undefined);
+export const SaveBarContext = createContext<SaveBarContextProps>(defaultValues);
