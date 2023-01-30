@@ -3,37 +3,37 @@ import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useState } from "react";
-import { InputStaff } from "./input-staff";
+import { InputStaff, InputStaffFieldType } from "./input-staff";
 
 const data: WidgetStaff[] = [
   {
-    staff: "63bb71c898f50e4f24c883a8",
     fullname: "jamal swueidan",
+    staff: "63bb71c898f50e4f24c883a8",
     tag: "jamal",
   },
   {
-    staff: "63bb71e798f50e4f24c883b9",
     fullname: "sara soueidan",
+    staff: "63bb71e798f50e4f24c883b9",
     tag: "ahmad",
   },
 ];
 
 export const BasicInputStaff = () => {
-  const field = useField("");
+  const field = useField<InputStaffFieldType>(undefined);
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel" sectioned>
         <InputStaff data={data} field={field} />
       </Card>
       <div>
-        <pre>staffId: {field.value}</pre>
+        <pre>staffId: {field.value?.staff}</pre>
       </div>
     </ApplicationFramePage>
   );
 };
 
-export const laterStaffLoaded = () => {
-  const field = useField("");
+export const LaterStaffLoaded = () => {
+  const field = useField<InputStaffFieldType>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
@@ -44,21 +44,21 @@ export const laterStaffLoaded = () => {
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
       <div>
-        <pre>staffId: {field.value}</pre>
+        <pre>staffId: {field.value?.staff}</pre>
       </div>
     </ApplicationFramePage>
   );
 };
 
-export const withOptionLabel = () => {
-  const field = useField("");
+export const WithOptionLabel = () => {
+  const field = useField<InputStaffFieldType>(undefined);
   return (
     <ApplicationFramePage>
       <Card title="optionLabel" sectioned>
-        <InputStaff data={data} field={field} input={{placeholder: "Vælg medarbejder"}} />
+        <InputStaff data={data} field={field} />
       </Card>
       <div>
-        <pre>staffId: {field.value}</pre>
+        <pre>staffId: {field.value?.staff}</pre>
       </div>
     </ApplicationFramePage>
   );

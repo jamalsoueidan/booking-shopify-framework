@@ -6,6 +6,7 @@ A component that render list of staff
 
 ### Component usage
 
-```js
-<InputStaff data={data} {...field} />
+```ts
+const field = useField<InputStaffFieldType>(undefined);
+<InputStaff data={data} field={field} />;
 ```
