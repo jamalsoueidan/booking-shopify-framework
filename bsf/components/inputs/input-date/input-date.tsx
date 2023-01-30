@@ -7,9 +7,12 @@ import React, { useCallback, useMemo, useState } from "react";
 interface InputDatePickerProps extends Partial<Omit<DatePickerProps, "onMonthChange">> {
   onMonthChange?: (value: Range) => void;
 }
+
+export type InputDateField = Date | undefined;
+export type InputDateData = Array<WidgetSchedule>;
 export interface InputDateProps {
-  field: Field<Date | undefined>;
-  data?: Array<WidgetSchedule>;
+  field: Field<InputDateField>;
+  data?: InputDateData;
   input?: InputDatePickerProps;
 }
 

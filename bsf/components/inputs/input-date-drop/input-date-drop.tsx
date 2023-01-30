@@ -1,5 +1,5 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
-import { InputDate } from "@jamalsoueidan/bsf.components.inputs.input-date";
+import { InputDate, InputDateField } from "@jamalsoueidan/bsf.components.inputs.input-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Icon, Popover, Range, TextField, TextFieldProps } from "@shopify/polaris";
 import { CalendarMajor } from "@shopify/polaris-icons";
@@ -7,10 +7,14 @@ import { Field } from "@shopify/react-form";
 import { format } from "date-fns";
 import React, { useCallback, useState } from "react";
 
+export type InputDateDropField = InputDateField;
+export type InputDataDropData = Array<WidgetSchedule>;
+export type InputDataDropInput = Partial<Omit<TextFieldProps, "error" | "onBlur" | "onChange" | "value">>;
+
 export interface InputDateDropProps {
-  field: Field<Date | undefined>;
-  input?: Partial<Omit<TextFieldProps, "error" | "onBlur" | "onChange" | "value">>;
-  data?: Array<WidgetSchedule>;
+  field: Field<InputDateDropField>;
+  input?: InputDataDropInput;
+  data?: InputDataDropData;
   onMonthChange?: (value: Range) => void;
 }
 
@@ -40,6 +44,7 @@ export const InputDateDrop = ({ field, data, input, onMonthChange }: InputDateDr
       onChange={() => {}}
       prefix={<Icon source={CalendarMajor} />}
       onFocus={togglePopoverActive}
+      {...input}
     />
   );
 

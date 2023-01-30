@@ -3,7 +3,7 @@ import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
-import { InputDateDrop } from "./input-date-drop";
+import { InputDataDropData, InputDateDrop, InputDateDropField } from "./input-date-drop";
 
 export const Basic = () => {
   const [date, setDate] = useState<Range | undefined>(undefined);
@@ -63,8 +63,8 @@ export const WithData = () => {
 };
 
 export const WithDataChange = () => {
-  const field = useField(undefined);
-  const [data, setData] = useState(mock);
+  const field = useField<InputDateDropField>(undefined);
+  const [data, setData] = useState<InputDataDropData>([]);
 
   const changeData = useCallback(() => {
     const result = eachDayOfInterval({
@@ -83,7 +83,7 @@ export const WithDataChange = () => {
   return (
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
-        <InputDateDrop data={data} field={field} />
+        <InputDateDrop data={data} field={field} input={{ disabled: data?.length === 0 }} />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">

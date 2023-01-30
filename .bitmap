@@ -23,7 +23,7 @@
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.59",
+        "version": "0.0.60",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
@@ -59,7 +59,7 @@
     },
     "components/inputs/input-date-drop": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-date-drop"
     },
@@ -89,7 +89,7 @@
     },
     "components/inputs/input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.24",
+        "version": "0.0.25",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-staff"
     },
@@ -137,7 +137,7 @@
     },
     "components/schedule/create-many-shifts": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.36",
+        "version": "0.0.37",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-many-shifts"
     },

@@ -31,13 +31,12 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
       size="slim"
       disclosure
       icon={<Avatar size="small" source={field.value.avatar} name={field.value.fullname} />}
-      fullWidth
       {...input}
     >
       {field.value?.fullname}
     </Button>
   ) : (
-    <Button onClick={togglePopoverActive} disclosure disabled={!data || data.length === 0} fullWidth {...input}>
+    <Button onClick={togglePopoverActive} disclosure disabled={!data || data.length === 0} {...input}>
       {t("label")}
     </Button>
   );

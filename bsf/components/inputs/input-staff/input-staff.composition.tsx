@@ -39,7 +39,7 @@ export const LaterStaffLoaded = () => {
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel and staff loading" sectioned>
-        <InputStaff data={staff} field={field} />
+        <InputStaff data={staff} field={field} input={{ fullWidth: true }} />
       </Card>
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
