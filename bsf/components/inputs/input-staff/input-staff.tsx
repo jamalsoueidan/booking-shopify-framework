@@ -1,17 +1,23 @@
 import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.bsf-pkg";
-import { Avatar, Button, ButtonProps, Popover, ResourceList } from "@shopify/polaris";
+import { Avatar, Button, ButtonProps, Labelled, LabelledProps, Popover, ResourceList } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useId, useState } from "react";
 
-export type InputStaffFieldType = WidgetStaff | undefined | null;
+export type InputStaffField = WidgetStaff | undefined | null;
+
+export interface InputStaffInput extends Partial<Omit<ButtonProps, "children">>, Partial<LabelledProps> {
+  placeholder?: string;
+}
+
 export interface InputStaffProps {
   data?: Array<WidgetStaff>;
-  field: Field<InputStaffFieldType>;
-  input?: Partial<ButtonProps>;
+  field: Field<InputStaffField>;
+  input?: InputStaffInput;
 }
 
 export function InputStaff({ data, field, input }: InputStaffProps) {
+  const id = useId();
   const { t } = useTranslation({ id: "input-staff", locales });
   const [popoverActive, setPopoverActive] = useState(false);
 
@@ -37,7 +43,7 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
     </Button>
   ) : (
     <Button onClick={togglePopoverActive} disclosure disabled={!data || data.length === 0} {...input}>
-      {t("label")}
+      {input?.placeholder || t("placeholder")}
     </Button>
   );
 
@@ -52,19 +58,34 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
   );
 
   return (
-    <Popover sectioned active={popoverActive} activator={activator} onClose={togglePopoverActive} ariaHaspopup={false}>
-      <Popover.Pane>
-        <ResourceList items={data || []} renderItem={renderItem} />
-      </Popover.Pane>
-    </Popover>
+    <Labelled
+      id={`${id}-input-staff`}
+      label={input?.label || t("label")}
+      error={field.error}
+      helpText={input?.helpText}
+    >
+      <Popover
+        sectioned
+        active={popoverActive}
+        activator={activator}
+        onClose={togglePopoverActive}
+        ariaHaspopup={false}
+      >
+        <Popover.Pane>
+          <ResourceList items={data || []} renderItem={renderItem} />
+        </Popover.Pane>
+      </Popover>
+    </Labelled>
   );
 }
 
 const locales = {
   da: {
     label: "Vælg medarbejder",
+    placeholder: "Vælg medarbejder",
   },
   en: {
     label: "Choose staff",
+    placeholder: "Choose staff",
   },
 };

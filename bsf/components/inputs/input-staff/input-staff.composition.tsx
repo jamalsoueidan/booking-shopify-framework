@@ -3,7 +3,7 @@ import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useState } from "react";
-import { InputStaff, InputStaffFieldType } from "./input-staff";
+import { InputStaff, InputStaffField } from "./input-staff";
 
 const data: WidgetStaff[] = [
   {
@@ -19,7 +19,7 @@ const data: WidgetStaff[] = [
 ];
 
 export const BasicInputStaff = () => {
-  const field = useField<InputStaffFieldType>(undefined);
+  const field = useField<InputStaffField>(undefined);
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel" sectioned>
@@ -33,7 +33,7 @@ export const BasicInputStaff = () => {
 };
 
 export const LaterStaffLoaded = () => {
-  const field = useField<InputStaffFieldType>(undefined);
+  const field = useField<InputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
@@ -51,7 +51,7 @@ export const LaterStaffLoaded = () => {
 };
 
 export const WithOptionLabel = () => {
-  const field = useField<InputStaffFieldType>(undefined);
+  const field = useField<InputStaffField>(undefined);
   return (
     <ApplicationFramePage>
       <Card title="optionLabel" sectioned>

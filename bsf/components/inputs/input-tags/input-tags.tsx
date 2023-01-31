@@ -1,6 +1,6 @@
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { Select } from "@shopify/polaris";
+import { Select, SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React from "react";
 
@@ -15,17 +15,16 @@ const locales = {
   },
 };
 
+export type InputTagsField = string;
+export type InputTagsInput = SelectProps;
 export interface InputTagsProps {
-  field: Field<string>;
-  label?: string;
-  placeholder?: string;
+  field: Field<InputTagsField>;
+  input?: InputTagsInput;
 }
 
-export const InputTags = ({ field, label, placeholder }: InputTagsProps) => {
+export const InputTags = ({ field, input }: InputTagsProps) => {
   const { options } = useTag();
   const { t } = useTranslation({ id: "tag-input", locales });
 
-  return (
-    <Select label={label || t("label")} placeholder={placeholder || t("placeholder")} options={options} {...field} />
-  );
+  return <Select label={t("label")} placeholder={t("placeholder")} options={options} {...field} {...input} />;
 };

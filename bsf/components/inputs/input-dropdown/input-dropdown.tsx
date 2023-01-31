@@ -1,25 +1,27 @@
-import { Autocomplete, InlineError, Stack, Tag } from "@shopify/polaris";
+import { Autocomplete, InlineError, Stack, Tag, TextFieldProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useEffect, useState } from "react";
 
+export type InputDropdownField = string[] | undefined | null;
+export type InputDropdownInput = Partial<TextFieldProps>;
 export interface InputDropdownProps {
-  field: Field<string[]>;
-  label: string;
-  placeholder?: string;
+  field: Field<InputDropdownField>;
+  input?: InputDropdownInput;
   options: Array<{
     label: string;
     value: string;
   }>;
 }
 
-export const InputDropdown = ({ field, label, placeholder, options: defaultOptions }: InputDropdownProps) => {
+export const InputDropdown = ({ field, input, options: defaultOptions }: InputDropdownProps) => {
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState(defaultOptions);
 
   useEffect(() => {
     setOptions(defaultOptions);
     field.onChange([]);
-  }, [defaultOptions, field]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateText = useCallback(
     (value: string) => {
@@ -39,15 +41,17 @@ export const InputDropdown = ({ field, label, placeholder, options: defaultOptio
 
   const removeTag = useCallback(
     (tag: string) => () => {
-      const options = [...field.value];
-      options.splice(options.indexOf(tag), 1);
-      field.onChange(options);
+      if (field.value) {
+        const options = [...field.value];
+        options.splice(options.indexOf(tag), 1);
+        field.onChange(options);
+      }
     },
     [field],
   );
 
   const verticalContentMarkup =
-    field.value.length > 0 ? (
+    field.value && field.value.length > 0 ? (
       <Stack spacing="extraTight" alignment="center">
         {field.value.map((option) => {
           let tagLabel = "";
@@ -65,9 +69,9 @@ export const InputDropdown = ({ field, label, placeholder, options: defaultOptio
     <Autocomplete.TextField
       autoComplete="off"
       onChange={updateText}
-      label={label}
+      label={input?.label}
       value={inputValue}
-      placeholder={placeholder}
+      placeholder={input?.placeholder}
       verticalContent={verticalContentMarkup}
     />
   );
@@ -77,7 +81,7 @@ export const InputDropdown = ({ field, label, placeholder, options: defaultOptio
       <Autocomplete
         allowMultiple
         options={options}
-        selected={field.value}
+        selected={field.value || []}
         textField={textField}
         onSelect={field.onChange}
       />

@@ -1,26 +1,25 @@
-import React, { useMemo } from "react";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { InputDropdown } from "./input-dropdown";
 import { useField } from "@shopify/react-form";
+import React, { useMemo } from "react";
+import { InputDropdown, InputDropdownField } from "./input-dropdown";
 
 export const BasicInputDropdown = () => {
   const options = useMemo(
     () => [
-      { value: "jamal", label: "Jamal" },
-      { value: "sara", label: "Sara" },
+      { label: "Jamal", value: "jamal" },
+      { label: "Sara", value: "sara" },
     ],
-    []
+    [],
   );
 
-  const field = useField<string[]>([]);
+  const field = useField<InputDropdownField>(undefined);
 
   return (
     <ApplicationFramePage title="Dropdown multi select input">
       <InputDropdown
         field={field}
         options={options}
-        label="User list"
-        placeholder="Click and pick a user"
+        input={{ label: "User list", placeholder: "Click and pick a user" }}
       />
     </ApplicationFramePage>
   );
