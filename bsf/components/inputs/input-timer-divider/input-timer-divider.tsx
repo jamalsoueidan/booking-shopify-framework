@@ -1,21 +1,27 @@
-import {
-  WithTimerFieldType,
-  WithTimerProps,
-  WithTimerStrictOption,
-  withTimer,
-} from "@jamalsoueidan/bsf.hocs.with-timer";
+import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
+import { UseTimerField, UseTimerInput, UseTimerOption, useTimer } from "@jamalsoueidan/bsf.hooks.use-timer";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { AlphaStack, Button, Columns, Inline, Labelled, Text } from "@shopify/polaris";
+import { Field } from "@shopify/react-form";
 import { format, setHours } from "date-fns";
 import React, { memo } from "react";
 
-export type InputTimerDividerFieldType = WithTimerFieldType;
-export type InputTimerDividerProps = WithTimerProps;
+export type InputTimerDividerField = UseTimerField;
+export interface InputTimerDividerProps {
+  field: Field<UseTimerField>;
+  data?: WidgetHourRange[];
+  input?: UseTimerInput;
+}
 
-export const InputTimerDivider = withTimer(({ field, input }) => {
+export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps) => {
+  const { options, onChange } = useTimer({
+    data,
+    field,
+    placeholder: input?.placeholder,
+  });
+
   const { t } = useTranslation({ id: "input-timer-list", locales });
 
-  const options = input?.options;
   const morning = options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) || [];
 
   const afternoon =
@@ -39,30 +45,30 @@ export const InputTimerDivider = withTimer(({ field, input }) => {
           <ColumnPeriod
             date={setHours(new Date(), 11)}
             hours={morning}
-            onChange={input?.onChange}
+            onChange={onChange}
             selected={field.value?.start}
           />
           <ColumnPeriod
             date={setHours(new Date(), 13)}
             hours={afternoon}
-            onChange={input?.onChange}
+            onChange={onChange}
             selected={field.value?.start}
           />
           <ColumnPeriod
             date={setHours(new Date(), 19)}
             hours={evening}
-            onChange={input?.onChange}
+            onChange={onChange}
             selected={field.value?.start}
           />
         </Columns>
       )}
     </Labelled>
   );
-});
+};
 
 interface ColumnPeriodProps {
   date: Date;
-  hours: WithTimerStrictOption[];
+  hours: UseTimerOption[];
   onChange?: (selected: string, id: string) => void;
   selected?: string;
 }

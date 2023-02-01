@@ -2,11 +2,11 @@ import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
-import React from "react";
-import { InputTimerDrop, InputTimerDropFieldType } from "./input-timer-drop";
+import React, { useEffect } from "react";
+import { InputTimerDrop, InputTimerDropField } from "./input-timer-drop";
 
 export const BasicInputTimer = () => {
-  const field = useField<InputTimerDropFieldType>(undefined);
+  const field = useField<InputTimerDropField>(undefined);
 
   return (
     <ApplicationFramePage>
@@ -20,12 +20,31 @@ export const BasicInputTimer = () => {
   );
 };
 
-export const SelectedState = () => {
-  const field = useField<InputTimerDropFieldType>(mock[0]);
+export const Error = () => {
+  const field = useField<InputTimerDropField>(undefined);
+
+  useEffect(() => {
+    field.setError("fejl");
+  }, []);
 
   return (
     <ApplicationFramePage>
-      <Card title="Selected state" sectioned>
+      <Card title="Selected" sectioned>
+        <InputTimerDrop data={mock} field={field} input={{ placeholder: "-" }} />
+      </Card>
+      <div>
+        <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
+
+export const Selected = () => {
+  const field = useField<InputTimerDropField>(mock[0]);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Selected" sectioned>
         <InputTimerDrop data={mock} field={field} />
       </Card>
       <div>
@@ -35,12 +54,12 @@ export const SelectedState = () => {
   );
 };
 
-export const EmptyState = () => {
-  const field = useField<InputTimerDropFieldType>(undefined);
+export const Empty = () => {
+  const field = useField<InputTimerDropField>(undefined);
 
   return (
     <ApplicationFramePage>
-      <Card title="Empty state" sectioned>
+      <Card title="Empty" sectioned>
         <InputTimerDrop field={field} />
       </Card>
       <div>
@@ -51,7 +70,7 @@ export const EmptyState = () => {
 };
 
 export const WithOptionLabel = () => {
-  const field = useField<InputTimerDropFieldType>(undefined);
+  const field = useField<InputTimerDropField>(undefined);
 
   return (
     <ApplicationFramePage>

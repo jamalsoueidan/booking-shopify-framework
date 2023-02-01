@@ -3,19 +3,24 @@ import { Card, Select } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
 import React from "react";
-import { WithTimerFieldType, withTimer } from "./with-timer";
+import { UseTimerField, UseTimerProps, useTimer } from "./use-timer";
 
-export const BasicInputTimer = () => {
-  const field = useField<WithTimerFieldType>(undefined);
+const InputTimerDrop = ({ data, field }: UseTimerProps) => {
+  const { options, onChange } = useTimer({
+    data,
+    field,
+  });
+
+  return <Select labelHidden label="-" options={options} onChange={onChange} value={field.value?.start} />;
+};
+
+export const Basic = () => {
+  const field = useField<UseTimerField>(undefined);
 
   return (
     <ApplicationFramePage>
-      <Card title="no optionLabel" sectioned>
-        <InputTimer
-          data={mock}
-          field={field}
-          input={{ label: "choose something", options: [{ label: "test", value: "test" }] }}
-        />
+      <Card sectioned>
+        <InputTimerDrop field={field} data={mock} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -23,10 +28,6 @@ export const BasicInputTimer = () => {
     </ApplicationFramePage>
   );
 };
-
-const InputTimer = withTimer(({ input, field }) => (
-  <Select options={input?.options} label={input?.label} {...input} value={field.value?.start} />
-));
 
 const result = eachHourOfInterval({
   end: setHours(new Date(), 21),

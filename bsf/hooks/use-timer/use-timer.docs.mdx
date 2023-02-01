@@ -1,0 +1,19 @@
+---
+description: "A React Hook that increments a count by 1 each time it is called."
+labels: ["hook", "timer"]
+---
+
+## A React Hook to increment a count
+
+A hook component that extend timer components.
+
+### Component usage
+
+```js
+const { options, onChange } = useTimer({
+  data,
+  field,
+});
+
+return <Select labelHidden label="-" options={options} onChange={onChange} value={field.value?.start} />;
+```

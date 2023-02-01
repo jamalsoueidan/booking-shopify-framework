@@ -35,6 +35,7 @@ export * from "@jamalsoueidan/bsf.hooks.use-previous";
 export * from "@jamalsoueidan/bsf.hooks.use-save-bar";
 export * from "@jamalsoueidan/bsf.hooks.use-settings";
 export * from "@jamalsoueidan/bsf.hooks.use-tag";
+export * from "@jamalsoueidan/bsf.hooks.use-timer";
 export * from "@jamalsoueidan/bsf.hooks.use-toast";
 export * from "@jamalsoueidan/bsf.hooks.use-translation";
 // PROVIDERS

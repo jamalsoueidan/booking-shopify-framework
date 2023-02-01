@@ -34,6 +34,9 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
     [field],
   );
 
+  // if disabled, don't show error msg.
+  const error = input?.disabled ? undefined : field?.error;
+
   const activator = useMemo(() => {
     const icon = field.value ? (
       <Avatar size="small" source={field.value?.avatar} name={field.value?.fullname} />
@@ -43,6 +46,7 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
       <InputButton
         disabled={input?.disabled}
         disclosure
+        error={error}
         icon={icon}
         onClick={togglePopoverActive}
         size={icon ? "slim" : "medium"}
@@ -61,9 +65,6 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
       {item.fullname}
     </ResourceList.Item>
   );
-
-  // if disabled, don't show error msg.
-  const error = input?.disabled ? undefined : field?.error;
 
   return (
     <Labelled id={`${id}input-staff`} error={error} helpText={input?.helpText} label={input?.label || t("label")}>

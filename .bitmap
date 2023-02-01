@@ -23,7 +23,7 @@
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.65",
+        "version": "0.0.66",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
@@ -107,7 +107,7 @@
     },
     "components/inputs/input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.30",
+        "version": "0.0.31",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-staff"
     },
@@ -189,12 +189,6 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/helpers/validators"
     },
-    "hocs/with-timer": {
-        "scope": "jamalsoueidan.bsf",
-        "version": "0.0.7",
-        "mainFile": "index.ts",
-        "rootDir": "bsf/hocs/with-timer"
-    },
     "hooks/use-date": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.24",
@@ -242,6 +236,12 @@
         "version": "0.0.36",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-tag"
+    },
+    "hooks/use-timer": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/hooks/use-timer"
     },
     "hooks/use-toast": {
         "scope": "jamalsoueidan.bsf",
