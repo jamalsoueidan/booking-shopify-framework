@@ -31,21 +31,6 @@ export const Basic = () => {
   );
 };
 
-export const Inline = () => {
-  const field = useField(undefined);
-
-  return (
-    <ApplicationFramePage>
-      <Card title="Inline mode" sectioned>
-        <InputDate field={field} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-      </Card>
-    </ApplicationFramePage>
-  );
-};
-
 export const Selected = () => {
   const date = useMemo(() => addMonths(new Date(), 1), []);
   const field = useField(date);
@@ -62,44 +47,14 @@ export const Selected = () => {
   );
 };
 
-export const LabelHidden = () => {
-  const field = useField(undefined);
-
-  return (
-    <ApplicationFramePage>
-      <Card title="Inline mode" sectioned>
-        <InputDate field={field} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-      </Card>
-    </ApplicationFramePage>
-  );
-};
-
-export const WithData = () => {
-  const field = useField(undefined);
-
-  return (
-    <ApplicationFramePage>
-      <Card title="Inline mode with data" sectioned>
-        <InputDate data={mock} field={field} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-      </Card>
-    </ApplicationFramePage>
-  );
-};
-
 export const WithDataChange = () => {
   const field = useField(undefined);
   const [data, setData] = useState(mock);
 
   const changeData = useCallback(() => {
     const result = eachDayOfInterval({
-      start: addDays(new Date(), 5),
       end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
     });
     setData(
       result.map((r) => ({
@@ -124,8 +79,8 @@ export const WithDataChange = () => {
 };
 
 const result = eachDayOfInterval({
-  start: addDays(new Date(), 2),
   end: addDays(new Date(), 4),
+  start: addDays(new Date(), 2),
 });
 
 const mock = result.map((r) => ({

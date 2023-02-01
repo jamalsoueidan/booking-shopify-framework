@@ -2,13 +2,13 @@
 description: A InputAutoComplete component.
 ---
 
-A component that render select with search and list segments, can't be used directly with useField
+A component that render select with search and list segments, below example how to use it.
 
 ### Component usage
 
-```js
-const [value, setValue] = useState < string > "a";
-const [loading] = useState < boolean > false;
+```ts
+const [value, setValue] = useState<string>("a");
+const [loading] = useState<boolean>(false);
 
 const options: Array<InputAutoCompleteOption> = useMemo(() => {
   const data =

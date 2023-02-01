@@ -1,5 +1,5 @@
-import { useTranslation } from "@jamalsoueidan/bsf.bsf-pkg";
 import { InputLabelButton } from "@jamalsoueidan/bsf.components.inputs.input-label-button";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
   AutoSelection,
   Icon,

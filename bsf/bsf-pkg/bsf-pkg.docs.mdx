@@ -2,7 +2,7 @@
 description: Package
 ---
 
-A package to export all components
+A package (all components)
 
 ### Component usage
 
@@ -10,6 +10,6 @@ A package to export all components
 const StaffForm = lazy(() =>
   import("@jamalsoueidan/bsf.bsf-pkg").then((module) => ({
     default: module.StaffForm,
-  }))
+  })),
 );
 ```

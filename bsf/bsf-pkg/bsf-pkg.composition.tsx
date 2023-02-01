@@ -1,5 +1,3 @@
 import React from "react";
 
-export const BasicBsfPkg = () => {
-  return <>Package to export all components</>;
-};
+export const BasicBsfPkg = () => <>Package (all components)</>;
