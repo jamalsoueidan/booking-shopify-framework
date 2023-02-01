@@ -23,7 +23,7 @@
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.66",
+        "version": "0.0.67",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
@@ -107,7 +107,7 @@
     },
     "components/inputs/input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.31",
+        "version": "0.0.32",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-staff"
     },
@@ -125,13 +125,13 @@
     },
     "components/inputs/input-timer-divider": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-timer-divider"
     },
     "components/inputs/input-timer-drop": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-timer-drop"
     },
@@ -238,8 +238,8 @@
         "rootDir": "bsf/hooks/use-tag"
     },
     "hooks/use-timer": {
-        "scope": "",
-        "version": "",
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-timer"
     },
