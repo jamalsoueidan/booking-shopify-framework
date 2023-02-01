@@ -51,6 +51,18 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/form-errors"
     },
+    "components/inputs/input-auto-complete": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-auto-complete"
+    },
+    "components/inputs/input-button": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-button"
+    },
     "components/inputs/input-date": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.22",
@@ -80,6 +92,12 @@
         "version": "0.0.20",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-dropdown"
+    },
+    "components/inputs/input-label-button": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/inputs/input-label-button"
     },
     "components/inputs/input-language": {
         "scope": "jamalsoueidan.bsf",
