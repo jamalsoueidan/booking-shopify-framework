@@ -23,7 +23,7 @@
     },
     "bsf-pkg": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.63",
+        "version": "0.0.64",
         "mainFile": "index.ts",
         "rootDir": "bsf/bsf-pkg"
     },
@@ -107,7 +107,7 @@
     },
     "components/inputs/input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.28",
+        "version": "0.0.29",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-staff"
     },

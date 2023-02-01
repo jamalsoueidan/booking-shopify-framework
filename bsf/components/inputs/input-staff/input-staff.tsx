@@ -1,9 +1,8 @@
 import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
-import { useTranslation } from "@jamalsoueidan/bsf.bsf-pkg";
-import { InputLabelButton } from "@jamalsoueidan/bsf.components.inputs.input-label-button";
-import { Avatar, ButtonProps, LabelledProps, Popover, ResourceList } from "@shopify/polaris";
+import { InputButton, useTranslation } from "@jamalsoueidan/bsf.bsf-pkg";
+import { Avatar, ButtonProps, Labelled, LabelledProps, Popover, ResourceList } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useId, useMemo, useState } from "react";
 
 export type InputStaffField = WidgetStaff | undefined | null;
 
@@ -21,6 +20,7 @@ export interface InputStaffProps {
 }
 
 export function InputStaff({ data, field, input }: InputStaffProps) {
+  const id = useId();
   const { t } = useTranslation({ id: "input-staff", locales });
   const [popoverActive, setPopoverActive] = useState(false);
 
@@ -39,33 +39,18 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
       <Avatar size="small" source={field.value?.avatar} name={field.value?.fullname} />
     ) : undefined;
 
-    // if disabled, don't show error msg.
-    const error = input?.disabled ? undefined : field?.error;
-
     return (
-      <InputLabelButton
-        labelled={{ error, helpText: input?.helpText, label: input?.label || t("label") }}
-        button={{
-          disabled: input?.disabled,
-          disclosure: true,
-          icon,
-          onClick: togglePopoverActive,
-          size: icon ? "slim" : "medium",
-        }}
+      <InputButton
+        disabled={input?.disabled}
+        disclosure
+        icon={icon}
+        onClick={togglePopoverActive}
+        size={icon ? "slim" : "medium"}
       >
         {field.value?.fullname || input?.placeholder || t("placeholder")}
-      </InputLabelButton>
+      </InputButton>
     );
-  }, [
-    field?.error,
-    field.value,
-    input?.disabled,
-    input?.helpText,
-    input?.label,
-    input?.placeholder,
-    t,
-    togglePopoverActive,
-  ]);
+  }, [field.value, input?.disabled, input?.placeholder, t, togglePopoverActive]);
 
   const renderItem = (item: WidgetStaff) => (
     <ResourceList.Item
@@ -77,12 +62,23 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
     </ResourceList.Item>
   );
 
+  // if disabled, don't show error msg.
+  const error = input?.disabled ? undefined : field?.error;
+
   return (
-    <Popover sectioned active={popoverActive} activator={activator} onClose={togglePopoverActive} ariaHaspopup={false}>
-      <Popover.Pane>
-        <ResourceList items={data || []} renderItem={renderItem} />
-      </Popover.Pane>
-    </Popover>
+    <Labelled id={`${id}input-staff`} error={error} helpText={input?.helpText} label={input?.label || t("label")}>
+      <Popover
+        sectioned
+        active={popoverActive}
+        activator={activator}
+        onClose={togglePopoverActive}
+        ariaHaspopup={false}
+      >
+        <Popover.Pane>
+          <ResourceList items={data || []} renderItem={renderItem} />
+        </Popover.Pane>
+      </Popover>
+    </Labelled>
   );
 }
 
