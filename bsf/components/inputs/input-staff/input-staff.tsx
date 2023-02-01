@@ -10,6 +10,7 @@ export type InputStaffField = WidgetStaff | undefined | null;
 export interface InputStaffInput extends Partial<Pick<LabelledProps, "label" | "helpText">> {
   placeholder?: string;
   loading?: boolean;
+  disabled?: boolean;
   icon?: ButtonProps["icon"];
 }
 
@@ -37,17 +38,34 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
     const icon = field.value ? (
       <Avatar size="small" source={field.value?.avatar} name={field.value?.fullname} />
     ) : undefined;
-    const disabled = !data || data.length === 0;
+
+    // if disabled, don't show error msg.
+    const error = input?.disabled ? undefined : field?.error;
 
     return (
       <InputLabelButton
-        labelled={{ error: field?.error, helpText: input?.helpText, label: input?.label || t("label") }}
-        button={{ disabled, disclosure: true, icon, onClick: togglePopoverActive, size: icon ? "slim" : "medium" }}
+        labelled={{ error, helpText: input?.helpText, label: input?.label || t("label") }}
+        button={{
+          disabled: input?.disabled,
+          disclosure: true,
+          icon,
+          onClick: togglePopoverActive,
+          size: icon ? "slim" : "medium",
+        }}
       >
         {field.value?.fullname || input?.placeholder || t("placeholder")}
       </InputLabelButton>
     );
-  }, [data, field?.error, field.value, input?.helpText, input?.label, input?.placeholder, t, togglePopoverActive]);
+  }, [
+    field?.error,
+    field.value,
+    input?.disabled,
+    input?.helpText,
+    input?.label,
+    input?.placeholder,
+    t,
+    togglePopoverActive,
+  ]);
 
   const renderItem = (item: WidgetStaff) => (
     <ResourceList.Item

@@ -22,7 +22,7 @@ export const BasicInputStaff = () => {
   const field = useField<InputStaffField>(undefined);
   return (
     <ApplicationFramePage>
-      <Card title="no optionLabel" sectioned>
+      <Card title="Basic" sectioned>
         <InputStaff data={data} field={field} />
       </Card>
       <div>
@@ -41,9 +41,36 @@ export const BasicInputStaffError = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="no optionLabel" sectioned>
+      <Card title="Input With Error" sectioned>
         <InputStaff data={data} field={field} />
       </Card>
+      <div>
+        <pre>staffId: {field.value?.staff}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
+
+export const DisabledWithError = () => {
+  const field = useField<InputStaffField>(undefined);
+  const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
+
+  useEffect(() => {
+    field.setError("fejl");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Disabled and with error" sectioned>
+        <InputStaff
+          data={staff}
+          field={field}
+          input={{ disabled: !staff || staff.length === 0, helpText: "klik på knap og vælge bruger" }}
+        />
+      </Card>
+      <br />
+      <Button onClick={() => setStaff(data)}>Load staff</Button>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
@@ -57,25 +84,15 @@ export const LaterStaffLoaded = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="no optionLabel and staff loading" sectioned>
-        <InputStaff data={staff} field={field} input={{ helpText: "klik på knap og vælge bruger" }} />
+      <Card title="Staff Loading" sectioned>
+        <InputStaff
+          data={staff}
+          field={field}
+          input={{ disabled: !staff || staff.length === 0, helpText: "klik på knap og vælge bruger" }}
+        />
       </Card>
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
-      <div>
-        <pre>staffId: {field.value?.staff}</pre>
-      </div>
-    </ApplicationFramePage>
-  );
-};
-
-export const WithOptionLabel = () => {
-  const field = useField<InputStaffField>(undefined);
-  return (
-    <ApplicationFramePage>
-      <Card title="optionLabel" sectioned>
-        <InputStaff data={data} field={field} />
-      </Card>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
