@@ -13,30 +13,24 @@ export interface PreviewI18nProps {
   children?: React.ReactNode;
 }
 
-export const PreviewI18n = ({ children }: PreviewI18nProps) => {
-  return (
-    <I18nContext.Provider value={i18nManager}>
-      <PolarisProvider>
-        <Frame>{children}</Frame>
-      </PolarisProvider>
-    </I18nContext.Provider>
-  );
-};
+export const PreviewI18n = ({ children }: PreviewI18nProps) => (
+  <I18nContext.Provider value={i18nManager}>
+    <PolarisProvider>
+      <Frame>{children}</Frame>
+    </PolarisProvider>
+  </I18nContext.Provider>
+);
 
-const PolarisProvider = ({ children }: any) => {
+const PolarisProvider = ({ children }: { children: React.ReactNode }) => {
   const [i18n] = useI18n({
-    id: "Polaris",
     fallback: en,
+    id: "Polaris",
     async translations(locale) {
       return locale === "en-US" ? en : da;
     },
   });
 
   return (
-    <AppProvider
-      i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}
-    >
-      {children}
-    </AppProvider>
+    <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}>{children}</AppProvider>
   );
 };
