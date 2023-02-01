@@ -1,7 +1,8 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { Card } from "@shopify/polaris";
+import { Card, Icon } from "@shopify/polaris";
+import { CustomerPlusMajor } from "@shopify/polaris-icons";
 import { Field, useField } from "@shopify/react-form";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { InputAutoComplete, InputAutoCompleteOption } from "./input-auto-complete";
 import mock from "./mock";
 
@@ -47,19 +48,38 @@ const CustomerInputAutoComplete = ({ field }: CustomerAutoCompleteProps) => {
     [field.value?.customerId, options],
   );
 
+  const icon = <Icon source={CustomerPlusMajor} color="critical" />;
+
   return (
     <InputAutoComplete
       options={options}
       onSelect={onSelect}
       onSearch={onSearch}
       selectedOption={selectedOption}
-      input={{ error: field.error, loading }}
+      input={{ error: field.error, icon, loading }}
     />
   );
 };
 
 export const BasicInputAutoComplete = () => {
   const field = useField<CustomerAutoDompleteField>(undefined);
+  return (
+    <ApplicationFramePage>
+      <Card sectioned>
+        <CustomerInputAutoComplete field={field} />
+      </Card>
+    </ApplicationFramePage>
+  );
+};
+
+export const BasicInputAutoCompleteWithError = () => {
+  const field = useField<CustomerAutoDompleteField>(undefined);
+
+  useEffect(() => {
+    field.setError("error");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <ApplicationFramePage>
       <Card sectioned>

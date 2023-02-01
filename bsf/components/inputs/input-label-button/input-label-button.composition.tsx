@@ -6,9 +6,7 @@ import { InputLabelButton } from "./input-label-button";
 export const InputLabelButtonError = () => (
   <ApplicationFramePage>
     <Card title="LabelButton (error)" sectioned>
-      <InputLabelButton label="label" error="error">
-        Error
-      </InputLabelButton>
+      <InputLabelButton labelled={{ error: "error", label: "label" }}>Error</InputLabelButton>
     </Card>
   </ApplicationFramePage>
 );
@@ -16,7 +14,7 @@ export const InputLabelButtonError = () => (
 export const InputLabelButtonNoError = () => (
   <ApplicationFramePage>
     <Card title="LabelButton (no error)" sectioned>
-      <InputLabelButton label="label">No error</InputLabelButton>
+      <InputLabelButton labelled={{ label: "label" }}>No error</InputLabelButton>
     </Card>
   </ApplicationFramePage>
 );
@@ -24,7 +22,7 @@ export const InputLabelButtonNoError = () => (
 export const InputLabelButtonLoading = () => (
   <ApplicationFramePage>
     <Card title="LabelButton (loading)" sectioned>
-      <InputLabelButton label="label" loading>
+      <InputLabelButton labelled={{ label: "label" }} button={{ loading: true }}>
         Loading
       </InputLabelButton>
     </Card>

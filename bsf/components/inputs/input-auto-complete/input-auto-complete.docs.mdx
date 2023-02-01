@@ -34,7 +34,7 @@ const onSelect = useCallback(
 );
 
 const onSearch = useCallback((value: string | null) => {
-  setValue(value || "a");
+  setValue(value || "");
 }, []);
 
 const selectedOption = useMemo(

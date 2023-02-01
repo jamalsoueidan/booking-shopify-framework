@@ -2,6 +2,7 @@ import { InputLabelButton } from "@jamalsoueidan/bsf.components.inputs.input-lab
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
   AutoSelection,
+  ButtonProps,
   Icon,
   LabelledProps,
   Listbox,
@@ -13,11 +14,12 @@ import {
 } from "@shopify/polaris";
 import { SearchMinor } from "@shopify/polaris-icons";
 
-import React, { useState } from "react";
+import React, { useCallback, useId, useMemo, useState } from "react";
 
 export interface InputAutoCompleteInput extends Partial<Pick<LabelledProps, "label" | "error" | "helpText">> {
   placeholder?: string;
   loading?: boolean;
+  icon?: ButtonProps["icon"];
 }
 
 export interface InputAutoCompleteOption {
@@ -38,102 +40,126 @@ export const InputAutoComplete = ({ options, onSelect, onSearch, selectedOption,
   const [pickerOpen, setPickerOpen] = useState(false);
   const [query, setQuery] = useState("");
 
-  const handleQueryChange = (query: string) => {
-    setQuery(query);
+  const onTextFieldChange = useCallback(
+    (query: string) => {
+      setQuery(query);
 
-    if (query.length >= 2) {
-      onSearch(query);
-      return;
-    }
-    onSearch(null);
-  };
+      if (query.length >= 2) {
+        onSearch(query);
+        return;
+      }
+      onSearch(null);
+    },
+    [onSearch],
+  );
 
-  const handleQueryClear = () => {
-    handleQueryChange("");
-  };
+  const onTextFieldClear = useCallback(() => {
+    onTextFieldChange("");
+  }, [onTextFieldChange]);
 
-  const handleOpenPicker = () => {
+  const showDropdown = useCallback(() => {
     setPickerOpen(true);
-  };
+  }, []);
 
-  const handleClosePicker = () => {
+  const closeDropdown = useCallback(() => {
     setPickerOpen(false);
-    handleQueryChange("");
-  };
+    onTextFieldChange("");
+  }, [onTextFieldChange]);
 
-  const handleOnSelect = (value: string) => {
-    const option = options.find((o) => o.value === value);
-    onSelect(option);
-    handleClosePicker();
-  };
-
-  const listboxId = "SearchableListboxInPopover";
-
-  const activator = (
-    <InputLabelButton
-      label={input?.label || t("label")}
-      error={input?.error}
-      onClick={handleOpenPicker}
-      loading={input?.loading}
-    >
-      {selectedOption?.label || t("label")}
-    </InputLabelButton>
+  const handleOnSelect = useCallback(
+    (value: string) => {
+      const option = options.find((o) => o.value === value);
+      onSelect(option);
+      closeDropdown();
+    },
+    [closeDropdown, onSelect, options],
   );
 
-  const textFieldMarkup = (
-    <div style={{ padding: "12px" }}>
-      <StopPropagation>
-        <TextField
-          focused
-          clearButton
-          labelHidden
-          label={t("placeholder")}
-          placeholder={t("placeholder")}
-          autoComplete="off"
-          value={query}
-          prefix={<Icon source={SearchMinor} />}
-          ariaActiveDescendant={selectedOption?.value?.toString()}
-          ariaControls={listboxId}
-          onChange={handleQueryChange}
-          onClearButtonClick={handleQueryClear}
-        />
-      </StopPropagation>
-    </div>
+  const id = useId();
+  const listboxId = `${id}-input-auto-complete`;
+
+  const activator = useMemo(
+    () => (
+      <InputLabelButton
+        labelled={{ error: input?.error, helpText: input?.helpText, label: input?.label || t("label") }}
+        button={{ icon: input?.icon, loading: input?.loading, onClick: showDropdown }}
+      >
+        {selectedOption?.label || t("label")}
+      </InputLabelButton>
+    ),
+    [input?.error, input?.helpText, input?.label, input?.icon, input?.loading, t, showDropdown, selectedOption?.label],
   );
 
-  const segmentList = options?.map(({ label, value }) => {
-    const isSelected = selectedOption?.value === value;
+  const textFieldMarkup = useMemo(
+    () => (
+      <div style={{ padding: "12px" }}>
+        <StopPropagation>
+          <TextField
+            focused
+            clearButton
+            labelHidden
+            label={t("placeholder")}
+            placeholder={t("placeholder")}
+            autoComplete="off"
+            value={query}
+            prefix={<Icon source={SearchMinor} />}
+            ariaActiveDescendant={selectedOption?.value?.toString()}
+            ariaControls={listboxId}
+            onChange={onTextFieldChange}
+            onClearButtonClick={onTextFieldClear}
+          />
+        </StopPropagation>
+      </div>
+    ),
+    [listboxId, onTextFieldChange, onTextFieldClear, query, selectedOption?.value, t],
+  );
 
-    return (
-      <Listbox.Option key={value} value={value.toString()} selected={isSelected}>
-        <Listbox.TextOption selected={isSelected}>{label}</Listbox.TextOption>
-      </Listbox.Option>
-    );
-  });
+  const listMarkup = useMemo(
+    () =>
+      options?.map(({ label, value }) => {
+        const isSelected = selectedOption?.value === value;
 
-  const lazyLoadingMarkup = input?.loading ? <Listbox.Loading accessibilityLabel="Loading" /> : null;
+        return (
+          <Listbox.Option key={value} value={value.toString()} selected={isSelected}>
+            <Listbox.TextOption selected={isSelected}>{label}</Listbox.TextOption>
+          </Listbox.Option>
+        );
+      }),
+    [options, selectedOption?.value],
+  );
 
-  const noResultsMarkup =
-    options.length === 0 ? (
-      <Stack alignment="center" vertical>
-        <Text variant="bodyMd" as="span" color="subdued">
-          {t("not_found", { query })}
-        </Text>
-      </Stack>
-    ) : null;
+  const loadingMarkup = useMemo(
+    () => input?.loading && <Listbox.Loading accessibilityLabel="Loading" />,
+    [input?.loading],
+  );
 
-  const listboxMarkup = (
-    <Listbox
-      enableKeyboardControl
-      autoSelection={AutoSelection.None}
-      accessibilityLabel="Search for and select a segment"
-      customListId={listboxId}
-      onSelect={handleOnSelect}
-    >
-      {segmentList}
-      {noResultsMarkup}
-      {lazyLoadingMarkup}
-    </Listbox>
+  const emptyMarkup = useMemo(
+    () =>
+      options.length === 0 && (
+        <Stack alignment="center" vertical>
+          <Text variant="bodyMd" as="span" color="subdued">
+            {t("not_found", { query })}
+          </Text>
+        </Stack>
+      ),
+    [options.length, query, t],
+  );
+
+  const markup = useMemo(
+    () => (
+      <Listbox
+        enableKeyboardControl
+        autoSelection={AutoSelection.None}
+        accessibilityLabel="Search for and select a segment"
+        customListId={listboxId}
+        onSelect={handleOnSelect}
+      >
+        {listMarkup}
+        {emptyMarkup}
+        {loadingMarkup}
+      </Listbox>
+    ),
+    [emptyMarkup, handleOnSelect, listMarkup, listboxId, loadingMarkup],
   );
 
   return (
@@ -143,7 +169,7 @@ export const InputAutoComplete = ({ options, onSelect, onSearch, selectedOption,
       ariaHaspopup="listbox"
       preferredAlignment="left"
       autofocusTarget="first-node"
-      onClose={handleClosePicker}
+      onClose={closeDropdown}
     >
       <Popover.Pane fixed>
         <div
@@ -171,7 +197,7 @@ export const InputAutoComplete = ({ options, onSelect, onSearch, selectedOption,
               width: "310px",
             }}
           >
-            {listboxMarkup}
+            {markup}
           </Scrollable>
         </div>
       </Popover.Pane>

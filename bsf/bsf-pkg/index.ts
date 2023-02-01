@@ -11,7 +11,6 @@ export * from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 export * from "@jamalsoueidan/bsf.components.inputs.input-date-flat";
 export * from "@jamalsoueidan/bsf.components.inputs.input-days";
 export * from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
-export * from "@jamalsoueidan/bsf.components.inputs.input-label-button";
 export * from "@jamalsoueidan/bsf.components.inputs.input-language";
 export * from "@jamalsoueidan/bsf.components.inputs.input-staff";
 export * from "@jamalsoueidan/bsf.components.inputs.input-tags";
@@ -19,14 +18,13 @@ export * from "@jamalsoueidan/bsf.components.inputs.input-time-zone";
 export * from "@jamalsoueidan/bsf.components.inputs.input-timer-divider";
 export * from "@jamalsoueidan/bsf.components.inputs.input-timer-drop";
 export * from "@jamalsoueidan/bsf.components.loading.loading-modal";
-// COMPONENTS / LOADING
 export * from "@jamalsoueidan/bsf.components.loading.loading-page";
 export * from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";
-export * from "@jamalsoueidan/bsf.helpers.text";
 // HELPERS
+export * from "@jamalsoueidan/bsf.helpers.text";
 export * from "@jamalsoueidan/bsf.helpers.validators";
 // HOOKS
 export * from "@jamalsoueidan/bsf.hooks.use-date";
