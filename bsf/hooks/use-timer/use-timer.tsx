@@ -64,7 +64,7 @@ export const useTimer = ({ data, field, placeholder }: UseTimerProps) => {
         });
       }
     },
-    [data, field.onChange],
+    [data, field],
   );
 
   useEffect(() => {
@@ -78,5 +78,5 @@ export const useTimer = ({ data, field, placeholder }: UseTimerProps) => {
     }
   }, [options, handleOnChange, field.value, field.error, placeholder]);
 
-  return { options, onChange: handleOnChange };
+  return { onChange: handleOnChange, options };
 };

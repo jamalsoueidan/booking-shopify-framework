@@ -18,7 +18,7 @@ const data: WidgetStaff[] = [
   },
 ];
 
-export const BasicInputStaff = () => {
+export const Basic = () => {
   const field = useField<InputStaffField>(undefined);
   return (
     <ApplicationFramePage>
@@ -32,7 +32,7 @@ export const BasicInputStaff = () => {
   );
 };
 
-export const BasicInputStaffError = () => {
+export const Error = () => {
   const field = useField<InputStaffField>(undefined);
   useEffect(() => {
     field.setError("error");
@@ -41,7 +41,7 @@ export const BasicInputStaffError = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Input With Error" sectioned>
+      <Card title="Error" sectioned>
         <InputStaff data={data} field={field} />
       </Card>
       <div>
@@ -62,7 +62,7 @@ export const DisabledWithError = () => {
 
   return (
     <ApplicationFramePage>
-      <Card title="Disabled and with error" sectioned>
+      <Card title="Disabled with error" sectioned>
         <InputStaff
           data={staff}
           field={field}
@@ -78,13 +78,13 @@ export const DisabledWithError = () => {
   );
 };
 
-export const LaterStaffLoaded = () => {
+export const LazyLoad = () => {
   const field = useField<InputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
     <ApplicationFramePage>
-      <Card title="Staff Loading" sectioned>
+      <Card title="LazyLoad" sectioned>
         <InputStaff
           data={staff}
           field={field}

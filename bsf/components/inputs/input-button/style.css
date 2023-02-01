@@ -1,0 +1,14 @@
+.Button-Error {
+  color: #bf0711;
+  position: relative;
+  display: inline-block;
+}
+
+.Button-Error > .Polaris-Button--monochrome.Polaris-Button--outline {
+  border: 0;
+  box-shadow: 0 0 0 var(--p-border-width-1) currentColor;
+}
+
+.Button-Error .Polaris-Icon--applyColor {
+  color: currentColor;
+}

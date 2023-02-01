@@ -54,7 +54,7 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
         {field.value?.fullname || input?.placeholder || t("placeholder")}
       </InputButton>
     );
-  }, [field.value, input?.disabled, input?.placeholder, t, togglePopoverActive]);
+  }, [error, field.value, input?.disabled, input?.placeholder, t, togglePopoverActive]);
 
   const renderItem = (item: WidgetStaff) => (
     <ResourceList.Item
