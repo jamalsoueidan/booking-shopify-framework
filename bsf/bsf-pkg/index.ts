@@ -4,11 +4,14 @@ export * from "@jamalsoueidan/bsf.components.booking.booking-staff";
 export * from "@jamalsoueidan/bsf.components.calendar";
 export * from "@jamalsoueidan/bsf.components.form-errors";
 // COMPONENTS / INPUTS
+export * from "@jamalsoueidan/bsf.components.inputs.input-auto-complete";
+export * from "@jamalsoueidan/bsf.components.inputs.input-button";
 export * from "@jamalsoueidan/bsf.components.inputs.input-date";
 export * from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 export * from "@jamalsoueidan/bsf.components.inputs.input-date-flat";
 export * from "@jamalsoueidan/bsf.components.inputs.input-days";
 export * from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
+export * from "@jamalsoueidan/bsf.components.inputs.input-label-button";
 export * from "@jamalsoueidan/bsf.components.inputs.input-language";
 export * from "@jamalsoueidan/bsf.components.inputs.input-staff";
 export * from "@jamalsoueidan/bsf.components.inputs.input-tags";

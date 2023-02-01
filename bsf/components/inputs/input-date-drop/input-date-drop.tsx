@@ -36,7 +36,7 @@ export const InputDateDrop = ({ field, data, input, onMonthChange }: InputDateDr
     <TextField
       label={input?.label || t("label")}
       helpText={input?.helpText}
-      error={field.error}
+      error={!input?.disabled && field.error}
       labelHidden={input?.labelHidden}
       autoComplete="off"
       value={field.value ? format(field.value, "PPP") : ""}

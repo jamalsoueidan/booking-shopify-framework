@@ -2,7 +2,7 @@ import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputStaff, InputStaffField } from "./input-staff";
 
 const data: WidgetStaff[] = [
@@ -20,6 +20,25 @@ const data: WidgetStaff[] = [
 
 export const BasicInputStaff = () => {
   const field = useField<InputStaffField>(undefined);
+  return (
+    <ApplicationFramePage>
+      <Card title="no optionLabel" sectioned>
+        <InputStaff data={data} field={field} />
+      </Card>
+      <div>
+        <pre>staffId: {field.value?.staff}</pre>
+      </div>
+    </ApplicationFramePage>
+  );
+};
+
+export const BasicInputStaffError = () => {
+  const field = useField<InputStaffField>(undefined);
+  useEffect(() => {
+    field.setError("error");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <ApplicationFramePage>
       <Card title="no optionLabel" sectioned>
