@@ -10,25 +10,27 @@ export interface User {
   role: number;
 }
 
-export interface ReceivePasswordBodyRequest {
+export interface UserReceivePasswordBodyRequest {
   phone: string;
 }
 
-export interface ReceivePasswordResponse {
+export interface UserReceivePasswordResponse {
   message: string;
 }
 
-export interface LoginBodyRequest {
+export interface UserLoginBodyRequest {
   identification: string;
   password: string;
 }
 
-export interface LoginResponse {
+export interface UserLoginResponse {
   token: string;
 }
 
-export interface SettingsResponse {
+export interface UserSettingsResponse {
   _id: string;
   language: string;
   timeZone: string;
 }
+
+export interface UserSettingsUpdateBodyRequest extends Omit<UserSettingsResponse, "_id"> {}

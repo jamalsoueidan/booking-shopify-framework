@@ -1,6 +1,6 @@
-import { Staff } from "./staff";
 import { Customer } from "./customer";
 import { Product } from "./product";
+import { Staff } from "./staff";
 
 export enum BookingFulfillmentStatus {
   CANCELLED = "cancelled",
@@ -28,8 +28,7 @@ export interface Booking {
   isSelfBooked?: boolean;
 }
 
-export interface BookingAggreate
-  extends Omit<Booking, "staff" | "start" | "end"> {
+export interface BookingResponse extends Omit<Booking, "staff" | "start" | "end"> {
   customer: Customer;
   product: Product;
   staff: Staff;
@@ -37,17 +36,20 @@ export interface BookingAggreate
   end: string;
 }
 
-export interface BookingBodyUpdate extends Pick<Booking, "staff"> {
+export interface BookingRequest {
+  start: string;
+  end: string;
+  staff: string;
+}
+
+export interface BookingBodyUpdateRequest extends Pick<Booking, "staff"> {
   start: string;
   end: string;
 }
 
-export interface BookingBodyCreate
-  extends Pick<Booking, "productId" | "customerId" | "staff"> {
+export interface BookingBodyCreateRequest extends Pick<Booking, "productId" | "customerId" | "staff"> {
   start: string;
   end: string;
 }
 
-export interface BookingQuery
-  extends Pick<Booking, "start" | "end">,
-    Partial<Pick<Booking, "staff">> {}
+export interface BookingQuery extends Pick<Booking, "start" | "end">, Partial<Pick<Booking, "staff">> {}

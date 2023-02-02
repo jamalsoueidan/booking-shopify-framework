@@ -1,5 +1,10 @@
 import { BookingModel, ProductModel } from "@jamalsoueidan/bsb.mongodb.models";
-import { BookingAggreate, BookingBodyCreate, BookingBodyUpdate, BookingQuery } from "@jamalsoueidan/bsb.mongodb.types";
+import {
+  BookingBodyCreateRequest,
+  BookingBodyUpdateRequest,
+  BookingQuery,
+  BookingResponse,
+} from "@jamalsoueidan/bsb.mongodb.types";
 import mongoose, { Types } from "mongoose";
 import { beginningOfDay, closeOfDay } from "./helpers/date";
 import {
@@ -10,7 +15,7 @@ import {
   NotificationServiceSendBookingReminderStaff,
 } from "./notification.service";
 
-interface CreateProps extends BookingBodyCreate {
+interface CreateProps extends BookingBodyCreateRequest {
   shop: string;
 }
 
@@ -57,7 +62,7 @@ interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
 }
 
 export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBookingsByStaffProps) =>
-  BookingModel.aggregate<BookingAggreate>([
+  BookingModel.aggregate<BookingResponse>([
     {
       $match: {
         $or: [
@@ -108,7 +113,7 @@ interface GetBookingsProps extends BookingQuery {
 }
 
 export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsProps) =>
-  BookingModel.aggregate<BookingAggreate>([
+  BookingModel.aggregate<BookingResponse>([
     {
       $match: {
         end: {
@@ -126,7 +131,7 @@ export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsPro
 
 interface UpdateProps {
   filter: { _id: string; shop: string };
-  body: BookingBodyUpdate;
+  body: BookingBodyUpdateRequest;
 }
 
 export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
@@ -169,7 +174,7 @@ interface GetByIdProps {
   shop: string;
 }
 
-export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise<BookingAggreate | null> => {
+export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise<BookingResponse | null> => {
   const bookings = await BookingModel.aggregate([
     {
       $match: {
