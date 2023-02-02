@@ -10,14 +10,14 @@ export type InputTimerDividerField = UseTimerField;
 export interface InputTimerDividerProps {
   field: Field<UseTimerField>;
   data?: WidgetHourRange[];
-  input?: UseTimerInput;
+  input?: Omit<UseTimerInput, "placeholder">;
 }
 
 export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps) => {
   const { options, onChange } = useTimer({
+    autoSelectFirst: false,
     data,
     field,
-    placeholder: input?.placeholder,
   });
 
   const { t } = useTranslation({ id: "input-timer-list", locales });
@@ -36,10 +36,19 @@ export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps
       return hour > 18;
     }) || [];
 
+  const isDisabled = input?.disabled || options?.length === 0;
+
   return (
-    <Labelled id="input-timer" label={input?.label || t("label")} {...input} error={field.error}>
+    <Labelled
+      id="input-timer"
+      label={input?.label || t("label")}
+      {...input}
+      error={!isDisabled ? field.error : undefined}
+    >
       {options?.length === 0 ? (
-        t("empty")
+        <Text variant="bodyMd" as="p" color={isDisabled ? "subdued" : undefined}>
+          {t("empty")}
+        </Text>
       ) : (
         <Columns columns={{ sm: 3, xs: 1 }}>
           <ColumnPeriod

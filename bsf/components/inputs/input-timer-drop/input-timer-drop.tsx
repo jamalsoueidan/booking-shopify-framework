@@ -14,9 +14,9 @@ export interface InputTimerDropProps {
 
 export const InputTimerDrop = ({ data, input, field }: InputTimerDropProps) => {
   const { options, onChange } = useTimer({
+    autoSelectFirst: !input?.placeholder,
     data,
     field,
-    placeholder: input?.placeholder,
   });
 
   const { t } = useTranslation({

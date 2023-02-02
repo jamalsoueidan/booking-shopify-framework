@@ -1,6 +1,7 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
 import { Text as HelperText } from "@jamalsoueidan/bsf.helpers.text";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
+import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
@@ -27,11 +28,11 @@ export interface UseTimerInput extends Partial<SelectProps> {
 
 export interface UseTimerProps {
   data?: WidgetHourRange[];
-  placeholder?: string;
+  autoSelectFirst?: boolean;
   field: Field<UseTimerField>;
 }
 
-export const useTimer = ({ data, field, placeholder }: UseTimerProps) => {
+export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
   const { locale } = useTranslation({ id: "withTimer", locales: { da: {}, en: {} } });
   const { toTimeZone } = useDate();
 
@@ -68,7 +69,7 @@ export const useTimer = ({ data, field, placeholder }: UseTimerProps) => {
   );
 
   useEffect(() => {
-    if (placeholder || !options || field.error) {
+    if (!autoSelectFirst || !options || field.error) {
       return;
     }
 
@@ -76,7 +77,22 @@ export const useTimer = ({ data, field, placeholder }: UseTimerProps) => {
       const option = options[0] as UseTimerOption;
       handleOnChange(option.value);
     }
-  }, [options, handleOnChange, field.value, field.error, placeholder]);
+  }, [options, handleOnChange, field.value, field.error, autoSelectFirst]);
+
+  usePrevious(
+    ([prevOptions]) => {
+      const optionsUnchanged = JSON.stringify(prevOptions) === JSON.stringify(options);
+      if (optionsUnchanged || !field.value) {
+        return;
+      }
+
+      const value = options.find((option) => option.value === field.value?.start);
+      if (!value) {
+        handleOnChange("");
+      }
+    },
+    [options, field.value, handleOnChange],
+  );
 
   return { onChange: handleOnChange, options };
 };

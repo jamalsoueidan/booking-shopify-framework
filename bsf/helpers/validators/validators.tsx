@@ -1,6 +1,6 @@
 export const isEmail =
-  (error: string): ((input: string) => string | undefined) =>
-  (input: string) => {
+  (error: string) =>
+  (input: string): string | undefined => {
     const filter = /^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     if (!filter.test(input)) {
       return error;
@@ -9,8 +9,8 @@ export const isEmail =
   };
 
 export const isDate =
-  (error: string): ((input: Date | undefined) => string | undefined) =>
-  (input: Date | undefined) => {
+  (error: string) =>
+  (input: Date | undefined): string | undefined => {
     if (new Date(input || "").toString() === "Invalid Date") {
       return error;
     }
@@ -18,8 +18,8 @@ export const isDate =
   };
 
 export const isPhoneNumber =
-  (error: string): ((input: string) => string | undefined) =>
-  (input: string) => {
+  (error: string) =>
+  (input: string): string | undefined => {
     const filter = /^(\+|\d)[\d]{7,16}$/im;
     if (!filter.test(input)) {
       return error;
@@ -28,8 +28,8 @@ export const isPhoneNumber =
   };
 
 export const isSelectedDays =
-  (error: string): ((input: string[]) => string | undefined) =>
-  (input: string[]) => {
+  (error: string) =>
+  (input: string[]): string | undefined => {
     if (input.length <= 0) {
       return error;
     }
@@ -37,13 +37,15 @@ export const isSelectedDays =
   };
 
 export const notEmptyObject =
-  (error: string): ((input: unknown) => string | undefined) =>
-  (input: unknown) => {
-    if (input) {
-      const foundError = Object.keys(input).some((k) => !input[k]);
-      if (foundError) {
-        return error;
-      }
+  (error: string) =>
+  (input: unknown): string | undefined => {
+    if (!input) {
+      return error;
     }
+    const foundError = Object.keys(input).some((k) => !input[k]);
+    if (foundError) {
+      return error;
+    }
+
     return undefined;
   };

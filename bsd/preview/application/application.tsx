@@ -86,7 +86,7 @@ const PolarisProvider = ({ children }: { children: ReactNode }) => {
 
 const FrameChangeLanguage = ({ children }) => {
   const i18n = useContext<I18nManager | null>(I18nContext);
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>("da");
 
   i18n?.subscribe(["locale"], (_, b: I18nDetails) => {
     setValue(b.locale);
