@@ -1,6 +1,6 @@
 import { IProductModel, ProductModel } from "@jamalsoueidan/bsb.mongodb.models";
 import {
-  BookingAggreate,
+  BookingResponse,
   CartGetByStaff,
   ScheduleGetByStaffAndTag,
   WidgetSchedule,
@@ -192,7 +192,7 @@ const WidgetScheduleCalculateBooking = (
 
 interface WidgetServiceCalculatorProps {
   schedules: Array<ScheduleGetByStaffAndTag>;
-  bookings: Array<BookingAggreate>;
+  bookings: Array<BookingResponse>;
   carts: Array<CartGetByStaff>;
   product: IProductModel;
 }

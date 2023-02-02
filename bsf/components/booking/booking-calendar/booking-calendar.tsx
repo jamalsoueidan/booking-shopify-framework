@@ -1,6 +1,6 @@
 import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { EventImpl } from "@fullcalendar/core/internal";
-import { BookingAggreate } from "@jamalsoueidan/bsb.mongodb.types";
+import { BookingResponse } from "@jamalsoueidan/bsb.mongodb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { Text } from "@jamalsoueidan/bsf.helpers.text";
@@ -10,7 +10,7 @@ import { Avatar, Tooltip } from "@shopify/polaris";
 import React, { Suspense, memo, useCallback, useMemo, useState } from "react";
 
 export interface BookingCalendarEvent {
-  booking: BookingAggreate;
+  booking: BookingResponse;
   event: EventImpl;
 }
 
@@ -18,13 +18,13 @@ export interface BookingCalendarProps {
   /**
    * a node to be rendered in the special component.
    */
-  data: Array<BookingAggreate>;
+  data: Array<BookingResponse>;
   onClickBooking?: (info: BookingCalendarEvent) => void;
-  onChangeDate?: (date: Pick<BookingAggreate, "start" | "end">) => void;
+  onChangeDate?: (date: Pick<BookingResponse, "start" | "end">) => void;
 }
 
 export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
-  const [date, setDate] = useState<Pick<BookingAggreate, "start" | "end">>();
+  const [date, setDate] = useState<Pick<BookingResponse, "start" | "end">>();
   const { getColor } = useFulfillment();
   const { toTimeZone } = useDate();
 
@@ -59,7 +59,7 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
   );
 
   const eventContent = useCallback((arg: EventContentArg) => {
-    const booking: BookingAggreate = arg.event.extendedProps as BookingAggreate;
+    const booking: BookingResponse = arg.event.extendedProps as BookingResponse;
     const extendHour =
       arg?.event?.start && arg?.event?.end ? (
         <i>
@@ -106,7 +106,7 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
     ({ event }: EventClickArg) => {
       if (onClickBooking) {
         onClickBooking({
-          booking: event._def.extendedProps as BookingAggreate,
+          booking: event._def.extendedProps as BookingResponse,
           event,
         });
       }
