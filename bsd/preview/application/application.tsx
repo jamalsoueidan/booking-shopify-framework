@@ -84,7 +84,11 @@ const PolarisProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const FrameChangeLanguage = ({ children }) => {
+interface FrameChangeLanguageProps {
+  children: ReactNode;
+}
+
+const FrameChangeLanguage = ({ children }: FrameChangeLanguageProps) => {
   const i18n = useContext<I18nManager | null>(I18nContext);
   const [value, setValue] = useState<string>("da");
 

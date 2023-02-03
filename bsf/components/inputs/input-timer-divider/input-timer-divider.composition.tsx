@@ -23,7 +23,7 @@ export const Basic = () => {
 
 export const Error = () => {
   const field = useField<InputTimerDividerField>({
-    validates: [Validators.notEmptyObject("error not selected")],
+    validates: [Validators.notEmptyObject<InputTimerDividerField>("error not selected")],
     value: undefined,
   });
 

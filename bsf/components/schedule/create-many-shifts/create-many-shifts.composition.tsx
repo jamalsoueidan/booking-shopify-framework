@@ -1,10 +1,10 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { useToast } from "@jamalsoueidan/bsf.hooks.use-toast";
-import { SubmitResult } from "@shopify/react-form";
+import { Card } from "@shopify/polaris";
 import React, { useCallback, useRef, useState } from "react";
-import { Button, Card } from "@shopify/polaris";
 import {
   CreateManyShifts,
+  CreateManyShiftsBody,
   CreateManyShiftsRefMethod,
   CreateManyShiftsSubmitResult,
 } from "./create-many-shifts";
@@ -14,28 +14,24 @@ const MockComponent = () => {
   const { show } = useToast();
   const [body, setBody] = useState({});
 
-  const onSubmit = useCallback((fieldValues): CreateManyShiftsSubmitResult => {
-    setBody(fieldValues);
-    show({ content: "Schedules created" });
-    return {
-      status: "success",
-    };
-  }, []);
+  const onSubmit = useCallback(
+    (fieldValues: CreateManyShiftsBody): CreateManyShiftsSubmitResult => {
+      setBody(fieldValues);
+      show({ content: "Schedules created" });
+      return {
+        status: "success",
+      };
+    },
+    [show],
+  );
 
   const submit = useCallback(() => {
     ref?.current?.submit();
   }, [ref]);
 
   return (
-    <Card
-      sectioned
-      primaryFooterAction={{ content: "Submit", onAction: submit }}
-    >
-      <CreateManyShifts
-        selectedDate={new Date().toJSON()}
-        onSubmit={onSubmit}
-        ref={ref}
-      />
+    <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
+      <CreateManyShifts selectedDate={new Date().toJSON()} onSubmit={onSubmit} ref={ref} />
 
       <div>
         <pre>{JSON.stringify(body, null, 2)}</pre>
@@ -44,10 +40,8 @@ const MockComponent = () => {
   );
 };
 
-export const BasicCreateManyShifts = () => {
-  return (
-    <ApplicationFramePage title="Create many shifts">
-      <MockComponent />
-    </ApplicationFramePage>
-  );
-};
+export const BasicCreateManyShifts = () => (
+  <ApplicationFramePage title="Create many shifts">
+    <MockComponent />
+  </ApplicationFramePage>
+);

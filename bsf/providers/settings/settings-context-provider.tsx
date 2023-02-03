@@ -8,7 +8,7 @@ import { SettingsContext, SettingsContextValues } from "./settings-context";
 export type SettingsProviderProps = {
   children: ReactNode;
   value: SettingsContextValues;
-  linkComponent?: (props: any) => JSX.Element;
+  linkComponent?: (props: unknown) => JSX.Element;
 };
 
 export const SettingsProvider = ({ children, value: defaultValue, linkComponent }: SettingsProviderProps) => {
@@ -49,12 +49,12 @@ export const SettingsProvider = ({ children, value: defaultValue, linkComponent 
   );
 };
 
-interface PolarisProvider {
+interface PolarisProviderProps {
   children: ReactNode;
-  linkComponent?: (props: any) => JSX.Element;
+  linkComponent?: (props: unknown) => JSX.Element;
 }
 
-export const PolarisProvider = ({ children, ...props }: PolarisProvider) => {
+export const PolarisProvider = ({ children, ...props }: PolarisProviderProps) => {
   const [i18n] = useI18n({
     fallback: da,
     id: "Polaris",

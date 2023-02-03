@@ -6,18 +6,22 @@ import { SettingsProvider } from "./settings-context-provider";
 
 const locales = {
   da: {
-    lang: "Dansk",
     danish: "Dansk",
     english: "Engelsk",
+    lang: "Dansk",
   },
   en: {
-    lang: "English",
     danish: "Danish",
     english: "English",
+    lang: "English",
   },
 };
 
-const MockComponent = ({ setLanguage }) => {
+interface MockComponentProps {
+  setLanguage: (value: string) => void;
+}
+
+const MockComponent = ({ setLanguage }: MockComponentProps) => {
   const [i18n] = useI18n({
     fallback: locales.da,
     id: "settings",
@@ -44,8 +48,10 @@ export const Basic = () => {
   );
 };
 
-function AppBridgeLink({ url, children, external, ...rest }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function AppBridgeLink({ url, children, external, ...rest }: any) {
   const handleClick = useCallback(() => {
+    // eslint-disable-next-line no-console
     console.log(url);
   }, [url]);
 
@@ -60,14 +66,15 @@ function AppBridgeLink({ url, children, external, ...rest }) {
   }
 
   return (
-    <a {...rest} onClick={handleClick}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <a {...rest} onClick={handleClick} role="alert">
       {children}
     </a>
   );
 }
 
 export const LinkComponent = () => {
-  const [language, setLanguage] = useState<string>("da");
+  const [language] = useState<string>("da");
 
   return (
     <SettingsProvider value={{ language, timeZone: "Europe" }} linkComponent={AppBridgeLink}>

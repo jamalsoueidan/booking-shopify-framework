@@ -1,3 +1,5 @@
+import { ErrorContent, validator } from "@shopify/react-form";
+
 export const isEmail =
   (error: string) =>
   (input: string): string | undefined => {
@@ -17,15 +19,9 @@ export const isDate =
     return undefined;
   };
 
-export const isPhoneNumber =
-  (error: string) =>
-  (input: string): string | undefined => {
-    const filter = /^(\+|\d)[\d]{7,16}$/im;
-    if (!filter.test(input)) {
-      return error;
-    }
-    return undefined;
-  };
+export function isPhoneNumber(error: ErrorContent<string>) {
+  return validator((input: string) => input !== "" && (input.match(/^(\+|\d)[\d]{7,16}$/im) || []).length > 0)(error);
+}
 
 export const isSelectedDays =
   (error: string) =>
@@ -36,16 +32,6 @@ export const isSelectedDays =
     return undefined;
   };
 
-export const notEmptyObject =
-  (error: string) =>
-  (input: unknown): string | undefined => {
-    if (!input) {
-      return error;
-    }
-    const foundError = Object.keys(input).some((k) => !input[k]);
-    if (foundError) {
-      return error;
-    }
-
-    return undefined;
-  };
+export function notEmptyObject<T>(error: ErrorContent<T>) {
+  return validator((input: T) => Object.values(input || {}).some((v) => v), { skipOnEmpty: false })(error);
+}

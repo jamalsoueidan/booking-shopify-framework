@@ -7,13 +7,13 @@ import { FormError, SubmitResult, useField, useForm } from "@shopify/react-form"
 import { format, setHours, setMinutes } from "date-fns";
 import React, { forwardRef, useImperativeHandle } from "react";
 
-export type CreateOneShiftSubmitResult = SubmitResult;
 export interface CreateOneShiftBody {
   start: string;
   end: string;
   tag: TagColors;
 }
 
+export type CreateOneShiftSubmitResult = SubmitResult;
 export interface CreateOneShiftRefMethod {
   submit: () => FormError[];
 }

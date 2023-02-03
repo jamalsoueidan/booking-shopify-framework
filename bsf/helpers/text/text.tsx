@@ -7,33 +7,37 @@ export const titlize = (string: string) =>
 
 export const padTo2Digits = (num: number) => String(num).padStart(2, "0");
 
-export const soryByLabel = (a: unknown, b: unknown) => soryByTextKey("label")(a, b);
+export const soryByLabel = (a: Record<string, string>, b: Record<string, string>) => soryByTextKey("label")(a, b);
 
-export const soryByTextKey = (key: string) => (a: unknown, b: unknown) => {
-  if (a && b) {
-    if (a[key] < b[key]) {
-      return -1;
+export const soryByTextKey =
+  <T extends string>(key: T) =>
+  <K extends Record<T, string>>(a: K, b: K) => {
+    if (a && b) {
+      if (a[key] < b[key]) {
+        return -1;
+      }
+      if (a[key] > b[key]) {
+        return 1;
+      }
     }
-    if (a[key] > b[key]) {
-      return 1;
-    }
-  }
-  return 0;
-};
+    return 0;
+  };
 
-export const sortByDate = (a: unknown, b: unknown) => sortByDateKey("value")(a, b);
+export const sortByDate = (a: Record<string, string>, b: Record<string, string>) => sortByDateKey("value")(a, b);
 
-export const sortByDateKey = (key: string) => (a: unknown, b: unknown) => {
-  if (a && b) {
-    const dateA = new Date(a[key]);
-    const dateB = new Date(b[key]);
+export const sortByDateKey =
+  <T extends string>(key: T) =>
+  <K extends Record<T, string>>(a: K, b: K) => {
+    if (a && b) {
+      const dateA = new Date(a[key]);
+      const dateB = new Date(b[key]);
 
-    if (dateA < dateB) {
-      return -1;
+      if (dateA < dateB) {
+        return -1;
+      }
+      if (dateA > dateB) {
+        return 1;
+      }
     }
-    if (dateA > dateB) {
-      return 1;
-    }
-  }
-  return 0;
-};
+    return 0;
+  };
