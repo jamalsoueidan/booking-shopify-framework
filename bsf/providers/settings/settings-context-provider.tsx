@@ -2,7 +2,7 @@ import { AppProvider } from "@shopify/polaris";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { SettingsContext, SettingsContextValues } from "./settings-context";
 
 export type SettingsProviderProps = {
@@ -14,24 +14,6 @@ export type SettingsProviderProps = {
 export const SettingsProvider = ({ children, value: defaultValue, linkComponent }: SettingsProviderProps) => {
   const [value, setValue] = useState<SettingsContextValues>(defaultValue);
 
-  const manager = useMemo(
-    () =>
-      new I18nManager({
-        locale: value?.language,
-        onError: (details) => {
-          // eslint-disable-next-line no-console
-          console.log(details);
-        },
-      }),
-    [value.language],
-  );
-
-  useEffect(() => {
-    if (value.language) {
-      manager.update({ locale: value.language });
-    }
-  }, [value.language, manager]);
-
   const update = useCallback((values: Partial<SettingsContextValues>) => {
     setValue((prev) => ({ ...prev, ...values }));
   }, []);
@@ -42,14 +24,42 @@ export const SettingsProvider = ({ children, value: defaultValue, linkComponent 
 
   return (
     <SettingsContext.Provider value={{ ...value, update }}>
-      <I18nContext.Provider value={manager}>
+      <I18nProvider>
         <PolarisProvider linkComponent={linkComponent}>{children}</PolarisProvider>
-      </I18nContext.Provider>
+      </I18nProvider>
     </SettingsContext.Provider>
   );
 };
 
-interface PolarisProviderProps {
+export interface I18nProviderProps {
+  children: ReactNode;
+}
+
+export const I18nProvider = ({ children }: I18nProviderProps) => {
+  const { language } = useContext(SettingsContext);
+
+  const manager = useMemo(
+    () =>
+      new I18nManager({
+        locale: language,
+        onError: (details) => {
+          // eslint-disable-next-line no-console
+          console.log(details);
+        },
+      }),
+    [language],
+  );
+
+  useEffect(() => {
+    if (language) {
+      manager.update({ locale: language });
+    }
+  }, [language, manager]);
+
+  return <I18nContext.Provider value={manager}>{children}</I18nContext.Provider>;
+};
+
+export interface PolarisProviderProps {
   children: ReactNode;
   linkComponent?: (props: unknown) => JSX.Element;
 }
@@ -62,6 +72,7 @@ export const PolarisProvider = ({ children, ...props }: PolarisProviderProps) =>
       return locale === "en" ? en : da;
     },
   });
+
   return (
     <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]} {...props}>
       {children}

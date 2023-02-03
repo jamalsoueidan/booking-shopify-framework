@@ -5,11 +5,15 @@ import { usePosition } from "./use-position";
 function MockComponent() {
   const { select } = usePosition();
 
+  const value = "2";
+
   return (
     <>
       {select("1")}
       <br />
       {select("2")}
+      <br />
+      {select(value)}
     </>
   );
 }

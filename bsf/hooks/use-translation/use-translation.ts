@@ -24,7 +24,18 @@ export const useTranslation = <T extends object>({ id, locales }: UseTranslation
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const t = useCallback((id: NestedKeyOf<T>, replacements?: any) => i18n.translate(id, replacements), [i18n]);
 
+  /*
+   * dynamic value
+   * const test = 'a'
+   * d(test);
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const d = useCallback(
+    (id: NestedKeyOf<T> | Omit<string, NestedKeyOf<T>>, replacements?: any) => i18n.translate(id as any, replacements),
+    [i18n],
+  );
+
   const locale = useMemo(() => i18n.locale, [i18n]);
 
-  return { locale, t };
+  return { locale, t, d };
 };

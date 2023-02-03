@@ -1,10 +1,6 @@
 import { useCallback, useMemo } from "react";
 
-export type FulfillmentStatus =
-  | "cancelled"
-  | "refunded"
-  | "fulfilled"
-  | "booked";
+export type FulfillmentStatus = "cancelled" | "refunded" | "fulfilled" | "booked";
 
 //attention = yellow
 //critial = pink
@@ -15,7 +11,8 @@ export type FulfillmentBannerStatus =
   | "critical"
   | "success"
   | "attention"
-  | "info";
+  | "info"
+  | Omit<string, "critical" | "success" | "attention" | "info">;
 
 interface UseFulfillmentOptions {
   label: FulfillmentStatus | undefined;
@@ -49,14 +46,14 @@ export const useFulfillment = () => {
       // when the booking is just created, it's undefined
       { label: undefined, color: "#FFEA8A", bannerStatus: "attention" },
     ],
-    []
+    [],
   );
 
   const getColor = useCallback(
     (label: FulfillmentStatus | undefined) => {
       return options.find((o) => o.label === label)?.color;
     },
-    [options]
+    [options],
   );
 
   return {

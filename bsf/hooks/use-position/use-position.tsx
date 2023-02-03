@@ -1,7 +1,8 @@
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { useCallback, useMemo } from "react";
 
-export type Positions = "1" | "2";
+// https://www.youtube.com/watch?v=a_m7jxrTlaw&list=PLIvujZeVDLMx040-j1W4WFs1BxuTGdI_b&index=3&ab_channel=MattPocock
+export type Positions = "1" | "2" | Omit<string, "1" | "2">;
 
 const locales = {
   da: {

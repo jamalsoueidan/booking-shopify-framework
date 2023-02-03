@@ -24,7 +24,8 @@ export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";
 // HELPERS
-export * from "@jamalsoueidan/bsf.helpers.text";
+export * from "@jamalsoueidan/bsf.helpers.helper-array";
+export * from "@jamalsoueidan/bsf.helpers.helper-text";
 export * from "@jamalsoueidan/bsf.helpers.validators";
 // HOOKS
 export * from "@jamalsoueidan/bsf.hooks.use-date";
