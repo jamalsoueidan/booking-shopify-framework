@@ -1,4 +1,6 @@
 import { RegisterOptions, TranslationDictionary, useI18n } from "@shopify/react-i18n";
+import { ComplexReplacementDictionary } from "@shopify/react-i18n/build/ts/types";
+
 import { useCallback, useMemo } from "react";
 
 // https://dev.to/pffigueiredo/typescript-utility-keyof-nested-object-2pa3
@@ -30,12 +32,17 @@ export const useTranslation = <T extends object>({ id, locales }: UseTranslation
    * d(test);
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const d = useCallback(
-    (id: NestedKeyOf<T> | Omit<string, NestedKeyOf<T>>, replacements?: any) => i18n.translate(id as any, replacements),
+  const tdynamic = useCallback(
+    (id: NestedKeyOf<T> | Omit<string, NestedKeyOf<T>>, replacements?: ComplexReplacementDictionary) => {
+      if (replacements?.count === 0) {
+        return i18n.translate(`${id}.zero`, replacements);
+      }
+      return i18n.translate(id as any, replacements);
+    },
     [i18n],
   );
 
   const locale = useMemo(() => i18n.locale, [i18n]);
 
-  return { locale, t, d };
+  return { locale, t, tdynamic };
 };

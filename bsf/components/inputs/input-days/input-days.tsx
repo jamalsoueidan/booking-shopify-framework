@@ -1,4 +1,4 @@
-import { Text } from "@jamalsoueidan/bsf.helpers.text";
+import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
@@ -16,7 +16,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
   const options = useMemo(
     () =>
       getDays().map((d) => {
-        const label = Text.titlize(
+        const label = HelperText.titlize(
           d.toLocaleString(locale === "da" ? "da-DK" : "en-US", {
             weekday: "long",
           }),

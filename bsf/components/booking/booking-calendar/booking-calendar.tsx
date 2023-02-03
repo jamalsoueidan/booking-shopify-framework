@@ -3,7 +3,7 @@ import { EventImpl } from "@fullcalendar/core/internal";
 import { BookingResponse } from "@jamalsoueidan/bsb.mongodb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
-import { Text } from "@jamalsoueidan/bsf.helpers.text";
+import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { Avatar, Tooltip } from "@shopify/polaris";
@@ -63,8 +63,12 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
     const extendHour =
       arg?.event?.start && arg?.event?.end ? (
         <i>
-          {`${Text.padTo2Digits(arg.event.start.getHours())}:${Text.padTo2Digits(arg.event.start.getMinutes())}`}
-          {`${Text.padTo2Digits(arg.event.end.getHours())}:${Text.padTo2Digits(arg.event.end.getMinutes())}`}
+          {`${HelperText.padTo2Digits(arg.event.start.getHours())}:${HelperText.padTo2Digits(
+            arg.event.start.getMinutes(),
+          )}`}
+          {`${HelperText.padTo2Digits(arg.event.end.getHours())}:${HelperText.padTo2Digits(
+            arg.event.end.getMinutes(),
+          )}`}
         </i>
       ) : null;
 

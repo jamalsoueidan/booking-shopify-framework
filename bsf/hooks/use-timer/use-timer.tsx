@@ -1,5 +1,5 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
-import { Text as HelperText } from "@jamalsoueidan/bsf.helpers.text";
+import { HelperArray } from "@jamalsoueidan/bsf.helpers.helper-array";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
@@ -43,7 +43,7 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
     }
 
     const hours: Array<UseTimerOption> =
-      [...data].sort(HelperText.sortByDateKey("start")).map((t) => ({
+      [...data].sort(HelperArray.sortDateBy("start")).map((t) => ({
         key: t.start,
         label: `${format(toTimeZone(t.start), "p")} - ${format(toTimeZone(t.end), "p")}`,
         value: t.start,
