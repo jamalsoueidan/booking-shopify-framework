@@ -8,9 +8,10 @@ import { SettingsContext, SettingsContextValues } from "./settings-context";
 export type SettingsProviderProps = {
   children: ReactNode;
   value: SettingsContextValues;
+  linkComponent?: (props: any) => JSX.Element;
 };
 
-export const SettingsProvider = ({ children, value: defaultValue }: SettingsProviderProps) => {
+export const SettingsProvider = ({ children, value: defaultValue, linkComponent }: SettingsProviderProps) => {
   const [value, setValue] = useState<SettingsContextValues>(defaultValue);
 
   const manager = useMemo(
@@ -42,13 +43,18 @@ export const SettingsProvider = ({ children, value: defaultValue }: SettingsProv
   return (
     <SettingsContext.Provider value={{ ...value, update }}>
       <I18nContext.Provider value={manager}>
-        <PolarisProvider>{children}</PolarisProvider>
+        <PolarisProvider linkComponent={linkComponent}>{children}</PolarisProvider>
       </I18nContext.Provider>
     </SettingsContext.Provider>
   );
 };
 
-export const PolarisProvider = ({ children }: { children: ReactNode }) => {
+interface PolarisProvider {
+  children: ReactNode;
+  linkComponent?: (props: any) => JSX.Element;
+}
+
+export const PolarisProvider = ({ children, ...props }: PolarisProvider) => {
   const [i18n] = useI18n({
     fallback: da,
     id: "Polaris",
@@ -57,6 +63,8 @@ export const PolarisProvider = ({ children }: { children: ReactNode }) => {
     },
   });
   return (
-    <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}>{children}</AppProvider>
+    <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]} {...props}>
+      {children}
+    </AppProvider>
   );
 };
