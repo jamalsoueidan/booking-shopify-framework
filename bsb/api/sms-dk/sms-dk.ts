@@ -56,7 +56,7 @@ interface SendProps {
   scheduled?: Date;
 }
 
-export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) => {
+export const SmsDkApiSend = async ({ receiver, message, scheduled }: SendProps) => {
   if (process.env.NODE_ENV === "production") {
     const response: AxiosResponse<SMSDK.Response> = await axios.post(
       "https://api.sms.dk/v1/sms/send",
@@ -92,7 +92,7 @@ export const SmsApiSend = async ({ receiver, message, scheduled }: SendProps) =>
   };
 };
 
-export const SmsdkApiCancel = async (batchId: string) => {
+export const SmsDkApiCancel = async (batchId: string) => {
   if (process.env.NODE_ENV === "production") {
     const response = await axios.delete(`https://api.sms.dk/v1/sms/delete?batchId=${batchId}`, {
       headers: {

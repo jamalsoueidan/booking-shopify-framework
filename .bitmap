@@ -11,13 +11,13 @@
 {
     "api/sms-dk": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsb/api/sms-dk"
     },
     "bsb-pkg": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.20",
+        "version": "0.0.21",
         "mainFile": "index.ts",
         "rootDir": "bsb/bsb-pkg"
     },
@@ -269,7 +269,7 @@
     },
     "mongodb/services": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.20",
+        "version": "0.0.21",
         "mainFile": "index.ts",
         "rootDir": "bsb/mongodb/services"
     },

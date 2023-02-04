@@ -1,4 +1,4 @@
-import { SmsApiSend, SmsdkApiCancel } from "@jamalsoueidan/bsb.api.sms-dk";
+import { SmsDkApiCancel, SmsDkApiSend } from "@jamalsoueidan/bsb.api.sms-dk";
 import { BookingModel, CustomerModel, NotificationModel, StaffModel } from "@jamalsoueidan/bsb.mongodb.models";
 import { Booking, Notification, NotificationBody, NotificationQuery } from "@jamalsoueidan/bsb.mongodb.types";
 import { subDays, subMinutes } from "date-fns";
@@ -32,7 +32,7 @@ const send = async ({ orderId, lineItemId, shop, receiver, message, template, sc
     template,
   });
 
-  const response = await SmsApiSend({
+  const response = await SmsDkApiSend({
     message,
     receiver,
     scheduled,
@@ -352,7 +352,7 @@ export const NotificationServiceCancel = async ({ id: _id, shop }: CancelProps) 
   );
 
   if (notification) {
-    SmsdkApiCancel(notification?.batchId);
+    SmsDkApiCancel(notification?.batchId);
   }
   return notification;
 };
@@ -373,7 +373,7 @@ export const NotificationServiceCancelAll = async ({ orderId, lineItemId, shop }
   }).lean();
 
   notifications.forEach((notification) => {
-    SmsdkApiCancel(notification.batchId);
+    SmsDkApiCancel(notification.batchId);
   });
 
   NotificationModel.updateMany(
