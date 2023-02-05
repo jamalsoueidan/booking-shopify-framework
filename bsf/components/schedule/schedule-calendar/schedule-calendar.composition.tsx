@@ -1,13 +1,13 @@
 import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import { Card } from "@shopify/polaris";
 import React from "react";
-import { BookingCalendar } from "./booking-calendar";
 import mock from "./mock";
+import { ScheduleCalendar } from "./schedule-calendar";
 
-export const BasicBookingCalendar = withApplication(
+export const BasicScheduleCalendar = withApplication(
   () => (
     <Card sectioned>
-      <BookingCalendar data={mock} onChangeDate={() => null} onClickBooking={() => null} />
+      <ScheduleCalendar data={mock} onChangeDate={() => null} onClick={() => null} onClickSchedule={() => null} />
     </Card>
   ),
   { pageTitle: "Booking Calendar" },

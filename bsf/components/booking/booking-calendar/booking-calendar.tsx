@@ -1,5 +1,4 @@
 import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
-import { EventImpl } from "@fullcalendar/core/internal";
 import { BookingResponse } from "@jamalsoueidan/bsb.mongodb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
@@ -9,26 +8,20 @@ import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { Avatar, Tooltip } from "@shopify/polaris";
 import React, { Suspense, memo, useCallback, useMemo, useState } from "react";
 
-export interface BookingCalendarEvent {
-  booking: BookingResponse;
-  event: EventImpl;
-}
+export type BookingCalendarDateState = Pick<BookingResponse, "start" | "end">;
 
 export interface BookingCalendarProps {
-  /**
-   * a node to be rendered in the special component.
-   */
   data: Array<BookingResponse>;
-  onClickBooking?: (info: BookingCalendarEvent) => void;
-  onChangeDate?: (date: Pick<BookingResponse, "start" | "end">) => void;
+  onClickBooking: (booking: BookingResponse) => void;
+  onChangeDate: (date: BookingCalendarDateState) => void;
 }
 
 export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
-  const [date, setDate] = useState<Pick<BookingResponse, "start" | "end">>();
+  const [date, setDate] = useState<BookingCalendarDateState>();
   const { getColor } = useFulfillment();
   const { toTimeZone } = useDate();
 
-  const dateChanged = useCallback(
+  const handleChangeDate = useCallback(
     (props: DatesSetArg) => {
       const newDate = {
         end: props.end.toISOString().slice(0, 10),
@@ -37,9 +30,7 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
 
       if (newDate.start !== date?.start || newDate.end !== date?.end) {
         setDate(newDate);
-        if (onChangeDate) {
-          onChangeDate(newDate);
-        }
+        onChangeDate(newDate);
       }
     },
     [date?.end, date?.start, onChangeDate],
@@ -58,7 +49,7 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
     [data, getColor, toTimeZone],
   );
 
-  const eventContent = useCallback((arg: EventContentArg) => {
+  const renderItem = useCallback((arg: EventContentArg) => {
     const booking: BookingResponse = arg.event.extendedProps as BookingResponse;
     const extendHour =
       arg?.event?.start && arg?.event?.end ? (
@@ -106,21 +97,16 @@ export const BookingCalendar = memo(({ data, onClickBooking, onChangeDate }: Boo
     );
   }, []);
 
-  const showBooking = useCallback(
+  const handleClickEvent = useCallback(
     ({ event }: EventClickArg) => {
-      if (onClickBooking) {
-        onClickBooking({
-          booking: event._def.extendedProps as BookingResponse,
-          event,
-        });
-      }
+      onClickBooking(event._def.extendedProps as BookingResponse);
     },
     [onClickBooking],
   );
 
   return (
     <Suspense fallback={<LoadingSpinner />}>
-      <Calendar events={events} eventContent={eventContent} datesSet={dateChanged} eventClick={showBooking} />
+      <Calendar events={events} eventContent={renderItem} datesSet={handleChangeDate} eventClick={handleClickEvent} />
     </Suspense>
   );
 });
