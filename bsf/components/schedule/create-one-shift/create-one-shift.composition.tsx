@@ -31,7 +31,7 @@ const MockComponent = () => {
 
   return (
     <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
-      <CreateOneShift selectedDate={new Date().toDateString()} onSubmit={onSubmit} ref={ref} />
+      <CreateOneShift selectedDate={new Date()} onSubmit={onSubmit} ref={ref} />
 
       <div>
         <pre>{JSON.stringify(body, null, 2)}</pre>

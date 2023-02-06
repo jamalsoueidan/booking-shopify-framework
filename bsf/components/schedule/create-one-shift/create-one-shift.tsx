@@ -19,7 +19,7 @@ export interface CreateOneShiftRefMethod {
 }
 
 export interface CreateOneShiftProps {
-  selectedDate: string;
+  selectedDate: Date;
   onSubmit: (fields: CreateOneShiftBody) => CreateOneShiftSubmitResult;
 }
 
@@ -36,7 +36,7 @@ export const CreateOneShift = forwardRef<CreateOneShiftRefMethod, CreateOneShift
         tag: useField(options[0].value),
       },
       onSubmit: async (fieldValues) => {
-        const date = new Date(selectedDate);
+        const date = selectedDate;
 
         const convert = (time: string) => {
           const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
@@ -67,8 +67,8 @@ export const CreateOneShift = forwardRef<CreateOneShiftRefMethod, CreateOneShift
           <Card>
             <Card.Section>
               {t("title", {
-                date: <strong>{format(new Date(selectedDate), "PPP")}</strong>,
-                day: <strong>{format(new Date(selectedDate), "EEEE")}</strong>,
+                date: <strong>{format(selectedDate, "PPP")}</strong>,
+                day: <strong>{format(selectedDate, "EEEE")}</strong>,
               })}
             </Card.Section>
           </Card>

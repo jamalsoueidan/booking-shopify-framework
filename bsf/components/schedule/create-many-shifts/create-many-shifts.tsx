@@ -24,7 +24,7 @@ export type CreateManyShiftsRefMethod = {
 };
 
 export interface CreateManyShiftsProps {
-  selectedDate: string;
+  selectedDate: Date;
   onSubmit: (fields: CreateManyShiftsBody) => CreateManyShiftsSubmitResult;
 }
 
@@ -52,7 +52,7 @@ export const CreateManyShifts = forwardRef<CreateManyShiftsRefMethod, CreateMany
       fields: {
         days: useField({
           validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
-          value: [format(new Date(selectedDate), "EEEE").toLowerCase()],
+          value: [format(selectedDate, "EEEE").toLowerCase()],
         }),
         endDate: useField<Date | undefined>(undefined),
         endTime: useField("16:00"),

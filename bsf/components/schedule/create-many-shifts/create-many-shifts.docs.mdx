@@ -36,11 +36,7 @@ const submit = useCallback(() => {
 
 return (
   <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
-    <CreateManyShifts
-      date={new Date().toDateString()}
-      onSubmit={onSubmit}
-      ref={ref}
-    />
+    <CreateManyShifts selectedDate={new Date()} onSubmit={onSubmit} ref={ref} />
   </Card>
 );
 ```
