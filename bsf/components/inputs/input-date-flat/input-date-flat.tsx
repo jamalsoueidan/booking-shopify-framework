@@ -1,4 +1,4 @@
-import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
+import { WidgetSchedule } from "@jamalsoueidan/bsb.types";
 import { InputDate, InputDateField } from "@jamalsoueidan/bsf.components.inputs.input-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Labelled, Range, TextFieldProps } from "@shopify/polaris";

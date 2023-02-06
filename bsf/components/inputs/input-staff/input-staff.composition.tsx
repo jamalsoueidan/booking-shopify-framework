@@ -1,4 +1,4 @@
-import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
+import { WidgetStaff } from "@jamalsoueidan/bsb.types";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";

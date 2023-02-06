@@ -1,6 +1,6 @@
 import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
-import { BookingResponse, Schedule } from "@jamalsoueidan/bsb.mongodb.types";
+import { BookingResponse, Schedule } from "@jamalsoueidan/bsb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";

@@ -41,6 +41,9 @@
      */
     "packageManager": "teambit.dependencies/yarn",
     "policy": {
+      "devDependencies": {
+        "@types/bcryptjs": "2.4.2"
+      },
       "peerDependencies": {
         "@fullcalendar/core": "^6.0.2",
         "@fullcalendar/daygrid": "^6.0.2",

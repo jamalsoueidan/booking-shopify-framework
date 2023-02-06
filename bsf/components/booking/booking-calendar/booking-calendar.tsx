@@ -1,5 +1,5 @@
 import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
-import { BookingResponse } from "@jamalsoueidan/bsb.mongodb.types";
+import { BookingResponse } from "@jamalsoueidan/bsb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";

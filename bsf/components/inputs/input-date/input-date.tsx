@@ -1,4 +1,4 @@
-import { WidgetSchedule } from "@jamalsoueidan/bsb.mongodb.types";
+import { WidgetSchedule } from "@jamalsoueidan/bsb.types";
 import { DatePicker, DatePickerProps, Range } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { eachDayOfInterval, endOfMonth, getMonth, getYear, isPast, isSameDay, startOfMonth, subDays } from "date-fns";

@@ -1,4 +1,4 @@
-import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.mongodb.types";
+import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types";
 import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useForm } from "@jamalsoueidan/bsf.hooks.use-form";

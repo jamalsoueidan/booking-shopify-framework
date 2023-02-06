@@ -1,4 +1,4 @@
-import { Staff } from "@jamalsoueidan/bsb.mongodb.types";
+import { Staff } from "@jamalsoueidan/bsb.types";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Avatar, Button, Stack } from "@shopify/polaris";

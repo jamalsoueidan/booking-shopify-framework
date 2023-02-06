@@ -1,4 +1,4 @@
-import { WidgetHourRange } from "@jamalsoueidan/bsb.mongodb.types";
+import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
 import { UseTimerField, UseTimerInput, UseTimerOption, useTimer } from "@jamalsoueidan/bsf.hooks.use-timer";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { AlphaStack, Button, Columns, Inline, Labelled, Text } from "@shopify/polaris";

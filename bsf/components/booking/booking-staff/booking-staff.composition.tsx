@@ -1,4 +1,4 @@
-import { Staff } from "@jamalsoueidan/bsb.mongodb.types";
+import { Staff } from "@jamalsoueidan/bsb.types";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import React, { useState } from "react";
 import { BookingStaff } from "./booking-staff";
@@ -40,11 +40,7 @@ export const BasicBookingStaff = () => {
   const [selected, setSelected] = useState<Staff>();
   return (
     <ApplicationFramePage>
-      <BookingStaff
-        data={data}
-        selected={selected}
-        onSelect={setSelected}
-      ></BookingStaff>
+      <BookingStaff data={data} selected={selected} onSelect={setSelected}></BookingStaff>
     </ApplicationFramePage>
   );
 };

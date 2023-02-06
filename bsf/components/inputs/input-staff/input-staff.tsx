@@ -1,4 +1,4 @@
-import { WidgetStaff } from "@jamalsoueidan/bsb.mongodb.types";
+import { WidgetStaff } from "@jamalsoueidan/bsb.types";
 import { InputButton, useTranslation } from "@jamalsoueidan/bsf.bsf-pkg";
 import { Avatar, ButtonProps, Labelled, LabelledProps, Popover, ResourceList } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
