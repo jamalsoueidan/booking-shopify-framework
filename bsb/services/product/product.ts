@@ -7,7 +7,7 @@ interface UpdateQuery {
   id: string;
 }
 
-export const ProductUpdate = async ({ query, body }: { query: UpdateQuery; body: ProductUpdateBody }) => {
+export const ProductServiceUpdate = async ({ query, body }: { query: UpdateQuery; body: ProductUpdateBody }) => {
   const { staff, ...properties } = body;
 
   const newStaffier =

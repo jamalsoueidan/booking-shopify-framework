@@ -1,6 +1,5 @@
-/* eslint-disable sort-keys/sort-keys-fix */
 import { CollectionModel } from "./collection.model";
-import { ICollectionModel } from "./collection.schema";
+import { ICollectionDocument } from "./collection.schema";
 
 export const CollectionServiceFindAll = () =>
   CollectionModel.aggregate([
@@ -108,4 +107,5 @@ export const CollectionServiceFindAll = () =>
     // { $sort: { title: 1 } },
   ]);
 
-export const CollectionServiceFindOne = (documents: ICollectionModel) => CollectionModel.findOne({ documents });
+export const CollectionServiceFindOne = (documents: Partial<ICollectionDocument>) =>
+  CollectionModel.findOne({ documents });
