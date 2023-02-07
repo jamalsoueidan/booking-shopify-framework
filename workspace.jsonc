@@ -42,8 +42,8 @@
     "packageManager": "teambit.dependencies/yarn",
     "policy": {
       "devDependencies": {
-        "mongodb-memory-server": "^8.11.4",
-        "@types/bcryptjs": "2.4.2"
+        /*"mongodb-memory-server": "^8.11.4",
+        "@types/bcryptjs": "2.4.2"*/
       },
       "peerDependencies": {
         "@fullcalendar/core": "^6.0.2",

@@ -1,0 +1,19 @@
+---
+labels: ["module", "express"]
+description: "Handle route"
+---
+
+API:
+
+```ts
+router.get("/url", handleRoute(controller.user));
+
+// controller.user
+export const user = async ({
+  query,
+  body,
+  session,
+}: ControllerProps<ShopQuery, UserReceivePasswordBodyRequest, Session>) => {
+  // use query, body, sessoion
+};
+```
