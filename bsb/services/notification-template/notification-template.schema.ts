@@ -29,3 +29,5 @@ export const NotificationTemplateSchema = new mongoose.Schema<
     type: String,
   },
 });
+
+NotificationTemplateSchema.index({ language: 1, name: 1, shop: 1 }, { unique: true });

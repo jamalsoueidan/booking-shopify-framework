@@ -7,9 +7,7 @@ export interface IBooking extends Omit<Booking, "_id" | "staff"> {
 
 export interface IBookingDocument extends IBooking, Document {}
 
-export interface IBookingModel extends Model<IBookingDocument> {
-  getById({ shop, id }: GetByIdProps): Promise<IBookingDocument>;
-}
+export interface IBookingModel extends Model<IBookingDocument> {}
 
 export const BookingSchema = new Schema<IBookingDocument, IBookingModel>({
   anyAvailable: {
@@ -66,8 +64,3 @@ export const BookingSchema = new Schema<IBookingDocument, IBookingModel>({
   timeZone: String,
   title: String,
 });
-
-interface GetByIdProps {
-  id: string;
-  shop: string;
-}

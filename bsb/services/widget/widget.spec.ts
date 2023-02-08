@@ -174,7 +174,8 @@ describe("widget service test", () => {
     };
 
     const availability = await WidgetServiceAvailability(query);
-    const fullNames = availability[0].hours.map((h) => h.staff.fullname);
+    const fullNames: string[] = [];
+    availability.forEach((avail) => avail.hours.forEach((h) => fullNames.push(h.staff.fullname)));
     const fullnamesUnique = [...new Set(fullNames)];
     expect(fullnamesUnique.length).toEqual(2);
   });

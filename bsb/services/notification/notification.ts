@@ -193,8 +193,9 @@ export const NotificationServiceSendBookingConfirmationCustomer = async ({
   const customer = await CustomerModel.findOne({
     customerId: booking.customerId,
   });
+
   if (!customer?.phone) {
-    return;
+    throw new Error("customer no phonenumber");
   }
 
   const template = "BOOKING_CONFIRMATION";
@@ -209,7 +210,7 @@ export const NotificationServiceSendBookingConfirmationCustomer = async ({
       receiver: customer,
     });
 
-    send({
+    return send({
       isStaff: false,
       message,
       orderId: booking.orderId,
@@ -218,6 +219,7 @@ export const NotificationServiceSendBookingConfirmationCustomer = async ({
       template,
     });
   }
+  return null;
 };
 
 interface SendBookingUpdateCustomerProps {
@@ -378,19 +380,13 @@ export const NotificationServiceCancelAll = async ({ orderId, lineItemId, shop }
     status: "pending",
   }).lean();
 
-  notifications.forEach((notification) => {
-    SmsDkApiCancel(notification.batchId);
-  });
+  notifications.forEach((notification) => SmsDkApiCancel(notification.batchId));
 
-  NotificationModel.updateMany(
+  await NotificationModel.updateMany(
     {
-      lineItemId,
-      orderId,
-      scheduled: {
-        $gte: DateHelpers.beginningOfDay(new Date()),
+      batchId: {
+        $in: notifications.map((n) => n.batchId),
       },
-      shop,
-      status: "pending",
     },
     { status: "cancelled" },
   );

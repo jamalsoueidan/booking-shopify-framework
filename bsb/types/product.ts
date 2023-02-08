@@ -19,7 +19,8 @@ export interface Product<T = ProductStaff> {
 }
 
 // api/admin/products/:id
-export interface ProductStaffAggreate extends Partial<Staff> {
+export interface ProductStaffAggreate extends Partial<Omit<Staff, "_id">> {
+  _id: string;
   tag: string;
 }
 
@@ -33,7 +34,6 @@ export interface ProductAddStaff extends Staff {
 }
 
 // PUT api/admin/products/6383820e2817210cda196c4d
-export interface ProductUpdateBody
-  extends Partial<Pick<Product, "duration" | "buffertime" | "active">> {
+export interface ProductUpdateBody extends Partial<Pick<Product, "duration" | "buffertime" | "active">> {
   staff?: ProductStaffAggreate[];
 }

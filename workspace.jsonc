@@ -43,6 +43,7 @@
     "policy": {
       "dependencies": {
         "mongodb-memory-server": "8.11.4",
+        "wait-for-expect": "^3.0.2",
         "@faker-js/faker": "7.6.0"
       },
       "peerDependencies": {

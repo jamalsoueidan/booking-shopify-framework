@@ -5,7 +5,7 @@ import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
 import { addHours } from "date-fns";
 
-export const shop = "testerne";
+export const shop = "testeriphone.myshopify.com";
 
 export const createCustomer = () => {
   const customer = new CustomerModel({

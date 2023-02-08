@@ -25,6 +25,7 @@ export const BookingServiceCreate = async (body: CreateProps) => {
   const product = await ProductModel.findOne({
     productId: body.productId,
   }).lean();
+
   if (product) {
     const booking = await BookingModel.create({
       ...body,
@@ -78,12 +79,12 @@ export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsPro
     },
   ]);
 
-interface UpdateProps {
-  filter: { _id: string; shop: string };
-  body: BookingBodyUpdateRequest;
+interface BookingServiceUpdateFilter {
+  _id: string;
+  shop: string;
 }
 
-export const BookingServiceUpdate = async ({ filter, body }: UpdateProps) => {
+export const BookingServiceUpdate = async (filter: BookingServiceUpdateFilter, body: BookingBodyUpdateRequest) => {
   const booking = await BookingModel.findOne(filter);
   if (!booking) {
     throw new Error("Not found");

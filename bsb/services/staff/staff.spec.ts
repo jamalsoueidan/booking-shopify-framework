@@ -16,7 +16,7 @@ const staff = {
   shop,
 };
 
-describe("Admin-staff controller", () => {
+describe("StaffService test", () => {
   it("Should create a staff", async () => {
     const createSetting = await StaffServiceCreate(staff);
     expect(createSetting).not.toBeNull();
