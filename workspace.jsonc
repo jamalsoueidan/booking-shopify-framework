@@ -30,7 +30,7 @@
     "defaultScope": "jamalsoueidan.bsf"
   },
   "teambit.component/issues": {
-    "ignoreIssues": ["CircularDependencies"]
+    "ignoreIssues": ["CircularDependencies", "ImportNonMainFiles"]
   },
   /**
    * main configuration for component dependency resolution.
@@ -41,9 +41,8 @@
      */
     "packageManager": "teambit.dependencies/yarn",
     "policy": {
-      "devDependencies": {
-        /*"mongodb-memory-server": "^8.11.4",
-        "@types/bcryptjs": "2.4.2"*/
+      "dependencies": {
+        "mongodb-memory-server": "8.11.4"
       },
       "peerDependencies": {
         "@fullcalendar/core": "^6.0.2",
@@ -78,7 +77,7 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {preview/**}, {hocs/**}": {
+    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}": {
       "jamalsoueidan.bsd/envs/jest-esm": {}
     }
   }
