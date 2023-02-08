@@ -17,7 +17,7 @@
     },
     "bsb-pkg": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.39",
+        "version": "0.0.41",
         "mainFile": "index.ts",
         "rootDir": "bsb/bsb-pkg"
     },
@@ -188,6 +188,12 @@
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bsb/express/handle-route"
+    },
+    "express/mongodb": {
+        "scope": "jamalsoueidan.bsb",
+        "version": "0.0.2",
+        "mainFile": "index.ts",
+        "rootDir": "bsb/express/mongodb"
     },
     "helpers/date": {
         "scope": "jamalsoueidan.bsb",
