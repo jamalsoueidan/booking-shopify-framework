@@ -30,10 +30,9 @@ export const ScheduleCalendar = ({ data, onClick, onClickSchedule, onChangeDate 
       };
 
       if (newDate.start !== date?.start || newDate.end !== date?.end) {
+        onChangeDate(newDate);
         setDate(newDate);
       }
-
-      onChangeDate(newDate);
     },
     [date, onChangeDate],
   );
