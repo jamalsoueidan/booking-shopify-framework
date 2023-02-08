@@ -14,7 +14,7 @@ import {
   BookingQuery,
   BookingResponse,
 } from "@jamalsoueidan/bsb.types";
-import mongoose, { Types } from "mongoose";
+import mongoose from "mongoose";
 import { BookingModel } from "./booking.model";
 
 interface CreateProps extends BookingBodyCreateRequest {
@@ -57,58 +57,6 @@ export const BookingServiceCreate = async (body: CreateProps) => {
 };
 
 export const BookingServiceFind = async (shop) => BookingModel.find({ shop });
-
-interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
-  shop: string;
-  staff: Types.ObjectId[];
-}
-
-export const BookingServiceGetForWidget = ({ shop, start, end, staff }: GetBookingsByStaffProps) =>
-  BookingModel.aggregate<BookingResponse>([
-    {
-      $match: {
-        $or: [
-          {
-            start: {
-              $gte: DateHelpers.beginningOfDay(start),
-            },
-          },
-          {
-            end: {
-              $gte: DateHelpers.beginningOfDay(start),
-            },
-          },
-        ],
-        shop,
-        staff: {
-          $in: staff,
-        },
-      },
-    },
-    {
-      $match: {
-        $or: [
-          {
-            start: {
-              $lt: DateHelpers.closeOfDay(end),
-            },
-          },
-          {
-            end: {
-              $lt: DateHelpers.closeOfDay(end),
-            },
-          },
-        ],
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        productId: 0,
-        shop: 0,
-      },
-    },
-  ]);
 
 interface GetBookingsProps extends BookingQuery {
   shop: string;

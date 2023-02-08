@@ -1,4 +1,6 @@
-import axios, { AxiosResponse } from "axios";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const superagent = require("superagent");
+
 /*
     {
       "status": "success",
@@ -58,22 +60,17 @@ interface SendProps {
 
 export const SmsDkApiSend = async ({ receiver, message, scheduled }: SendProps) => {
   if (process.env.NODE_ENV === "production") {
-    const response: AxiosResponse<SMSDK.Response> = await axios.post(
-      "https://api.sms.dk/v1/sms/send",
-      {
+    const response: { body: SMSDK.Response } = await superagent
+      .post("https://api.sms.dk/v1/sms/send")
+      .send({
         message,
         receiver,
         scheduled: scheduled ? scheduled.toISOString().slice(0, -1) : null,
         senderName: "BySisters",
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
-          "content-type": "application/json",
-        },
-      },
-    );
-    return response.data;
+      })
+      .set("Authorization", `Bearer ${process.env.SMSDK_SECRET}`)
+      .set("content-type", "application/json");
+    return response.body;
   }
 
   // eslint-disable-next-line no-console
@@ -94,13 +91,11 @@ export const SmsDkApiSend = async ({ receiver, message, scheduled }: SendProps) 
 
 export const SmsDkApiCancel = async (batchId: string) => {
   if (process.env.NODE_ENV === "production") {
-    const response = await axios.delete(`https://api.sms.dk/v1/sms/delete?batchId=${batchId}`, {
-      headers: {
-        Authorization: `Bearer ${process.env.SMSDK_SECRET}`,
-        "content-type": "application/json",
-      },
-    });
-    return response;
+    const response = await superagent
+      .delete(`https://api.sms.dk/v1/sms/delete?batchId=${batchId}`)
+      .set("Authorization", `Bearer ${process.env.SMSDK_SECRET}`)
+      .set("content-type", "application/json");
+    return response.body;
   }
 
   return {

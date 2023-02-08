@@ -1,13 +1,20 @@
+import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
+import { BookingModel } from "@jamalsoueidan/bsb.services.booking";
+import { CartServiceGetByStaff } from "@jamalsoueidan/bsb.services.cart";
 import { IProduct, IProductDocument, ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { ScheduleServiceGetByStaffAndTag } from "@jamalsoueidan/bsb.services.schedule";
 import {
+  BookingQuery,
   BookingResponse,
   CartGetByStaff,
   ScheduleGetByStaffAndTag,
+  ShopQuery,
+  WidgetDateQuery,
   WidgetSchedule,
   WidgetStaff,
 } from "@jamalsoueidan/bsb.types";
 import { addMinutes, isBefore, isSameDay, isWithinInterval, subMinutes } from "date-fns";
-import mongoose, { Aggregate } from "mongoose";
+import mongoose, { Aggregate, Types } from "mongoose";
 
 interface WidgetSericeGetProductProps {
   shop: string;
@@ -112,6 +119,41 @@ export const WidgetServiceGetStaff = ({ shop, productId }: Partial<IProduct>): A
     },
   ]);
 
+interface AvailabilityQuery extends Omit<WidgetDateQuery, "staff">, ShopQuery {
+  staff?: string;
+}
+
+export const WidgetServiceAvailability = async ({ staff, start, end, shop, productId }: AvailabilityQuery) => {
+  const product = await WidgetServiceGetProduct({
+    productId: +productId,
+    shop,
+    staff,
+  });
+
+  const schedules = await ScheduleServiceGetByStaffAndTag({
+    end,
+    staff: product.staff.map((s) => s.staff),
+    start,
+    tag: product.staff.map((s) => s.tag),
+  });
+
+  const bookings = await WidgetServiceGetBookings({
+    end: new Date(end),
+    shop,
+    staff: product.staff.map((s) => s.staff),
+    start: new Date(start),
+  });
+
+  const carts = await CartServiceGetByStaff({
+    end: new Date(end),
+    shop,
+    staff: product.staff.map((s) => s.staff),
+    start: new Date(start),
+  });
+
+  return WidgetServiceCalculator({ bookings, carts, product, schedules });
+};
+
 interface ScheduleReduceProduct extends Pick<IProduct, "duration" | "buffertime"> {}
 
 const WidgetScheduleReduce =
@@ -209,3 +251,55 @@ export const WidgetServiceCalculator = ({ schedules, bookings, carts, product }:
 
   return scheduleDates;
 };
+
+interface GetBookingsByStaffProps extends Pick<BookingQuery, "start" | "end"> {
+  shop: string;
+  staff: Types.ObjectId[];
+}
+
+export const WidgetServiceGetBookings = ({ shop, start, end, staff }: GetBookingsByStaffProps) =>
+  BookingModel.aggregate<BookingResponse>([
+    {
+      $match: {
+        $or: [
+          {
+            start: {
+              $gte: DateHelpers.beginningOfDay(start),
+            },
+          },
+          {
+            end: {
+              $gte: DateHelpers.beginningOfDay(start),
+            },
+          },
+        ],
+        shop,
+        staff: {
+          $in: staff,
+        },
+      },
+    },
+    {
+      $match: {
+        $or: [
+          {
+            start: {
+              $lt: DateHelpers.closeOfDay(end),
+            },
+          },
+          {
+            end: {
+              $lt: DateHelpers.closeOfDay(end),
+            },
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        productId: 0,
+        shop: 0,
+      },
+    },
+  ]);
