@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
-import { clearDatabase, connect, disconnect } from "./mongodb";
 
-beforeAll(async () => connect());
-afterEach(async () => clearDatabase());
-afterAll(async () => disconnect());
+require('./mongodb.jest')
 
 describe('mongodb testing library', () => {
   it("should be connected", async () => {

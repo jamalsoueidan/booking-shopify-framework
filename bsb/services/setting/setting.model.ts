@@ -1,7 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { ISettingDocument, ISettingModel, SettingSchema } from "./setting.schema";
 
-export const SettingModel = mongoose.model<ISettingDocument, ISettingModel>("setting", SettingSchema, "Setting");
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const SettingModel: Model<ISettingDocument, {}, {}, {}, ISettingModel> =
+  mongoose.models.setting || mongoose.model<ISettingDocument, ISettingModel>("setting", SettingSchema, "Setting");
 
 SettingModel.createCollection().then(async (collection) => {
   const count = await collection.countDocuments();

@@ -1,15 +1,18 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import {
   INotificationTemplateDocument,
   INotificationTemplateModel,
   NotificationTemplateSchema,
 } from "./notification-template.schema";
 
-export const NotificationTemplateModel = mongoose.model<INotificationTemplateDocument, INotificationTemplateModel>(
-  "notificationtemplate",
-  NotificationTemplateSchema,
-  "NotificationTemplate",
-);
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const NotificationTemplateModel: Model<INotificationTemplateDocument, {}, {}, {}, INotificationTemplateModel> =
+  mongoose.models.notificationtemplate ||
+  mongoose.model<INotificationTemplateDocument, INotificationTemplateModel>(
+    "notificationtemplate",
+    NotificationTemplateSchema,
+    "NotificationTemplate",
+  );
 
 NotificationTemplateModel.createCollection().then(async (collection) => {
   const count = await collection.countDocuments();

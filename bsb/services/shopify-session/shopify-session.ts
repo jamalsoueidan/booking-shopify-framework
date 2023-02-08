@@ -20,8 +20,11 @@ const ShopifySessionSchema = new mongoose.Schema<IShopifySessionDocument, IShopi
   state: String,
 });
 
-export const ShopifySessionModel = mongoose.model<IShopifySessionDocument, IShopifySessionModel>(
-  "shopify_sessions",
-  ShopifySessionSchema,
-  "shopify_sessions",
-);
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const ShopifySessionModel: Model<IShopifySessionDocument, {}, {}, {}, IShopifySessionModel> =
+  mongoose.models.shopify_sessions ||
+  mongoose.model<IShopifySessionDocument, IShopifySessionModel>(
+    "shopify_sessions",
+    ShopifySessionSchema,
+    "shopify_sessions",
+  );

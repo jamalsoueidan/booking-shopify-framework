@@ -1,1 +1,2 @@
-export { clearDatabase, connect, disconnect } from './mongodb';
+export * from './mongodb.helper';
+

@@ -1,18 +1,18 @@
-require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.spec");
+import { shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import { StaffServiceCreate, StaffServiceFindAll, StaffServiceFindByIdAndUpdate, StaffServiceFindOne } from "./staff";
 
-const shop = "testerne";
+require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const staff = {
-  fullname: "jamasdeidan",
-  email: "test@test.com",
-  phone: "+4531317428",
+  active: true,
+  address: "asdpkads 12",
   avatar: "https://test.dk/test.png",
+  email: "test@test.com",
+  fullname: "jamasdeidan",
+  group: "a",
+  phone: "+4531317428",
   position: "1",
   postal: 8000,
-  address: "asdpkads 12",
-  active: true,
-  group: "a",
   shop,
 };
 
@@ -46,8 +46,8 @@ describe("Admin-staff controller", () => {
     const staff = allStaff.pop();
 
     const oneStaff = await StaffServiceFindOne({
-      shop,
       _id: staff?._id,
+      shop,
     });
     expect(oneStaff?._id).toEqual(staff?._id);
   });

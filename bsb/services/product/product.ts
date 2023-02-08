@@ -1,13 +1,77 @@
-import { ProductUpdateBody } from "@jamalsoueidan/bsb.types";
+import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ProductAddStaff, ProductUpdateBody, ShopQuery } from "@jamalsoueidan/bsb.types";
+import { startOfDay } from "date-fns";
 import mongoose from "mongoose";
 import { ProductModel } from "./product.model";
 
-interface UpdateQuery {
-  shop: string;
+interface GetById extends ShopQuery {
   id: string;
 }
 
-export const ProductServiceUpdate = async ({ query, body }: { query: UpdateQuery; body: ProductUpdateBody }) => {
+export const ProductServiceGetById = async ({ id, shop }: GetById) => {
+  const product = await ProductModel.findOne({
+    _id: new mongoose.Types.ObjectId(id),
+    shop,
+    "staff.0": { $exists: false }, // if product contains zero staff, then just return the product, no need for aggreation
+  });
+
+  if (product) {
+    return product;
+  }
+
+  const products = await ProductModel.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(id), shop },
+    },
+    {
+      $unwind: { path: "$staff", preserveNullAndEmptyArrays: true },
+    },
+    {
+      $lookup: {
+        as: "staff.staff",
+        foreignField: "_id",
+        from: "Staff",
+        localField: "staff.staff",
+      },
+    },
+    {
+      $unwind: {
+        path: "$staff.staff",
+      },
+    },
+    {
+      $addFields: {
+        "staff.staff.tag": "$staff.tag",
+      },
+    },
+    {
+      $addFields: {
+        staff: "$staff.staff",
+      },
+    },
+    { $sort: { "staff.fullname": 1 } },
+    {
+      $group: {
+        _id: "$_id",
+        product: { $first: "$$ROOT" },
+        staff: { $push: "$staff" },
+      },
+    },
+    {
+      $addFields: {
+        "product.staff": "$staff",
+      },
+    },
+    { $replaceRoot: { newRoot: "$product" } },
+  ]);
+
+  return products.length > 0 ? products[0] : null;
+};
+interface Update extends ShopQuery {
+  id: string;
+}
+
+export const ProductServiceUpdate = async (query: Update, body: ProductUpdateBody) => {
   const { staff, ...properties } = body;
 
   const newStaffier =
@@ -40,3 +104,66 @@ export const ProductServiceUpdate = async ({ query, body }: { query: UpdateQuery
     },
   ).lean();
 };
+
+// @description return all staff that don't belong yet to the product
+export const ProductServiceGetStaff = ({ shop }: ShopQuery) =>
+  ScheduleModel.aggregate<ProductAddStaff>([
+    {
+      // TODO: should we only show staff who have schedule after today?
+      $match: {
+        start: {
+          $gte: startOfDay(new Date()),
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          shop,
+          staff: "$staff",
+          tag: "$tag",
+        },
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: {
+          $mergeObjects: [{ staff: "$_id.staff", tag: "$_id.tag" }],
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$staff",
+        tags: { $push: "$tag" },
+      },
+    },
+    {
+      $project: {
+        _id: "$_id",
+        tags: "$tags",
+      },
+    },
+    {
+      $lookup: {
+        as: "staffs",
+        foreignField: "_id",
+        from: "Staff",
+        localField: "_id",
+      },
+    },
+    {
+      $unwind: "$staffs", // explode array
+    },
+    {
+      $addFields: {
+        "staffs.tags": "$tags",
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: "$staffs",
+      },
+    },
+    { $sort: { fullname: 1 } },
+  ]);

@@ -17,7 +17,7 @@
     },
     "bsb-pkg": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.42",
+        "version": "0.0.44",
         "mainFile": "index.ts",
         "rootDir": "bsb/bsb-pkg"
     },
@@ -335,85 +335,85 @@
     },
     "services/booking": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.12",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/booking"
     },
     "services/cart": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/cart"
     },
     "services/collection": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.9",
+        "version": "0.0.11",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/collection"
     },
     "services/customer": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/customer"
     },
     "services/notification": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.12",
+        "version": "0.0.14",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/notification"
     },
     "services/notification-template": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.11",
+        "version": "0.0.13",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/notification-template"
     },
     "services/product": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.8",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/product"
     },
     "services/schedule": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.9",
+        "version": "0.0.11",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/schedule"
     },
     "services/setting": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/setting"
     },
     "services/shopify-session": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/shopify-session"
     },
     "services/staff": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.9",
+        "version": "0.0.11",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/staff"
     },
     "services/user": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/user"
     },
     "services/widget": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.8",
+        "version": "0.0.10",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/widget"
     },
     "testing-library/mongodb": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "bsd/testing-library/mongodb"
     },

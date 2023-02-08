@@ -42,7 +42,8 @@
     "packageManager": "teambit.dependencies/yarn",
     "policy": {
       "dependencies": {
-        "mongodb-memory-server": "8.11.4"
+        "mongodb-memory-server": "8.11.4",
+        "@faker-js/faker": "7.6.0"
       },
       "peerDependencies": {
         "@fullcalendar/core": "^6.0.2",

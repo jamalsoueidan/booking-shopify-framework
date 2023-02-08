@@ -1,4 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
 import { IProductDocument, IProductModel, ProductSchema } from "./product.schema";
 
-export const ProductModel = mongoose.model<IProductDocument, IProductModel>("product", ProductSchema, "Product");
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const ProductModel: Model<IProductDocument, {}, {}, {}, IProductModel> =
+  mongoose.models.product || mongoose.model<IProductDocument, IProductModel>("product", ProductSchema, "Product");

@@ -17,9 +17,15 @@ export const disconnect = async () => {
 };
 
 export const clearDatabase = async () => {
-  const collections = mongoose.connection.collections;
+  const {collections} = mongoose.connection;
+  // eslint-disable-next-line no-restricted-syntax, guard-for-in
   for (const key in collections) {
     const collection = collections[key];
+    // eslint-disable-next-line no-await-in-loop
     await collection.deleteMany({});
   }
 };
+
+beforeAll(async () => connect());
+afterEach(async () => clearDatabase());
+afterAll(async () => disconnect());
