@@ -1,13 +1,16 @@
 import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
-import { BookingResponse, Schedule } from "@jamalsoueidan/bsb.types";
+import { Schedule } from "@jamalsoueidan/bsb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { format } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
 
-export type ScheduleCalendarDateState = Pick<BookingResponse, "start" | "end">;
+export type ScheduleCalendarDateState = {
+  start: Date;
+  end: Date;
+};
 
 export interface ScheduleCalendarProps {
   data: Array<Schedule>;
@@ -24,14 +27,12 @@ export const ScheduleCalendar = ({ data, onClick, onClickSchedule, onChangeDate 
 
   const handleChangeDate = useCallback(
     ({ start, end }: DatesSetArg) => {
-      const newDate = {
-        end: end.toISOString().slice(0, 10),
-        start: start.toISOString().slice(0, 10),
-      };
-
-      if (newDate.start !== date?.start || newDate.end !== date?.end) {
-        onChangeDate(newDate);
-        setDate(newDate);
+      if (start !== date?.start || end !== date?.end) {
+        onChangeDate({
+          end,
+          start,
+        });
+        setDate({ end, start });
       }
     },
     [date, onChangeDate],

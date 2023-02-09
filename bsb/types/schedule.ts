@@ -8,8 +8,7 @@ export interface Schedule {
   shop: string;
 }
 
-export interface ScheduleBodyUpdate
-  extends Omit<Schedule, "shop" | "_id" | "staff" | "start" | "end"> {
+export interface ScheduleBodyUpdate extends Pick<Schedule, "tag"> {
   start: string;
   end: string;
 }
@@ -19,9 +18,7 @@ export interface ScheduleBodyCreate {
   schedules: ScheduleBodyUpdateOrCreate;
 }
 
-export type ScheduleBodyUpdateOrCreate =
-  | ScheduleBodyUpdate[]
-  | ScheduleBodyUpdate;
+export type ScheduleBodyUpdateOrCreate = ScheduleBodyUpdate[] | ScheduleBodyUpdate;
 
 export interface ScheduleGetQuery {
   staff: string;
@@ -32,6 +29,11 @@ export interface ScheduleGetQuery {
 export interface ScheduleUpdateOrDestroyQuery {
   staff: string;
   schedule: string;
+}
+
+export interface ScheduleGroupUpdateOrDestroyQuery extends ScheduleUpdateOrDestroyQuery {
+  shop: string;
+  groupId: string;
 }
 
 export interface ScheduleGetByStaffAndTag extends Omit<Schedule, "staff"> {

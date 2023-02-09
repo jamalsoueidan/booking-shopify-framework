@@ -106,7 +106,7 @@ export const ProductServiceUpdate = async (query: Update, body: ProductUpdateBod
 };
 
 // @description return all staff that don't belong yet to the product
-export const ProductServiceGetStaff = ({ shop }: ShopQuery) =>
+export const ProductServiceGetStaff = (shop: string) =>
   ScheduleModel.aggregate<ProductAddStaff>([
     {
       // TODO: should we only show staff who have schedule after today?

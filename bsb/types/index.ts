@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export * from "./booking";
 export * from "./cart";
 export * from "./collection";
@@ -18,9 +20,11 @@ export interface ApiResponse<T> {
   payload: T;
 }
 
-export interface ShopQuery {
-  shop: string;
-}
+export const ShopSchema = z.object({
+  shop: z.string(),
+});
+
+export type ShopQuery = z.infer<typeof ShopSchema>;
 
 export type ControllerProps<Q = never, B = never, S = never> = Pick<
   {
@@ -28,7 +32,9 @@ export type ControllerProps<Q = never, B = never, S = never> = Pick<
     body: B;
     session: S;
   },
-  (Q extends object ? "query" : never) | (B extends object ? "body" : never) | (S extends object ? "session" : never)
+  | (Q extends object ? "query" : never)
+  | (B extends object ? "body" : never)
+  | (S extends object ? "session" : never)
 >;
 
 export interface AppSession {
@@ -51,6 +57,14 @@ export interface ShopifySession {
   accessToken?: string;
 }
 
-export type AppControllerProps<Q = never, B = never> = ControllerProps<Q, B, AppSession>;
+export type AppControllerProps<Q = never, B = never> = ControllerProps<
+  Q,
+  B,
+  AppSession
+>;
 
-export type ShopifyControllerProps<Q = never, B = never> = ControllerProps<Q, B, ShopifySession>;
+export type ShopifyControllerProps<Q = never, B = never> = ControllerProps<
+  Q,
+  B,
+  ShopifySession
+>;

@@ -1,3 +1,5 @@
+import { ShopQuery } from "@jamalsoueidan/bsb.types";
+import { z } from "zod";
 import { Customer } from "./customer";
 import { Product } from "./product";
 import { Staff } from "./staff";
@@ -9,7 +11,7 @@ export enum BookingFulfillmentStatus {
   BOOKED = "booked",
 }
 
-export interface Booking {
+export type BookingDocument = {
   _id: string;
   productId: number;
   orderId: number;
@@ -17,8 +19,8 @@ export interface Booking {
   lineItemTotal: number;
   customerId: number;
   staff: string;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   shop: string;
   anyAvailable?: boolean;
   fulfillmentStatus: BookingFulfillmentStatus;
@@ -26,30 +28,57 @@ export interface Booking {
   timeZone: string;
   isEdit?: boolean;
   isSelfBooked?: boolean;
-}
+};
 
-export interface BookingResponse extends Omit<Booking, "staff" | "start" | "end"> {
+export type Booking = Omit<BookingDocument, "staff"> & {
   customer: Customer;
   product: Product;
   staff: Staff;
-  start: string;
-  end: string;
+};
+
+export const BookingServiceCreateSchema = z.object({
+  customerId: z.number(),
+  end: z.coerce.date(),
+  productId: z.number(),
+  staff: z.string(),
+  start: z.coerce.date(),
+});
+
+export type BookingServiceCreateProps = z.infer<
+  typeof BookingServiceCreateSchema
+>;
+
+export type BookingServiceFindProps = ShopQuery["shop"];
+
+export const BookingServiceGetAllSchema = z.object({
+  end: z.coerce.date(),
+  staff: z.string().optional(),
+  start: z.coerce.date(),
+});
+
+export type BookingServiceGetAllProps = z.infer<
+  typeof BookingServiceGetAllSchema
+>;
+
+export const BookingServiceUpdateQuerySchema = z.object({
+  _id: z.string(),
+});
+
+export const BookingServiceUpdateBodySchema = z.object({
+  end: z.coerce.date(),
+  staff: z.string(),
+  start: z.coerce.date(),
+});
+
+export interface BookingServiceUpdateProps {
+  query: z.infer<typeof BookingServiceUpdateQuerySchema>;
+  body: z.infer<typeof BookingServiceUpdateBodySchema>;
 }
 
-export interface BookingRequest {
-  start: string;
-  end: string;
-  staff: string;
-}
+export const BookingServiceGetByIdSchema = z.object({
+  _id: z.string(),
+});
 
-export interface BookingBodyUpdateRequest extends Pick<Booking, "staff"> {
-  start: string;
-  end: string;
-}
-
-export interface BookingBodyCreateRequest extends Pick<Booking, "productId" | "customerId" | "staff"> {
-  start: string;
-  end: string;
-}
-
-export interface BookingQuery extends Pick<Booking, "start" | "end">, Partial<Pick<Booking, "staff">> {}
+export type BookingServiceGetByIdProps = z.infer<
+  typeof BookingServiceGetByIdSchema
+>;

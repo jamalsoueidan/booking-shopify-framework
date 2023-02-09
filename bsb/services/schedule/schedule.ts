@@ -1,10 +1,11 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
-import { IScheduleDocument, ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceFindOne } from "@jamalsoueidan/bsb.services.staff";
 import {
   ScheduleBodyCreate,
   ScheduleBodyUpdate,
   ScheduleGetByStaffAndTag,
+  ScheduleGroupUpdateOrDestroyQuery,
   ScheduleUpdateOrDestroyQuery,
 } from "@jamalsoueidan/bsb.types";
 import {
@@ -29,14 +30,15 @@ export const ScheduleServiceCreate = async ({
   staff,
   shop,
   schedules,
-}: CreateProps): Promise<IScheduleDocument | IScheduleDocument[] | undefined> => {
+}: CreateProps) => {
   const exists = await StaffServiceFindOne({
     _id: staff,
     shop,
   });
 
   if (exists) {
-    const resetSecMil = (value) => setSeconds(setMilliseconds(parseISO(value), 0), 0).toISOString();
+    const resetSecMil = (value) =>
+      setSeconds(setMilliseconds(parseISO(value), 0), 0).toISOString();
 
     if (Array.isArray(schedules)) {
       const groupId = new Date().getTime();
@@ -88,7 +90,11 @@ interface ScheduleServiceDestroyProps {
   shop: string;
 }
 
-export const ScheduleServiceDestroy = ({ schedule, staff, shop }: ScheduleServiceDestroyProps) => {
+export const ScheduleServiceDestroy = ({
+  schedule,
+  staff,
+  shop,
+}: ScheduleServiceDestroyProps) => {
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 };
 
@@ -99,7 +105,12 @@ interface GetByDateRangeProps {
   end: string;
 }
 
-export const ScheduleServiceGetByDateRange = ({ shop, staff, start, end }: GetByDateRangeProps) =>
+export const ScheduleServiceGetByDateRange = ({
+  shop,
+  staff,
+  start,
+  end,
+}: GetByDateRangeProps) =>
   ScheduleModel.find({
     end: {
       $lt: DateHelpers.closeOfDay(end),
@@ -114,8 +125,8 @@ export const ScheduleServiceGetByDateRange = ({ shop, staff, start, end }: GetBy
 interface GetByStaffAndTagProps {
   tag: string[];
   staff: Types.ObjectId[];
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
 }
 
 export const ScheduleServiceGetByStaffAndTag = ({
@@ -167,21 +178,21 @@ export const ScheduleServiceGetByStaffAndTag = ({
         "staff.phone": 0,
         "staff.position": 0,
         "staff.shop": 0,
+        "staff.avatar": 0,
       },
     },
   ]);
 
-interface ScheduleServiceUpdateGroupFilterProps extends ScheduleUpdateOrDestroyQuery {
+interface ScheduleServiceUpdateGroupFilterProps
+  extends ScheduleUpdateOrDestroyQuery {
   groupId: string;
   shop: string;
 }
 
-interface ScheduleServiceUpdateGroupProps {
-  filter: ScheduleServiceUpdateGroupFilterProps;
-  body: ScheduleBodyUpdate;
-}
-
-export const ScheduleServiceUpdateGroup = async ({ filter, body }: ScheduleServiceUpdateGroupProps) => {
+export const ScheduleServiceUpdateGroup = async (
+  filter: ScheduleServiceUpdateGroupFilterProps,
+  body: ScheduleBodyUpdate,
+) => {
   const { staff, shop, schedule, groupId } = filter;
 
   const documents = await ScheduleServicefind({
@@ -244,4 +255,23 @@ export const ScheduleServiceUpdateGroup = async ({ filter, body }: ScheduleServi
       }),
     );
   }
+};
+
+export const ScheduleServiceDestroyGroup = async (
+  query: ScheduleGroupUpdateOrDestroyQuery,
+) => {
+  const { shop, staff, schedule, groupId } = query;
+
+  const documents = await ScheduleModel.countDocuments({
+    _id: schedule,
+    groupId,
+    shop,
+    staff,
+  });
+
+  if (documents > 0) {
+    await ScheduleModel.deleteMany({ groupId, shop });
+  }
+
+  throw new Error("Groupid doesn't exist");
 };

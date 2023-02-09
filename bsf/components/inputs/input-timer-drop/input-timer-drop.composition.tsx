@@ -41,7 +41,7 @@ export const Error = () => {
 };
 
 export const Selected = () => {
-  const field = useField<InputTimerDropField>(mock[0]);
+  const field = useField<InputTimerDropField>({ end: new Date(mock[0].end), start: new Date(mock[0].start) });
 
   return (
     <ApplicationFramePage>

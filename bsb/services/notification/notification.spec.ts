@@ -1,5 +1,9 @@
 import { SmsDkApiCancel, SmsDkApiSend } from "@jamalsoueidan/bsb.api.sms-dk";
-import { BookingServiceCreate, BookingServiceUpdate, IBookingDocument } from "@jamalsoueidan/bsb.services.booking";
+import {
+  BookingServiceCreate,
+  BookingServiceUpdate,
+  IBookingDocument,
+} from "@jamalsoueidan/bsb.services.booking";
 import { IStaffDocument } from "@jamalsoueidan/bsb.services.staff";
 import {
   clearDatabase,
@@ -11,7 +15,7 @@ import {
   disconnect,
   shop,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addHours } from "date-fns";
+import { addHours, addMonths } from "date-fns";
 import waitForExpect from "wait-for-expect";
 import { NotificationServiceGet } from "./notification";
 
@@ -46,17 +50,19 @@ describe("notification service test", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (SmsDkApiSend as any).mockClear();
 
-    await BookingServiceUpdate(
-      {
+    const start = addMonths(new Date(), 1);
+
+    await BookingServiceUpdate({
+      body: {
+        end: addHours(start, 1),
+        staff: staff._id.toString(),
+        start,
+      },
+      query: {
         _id: booking._id,
         shop,
       },
-      {
-        end: "2023-11-15T13:15:00.000Z",
-        staff: staff._id.toString(),
-        start: "2023-11-15T12:15:00.000Z",
-      },
-    );
+    });
 
     await waitForExpect(() => {
       expect(SmsDkApiCancel).toHaveBeenCalledTimes(2);
@@ -72,7 +78,9 @@ describe("notification service test", () => {
       shop,
     });
 
-    expect(notifications.filter((n) => n.status === "cancelled").length).toBe(2);
+    expect(notifications.filter((n) => n.status === "cancelled").length).toBe(
+      2,
+    );
     expect(notifications.filter((n) => n.status === "pending").length).toBe(2);
   });
 });
@@ -116,10 +124,10 @@ const createData = async () => {
 
   return BookingServiceCreate({
     customerId: customer.customerId,
-    end: "2023-11-29T12:15:00.000Z",
+    end: new Date("2023-11-29T12:15:00.000Z"),
     productId,
     shop,
     staff: staff._id.toString(),
-    start: "2023-11-29T11:15:00.000Z",
+    start: new Date("2023-11-29T11:15:00.000Z"),
   });
 };

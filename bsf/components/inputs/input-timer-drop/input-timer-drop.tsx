@@ -32,7 +32,7 @@ export const InputTimerDrop = ({ data, input, field }: InputTimerDropProps) => {
       {...input}
       options={options}
       onChange={onChange}
-      value={field.value?.start}
+      value={field.value?.start.toJSON()}
     />
   );
 };

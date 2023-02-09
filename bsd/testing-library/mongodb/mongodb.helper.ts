@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { CustomerModel } from '@jamalsoueidan/bsb.services.customer';
-import { ProductModel, ProductServiceUpdate } from '@jamalsoueidan/bsb.services.product';
+import { IProductDocument, ProductModel, ProductServiceUpdate } from '@jamalsoueidan/bsb.services.product';
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
 import { addHours } from "date-fns";
@@ -51,6 +51,7 @@ interface CreateSchedule {
   start?: Date;
   end?: Date;
 }
+
 export const createSchedule = async ({
   staff,
   tag,
@@ -66,7 +67,11 @@ export const createSchedule = async ({
     staff,
   });
 
-export const createStaffWithSchedule = async ({ tag }) => {
+  interface CreateStaffWithScheduleProps {
+    tag: string
+  }
+
+export const createStaffWithSchedule = async ({ tag }:CreateStaffWithScheduleProps) => {
   const staff = await createStaff();
   const schedule = await createSchedule({
     staff: staff._id,
@@ -75,9 +80,14 @@ export const createStaffWithSchedule = async ({ tag }) => {
   return { schedule, staff };
 };
 
-export const createStaffAndUpdateProduct = async ({ product, tag }) => {
+interface CreateStaffAndUpdateProductProps {
+  product: IProductDocument,
+  tag: string
+}
+
+export const createStaffWithScheduleAndUpdateProduct = async ({ product, tag }:CreateStaffAndUpdateProductProps) => {
   const { staff, schedule } = await createStaffWithSchedule({ tag });
-  const updateProduct = await ProductServiceUpdate({
+  const updatedProduct = await ProductServiceUpdate({
       id: product._id,
       shop,
     },
@@ -85,5 +95,5 @@ export const createStaffAndUpdateProduct = async ({ product, tag }) => {
       staff: [{ _id: staff._id, tag }],
   });
 
-  return { schedule, staff, updateProduct };
+  return { schedule, staff, updatedProduct };
 };

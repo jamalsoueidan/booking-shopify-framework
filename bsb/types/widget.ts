@@ -5,8 +5,8 @@ export interface WidgetStaffQuery {
 export interface WidgetDateQuery {
   staff: string;
   productId: number;
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
 }
 
 export interface WidgetStaff {

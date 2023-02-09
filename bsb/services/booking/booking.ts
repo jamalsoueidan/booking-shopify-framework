@@ -9,19 +9,19 @@ import {
 } from "@jamalsoueidan/bsb.services.notification";
 import { ProductModel } from "@jamalsoueidan/bsb.services.product";
 import {
-  BookingBodyCreateRequest,
-  BookingBodyUpdateRequest,
-  BookingQuery,
-  BookingResponse,
+  BookingServiceCreateProps,
+  BookingServiceFindProps,
+  BookingServiceGetAllProps,
+  BookingServiceGetByIdProps,
+  BookingServiceUpdateProps,
+  ShopQuery,
 } from "@jamalsoueidan/bsb.types";
 import mongoose from "mongoose";
 import { BookingModel } from "./booking.model";
 
-interface CreateProps extends BookingBodyCreateRequest {
-  shop: string;
-}
-
-export const BookingServiceCreate = async (body: CreateProps) => {
+export const BookingServiceCreate = async (
+  body: BookingServiceCreateProps & ShopQuery,
+) => {
   const product = await ProductModel.findOne({
     productId: body.productId,
   }).lean();
@@ -57,14 +57,16 @@ export const BookingServiceCreate = async (body: CreateProps) => {
   throw new Error("no product found");
 };
 
-export const BookingServiceFind = async (shop) => BookingModel.find({ shop });
+export const BookingServiceFind = async (shop: BookingServiceFindProps) =>
+  BookingModel.find({ shop });
 
-interface GetBookingsProps extends BookingQuery {
-  shop: string;
-}
-
-export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsProps) =>
-  BookingModel.aggregate<BookingResponse>([
+export const BookingServiceGetAll = ({
+  shop,
+  start,
+  end,
+  staff,
+}: BookingServiceGetAllProps & ShopQuery) =>
+  BookingModel.aggregate([
     {
       $match: {
         end: {
@@ -79,13 +81,14 @@ export const BookingServiceGetAll = ({ shop, start, end, staff }: GetBookingsPro
     },
   ]);
 
-interface BookingServiceUpdateFilter {
-  _id: string;
-  shop: string;
-}
-
-export const BookingServiceUpdate = async (filter: BookingServiceUpdateFilter, body: BookingBodyUpdateRequest) => {
-  const booking = await BookingModel.findOne(filter);
+export const BookingServiceUpdate = async ({
+  query,
+  body,
+}: {
+  query: BookingServiceUpdateProps["query"] & ShopQuery;
+  body: BookingServiceUpdateProps["body"];
+}) => {
+  const booking = await BookingModel.findOne(query);
   if (!booking) {
     throw new Error("Not found");
   }
@@ -94,40 +97,40 @@ export const BookingServiceUpdate = async (filter: BookingServiceUpdateFilter, b
   booking.end = new Date(body.end);
   booking.isEdit = true;
 
+  const { shop } = query;
+
   await NotificationServiceCancelAll({
     lineItemId: booking.lineItemId,
     orderId: booking.orderId,
-    shop: filter.shop,
+    shop,
   });
 
   await NotifcationServiceSendBookingUpdateCustomer({
     booking,
-    shop: filter.shop,
+    shop,
   });
 
   await NotificationServiceSendBookingReminderStaff({
     bookings: [booking],
-    shop: filter.shop,
+    shop,
   });
 
   await NotificationServiceSendBookingReminderCustomer({
     bookings: [booking],
-    shop: filter.shop,
+    shop,
   });
 
   return booking.save();
 };
 
-interface GetByIdProps {
-  id: string;
-  shop: string;
-}
-
-export const BookingServiceGetById = async ({ shop, id }: GetByIdProps): Promise<BookingResponse | null> => {
+export const BookingServiceGetById = async ({
+  shop,
+  _id,
+}: BookingServiceGetByIdProps & ShopQuery) => {
   const bookings = await BookingModel.aggregate([
     {
       $match: {
-        _id: new mongoose.Types.ObjectId(id),
+        _id: new mongoose.Types.ObjectId(_id),
         shop,
       },
     },

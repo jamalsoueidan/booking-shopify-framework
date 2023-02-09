@@ -81,9 +81,7 @@ describe("product testing", () => {
       tag,
     });
 
-    const staffToAdd = await ProductServiceGetStaff({
-      shop,
-    });
+    const staffToAdd = await ProductServiceGetStaff(shop);
 
     expect(staffToAdd.length).toEqual(3);
 

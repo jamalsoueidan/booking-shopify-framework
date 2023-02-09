@@ -10,8 +10,8 @@ import { ReactNode, useCallback, useEffect, useMemo } from "react";
 
 export type UseTimerField =
   | {
-      start: string;
-      end: string;
+      start: Date;
+      end: Date;
     }
   | undefined;
 
@@ -53,15 +53,15 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
   }, [data, toTimeZone, locale]);
 
   const handleOnChange = useCallback(
-    (selected: string) => {
-      const selectedHour = data?.find((t) => t.start === selected);
+    (startDate: string) => {
+      const selectedHour = data?.find((t) => t.start === startDate);
 
       if (!selectedHour) {
         field.onChange(undefined);
       } else {
         field.onChange({
-          end: selectedHour.end,
-          start: selectedHour.start,
+          end: new Date(selectedHour.end),
+          start: new Date(selectedHour.start),
         });
       }
     },
@@ -86,7 +86,7 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
         return;
       }
 
-      const value = options.find((option) => option.value === field.value?.start);
+      const value = options.find((option) => option.value === field.value?.start.toJSON());
       if (!value) {
         handleOnChange("");
       }

@@ -3,7 +3,7 @@ import { UseTimerField, UseTimerInput, UseTimerOption, useTimer } from "@jamalso
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { AlphaStack, Button, Columns, Inline, Labelled, Text } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { format, setHours } from "date-fns";
+import { format, isEqual, setHours } from "date-fns";
 import React, { memo } from "react";
 
 export type InputTimerDividerField = UseTimerField;
@@ -79,7 +79,7 @@ interface ColumnPeriodProps {
   date: Date;
   hours: UseTimerOption[];
   onChange?: (selected: string, id: string) => void;
-  selected?: string;
+  selected?: Date;
 }
 
 const ColumnPeriod = memo(({ date, hours, onChange, selected }: ColumnPeriodProps) => {
@@ -110,7 +110,7 @@ const ColumnPeriod = memo(({ date, hours, onChange, selected }: ColumnPeriodProp
             key={m.value}
             onClick={() => onChange && onChange(m.value, m.label)}
             label={m.label}
-            pressed={m.value === selected}
+            pressed={isEqual(new Date(m.value), selected || new Date())}
           />
         ))
       )}

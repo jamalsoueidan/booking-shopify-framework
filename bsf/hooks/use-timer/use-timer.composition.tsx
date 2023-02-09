@@ -11,7 +11,7 @@ const InputTimerDrop = ({ data, field }: UseTimerProps) => {
     field,
   });
 
-  return <Select labelHidden label="-" options={options} onChange={onChange} value={field.value?.start} />;
+  return <Select labelHidden label="-" options={options} onChange={onChange} value={field.value?.start.toJSON()} />;
 };
 
 export const Basic = () => {

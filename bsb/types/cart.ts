@@ -6,8 +6,4 @@ export interface Cart {
   shop: string;
   createdAt: Date;
 }
-export interface CartGetByStaff {
-  start: string;
-  end: string;
-  staff: string;
-}
+export type CartGetByStaff = Pick<Cart, "start" | "end" | "staff">;

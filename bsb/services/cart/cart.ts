@@ -7,7 +7,7 @@ interface GetCartsByStaffierProps extends Omit<ICart, "createdAt" | "staff"> {
 }
 
 export const CartServiceGetByStaff = ({ shop, staff, start, end }: GetCartsByStaffierProps) =>
-  CartModel.aggregate([
+  CartModel.aggregate<ICart>([
     {
       $match: {
         $or: [
