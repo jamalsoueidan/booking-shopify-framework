@@ -1,45 +1,24 @@
-import {
-  DatesSetArg,
-  EventClickArg,
-  EventContentArg,
-} from "@fullcalendar/core";
-import { Booking } from "@jamalsoueidan/bsb.types";
+import { EventClickArg, EventContentArg } from "@fullcalendar/core";
+import { Booking } from "@jamalsoueidan/bsb.types/booking";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
+import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { Avatar, Tooltip } from "@shopify/polaris";
-import React, { Suspense, memo, useCallback, useMemo, useState } from "react";
-
-export type BookingCalendarDateState = Pick<Booking, "start" | "end">;
+import React, { Suspense, memo, useCallback, useMemo } from "react";
 
 export interface BookingCalendarProps {
   data: Array<Booking>;
   onClickBooking: (booking: Booking) => void;
-  onChangeDate: (date: BookingCalendarDateState) => void;
+  onChangeDate: (date: CalendarDateState) => void;
 }
 
 export const BookingCalendar = memo(
   ({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
-    const [date, setDate] = useState<BookingCalendarDateState>();
     const { getColor } = useFulfillment();
     const { toTimeZone } = useDate();
-
-    const handleChangeDate = useCallback(
-      (props: DatesSetArg) => {
-        const newDate = {
-          end: props.end.toISOString().slice(0, 10),
-          start: props.start.toISOString().slice(0, 10),
-        };
-
-        if (newDate.start !== date?.start || newDate.end !== date?.end) {
-          setDate(newDate);
-          onChangeDate(newDate);
-        }
-      },
-      [date?.end, date?.start, onChangeDate],
-    );
 
     const events = useMemo(
       () =>
@@ -121,7 +100,7 @@ export const BookingCalendar = memo(
         <Calendar
           events={events}
           eventContent={renderItem}
-          datesSet={handleChangeDate}
+          datesSet={onChangeDate}
           eventClick={handleClickEvent}
         />
       </Suspense>

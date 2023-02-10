@@ -3,13 +3,18 @@ import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Card, Columns, Layout, TextField } from "@shopify/polaris";
-import { FormError, SubmitResult, useField, useForm } from "@shopify/react-form";
+import {
+  FormError,
+  SubmitResult,
+  useField,
+  useForm,
+} from "@shopify/react-form";
 import { format, setHours, setMinutes } from "date-fns";
 import React, { forwardRef, useImperativeHandle } from "react";
 
 export interface CreateOneShiftBody {
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   tag: TagColors;
 }
 
@@ -23,74 +28,85 @@ export interface CreateOneShiftProps {
   onSubmit: (fields: CreateOneShiftBody) => CreateOneShiftSubmitResult;
 }
 
-export const CreateOneShift = forwardRef<CreateOneShiftRefMethod, CreateOneShiftProps>(
-  ({ selectedDate, onSubmit }, ref) => {
-    const { t } = useTranslation({ id: "create-one-day", locales });
-    const { options } = useTag();
-    const { toUtc } = useDate();
+export const CreateOneShift = forwardRef<
+  CreateOneShiftRefMethod,
+  CreateOneShiftProps
+>(({ selectedDate, onSubmit }, ref) => {
+  const { t } = useTranslation({ id: "create-one-day", locales });
+  const { options } = useTag();
+  const { toUtc } = useDate();
 
-    const { fields, submit, validate } = useForm({
-      fields: {
-        endTime: useField("16:00"),
-        startTime: useField("09:00"),
-        tag: useField(options[0].value),
-      },
-      onSubmit: async (fieldValues) => {
-        const date = selectedDate;
+  const { fields, submit, validate } = useForm({
+    fields: {
+      endTime: useField("16:00"),
+      startTime: useField("09:00"),
+      tag: useField(options[0].value),
+    },
+    onSubmit: async (fieldValues) => {
+      const date = selectedDate;
 
-        const convert = (time: string) => {
-          const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
-          return toUtc(setHours(setMinutes(date, minuttes), hour));
-        };
+      const convert = (time: string) => {
+        const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
+        return toUtc(setHours(setMinutes(date, minuttes), hour));
+      };
 
-        const start = convert(fieldValues.startTime);
-        const end = convert(fieldValues.endTime);
+      const start = convert(fieldValues.startTime);
+      const end = convert(fieldValues.endTime);
 
-        return onSubmit({
-          end: end.toISOString(),
-          start: start.toISOString(),
-          tag: fieldValues.tag,
-        });
-      },
-    });
+      return onSubmit({
+        end,
+        start,
+        tag: fieldValues.tag,
+      });
+    },
+  });
 
-    useImperativeHandle(ref, () => ({
-      submit() {
-        submit();
-        return validate();
-      },
-    }));
+  useImperativeHandle(ref, () => ({
+    submit() {
+      submit();
+      return validate();
+    },
+  }));
 
-    return (
-      <Layout>
-        <Layout.Section>
-          <Card>
-            <Card.Section>
-              {t("title", {
-                date: <strong>{format(selectedDate, "PPP")}</strong>,
-                day: <strong>{format(selectedDate, "EEEE")}</strong>,
-              })}
-            </Card.Section>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <Columns
-            columns={{
-              md: "3fr 3fr",
-              xs: "3fr 3fr",
-            }}
-          >
-            <TextField label={t("time_from.label")} type="time" autoComplete="off" {...fields.startTime} />
-            <TextField label={t("time_to.label")} type="time" autoComplete="off" {...fields.endTime} />
-          </Columns>
-        </Layout.Section>
-        <Layout.Section>
-          <InputTags field={fields.tag} />
-        </Layout.Section>
-      </Layout>
-    );
-  },
-);
+  return (
+    <Layout>
+      <Layout.Section>
+        <Card>
+          <Card.Section>
+            {t("title", {
+              date: <strong>{format(selectedDate, "PPP")}</strong>,
+              day: <strong>{format(selectedDate, "EEEE")}</strong>,
+            })}
+          </Card.Section>
+        </Card>
+      </Layout.Section>
+      <Layout.Section>
+        <Columns
+          columns={{
+            md: "3fr 3fr",
+            xs: "3fr 3fr",
+          }}
+        >
+          <TextField
+            label={t("time_from.label")}
+            type="time"
+            autoComplete="off"
+            {...fields.startTime}
+          />
+          <TextField
+            label={t("time_to.label")}
+            type="time"
+            autoComplete="off"
+            {...fields.endTime}
+          />
+        </Columns>
+      </Layout.Section>
+      <Layout.Section>
+        <InputTags field={fields.tag} />
+      </Layout.Section>
+    </Layout>
+  );
+});
 
 const locales = {
   da: {

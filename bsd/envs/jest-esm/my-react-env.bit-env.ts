@@ -5,7 +5,11 @@ import { EnvHandler } from "@teambit/envs";
 import { PackageGenerator } from "@teambit/pkg";
 import type { ReactEnvInterface } from "@teambit/react.react-env";
 import { ReactEnv } from "@teambit/react.react-env";
-import { TypescriptCompiler, TypescriptTask, resolveTypes } from "@teambit/typescript.typescript-compiler";
+import {
+  TypescriptCompiler,
+  TypescriptTask,
+  resolveTypes,
+} from "@teambit/typescript.typescript-compiler";
 import { ESLint as ESLintLib } from "eslint";
 import typescript from "typescript";
 

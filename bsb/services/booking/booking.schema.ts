@@ -1,10 +1,7 @@
-import { Booking } from "@jamalsoueidan/bsb.types";
+import { BookingDocument } from "@jamalsoueidan/bsb.types";
 import { Document, Model, Schema, Types } from "mongoose";
 
-export interface IBooking
-  extends Omit<Booking, "_id" | "staff" | "end" | "start"> {
-  end: Date;
-  start: Date;
+export interface IBooking extends Omit<BookingDocument, "_id" | "staff"> {
   staff: Types.ObjectId;
 }
 

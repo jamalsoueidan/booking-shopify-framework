@@ -1,42 +1,28 @@
-import { DatesSetArg, EventClickArg, EventContentArg } from "@fullcalendar/core";
+import { EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
 import { Schedule } from "@jamalsoueidan/bsb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
+import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { format } from "date-fns";
-import React, { useCallback, useMemo, useState } from "react";
-
-export type ScheduleCalendarDateState = {
-  start: Date;
-  end: Date;
-};
+import React, { useCallback, useMemo } from "react";
 
 export interface ScheduleCalendarProps {
   data: Array<Schedule>;
   onClick: (date: Date) => void;
   onClickSchedule: (schedule: Schedule) => void;
-  onChangeDate: (date: ScheduleCalendarDateState) => void;
+  onChangeDate: (date: CalendarDateState) => void;
 }
 
-export const ScheduleCalendar = ({ data, onClick, onClickSchedule, onChangeDate }: ScheduleCalendarProps) => {
+export const ScheduleCalendar = ({
+  data,
+  onClick,
+  onClickSchedule,
+  onChangeDate,
+}: ScheduleCalendarProps) => {
   const { toTimeZone } = useDate();
   const { select: selectTag } = useTag();
-
-  const [date, setDate] = useState<ScheduleCalendarDateState>();
-
-  const handleChangeDate = useCallback(
-    ({ start, end }: DatesSetArg) => {
-      if (start !== date?.start || end !== date?.end) {
-        onChangeDate({
-          end,
-          start,
-        });
-        setDate({ end, start });
-      }
-    },
-    [date, onChangeDate],
-  );
 
   const events = useMemo(
     () =>
@@ -55,7 +41,8 @@ export const ScheduleCalendar = ({ data, onClick, onClickSchedule, onChangeDate 
       const schedule: Schedule = arg.event.extendedProps as Schedule;
       const hour = (
         <i>
-          {format(arg.event.start || new Date(), "HH:mm")} - {format(arg.event.end || new Date(), "HH:mm")}
+          {format(arg.event.start || new Date(), "HH:mm")} -{" "}
+          {format(arg.event.end || new Date(), "HH:mm")}
         </i>
       );
 
@@ -106,7 +93,7 @@ export const ScheduleCalendar = ({ data, onClick, onClickSchedule, onChangeDate 
     <Calendar
       events={events}
       eventContent={renderItem}
-      datesSet={handleChangeDate}
+      datesSet={onChangeDate}
       headerToolbar={{
         center: "title",
         left: "today prev,next",

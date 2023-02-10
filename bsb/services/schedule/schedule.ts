@@ -2,11 +2,17 @@ import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceFindOne } from "@jamalsoueidan/bsb.services.staff";
 import {
-  ScheduleBodyCreate,
-  ScheduleBodyUpdate,
-  ScheduleGetByStaffAndTag,
-  ScheduleGroupUpdateOrDestroyQuery,
-  ScheduleUpdateOrDestroyQuery,
+  ScheduleServiceCreateOneProps,
+  ScheduleServiceCreateProps,
+  ScheduleServiceDestroyGroupProps,
+  ScheduleServiceDestroyProps,
+  ScheduleServiceFindByIdAndUpdateProps,
+  ScheduleServiceGetByDateRangeProps,
+  ScheduleServiceGetByStaffAndTagAggregate,
+  ScheduleServiceGetByStaffAndTagProps,
+  ScheduleServiceUpdateGroupBodyProps,
+  ScheduleServiceUpdateGroupQueryProps,
+  ShopQuery,
 } from "@jamalsoueidan/bsb.types";
 import {
   addHours,
@@ -14,54 +20,64 @@ import {
   getMinutes,
   isAfter,
   isBefore,
-  parseISO,
   setMilliseconds,
   setMinutes,
   setSeconds,
   subHours,
 } from "date-fns";
-import mongoose, { Aggregate, Types } from "mongoose";
+import mongoose from "mongoose";
 
-interface CreateProps extends ScheduleBodyCreate {
-  shop: string;
-}
+const resetTime = (value) => setSeconds(setMilliseconds(value, 0), 0);
 
 export const ScheduleServiceCreate = async ({
   staff,
   shop,
   schedules,
-}: CreateProps) => {
+}: ScheduleServiceCreateProps & ShopQuery) => {
   const exists = await StaffServiceFindOne({
     _id: staff,
     shop,
   });
 
   if (exists) {
-    const resetSecMil = (value) =>
-      setSeconds(setMilliseconds(parseISO(value), 0), 0).toISOString();
-
     if (Array.isArray(schedules)) {
       const groupId = new Date().getTime();
       return ScheduleModel.insertMany(
         schedules.map((b) => ({
-          end: resetSecMil(b.end),
+          end: resetTime(b.end),
           groupId: groupId.toString(),
           shop,
           staff,
-          start: resetSecMil(b.start),
+          start: resetTime(b.start),
           tag: b.tag,
         })),
       );
     }
-    return ScheduleModel.create({
-      end: resetSecMil(schedules.end),
+    return ScheduleServiceCreateOne({
+      end: resetTime(schedules.end),
       shop,
       staff,
-      start: resetSecMil(schedules.start),
+      start: resetTime(schedules.start),
       tag: schedules.tag,
     });
   }
   return undefined;
+};
+
+export const ScheduleServiceCreateOne = async ({
+  staff,
+  shop,
+  start,
+  end,
+  tag,
+}: ScheduleServiceCreateOneProps & ShopQuery) => {
+  return ScheduleModel.create({
+    end: resetTime(end),
+    shop,
+    staff,
+    start: resetTime(start),
+    tag: tag,
+  });
 };
 
 export const ScheduleServicefind = (document) => {
@@ -79,38 +95,28 @@ export const ScheduleServicefind = (document) => {
 
 export const ScheduleServiceFindOne = (filter) => ScheduleModel.findOne(filter);
 
-export const ScheduleServiceFindByIdAndUpdate = (scheduleId, document) =>
-  ScheduleModel.findByIdAndUpdate(scheduleId, document, {
+export const ScheduleServiceFindByIdAndUpdate = ({
+  query,
+  body,
+}: ScheduleServiceFindByIdAndUpdateProps) =>
+  ScheduleModel.findByIdAndUpdate(query.scheduleId, body, {
     returnOriginal: false,
   });
-
-interface ScheduleServiceDestroyProps {
-  schedule: string;
-  staff: string;
-  shop: string;
-}
 
 export const ScheduleServiceDestroy = ({
   schedule,
   staff,
   shop,
-}: ScheduleServiceDestroyProps) => {
+}: ScheduleServiceDestroyProps & ShopQuery) => {
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 };
-
-interface GetByDateRangeProps {
-  shop: string;
-  staff: string;
-  start: string;
-  end: string;
-}
 
 export const ScheduleServiceGetByDateRange = ({
   shop,
   staff,
   start,
   end,
-}: GetByDateRangeProps) =>
+}: ScheduleServiceGetByDateRangeProps & ShopQuery) =>
   ScheduleModel.find({
     end: {
       $lt: DateHelpers.closeOfDay(end),
@@ -122,22 +128,17 @@ export const ScheduleServiceGetByDateRange = ({
     },
   });
 
-interface GetByStaffAndTagProps {
-  tag: string[];
-  staff: Types.ObjectId[];
-  start: Date;
-  end: Date;
-}
-
 export const ScheduleServiceGetByStaffAndTag = ({
   tag,
   staff,
   start,
   end,
-}: GetByStaffAndTagProps): Aggregate<Array<ScheduleGetByStaffAndTag>> =>
-  ScheduleModel.aggregate([
+  shop,
+}: ScheduleServiceGetByStaffAndTagProps & ShopQuery) =>
+  ScheduleModel.aggregate<ScheduleServiceGetByStaffAndTagAggregate>([
     {
       $match: {
+        shop,
         end: {
           $lt: DateHelpers.closeOfDay(end),
         },
@@ -183,17 +184,11 @@ export const ScheduleServiceGetByStaffAndTag = ({
     },
   ]);
 
-interface ScheduleServiceUpdateGroupFilterProps
-  extends ScheduleUpdateOrDestroyQuery {
-  groupId: string;
-  shop: string;
-}
-
 export const ScheduleServiceUpdateGroup = async (
-  filter: ScheduleServiceUpdateGroupFilterProps,
-  body: ScheduleBodyUpdate,
+  query: ScheduleServiceUpdateGroupQueryProps & ShopQuery,
+  body: ScheduleServiceUpdateGroupBodyProps,
 ) => {
-  const { staff, shop, schedule, groupId } = filter;
+  const { staff, shop, schedule, groupId } = query;
 
   const documents = await ScheduleServicefind({
     _id: schedule,
@@ -204,8 +199,8 @@ export const ScheduleServiceUpdateGroup = async (
   if (documents.length > 0) {
     ScheduleModel.bulkWrite(
       documents.map((d) => {
-        const startDateTime = parseISO(body.start);
-        const endDateTime = parseISO(body.end);
+        const startDateTime = body.start;
+        const endDateTime = body.end;
 
         let start = new Date(d.start.setHours(getHours(startDateTime)));
         let end = new Date(d.end.setHours(getHours(endDateTime)));
@@ -258,7 +253,7 @@ export const ScheduleServiceUpdateGroup = async (
 };
 
 export const ScheduleServiceDestroyGroup = async (
-  query: ScheduleGroupUpdateOrDestroyQuery,
+  query: ScheduleServiceDestroyGroupProps & ShopQuery,
 ) => {
   const { shop, staff, schedule, groupId } = query;
 

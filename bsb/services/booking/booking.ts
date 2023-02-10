@@ -13,7 +13,8 @@ import {
   BookingServiceFindProps,
   BookingServiceGetAllProps,
   BookingServiceGetByIdProps,
-  BookingServiceUpdateProps,
+  BookingServiceUpdateBodyProps,
+  BookingServiceUpdateQueryProps,
   ShopQuery,
 } from "@jamalsoueidan/bsb.types";
 import mongoose from "mongoose";
@@ -81,13 +82,10 @@ export const BookingServiceGetAll = ({
     },
   ]);
 
-export const BookingServiceUpdate = async ({
-  query,
-  body,
-}: {
-  query: BookingServiceUpdateProps["query"] & ShopQuery;
-  body: BookingServiceUpdateProps["body"];
-}) => {
+export const BookingServiceUpdate = async (
+  query: BookingServiceUpdateQueryProps & ShopQuery,
+  body: BookingServiceUpdateBodyProps,
+) => {
   const booking = await BookingModel.findOne(query);
   if (!booking) {
     throw new Error("Not found");

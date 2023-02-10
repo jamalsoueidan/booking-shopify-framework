@@ -1,7 +1,16 @@
 import { IStaffDocument } from "@jamalsoueidan/bsb.services.staff";
-import { createProduct, createSchedule, createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addHours, subHours } from "date-fns";
-import { ProductServiceGetById, ProductServiceGetStaff, ProductServiceUpdate } from "./product";
+import {
+  createProduct,
+  createSchedule,
+  createStaff,
+  shop,
+} from "@jamalsoueidan/bsd.testing-library.mongodb";
+import { addDays, addHours } from "date-fns";
+import {
+  ProductServiceGetById,
+  ProductServiceGetStaff,
+  ProductServiceUpdate,
+} from "./product";
 import { IProductDocument } from "./product.schema";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
@@ -56,28 +65,30 @@ describe("product testing", () => {
 
     staff1 = await createStaff();
 
+    const start = addDays(new Date(), 1);
+
     await createSchedule({
-      end: addHours(new Date(), 5),
+      end: addHours(start, 5),
       staff: staff1._id,
-      start: new Date(),
+      start,
       tag,
     });
 
     staff2 = await createStaff();
 
     await createSchedule({
-      end: addHours(new Date(), 2),
+      end: addHours(start, 2),
       staff: staff2._id,
-      start: subHours(new Date(), 3),
+      start,
       tag,
     });
 
     staff3 = await createStaff();
 
     await createSchedule({
-      end: addHours(new Date(), 5),
+      end: addHours(start, 10),
       staff: staff3._id,
-      start: subHours(new Date(), 5),
+      start,
       tag,
     });
 

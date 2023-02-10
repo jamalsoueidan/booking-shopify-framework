@@ -52,17 +52,17 @@ describe("notification service test", () => {
 
     const start = addMonths(new Date(), 1);
 
-    await BookingServiceUpdate({
-      body: {
+    await BookingServiceUpdate(
+      {
+        _id: booking._id,
+        shop,
+      },
+      {
         end: addHours(start, 1),
         staff: staff._id.toString(),
         start,
       },
-      query: {
-        _id: booking._id,
-        shop,
-      },
-    });
+    );
 
     await waitForExpect(() => {
       expect(SmsDkApiCancel).toHaveBeenCalledTimes(2);

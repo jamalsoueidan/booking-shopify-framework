@@ -59,8 +59,8 @@ export const createSchedule = async ({
   end = addHours(new Date(), 5),
 }: CreateSchedule) => ScheduleServiceCreate({
     schedules: {
-      end: end.toISOString(),
-      start: start.toISOString(),
+      end,
+      start,
       tag,
     },
     shop,

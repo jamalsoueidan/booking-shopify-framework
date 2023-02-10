@@ -1,2 +1,2 @@
 export { BookingCalendar } from "./booking-calendar";
-export type { BookingCalendarDateState, BookingCalendarProps } from "./booking-calendar";
+export type { BookingCalendarProps } from "./booking-calendar";

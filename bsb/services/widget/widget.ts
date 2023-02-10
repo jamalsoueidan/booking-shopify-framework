@@ -42,7 +42,7 @@ export const WidgetServiceGetProduct = async ({
     });
   }
 
-  const products = await ProductModel.aggregate<IProduct>([
+  const products = await ProductModel.aggregate([
     {
       $match: {
         active: true,
@@ -149,6 +149,7 @@ export const WidgetServiceAvailability = async ({
 
   if (product) {
     const schedules = await ScheduleServiceGetByStaffAndTag({
+      shop,
       end,
       staff: product.staff.map((s) => s.staff),
       start,

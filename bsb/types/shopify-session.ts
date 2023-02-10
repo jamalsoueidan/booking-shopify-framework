@@ -1,8 +1,9 @@
 export interface ShopifySession {
-  id: string;
+  readonly id: string;
+  shop: string;
   state: string;
   isOnline: boolean;
-  shop: string;
-  accessToken: string;
-  scope: string;
+  scope?: string;
+  expires?: Date;
+  accessToken?: string;
 }

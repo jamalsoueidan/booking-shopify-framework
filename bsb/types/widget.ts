@@ -1,3 +1,5 @@
+import { Schedule } from "./schedule";
+
 export interface WidgetStaffQuery {
   productId: number;
 }
@@ -36,4 +38,11 @@ export interface WidgetHour<T = string>
 export interface WidgetSchedule<T = string> {
   date: T;
   hours: WidgetHour<T>[];
+}
+
+export interface ScheduleGetByStaffAndTag extends Omit<Schedule, "staff"> {
+  staff: {
+    _id: string;
+    fullname: string;
+  };
 }

@@ -11,7 +11,7 @@ import {
   createStaffWithScheduleAndUpdateProduct,
   shop,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addDays, addHours } from "date-fns";
+import { addDays, addHours, setHours } from "date-fns";
 import { WidgetServiceAvailability, WidgetServiceGetStaff } from "./widget";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
@@ -105,14 +105,16 @@ describe("widget service test", () => {
     const product = await createProduct({ productId });
     const staff = await createStaff();
 
+    let start = setHours(new Date(), 12);
+
     await createSchedule({
       staff: staff._id,
       tag,
-      start: new Date(),
-      end: addHours(new Date(), 2),
+      start,
+      end: addHours(start, 2),
     });
 
-    const start = addDays(new Date(), 1);
+    start = addDays(start, 1);
     await createSchedule({
       staff: staff._id,
       tag,

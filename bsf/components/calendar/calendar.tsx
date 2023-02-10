@@ -1,3 +1,4 @@
+import { DatesSetArg } from "@fullcalendar/core";
 import da from "@fullcalendar/core/locales/da";
 import en from "@fullcalendar/core/locales/en-gb";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -6,10 +7,30 @@ import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
-import React, { forwardRef } from "react";
+import { isEqual } from "date-fns";
+import React, { forwardRef, useCallback, useState } from "react";
+
+export type CalendarDateState = {
+  start: Date;
+  end: Date;
+};
 
 export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
   const { language } = useSettings();
+
+  const [date, setDate] = useState<CalendarDateState>();
+  const handleChangeDate = useCallback(
+    ({ start, end }: DatesSetArg) => {
+      if (!date || !isEqual(start, date.start) || !isEqual(end, date.end)) {
+        props.datesSet({
+          end,
+          start,
+        });
+        setDate({ end, start });
+      }
+    },
+    [date, props.datesSet],
+  );
 
   return (
     <FullCalendar
@@ -43,6 +64,7 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
         prev: "<<",
       }}
       {...props}
+      datesSet={handleChangeDate}
     />
   );
 });
