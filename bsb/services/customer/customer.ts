@@ -1,36 +1,36 @@
 import { ShopifySessionModel } from "@jamalsoueidan/bsb.services.shopify-session";
-import Shopify from "@shopify/shopify-api";
+import {
+  CustomerServiceFindAndUpdateProps,
+  CustomerServiceSearchProps,
+  ShopQuery,
+} from "@jamalsoueidan/bsb.types";
+import { ShopifyApp } from "@shopify/shopify-app-express";
 import { CustomerModel } from "./customer.model";
-
-const getCustomerQuery = `
-  query($id: ID!) {
-    customer(id: $id) {
-      firstName
-      lastName
-      email
-      phone
-    }
-  }
-`;
-
-interface FindCustomerAndUpdateProps {
-  shop: string;
-  customerGraphqlApiId: string;
-  customerId: number;
-}
 
 export const CustomerServiceFindAndUpdate = async ({
   shop,
   customerGraphqlApiId,
   customerId,
-}: FindCustomerAndUpdateProps) => {
+  shopify,
+}: CustomerServiceFindAndUpdateProps &
+  ShopQuery & { shopify: ShopifyApp<any, any> }) => {
   // customer saving
   const session = await ShopifySessionModel.findOne({ shop });
 
-  const client = new Shopify.Clients.Graphql(session?.shop || "", session?.accessToken);
+  // customer saving
+  const client = new shopify.api.clients.Graphql({ session } as any);
   const customerData = await client.query<{ data: { customer: object } }>({
     data: {
-      query: getCustomerQuery,
+      query: `
+        query($id: ID!) {
+          customer(id: $id) {
+            firstName
+            lastName
+            email
+            phone
+          }
+        }
+      `,
       variables: {
         id: customerGraphqlApiId,
       },
@@ -48,18 +48,19 @@ export const CustomerServiceFindAndUpdate = async ({
   );
 };
 
-interface FindCustomerProps {
-  shop: string;
-  name: string;
-}
-
-export const CustomerServiceFind = ({ shop, name }: FindCustomerProps) => {
+export const CustomerServiceSearch = ({
+  shop,
+  name,
+}: CustomerServiceSearchProps & ShopQuery) => {
   const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
   const searchRgx = rgx(name);
 
   return CustomerModel.find(
     {
-      $or: [{ firstName: { $options: "i", $regex: searchRgx } }, { lastName: { $options: "i", $regex: searchRgx } }],
+      $or: [
+        { firstName: { $options: "i", $regex: searchRgx } },
+        { lastName: { $options: "i", $regex: searchRgx } },
+      ],
       shop,
     },
     "customerId firstName lastName",
