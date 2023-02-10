@@ -18,22 +18,25 @@ export interface Product<T = ProductStaff> {
   imageUrl: string;
 }
 
-// api/admin/products/:id
-export interface ProductStaffAggreate extends Partial<Omit<Staff, "_id">> {
+// api/admin/products/:id/staff
+export type ProductServiceGetAvailableStaffReturn = Staff & {
+  tags: string[];
+};
+
+export type ProductServiceGetByIdProps = {
+  id: string;
+};
+
+export type ProductServiceUpdateQueryProps = {
+  id: string;
+};
+
+type ProductServiceUpdateBodyStaffPropery = Partial<Omit<Staff, "_id">> & {
   _id: string;
   tag: string;
-}
-
-export interface ProductAggreate extends Omit<Product, "staff"> {
-  staff: ProductStaffAggreate[];
-}
-
-// api/admin/products/:id/staff
-export interface ProductAddStaff extends Staff {
-  tags: string[];
-}
-
-// PUT api/admin/products/6383820e2817210cda196c4d
-export interface ProductUpdateBody extends Partial<Pick<Product, "duration" | "buffertime" | "active">> {
-  staff?: ProductStaffAggreate[];
-}
+};
+export type ProductServiceUpdateBodyProps = Partial<
+  Pick<Product, "duration" | "buffertime" | "active">
+> & {
+  staff?: ProductServiceUpdateBodyStaffPropery[];
+};

@@ -1,14 +1,19 @@
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
-import { ProductAddStaff, ProductUpdateBody, ShopQuery } from "@jamalsoueidan/bsb.types";
+import {
+  ProductServiceGetAvailableStaffReturn,
+  ProductServiceGetByIdProps,
+  ProductServiceUpdateBodyProps,
+  ProductServiceUpdateQueryProps,
+  ShopQuery,
+} from "@jamalsoueidan/bsb.types";
 import { startOfDay } from "date-fns";
 import mongoose from "mongoose";
 import { ProductModel } from "./product.model";
 
-interface GetById extends ShopQuery {
-  id: string;
-}
-
-export const ProductServiceGetById = async ({ id, shop }: GetById) => {
+export const ProductServiceGetById = async ({
+  id,
+  shop,
+}: ProductServiceGetByIdProps & ShopQuery) => {
   const product = await ProductModel.findOne({
     _id: new mongoose.Types.ObjectId(id),
     shop,
@@ -67,11 +72,11 @@ export const ProductServiceGetById = async ({ id, shop }: GetById) => {
 
   return products.length > 0 ? products[0] : null;
 };
-interface Update extends ShopQuery {
-  id: string;
-}
 
-export const ProductServiceUpdate = async (query: Update, body: ProductUpdateBody) => {
+export const ProductServiceUpdate = async (
+  query: ProductServiceUpdateQueryProps & ShopQuery,
+  body: ProductServiceUpdateBodyProps,
+) => {
   const { staff, ...properties } = body;
 
   const newStaffier =
@@ -81,7 +86,9 @@ export const ProductServiceUpdate = async (query: Update, body: ProductUpdateBod
     })) || [];
 
   // turn active ON=true first time customer add staff to product
-  const product = await ProductModel.findById(new mongoose.Types.ObjectId(query.id)).lean();
+  const product = await ProductModel.findById(
+    new mongoose.Types.ObjectId(query.id),
+  ).lean();
 
   let { active } = properties;
   if (product?.staff.length === 0 && newStaffier.length > 0) {
@@ -106,8 +113,8 @@ export const ProductServiceUpdate = async (query: Update, body: ProductUpdateBod
 };
 
 // @description return all staff that don't belong yet to the product
-export const ProductServiceGetStaff = (shop: string) =>
-  ScheduleModel.aggregate<ProductAddStaff>([
+export const ProductServiceGetAvailableStaff = (shop: string) =>
+  ScheduleModel.aggregate<ProductServiceGetAvailableStaffReturn>([
     {
       // TODO: should we only show staff who have schedule after today?
       $match: {
