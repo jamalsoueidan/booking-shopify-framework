@@ -6,8 +6,8 @@ import {
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyProps,
   ScheduleServiceGetAllProps,
-  ScheduleServiceGetByStaffAndTagAggregate,
   ScheduleServiceGetByStaffAndTagProps,
+  ScheduleServiceGetByStaffAndTagReturn,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
@@ -99,7 +99,7 @@ export const ScheduleServiceGetByStaffAndTag = ({
   end,
   shop,
 }: ScheduleServiceGetByStaffAndTagProps & ShopQuery) =>
-  ScheduleModel.aggregate<ScheduleServiceGetByStaffAndTagAggregate>([
+  ScheduleModel.aggregate<ScheduleServiceGetByStaffAndTagReturn>([
     {
       $match: {
         end: {

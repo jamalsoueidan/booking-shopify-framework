@@ -62,10 +62,7 @@ export type ScheduleServiceGetByStaffAndTagProps = Pick<
   "staff" | "start" | "end"
 > & { tag: string[] };
 
-export type ScheduleServiceGetByStaffAndTagAggregate = Omit<
-  Schedule,
-  "staff"
-> & {
+export type ScheduleServiceGetByStaffAndTagReturn = Omit<Schedule, "staff"> & {
   staff: {
     _id: string;
     fullname: string;
