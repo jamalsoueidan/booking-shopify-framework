@@ -1,4 +1,5 @@
-import { Product, ProductStaffAggreate } from "./product";
+import { Product } from "./product";
+import { Staff } from "./staff";
 
 export interface Collection {
   _id: string;
@@ -7,8 +8,8 @@ export interface Collection {
   collectionId: number;
 }
 
-export interface CollectionAggreate extends Collection {
-  products: Product<ProductStaffAggreate>[];
+export interface CollectionServiceGetAllReturn extends Collection {
+  products: Product<Staff>[];
 }
 
 export interface CollectionBodyCreate {

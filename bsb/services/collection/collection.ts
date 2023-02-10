@@ -1,8 +1,9 @@
+import { CollectionServiceGetAllReturn } from "@jamalsoueidan/bsb.types";
 import { CollectionModel } from "./collection.model";
 import { ICollectionDocument } from "./collection.schema";
 
-export const CollectionServiceFindAll = () =>
-  CollectionModel.aggregate([
+export const CollectionServiceGetAll = () =>
+  CollectionModel.aggregate<CollectionServiceGetAllReturn>([
     {
       $lookup: {
         from: "Product",
@@ -11,7 +12,10 @@ export const CollectionServiceFindAll = () =>
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ["$collectionId", "$$cID"] }, { $eq: ["$hidden", false] }],
+                $and: [
+                  { $eq: ["$collectionId", "$$cID"] },
+                  { $eq: ["$hidden", false] },
+                ],
               },
             },
           },
@@ -107,5 +111,6 @@ export const CollectionServiceFindAll = () =>
     // { $sort: { title: 1 } },
   ]);
 
-export const CollectionServiceFindOne = (documents: Partial<ICollectionDocument>) =>
-  CollectionModel.findOne({ documents });
+export const CollectionServiceFindOne = (
+  documents: Partial<ICollectionDocument>,
+) => CollectionModel.findOne({ documents });
