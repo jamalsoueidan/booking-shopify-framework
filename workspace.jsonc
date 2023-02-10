@@ -79,7 +79,7 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}": {
+    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}, {bsf}": {
       "jamalsoueidan.bsd/envs/jest-esm": {}
     }
   }

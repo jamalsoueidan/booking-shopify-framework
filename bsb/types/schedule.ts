@@ -10,20 +10,49 @@ export interface Schedule {
 
 export type ScheduleBody = Pick<Schedule, "tag" | "start" | "end">;
 
-export type ScheduleServiceCreateProps = {
-  staff: string;
-  schedules: ScheduleBody | Array<ScheduleBody>;
-};
+export type ScheduleServiceCreateQueryProps = Pick<Schedule, "staff">;
+export type ScheduleServiceCreateBodyProps = ScheduleBody;
 
-export type ScheduleServiceCreateOneProps = {
-  staff: string;
-} & ScheduleBody;
+export type ScheduleServiceCreateProps = {
+  query: ScheduleServiceCreateQueryProps;
+  body: ScheduleServiceCreateBodyProps;
+};
 
 export type ScheduleServiceDestroyProps = {
   schedule: string;
-} & Pick<Schedule, "staff">;
+  staff: string;
+};
 
-export type ScheduleServiceGetByDateRangeProps = Pick<
+export type ScheduleServiceUpdateQueryProps = ScheduleServiceDestroyProps;
+
+export type ScheduleServiceUpdateBodyProps = Omit<ScheduleBody, "tag">;
+
+export type ScheduleServiceUpdateProps = {
+  query: ScheduleServiceUpdateQueryProps;
+  body: ScheduleServiceUpdateBodyProps;
+};
+
+export type ScheduleServiceCreateGroupQueryProps = Pick<Schedule, "staff">;
+export type ScheduleServiceCreateGroupBodyProps = Array<ScheduleBody>;
+export type ScheduleServiceCreateGroupProps = {
+  query: ScheduleServiceCreateGroupQueryProps;
+  body: ScheduleServiceCreateGroupBodyProps;
+};
+
+export type ScheduleServiceUpdateGroupQueryProps = {
+  groupId: string;
+} & ScheduleServiceUpdateQueryProps;
+export type ScheduleServiceUpdateGroupBodyProps = ScheduleBody;
+export interface ScheduleServiceUpdateGroupProps {
+  query: ScheduleServiceUpdateGroupQueryProps;
+  body: ScheduleServiceUpdateGroupBodyProps;
+}
+
+export type ScheduleServiceDestroyGroupProps = {
+  groupId: string;
+} & ScheduleServiceDestroyProps;
+
+export type ScheduleServiceGetAllProps = Pick<
   Schedule,
   "staff" | "start" | "end"
 >;
@@ -33,46 +62,12 @@ export type ScheduleServiceGetByStaffAndTagProps = Pick<
   "staff" | "start" | "end"
 > & { tag: string[] };
 
-export type ScheduleServiceUpdateGroupQueryProps = {
-  staff: string;
-  schedule: string;
-  groupId: string;
-};
-
-export type ScheduleServiceUpdateGroupBodyProps = ScheduleBody;
-export interface ScheduleServiceUpdateGroupProps {
-  query: ScheduleServiceUpdateGroupQueryProps;
-  body: ScheduleServiceUpdateGroupBodyProps;
-}
-
-export interface ScheduleUpdateOrDestroyQuery {
-  staff: string;
-  schedule: string;
-}
-export interface ScheduleServiceDestroyGroupProps {
-  staff: string;
-  schedule: string;
-  groupId: string;
-}
-
-export interface ScheduleServiceGetByStaffAndTagAggregate
-  extends Omit<Schedule, "staff"> {
+export type ScheduleServiceGetByStaffAndTagAggregate = Omit<
+  Schedule,
+  "staff"
+> & {
   staff: {
     _id: string;
     fullname: string;
   };
-}
-
-export type ScheduleServiceFindByIdAndUpdateQueryProps = {
-  scheduleId: string;
-};
-
-export type ScheduleServiceFindByIdAndUpdateBodyProps = Pick<
-  Schedule,
-  "start" | "end"
->;
-
-export type ScheduleServiceFindByIdAndUpdateProps = {
-  query: ScheduleServiceFindByIdAndUpdateQueryProps;
-  body: ScheduleServiceFindByIdAndUpdateBodyProps;
 };

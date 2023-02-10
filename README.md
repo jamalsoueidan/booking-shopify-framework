@@ -27,3 +27,7 @@ This framework covers all MongoDB models, services, and types and frontend UI, i
 These files in this folder is for bit.dev environment to run React 18, and build to ESM modules.
 
 <a href="https://bit.cloud/jamalsoueidan/bsd" target="_blank">Bit.dev Development Documentation</a>
+
+### = pkg, Package to download all backend services, or frontend components
+
+<a href="https://bit.cloud/jamalsoueidan/pkg" target="_blank">Bit.dev Packages</a>

@@ -1,17 +1,16 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
-import { StaffServiceFindOne } from "@jamalsoueidan/bsb.services.staff";
 import {
-  ScheduleServiceCreateOneProps,
+  ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyProps,
-  ScheduleServiceFindByIdAndUpdateProps,
-  ScheduleServiceGetByDateRangeProps,
+  ScheduleServiceGetAllProps,
   ScheduleServiceGetByStaffAndTagAggregate,
   ScheduleServiceGetByStaffAndTagProps,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
+  ScheduleServiceUpdateProps,
   ShopQuery,
 } from "@jamalsoueidan/bsb.types";
 import {
@@ -20,6 +19,7 @@ import {
   getMinutes,
   isAfter,
   isBefore,
+  setHours,
   setMilliseconds,
   setMinutes,
   setSeconds,
@@ -29,77 +29,41 @@ import mongoose from "mongoose";
 
 const resetTime = (value) => setSeconds(setMilliseconds(value, 0), 0);
 
-export const ScheduleServiceCreate = async ({
-  staff,
-  shop,
-  schedules,
-}: ScheduleServiceCreateProps & ShopQuery) => {
-  const exists = await StaffServiceFindOne({
-    _id: staff,
-    shop,
-  });
-
-  if (exists) {
-    if (Array.isArray(schedules)) {
-      const groupId = new Date().getTime();
-      return ScheduleModel.insertMany(
-        schedules.map((b) => ({
-          end: resetTime(b.end),
-          groupId: groupId.toString(),
-          shop,
-          staff,
-          start: resetTime(b.start),
-          tag: b.tag,
-        })),
-      );
-    }
-    return ScheduleServiceCreateOne({
-      end: resetTime(schedules.end),
+export const ScheduleServiceCreateGroup = (
+  query: ScheduleServiceCreateGroupProps["query"] & ShopQuery,
+  schedules: ScheduleServiceCreateGroupProps["body"],
+) => {
+  const { shop, staff } = query;
+  const groupId = new Date().getTime().toString();
+  return ScheduleModel.insertMany(
+    schedules?.map((b) => ({
+      end: resetTime(b.end),
+      groupId,
       shop,
       staff,
-      start: resetTime(schedules.start),
-      tag: schedules.tag,
-    });
-  }
-  return undefined;
+      start: resetTime(b.start),
+      tag: b.tag,
+    })),
+  );
 };
 
-export const ScheduleServiceCreateOne = async ({
-  staff,
-  shop,
-  start,
-  end,
-  tag,
-}: ScheduleServiceCreateOneProps & ShopQuery) => {
-  return ScheduleModel.create({
-    end: resetTime(end),
-    shop,
-    staff,
-    start: resetTime(start),
-    tag: tag,
+export const ScheduleServiceCreate = async (
+  query: ScheduleServiceCreateProps["query"] & ShopQuery,
+  body: ScheduleServiceCreateProps["body"],
+) =>
+  ScheduleModel.create({
+    end: resetTime(body.end),
+    shop: query.shop,
+    staff: query.staff,
+    start: resetTime(body.start),
+    tag: body.tag,
   });
-};
 
-export const ScheduleServicefind = (document) => {
-  const conditions = {
-    ...(document.staff && { staff: document.staff }),
-    ...(document.groupId && { groupId: document.groupId }),
-    ...(document.start &&
-      document.end && {
-        $where: `this.start.toJSON().slice(0, 10) == "${document.start}" && this.end.toJSON().slice(0, 10) == "${document.end}"`,
-      }),
-  };
-
-  return ScheduleModel.find(conditions);
-};
-
-export const ScheduleServiceFindOne = (filter) => ScheduleModel.findOne(filter);
-
-export const ScheduleServiceFindByIdAndUpdate = ({
-  query,
-  body,
-}: ScheduleServiceFindByIdAndUpdateProps) =>
-  ScheduleModel.findByIdAndUpdate(query.scheduleId, body, {
+export const ScheduleServiceUpdate = (
+  query: ScheduleServiceUpdateProps["query"] & ShopQuery,
+  body: ScheduleServiceUpdateProps["body"],
+) =>
+  ScheduleModel.findByIdAndUpdate(query.schedule, body, {
     returnOriginal: false,
   });
 
@@ -111,12 +75,12 @@ export const ScheduleServiceDestroy = ({
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 };
 
-export const ScheduleServiceGetByDateRange = ({
+export const ScheduleServiceGetAll = ({
   shop,
   staff,
   start,
   end,
-}: ScheduleServiceGetByDateRangeProps & ShopQuery) =>
+}: ScheduleServiceGetAllProps & ShopQuery) =>
   ScheduleModel.find({
     end: {
       $lt: DateHelpers.closeOfDay(end),
@@ -138,10 +102,10 @@ export const ScheduleServiceGetByStaffAndTag = ({
   ScheduleModel.aggregate<ScheduleServiceGetByStaffAndTagAggregate>([
     {
       $match: {
-        shop,
         end: {
           $lt: DateHelpers.closeOfDay(end),
         },
+        shop,
         staff: {
           $in: staff,
         },
@@ -175,11 +139,11 @@ export const ScheduleServiceGetByStaffAndTag = ({
       $project: {
         "staff.__v": 0,
         "staff.active": 0,
+        "staff.avatar": 0,
         "staff.email": 0,
         "staff.phone": 0,
         "staff.position": 0,
         "staff.shop": 0,
-        "staff.avatar": 0,
       },
     },
   ]);
@@ -188,42 +152,51 @@ export const ScheduleServiceUpdateGroup = async (
   query: ScheduleServiceUpdateGroupQueryProps & ShopQuery,
   body: ScheduleServiceUpdateGroupBodyProps,
 ) => {
-  const { staff, shop, schedule, groupId } = query;
+  const { staff, shop, groupId } = query;
 
-  const documents = await ScheduleServicefind({
-    _id: schedule,
+  const schedules = await ScheduleModel.find({
     groupId,
+    shop,
     staff,
   });
 
-  if (documents.length > 0) {
-    ScheduleModel.bulkWrite(
-      documents.map((d) => {
+  if (schedules.length > 0) {
+    await ScheduleModel.bulkWrite(
+      schedules.map((schedule) => {
         const startDateTime = body.start;
         const endDateTime = body.end;
 
-        let start = new Date(d.start.setHours(getHours(startDateTime)));
-        let end = new Date(d.end.setHours(getHours(endDateTime)));
+        let start = setHours(schedule.start, getHours(startDateTime));
+        let end = setHours(schedule.end, getHours(endDateTime));
 
         // startDateTime is before 30 oct
         const beforeAdd =
-          isBefore(startDateTime, new Date(d.start.getFullYear(), 9, 30)) &&
-          isAfter(start, new Date(d.start.getFullYear(), 9, 30)); // 9 is for october
+          isBefore(
+            startDateTime,
+            new Date(schedule.start.getFullYear(), 9, 30),
+          ) && isAfter(start, new Date(schedule.start.getFullYear(), 9, 30)); // 9 is for october
 
         // startDateTime is after 27 march, and current is before
         const afterAdd =
-          isAfter(startDateTime, new Date(d.start.getFullYear(), 2, 27)) &&
-          isBefore(start, new Date(d.start.getFullYear(), 2, 27)); // 2 is for march
+          isAfter(
+            startDateTime,
+            new Date(schedule.start.getFullYear(), 2, 27),
+          ) && isBefore(start, new Date(schedule.start.getFullYear(), 2, 27)); // 2 is for march
 
         // startDateTime is after 30 oct, and current is before subs
         const afterSubs =
-          isAfter(startDateTime, new Date(d.start.getFullYear(), 9, 30)) && // 9 is for october
-          isBefore(start, new Date(d.start.getFullYear(), 9, 30));
+          isAfter(
+            startDateTime,
+            new Date(schedule.start.getFullYear(), 9, 30),
+          ) && // 9 is for october
+          isBefore(start, new Date(schedule.start.getFullYear(), 9, 30));
 
         // startDateTime is before 27 march, and current is after
         const beforeSubs =
-          isBefore(startDateTime, new Date(d.start.getFullYear(), 2, 27)) &&
-          isAfter(start, new Date(d.start.getFullYear(), 2, 27)); // 2 is for march
+          isBefore(
+            startDateTime,
+            new Date(schedule.start.getFullYear(), 2, 27),
+          ) && isAfter(start, new Date(schedule.start.getFullYear(), 2, 27)); // 2 is for march
 
         if (beforeAdd || afterAdd) {
           start = addHours(start, 1);
@@ -238,11 +211,12 @@ export const ScheduleServiceUpdateGroup = async (
 
         return {
           updateOne: {
-            filter: { _id: d._id, shop },
+            filter: { _id: schedule._id, shop },
             update: {
               $set: {
                 end,
                 start,
+                tag: body.tag,
               },
             },
           },
