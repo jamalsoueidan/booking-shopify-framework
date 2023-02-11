@@ -7,8 +7,8 @@ import {
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import { addDays, addHours } from "date-fns";
 import {
+  ProductServiceGetAvailableStaff,
   ProductServiceGetById,
-  ProductServiceGetStaff,
   ProductServiceUpdate,
 } from "./product";
 import { IProductDocument } from "./product.schema";
@@ -92,7 +92,7 @@ describe("product testing", () => {
       tag,
     });
 
-    const staffToAdd = await ProductServiceGetStaff(shop);
+    const staffToAdd = await ProductServiceGetAvailableStaff(shop);
 
     expect(staffToAdd.length).toEqual(3);
 
