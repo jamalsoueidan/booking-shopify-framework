@@ -355,7 +355,16 @@
         "scope": "jamalsoueidan.bsb",
         "version": "0.0.27",
         "mainFile": "index.ts",
-        "rootDir": "bsb/services/customer"
+        "rootDir": "bsb/services/customer",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "peerDependencies": {
+                        "@shopify/shopify-app-express": "^1.1.0"
+                    }
+                }
+            }
+        }
     },
     "services/notification": {
         "scope": "jamalsoueidan.bsb",
