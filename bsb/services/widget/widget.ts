@@ -1,6 +1,6 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { BookingModel, IBooking } from "@jamalsoueidan/bsb.services.booking";
-import { CartServiceGetByStaff, ICart } from "@jamalsoueidan/bsb.services.cart";
+import { CartServiceGetByStaff } from "@jamalsoueidan/bsb.services.cart";
 import {
   IProduct,
   IProductDocument,
@@ -8,71 +8,23 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceGetByStaffAndTag } from "@jamalsoueidan/bsb.services.schedule";
 import {
+  Cart,
   ScheduleGetByStaffAndTag,
   ShopQuery,
   WidgetDateQuery,
-  WidgetSchedule,
+  WidgetServiceGetBookingsReturn,
   WidgetStaff,
 } from "@jamalsoueidan/bsb.types";
+import { Types } from "mongoose";
 import {
-  addMinutes,
-  isBefore,
-  isSameDay,
-  isWithinInterval,
-  subMinutes,
-} from "date-fns";
-import mongoose, { Aggregate, Types } from "mongoose";
-
-interface WidgetSericeGetProductProps {
-  shop: string;
-  productId: number;
-  staff?: string;
-}
-
-export const WidgetServiceGetProduct = async ({
-  shop,
-  productId,
-  staff,
-}: WidgetSericeGetProductProps) => {
-  if (!staff) {
-    return ProductModel.findOne({
-      active: true,
-      productId,
-      shop,
-    });
-  }
-
-  const products = await ProductModel.aggregate([
-    {
-      $match: {
-        active: true,
-        productId,
-        shop,
-      },
-    },
-    {
-      $unwind: "$staff",
-    },
-    {
-      $match: {
-        "staff.staff": new mongoose.Types.ObjectId(staff),
-      },
-    },
-  ]);
-
-  if (products.length > 0) {
-    const product = products[0];
-    return product;
-  }
-  return null;
-};
+  WidgetCreateAvailability,
+  WidgetRemoveAvailability,
+  WidgetServiceGetProduct,
+} from "./widget.helper";
 
 // get all staff from product for widget
-export const WidgetServiceGetStaff = ({
-  shop,
-  productId,
-}: Partial<IProduct>): Aggregate<Array<WidgetStaff>> =>
-  ProductModel.aggregate([
+export const WidgetServiceGetStaff = ({ shop, productId }: Partial<IProduct>) =>
+  ProductModel.aggregate<WidgetStaff>([
     {
       $match: {
         active: true,
@@ -142,7 +94,7 @@ export const WidgetServiceAvailability = async ({
   productId,
 }: AvailabilityQuery) => {
   const product = await WidgetServiceGetProduct({
-    productId: +productId,
+    productId,
     shop,
     staff,
   });
@@ -175,85 +127,10 @@ export const WidgetServiceAvailability = async ({
   return [];
 };
 
-interface ScheduleReduceProduct
-  extends Pick<IProduct, "duration" | "buffertime"> {}
-
-const WidgetScheduleReduce =
-  (product: ScheduleReduceProduct) =>
-  (
-    previous: Array<WidgetSchedule<Date>>,
-    current: ScheduleGetByStaffAndTag,
-  ): Array<WidgetSchedule<Date>> => {
-    const scheduleEnd = new Date(current.end);
-    const duration = product.duration || 60;
-    const buffertime = product.buffertime || 0;
-
-    // we push start time everytime
-    let start = new Date(current.start);
-    let end;
-
-    const previousHours = previous.find((p) => isSameDay(p.date, start));
-    const hours = previousHours?.hours || [];
-
-    // TODO: needs to create more hours
-    while (
-      isBefore(addMinutes(start, 1), scheduleEnd) &&
-      isBefore(addMinutes(start, duration + buffertime), scheduleEnd)
-    ) {
-      end = addMinutes(start, duration + buffertime);
-      hours.push({
-        end,
-        staff: current.staff,
-        start,
-      });
-
-      start = addMinutes(start, 15);
-    }
-
-    if (!previousHours) {
-      previous.push({ date: start, hours });
-    }
-    return previous;
-  };
-
-const WidgetScheduleCalculateBooking = (
-  booking: Pick<IBooking, "start" | "end" | "staff">,
-): ((schedule: WidgetSchedule<Date>) => WidgetSchedule<Date>) => {
-  const { start, end, staff } = booking;
-  return (schedule: WidgetSchedule<Date>): WidgetSchedule<Date> => ({
-    ...schedule,
-    hours: schedule.hours.filter((hour) => {
-      if (hour.staff._id.toString() !== staff.toString()) {
-        return true;
-      }
-
-      if (
-        isWithinInterval(addMinutes(new Date(start), 1), {
-          end: new Date(hour.end),
-          start: new Date(hour.start),
-        })
-      ) {
-        return false;
-      }
-
-      if (
-        isWithinInterval(subMinutes(new Date(end), 1), {
-          end: new Date(hour.end),
-          start: new Date(hour.start),
-        })
-      ) {
-        return false;
-      }
-
-      return true;
-    }),
-  });
-};
-
 interface WidgetServiceCalculatorProps {
   schedules: Array<ScheduleGetByStaffAndTag>;
-  bookings: Array<IBooking>;
-  carts: Array<ICart>;
+  bookings: Array<WidgetServiceGetBookingsReturn>;
+  carts: Array<Cart>;
   product: IProduct | IProductDocument;
 }
 
@@ -263,23 +140,30 @@ export const WidgetServiceCalculator = ({
   carts,
   product,
 }: WidgetServiceCalculatorProps) => {
-  let scheduleDates = schedules.reduce(WidgetScheduleReduce(product), []);
+  const createdAvailabilities = WidgetCreateAvailability(product, schedules);
 
+  let availabilities = createdAvailabilities;
   bookings.forEach((book) => {
-    scheduleDates = scheduleDates.map(
-      WidgetScheduleCalculateBooking({
+    availabilities = createdAvailabilities.map(
+      WidgetRemoveAvailability({
         end: book.end,
-        staff: book.staff._id,
+        staff: book.staff,
         start: book.start,
       }),
     );
   });
 
   carts.forEach((cart) => {
-    scheduleDates = scheduleDates.map(WidgetScheduleCalculateBooking(cart));
+    availabilities = createdAvailabilities.map(
+      WidgetRemoveAvailability({
+        end: cart.end,
+        start: cart.start,
+        staff: cart.staff,
+      }),
+    );
   });
 
-  return scheduleDates;
+  return availabilities;
 };
 
 interface GetBookingsByStaffProps extends Pick<IBooking, "start" | "end"> {
@@ -293,7 +177,7 @@ export const WidgetServiceGetBookings = ({
   end,
   staff,
 }: GetBookingsByStaffProps) =>
-  BookingModel.aggregate<IBooking>([
+  BookingModel.aggregate<WidgetServiceGetBookingsReturn>([
     {
       $match: {
         $or: [

@@ -144,7 +144,7 @@ describe("widget service test", () => {
     expect(availability.length).toEqual(2);
   });
 
-  it("Should not return hours that are booked already", async () => {
+  it("Should not return booked hours", async () => {
     const product = await createProduct({ productId });
     const { staff } = await createStaffWithScheduleAndUpdateProduct({
       product,
@@ -184,7 +184,7 @@ describe("widget service test", () => {
     expect(hours?.length).toEqual(0);
   });
 
-  it("Should not return hours that are in cart", async () => {
+  it("Should not return hours in cart", async () => {
     const productId = parseInt(faker.random.numeric(10), 10);
     const tag = faker.random.word();
 
@@ -221,7 +221,7 @@ describe("widget service test", () => {
     expect(hours?.length).toEqual(0);
   });
 
-  it("Should return hours for all staff on product", async () => {
+  it("Should return hours for all staff in product", async () => {
     const productId = parseInt(faker.random.numeric(10), 10);
     const tag = faker.random.word();
 

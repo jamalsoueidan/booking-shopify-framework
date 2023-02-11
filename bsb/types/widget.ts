@@ -1,3 +1,4 @@
+import { Booking } from "@jamalsoueidan/bsb.types/booking";
 import { Schedule } from "./schedule";
 
 export interface WidgetStaffQuery {
@@ -20,29 +21,26 @@ export interface WidgetStaff {
   anyAvailable?: boolean;
 }
 
-export interface WidgetHourStaff {
+export type WidgetHourStaff = {
   staff: {
     _id: string;
     fullname: string;
   };
-}
-export interface WidgetHourRange<T = string> {
+};
+
+export type WidgetHourRange<T = string> = {
   start: T;
   end: T;
-}
+};
 
-export interface WidgetHour<T = string>
-  extends WidgetHourStaff,
-    WidgetHourRange<T> {}
+export type WidgetHour<T = string> = WidgetHourStaff & WidgetHourRange<T>;
 
 export interface WidgetSchedule<T = string> {
   date: T;
   hours: WidgetHour<T>[];
 }
 
-export interface ScheduleGetByStaffAndTag extends Omit<Schedule, "staff"> {
-  staff: {
-    _id: string;
-    fullname: string;
-  };
-}
+export type ScheduleGetByStaffAndTag = Omit<Schedule, "staff"> &
+  WidgetHourStaff;
+
+export type WidgetServiceGetBookingsReturn = Booking;

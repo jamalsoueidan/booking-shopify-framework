@@ -7,9 +7,12 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
-import { addHours } from "date-fns";
+import { addHours, setMilliseconds, setMinutes, setSeconds } from "date-fns";
 
 export const shop = "testeriphone.myshopify.com";
+
+const resetTime = (value) =>
+  setMinutes(setSeconds(setMilliseconds(value, 0), 0), 30);
 
 export const createCustomer = () => {
   const customer = new CustomerModel({
@@ -57,8 +60,8 @@ interface CreateSchedule {
 export const createSchedule = async ({
   staff,
   tag,
-  start = new Date(),
-  end = addHours(new Date(), 5),
+  start = resetTime(new Date()),
+  end = resetTime(addHours(new Date(), 5)),
 }: CreateSchedule) =>
   ScheduleServiceCreate(
     { shop, staff },

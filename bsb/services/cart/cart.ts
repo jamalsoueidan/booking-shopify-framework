@@ -1,3 +1,4 @@
+import { Cart } from "@jamalsoueidan/bsb.types";
 import { Types } from "mongoose";
 import { CartModel } from "./cart.model";
 import { ICart } from "./cart.schema";
@@ -6,8 +7,13 @@ interface GetCartsByStaffierProps extends Omit<ICart, "createdAt" | "staff"> {
   staff: Types.ObjectId[];
 }
 
-export const CartServiceGetByStaff = ({ shop, staff, start, end }: GetCartsByStaffierProps) =>
-  CartModel.aggregate<ICart>([
+export const CartServiceGetByStaff = ({
+  shop,
+  staff,
+  start,
+  end,
+}: GetCartsByStaffierProps) =>
+  CartModel.aggregate<Cart>([
     {
       $match: {
         $or: [
