@@ -12,7 +12,9 @@ import {
   BookingServiceCreateProps,
   BookingServiceFindProps,
   BookingServiceGetAllProps,
+  BookingServiceGetAllReturn,
   BookingServiceGetByIdProps,
+  BookingServiceGetByIdReturn,
   BookingServiceUpdateBodyProps,
   BookingServiceUpdateQueryProps,
   ShopQuery,
@@ -67,7 +69,7 @@ export const BookingServiceGetAll = ({
   end,
   staff,
 }: BookingServiceGetAllProps & ShopQuery) =>
-  BookingModel.aggregate([
+  BookingModel.aggregate<BookingServiceGetAllReturn>([
     {
       $match: {
         end: {
@@ -125,7 +127,7 @@ export const BookingServiceGetById = async ({
   shop,
   _id,
 }: BookingServiceGetByIdProps & ShopQuery) => {
-  const bookings = await BookingModel.aggregate([
+  const bookings = await BookingModel.aggregate<BookingServiceGetByIdReturn>([
     {
       $match: {
         _id: new mongoose.Types.ObjectId(_id),

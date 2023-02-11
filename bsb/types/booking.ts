@@ -29,9 +29,7 @@ export type BookingDocument = {
   isSelfBooked?: boolean;
 };
 
-export type Booking = Omit<BookingDocument, "staff" | "start" | "end"> & {
-  start: string;
-  end: string;
+type BookingAggreate = Omit<BookingDocument, "staff"> & {
   customer: Customer;
   product: Product;
   staff: Staff;
@@ -44,6 +42,7 @@ export type BookingServiceCreateProps = Pick<
 
 export type BookingServiceFindProps = ShopQuery["shop"];
 
+export type BookingServiceGetAllReturn = BookingAggreate;
 export type BookingServiceGetAllProps = Pick<BookingDocument, "end" | "start"> &
   Partial<Pick<BookingDocument, "staff">>;
 
@@ -59,4 +58,5 @@ export interface BookingServiceUpdateProps {
   body: BookingServiceUpdateBodyProps;
 }
 
+export type BookingServiceGetByIdReturn = BookingAggreate;
 export type BookingServiceGetByIdProps = Pick<BookingDocument, "_id">;
