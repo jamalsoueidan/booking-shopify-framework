@@ -5,7 +5,7 @@ import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { format } from "date-fns";
+import { format, isEqual } from "date-fns";
 import { ReactNode, useCallback, useEffect, useMemo } from "react";
 
 export type UseTimerField =
@@ -33,8 +33,11 @@ export interface UseTimerProps {
 }
 
 export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
-  const { locale } = useTranslation({ id: "withTimer", locales: { da: {}, en: {} } });
   const { toTimeZone } = useDate();
+  const { locale } = useTranslation({
+    id: "withTimer",
+    locales: { da: {}, en: {} },
+  });
 
   const options = useMemo(() => {
     if (!data || data.length === 0 || !locale) {
@@ -44,9 +47,12 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
 
     const hours: Array<UseTimerOption> =
       [...data].sort(HelperArray.sortDateBy("start")).map((t) => ({
-        key: t.start,
-        label: `${format(toTimeZone(t.start), "p")} - ${format(toTimeZone(t.end), "p")}`,
-        value: t.start,
+        key: t.start.toJSON(),
+        label: `${format(toTimeZone(t.start), "p")} - ${format(
+          toTimeZone(t.end),
+          "p",
+        )}`,
+        value: t.start.toJSON(),
       })) || [];
 
     return hours;
@@ -54,7 +60,9 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
 
   const handleOnChange = useCallback(
     (startDate: string) => {
-      const selectedHour = data?.find((t) => t.start === startDate);
+      const selectedHour = data?.find((t) =>
+        isEqual(t.start, new Date(startDate)),
+      );
 
       if (!selectedHour) {
         field.onChange(undefined);
@@ -81,12 +89,15 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
 
   usePrevious(
     ([prevOptions]) => {
-      const optionsUnchanged = JSON.stringify(prevOptions) === JSON.stringify(options);
+      const optionsUnchanged =
+        JSON.stringify(prevOptions) === JSON.stringify(options);
       if (optionsUnchanged || !field.value) {
         return;
       }
 
-      const value = options.find((option) => option.value === field.value?.start.toJSON());
+      const value = options.find(
+        (option) => option.value === field.value?.start.toJSON(),
+      );
       if (!value) {
         handleOnChange("");
       }

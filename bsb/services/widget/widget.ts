@@ -1,18 +1,15 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { BookingModel, IBooking } from "@jamalsoueidan/bsb.services.booking";
-import { CartServiceGetByStaff } from "@jamalsoueidan/bsb.services.cart";
-import {
-  IProduct,
-  IProductDocument,
-  ProductModel,
-} from "@jamalsoueidan/bsb.services.product";
-import { ScheduleServiceGetByStaffAndTag } from "@jamalsoueidan/bsb.services.schedule";
+import { CartModel } from "@jamalsoueidan/bsb.services.cart";
+import { IProduct, ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import {
   Cart,
-  ScheduleGetByStaffAndTag,
   ShopQuery,
-  WidgetDateQuery,
+  WidgetServiceAvailabilityProps,
   WidgetServiceGetBookingsReturn,
+  WidgetServiceGetSchedulesProps,
+  WidgetServiceGetSchedulesReturn,
   WidgetStaff,
 } from "@jamalsoueidan/bsb.types";
 import { Types } from "mongoose";
@@ -82,17 +79,13 @@ export const WidgetServiceGetStaff = ({ shop, productId }: Partial<IProduct>) =>
     },
   ]);
 
-interface AvailabilityQuery extends Omit<WidgetDateQuery, "staff">, ShopQuery {
-  staff?: string;
-}
-
 export const WidgetServiceAvailability = async ({
   staff,
   start,
   end,
   shop,
   productId,
-}: AvailabilityQuery) => {
+}: WidgetServiceAvailabilityProps & ShopQuery) => {
   const product = await WidgetServiceGetProduct({
     productId,
     shop,
@@ -100,7 +93,7 @@ export const WidgetServiceAvailability = async ({
   });
 
   if (product) {
-    const schedules = await ScheduleServiceGetByStaffAndTag({
+    const schedules = await WidgetServiceGetSchedules({
       shop,
       end,
       staff: product.staff.map((s) => s.staff),
@@ -115,55 +108,39 @@ export const WidgetServiceAvailability = async ({
       start,
     });
 
-    const carts = await CartServiceGetByStaff({
+    const carts = await WidgetServiceGetCarts({
       end,
       shop,
       staff: product.staff.map((s) => s.staff),
       start,
     });
 
-    return WidgetServiceCalculator({ bookings, carts, product, schedules });
+    const createdAvailabilities = WidgetCreateAvailability(product, schedules);
+
+    let availabilities = createdAvailabilities;
+    bookings.forEach((book) => {
+      availabilities = createdAvailabilities.map(
+        WidgetRemoveAvailability({
+          end: book.end,
+          staff: book.staff,
+          start: book.start,
+        }),
+      );
+    });
+
+    carts.forEach((cart) => {
+      availabilities = createdAvailabilities.map(
+        WidgetRemoveAvailability({
+          end: cart.end,
+          start: cart.start,
+          staff: cart.staff,
+        }),
+      );
+    });
+
+    return availabilities;
   }
   return [];
-};
-
-interface WidgetServiceCalculatorProps {
-  schedules: Array<ScheduleGetByStaffAndTag>;
-  bookings: Array<WidgetServiceGetBookingsReturn>;
-  carts: Array<Cart>;
-  product: IProduct | IProductDocument;
-}
-
-export const WidgetServiceCalculator = ({
-  schedules,
-  bookings,
-  carts,
-  product,
-}: WidgetServiceCalculatorProps) => {
-  const createdAvailabilities = WidgetCreateAvailability(product, schedules);
-
-  let availabilities = createdAvailabilities;
-  bookings.forEach((book) => {
-    availabilities = createdAvailabilities.map(
-      WidgetRemoveAvailability({
-        end: book.end,
-        staff: book.staff,
-        start: book.start,
-      }),
-    );
-  });
-
-  carts.forEach((cart) => {
-    availabilities = createdAvailabilities.map(
-      WidgetRemoveAvailability({
-        end: cart.end,
-        start: cart.start,
-        staff: cart.staff,
-      }),
-    );
-  });
-
-  return availabilities;
 };
 
 interface GetBookingsByStaffProps extends Pick<IBooking, "start" | "end"> {
@@ -219,6 +196,111 @@ export const WidgetServiceGetBookings = ({
         _id: 0,
         productId: 0,
         shop: 0,
+      },
+    },
+  ]);
+
+const WidgetServiceGetSchedules = ({
+  tag,
+  staff,
+  start,
+  end,
+  shop,
+}: WidgetServiceGetSchedulesProps & ShopQuery) =>
+  ScheduleModel.aggregate<WidgetServiceGetSchedulesReturn>([
+    {
+      $match: {
+        end: {
+          $lt: DateHelpers.closeOfDay(end),
+        },
+        shop,
+        staff: {
+          $in: staff,
+        },
+        start: {
+          $gte: DateHelpers.beginningOfDay(start),
+        },
+        tag: {
+          $in: tag,
+        },
+      },
+    },
+    {
+      $lookup: {
+        as: "staff",
+        foreignField: "_id",
+        from: "Staff",
+        localField: "staff",
+      },
+    },
+    {
+      $unwind: {
+        path: "$staff",
+      },
+    },
+    {
+      $match: {
+        "staff.active": true,
+      },
+    },
+    {
+      $project: {
+        "staff.__v": 0,
+        "staff.active": 0,
+        "staff.avatar": 0,
+        "staff.email": 0,
+        "staff.phone": 0,
+        "staff.position": 0,
+        "staff.shop": 0,
+      },
+    },
+  ]);
+
+interface GetCartsByStaffierProps extends Omit<Cart, "createdAt" | "staff"> {
+  staff: Types.ObjectId[];
+}
+
+const WidgetServiceGetCarts = ({
+  shop,
+  staff,
+  start,
+  end,
+}: GetCartsByStaffierProps) =>
+  CartModel.aggregate<Cart>([
+    {
+      $match: {
+        $or: [
+          {
+            start: {
+              $gte: start,
+            },
+          },
+          {
+            end: {
+              $gte: start,
+            },
+          },
+        ],
+        shop,
+        staff: {
+          $in: staff,
+        },
+      },
+    },
+    {
+      $match: {
+        $or: [
+          {
+            start: {
+              $lt: end,
+            },
+          },
+          {
+            end: {
+              $lt: end,
+            },
+          },
+        ],
       },
     },
   ]);

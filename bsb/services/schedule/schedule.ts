@@ -6,8 +6,6 @@ import {
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyProps,
   ScheduleServiceGetAllProps,
-  ScheduleServiceGetByStaffAndTagProps,
-  ScheduleServiceGetByStaffAndTagReturn,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
@@ -91,62 +89,6 @@ export const ScheduleServiceGetAll = ({
       $gte: DateHelpers.beginningOfDay(start),
     },
   });
-
-export const ScheduleServiceGetByStaffAndTag = ({
-  tag,
-  staff,
-  start,
-  end,
-  shop,
-}: ScheduleServiceGetByStaffAndTagProps & ShopQuery) =>
-  ScheduleModel.aggregate<ScheduleServiceGetByStaffAndTagReturn>([
-    {
-      $match: {
-        end: {
-          $lt: DateHelpers.closeOfDay(end),
-        },
-        shop,
-        staff: {
-          $in: staff,
-        },
-        start: {
-          $gte: DateHelpers.beginningOfDay(start),
-        },
-        tag: {
-          $in: tag,
-        },
-      },
-    },
-    {
-      $lookup: {
-        as: "staff",
-        foreignField: "_id",
-        from: "Staff",
-        localField: "staff",
-      },
-    },
-    {
-      $unwind: {
-        path: "$staff",
-      },
-    },
-    {
-      $match: {
-        "staff.active": true,
-      },
-    },
-    {
-      $project: {
-        "staff.__v": 0,
-        "staff.active": 0,
-        "staff.avatar": 0,
-        "staff.email": 0,
-        "staff.phone": 0,
-        "staff.position": 0,
-        "staff.shop": 0,
-      },
-    },
-  ]);
 
 export const ScheduleServiceUpdateGroup = async (
   query: ScheduleServiceUpdateGroupQueryProps & ShopQuery,

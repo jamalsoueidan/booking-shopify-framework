@@ -12,10 +12,12 @@ useEffect(() => {
   setPrimaryAction({
     content: "Tilføj",
     onAction: () => {
-      console.log("nice");
+      console.log("Add");
     },
   });
 }, []);
 
-return <Modal.Section>MockComponent that read value from context</Modal.Section>;
+return (
+  <Modal.Section>MockComponent that read value from context</Modal.Section>
+);
 ```

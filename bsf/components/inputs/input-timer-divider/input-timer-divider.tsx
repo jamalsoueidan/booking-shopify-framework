@@ -1,7 +1,19 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
-import { UseTimerField, UseTimerInput, UseTimerOption, useTimer } from "@jamalsoueidan/bsf.hooks.use-timer";
+import {
+  UseTimerField,
+  UseTimerInput,
+  UseTimerOption,
+  useTimer,
+} from "@jamalsoueidan/bsf.hooks.use-timer";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { AlphaStack, Button, Columns, Inline, Labelled, Text } from "@shopify/polaris";
+import {
+  AlphaStack,
+  Button,
+  Columns,
+  Inline,
+  Labelled,
+  Text,
+} from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { format, isEqual, setHours } from "date-fns";
 import React, { memo } from "react";
@@ -13,7 +25,11 @@ export interface InputTimerDividerProps {
   input?: Omit<UseTimerInput, "placeholder">;
 }
 
-export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps) => {
+export const InputTimerDivider = ({
+  data,
+  field,
+  input,
+}: InputTimerDividerProps) => {
   const { options, onChange } = useTimer({
     autoSelectFirst: false,
     data,
@@ -22,7 +38,9 @@ export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps
 
   const { t } = useTranslation({ id: "input-timer-list", locales });
 
-  const morning = options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) || [];
+  const morning =
+    options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) ||
+    [];
 
   const afternoon =
     options?.filter((f) => {
@@ -46,7 +64,11 @@ export const InputTimerDivider = ({ data, field, input }: InputTimerDividerProps
       error={!isDisabled ? field.error : undefined}
     >
       {options?.length === 0 ? (
-        <Text variant="bodyMd" as="p" color={isDisabled ? "subdued" : undefined}>
+        <Text
+          variant="bodyMd"
+          as="p"
+          color={isDisabled ? "subdued" : undefined}
+        >
           {t("empty")}
         </Text>
       ) : (
@@ -82,41 +104,43 @@ interface ColumnPeriodProps {
   selected?: Date;
 }
 
-const ColumnPeriod = memo(({ date, hours, onChange, selected }: ColumnPeriodProps) => {
-  const { t } = useTranslation({
-    id: "column-period",
-    locales: {
-      da: {
-        ...locales.da.inline,
+const ColumnPeriod = memo(
+  ({ date, hours, onChange, selected }: ColumnPeriodProps) => {
+    const { t } = useTranslation({
+      id: "column-period",
+      locales: {
+        da: {
+          ...locales.da.inline,
+        },
+        en: {
+          ...locales.en.inline,
+        },
       },
-      en: {
-        ...locales.en.inline,
-      },
-    },
-  });
+    });
 
-  return (
-    <AlphaStack gap="1" fullWidth>
-      <Text variant="headingSm" as="p" alignment="center">
-        {format(date, "B")}
-      </Text>
-      {hours.length === 0 ? (
-        <Text variant="bodyMd" as="span" alignment="center">
-          {t("empty")}
+    return (
+      <AlphaStack gap="1" fullWidth>
+        <Text variant="headingSm" as="p" alignment="center">
+          {format(date, "B")}
         </Text>
-      ) : (
-        hours.map((m) => (
-          <InlineButtonHour
-            key={m.value}
-            onClick={() => onChange && onChange(m.value, m.label)}
-            label={m.label}
-            pressed={isEqual(new Date(m.value), selected || new Date())}
-          />
-        ))
-      )}
-    </AlphaStack>
-  );
-});
+        {hours.length === 0 ? (
+          <Text variant="bodyMd" as="span" alignment="center">
+            {t("empty")}
+          </Text>
+        ) : (
+          hours.map((m) => (
+            <InlineButtonHour
+              key={m.value}
+              onClick={() => onChange && onChange(m.value, m.label)}
+              label={m.label}
+              pressed={isEqual(new Date(m.value), selected || new Date())}
+            />
+          ))
+        )}
+      </AlphaStack>
+    );
+  },
+);
 
 interface InlineButtonHourProps {
   label: string;
@@ -124,13 +148,15 @@ interface InlineButtonHourProps {
   pressed: boolean;
 }
 
-const InlineButtonHour = memo(({ label, onClick, pressed }: InlineButtonHourProps) => (
-  <Inline align="center">
-    <Button size="slim" onClick={onClick} pressed={pressed}>
-      {label}
-    </Button>
-  </Inline>
-));
+const InlineButtonHour = memo(
+  ({ label, onClick, pressed }: InlineButtonHourProps) => (
+    <Inline align="center">
+      <Button size="slim" onClick={onClick} pressed={pressed}>
+        {label}
+      </Button>
+    </Inline>
+  ),
+);
 
 const locales = {
   da: {

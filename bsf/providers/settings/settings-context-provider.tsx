@@ -2,30 +2,53 @@ import { AppProvider } from "@shopify/polaris";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { SettingsContext, SettingsContextValues } from "./settings-context";
+import { setDefaultOptions } from "date-fns";
+import { da as daDateFns } from "date-fns/locale";
+import React, {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  SettingsContext,
+  SettingsContextValues,
+  defaultValues,
+} from "./settings-context";
 
 export type SettingsProviderProps = {
   children: ReactNode;
-  value: SettingsContextValues;
+  value?: Partial<SettingsContextValues>;
   linkComponent?: (props: unknown) => JSX.Element;
 };
 
-export const SettingsProvider = ({ children, value: defaultValue, linkComponent }: SettingsProviderProps) => {
-  const [value, setValue] = useState<SettingsContextValues>(defaultValue);
+export const SettingsProvider = ({
+  children,
+  value,
+  linkComponent,
+}: SettingsProviderProps) => {
+  const [data, setData] = useState<SettingsContextValues>(defaultValues);
 
-  const update = useCallback((values: Partial<SettingsContextValues>) => {
-    setValue((prev) => ({ ...prev, ...values }));
-  }, []);
+  const update = useCallback(
+    (values: Partial<Omit<SettingsContextValues, "update">>) =>
+      setData((prev) => ({ ...prev, ...values })),
+    [],
+  );
 
   useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
+    if (value) {
+      update(value);
+    }
+  }, [value]);
 
   return (
-    <SettingsContext.Provider value={{ ...value, update }}>
+    <SettingsContext.Provider value={{ ...data, update }}>
       <I18nProvider>
-        <PolarisProvider linkComponent={linkComponent}>{children}</PolarisProvider>
+        <PolarisProvider linkComponent={linkComponent}>
+          {children}
+        </PolarisProvider>
       </I18nProvider>
     </SettingsContext.Provider>
   );
@@ -36,7 +59,7 @@ export interface I18nProviderProps {
 }
 
 export const I18nProvider = ({ children }: I18nProviderProps) => {
-  const { language } = useContext(SettingsContext);
+  const { language, update } = useContext(SettingsContext);
 
   const manager = useMemo(
     () =>
@@ -56,7 +79,11 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
     }
   }, [language, manager]);
 
-  return <I18nContext.Provider value={manager}>{children}</I18nContext.Provider>;
+  setDefaultOptions({ locale: language === "da" ? daDateFns : undefined });
+
+  return (
+    <I18nContext.Provider value={manager}>{children}</I18nContext.Provider>
+  );
 };
 
 export interface PolarisProviderProps {
@@ -64,7 +91,10 @@ export interface PolarisProviderProps {
   linkComponent?: (props: unknown) => JSX.Element;
 }
 
-export const PolarisProvider = ({ children, ...props }: PolarisProviderProps) => {
+export const PolarisProvider = ({
+  children,
+  ...props
+}: PolarisProviderProps) => {
   const [i18n] = useI18n({
     fallback: da,
     id: "Polaris",
@@ -74,7 +104,10 @@ export const PolarisProvider = ({ children, ...props }: PolarisProviderProps) =>
   });
 
   return (
-    <AppProvider i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]} {...props}>
+    <AppProvider
+      i18n={i18n.locale === "da" ? i18n.translations[0] : i18n.translations[1]}
+      {...props}
+    >
       {children}
     </AppProvider>
   );

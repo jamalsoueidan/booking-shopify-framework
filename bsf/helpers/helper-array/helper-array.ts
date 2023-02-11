@@ -14,7 +14,7 @@ export const soryTextBy =
 
 export const sortDateBy =
   <T extends string>(key: T) =>
-  <K extends Record<T, string>>(a: K, b: K) => {
+  <K extends Record<T, Date>>(a: K, b: K) => {
     if (a && b) {
       const dateA = new Date(a[key]);
       const dateB = new Date(b[key]);

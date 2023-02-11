@@ -1,4 +1,5 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+
 import React, { ReactNode } from "react";
 
 export type WithApplicationProps = {

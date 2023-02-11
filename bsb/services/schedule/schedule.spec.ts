@@ -1,6 +1,12 @@
 import { faker } from "@faker-js/faker";
 import { createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addDays, addHours, endOfDay, setHours, startOfDay } from "date-fns";
+import {
+  addDays,
+  addHours,
+  endOfToday,
+  setHours,
+  startOfToday,
+} from "date-fns";
 import {
   ScheduleServiceCreate,
   ScheduleServiceCreateGroup,
@@ -23,17 +29,17 @@ describe("schedule service test", () => {
         staff: staff._id,
       },
       {
-        end: addHours(new Date(), 6),
-        start: new Date(),
+        end: endOfToday(),
+        start: startOfToday(),
         tag,
       },
     );
 
     const schedules = await ScheduleServiceGetAll({
-      end: endOfDay(new Date()),
+      end: endOfToday(),
       shop,
       staff: staff._id,
-      start: startOfDay(new Date()),
+      start: startOfToday(),
     });
 
     expect(schedules.length).toEqual(1);
@@ -82,23 +88,23 @@ describe("schedule service test", () => {
       },
       [
         {
-          end: addHours(new Date(), 6),
-          start: new Date(),
+          end: endOfToday(),
+          start: startOfToday(),
           tag,
         },
         {
-          end: addDays(addHours(new Date(), 6), 1),
-          start: addDays(new Date(), 1),
+          end: addDays(endOfToday(), 1),
+          start: addDays(startOfToday(), 1),
           tag,
         },
       ],
     );
 
     const schedules = await ScheduleServiceGetAll({
-      end: addDays(endOfDay(new Date()), 1),
+      end: addDays(endOfToday(), 1),
       shop,
       staff: staff._id,
-      start: startOfDay(new Date()),
+      start: startOfToday(),
     });
 
     expect(schedules.length).toEqual(2);
@@ -118,13 +124,13 @@ describe("schedule service test", () => {
       },
       [
         {
-          end: addHours(new Date(), 6),
-          start: new Date(),
+          end: endOfToday(),
+          start: startOfToday(),
           tag,
         },
         {
-          end: addDays(addHours(new Date(), 6), 1),
-          start: addDays(new Date(), 1),
+          end: addDays(endOfToday(), 1),
+          start: addDays(startOfToday(), 1),
           tag,
         },
       ],
@@ -148,10 +154,10 @@ describe("schedule service test", () => {
     );
 
     const updateSchedules = await ScheduleServiceGetAll({
-      end: addDays(endOfDay(new Date()), 1),
+      end: addDays(endOfToday(), 1),
       shop,
       staff: staff._id,
-      start: startOfDay(new Date()),
+      start: startOfToday(),
     });
 
     expect(start.getHours()).toEqual(updateSchedules[0].start.getHours());

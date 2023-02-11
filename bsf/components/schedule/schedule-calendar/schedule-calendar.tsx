@@ -97,7 +97,7 @@ export const ScheduleCalendar = ({
       headerToolbar={{
         center: "title",
         left: "today prev,next",
-        right: null,
+        right: undefined,
       }}
       dateClick={handleOnClick}
       eventClick={handleClickEvent}

@@ -1,9 +1,14 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
-import { InputDataDropData, InputDateDrop, InputDateDropField } from "./input-date-drop";
+import {
+  InputDataDropData,
+  InputDateDrop,
+  InputDateDropField,
+} from "./input-date-drop";
 
 export const Basic = () => {
   const [date, setDate] = useState<Range | undefined>(undefined);
@@ -49,11 +54,12 @@ export const SelectedTodayDate = () => {
 
 export const WithData = () => {
   const field = useField(undefined);
+  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="with data" sectioned>
-        <InputDateDrop data={mock} field={field} />
+        <InputDateDrop data={data} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -73,7 +79,7 @@ export const WithDataChange = () => {
     });
     setData(
       result.map((r) => ({
-        date: r.toJSON(),
+        date: r,
         hours: [],
       })),
     );
@@ -83,7 +89,11 @@ export const WithDataChange = () => {
   return (
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
-        <InputDateDrop data={data} field={field} input={{ disabled: data?.length === 0 }} />
+        <InputDateDrop
+          data={data}
+          field={field}
+          input={{ disabled: data?.length === 0 }}
+        />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">

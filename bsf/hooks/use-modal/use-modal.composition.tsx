@@ -12,13 +12,15 @@ function MockComponent() {
       content: "Tilføj",
       onAction: () => {
         // eslint-disable-next-line no-console
-        console.log("nice");
+        console.log("Add");
       },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <Modal.Section>MockComponent that read value from context</Modal.Section>;
+  return (
+    <Modal.Section>MockComponent that read value from context</Modal.Section>
+  );
 }
 
 export const BasicThemeUsage = withApplication(

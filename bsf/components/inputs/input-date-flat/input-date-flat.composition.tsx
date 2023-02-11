@@ -1,4 +1,5 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
@@ -64,11 +65,12 @@ export const LabelHidden = () => {
 
 export const WithData = () => {
   const field = useField(undefined);
+  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat data={mock} field={field} />
+        <InputDateFlat data={data} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -95,10 +97,12 @@ export const WithDataChange = () => {
     field.onChange(undefined);
   }, [field]);
 
+  const newData = useJsonDeserialization(data);
+
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat data={data} field={field} />
+        <InputDateFlat data={newData} field={field} />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">

@@ -20,13 +20,17 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
 
   const [date, setDate] = useState<CalendarDateState>();
   const handleChangeDate = useCallback(
-    ({ start, end }: DatesSetArg) => {
-      if (!date || !isEqual(start, date.start) || !isEqual(end, date.end)) {
-        props.datesSet({
-          end,
-          start,
-        });
-        setDate({ end, start });
+    (newDate: DatesSetArg) => {
+      if (
+        !date ||
+        !newDate ||
+        !isEqual(newDate.start, date.start) ||
+        !isEqual(newDate.end, date.end)
+      ) {
+        if (props.datesSet) {
+          props.datesSet(newDate);
+        }
+        setDate(newDate);
       }
     },
     [date, props.datesSet],

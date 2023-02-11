@@ -56,15 +56,3 @@ export type ScheduleServiceGetAllProps = Pick<
   Schedule,
   "staff" | "start" | "end"
 >;
-
-export type ScheduleServiceGetByStaffAndTagProps = Pick<
-  Schedule,
-  "staff" | "start" | "end"
-> & { tag: string[] };
-
-export type ScheduleServiceGetByStaffAndTagReturn = Omit<Schedule, "staff"> & {
-  staff: {
-    _id: string;
-    fullname: string;
-  };
-};

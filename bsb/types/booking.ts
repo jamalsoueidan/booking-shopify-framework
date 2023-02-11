@@ -10,7 +10,7 @@ export enum BookingFulfillmentStatus {
   BOOKED = "booked",
 }
 
-export type BookingDocument = {
+export type BaseBooking = {
   _id: string;
   productId: number;
   orderId: number;
@@ -29,27 +29,27 @@ export type BookingDocument = {
   isSelfBooked?: boolean;
 };
 
-type BookingAggreate = Omit<BookingDocument, "staff"> & {
+export type Booking = Omit<BaseBooking, "staff"> & {
   customer: Customer;
   product: Product;
   staff: Staff;
 };
 
 export type BookingServiceCreateProps = Pick<
-  BookingDocument,
+  BaseBooking,
   "customerId" | "end" | "productId" | "staff" | "start"
 >;
 
 export type BookingServiceFindProps = ShopQuery["shop"];
 
-export type BookingServiceGetAllReturn = BookingAggreate;
-export type BookingServiceGetAllProps = Pick<BookingDocument, "end" | "start"> &
-  Partial<Pick<BookingDocument, "staff">>;
+export type BookingServiceGetAllReturn = Booking;
+export type BookingServiceGetAllProps = Pick<BaseBooking, "end" | "start"> &
+  Partial<Pick<BaseBooking, "staff">>;
 
-export type BookingServiceUpdateQueryProps = Pick<BookingDocument, "_id">;
+export type BookingServiceUpdateQueryProps = Pick<BaseBooking, "_id">;
 
 export type BookingServiceUpdateBodyProps = Pick<
-  BookingDocument,
+  BaseBooking,
   "start" | "end" | "staff"
 >;
 
@@ -58,5 +58,5 @@ export interface BookingServiceUpdateProps {
   body: BookingServiceUpdateBodyProps;
 }
 
-export type BookingServiceGetByIdReturn = BookingAggreate;
-export type BookingServiceGetByIdProps = Pick<BookingDocument, "_id">;
+export type BookingServiceGetByIdReturn = Booking;
+export type BookingServiceGetByIdProps = Pick<BaseBooking, "_id">;

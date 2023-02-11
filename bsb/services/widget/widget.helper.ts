@@ -15,7 +15,7 @@ import {
 import { PipelineStage } from "mongoose";
 
 type WidgetCreateAvailabilityProduct = Pick<Product, "duration" | "buffertime">;
-type WidgetCreateAvailabilitySchedule = WidgetHourRange<Date> & WidgetHourStaff;
+type WidgetCreateAvailabilitySchedule = WidgetHourRange & WidgetHourStaff;
 
 /*
   We create availabilities from the shifts, we don't take into account the already booked or added to cart yet!
@@ -26,7 +26,7 @@ export const WidgetCreateAvailability = (
 ) =>
   schedules.reduce(
     (
-      previous: Array<WidgetSchedule<Date>>,
+      previous: Array<WidgetSchedule>,
       current: WidgetCreateAvailabilitySchedule,
     ) => {
       const scheduleEnd = current.end;
@@ -76,7 +76,7 @@ type WidgetRemoveShifts = {
   We remove the availabilities that is already booked.
 */
 export const WidgetRemoveAvailability = (booking: WidgetRemoveShifts) => {
-  return (schedule: WidgetSchedule<Date>): WidgetSchedule<Date> => ({
+  return (schedule: WidgetSchedule): WidgetSchedule => ({
     ...schedule,
     hours: schedule.hours.filter((hour) => {
       if (hour.staff._id !== booking.staff) {

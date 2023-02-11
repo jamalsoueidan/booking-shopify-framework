@@ -1,5 +1,5 @@
 import { EventClickArg, EventContentArg } from "@fullcalendar/core";
-import { Booking } from "@jamalsoueidan/bsb.types/booking";
+import { BookingServiceGetByIdReturn } from "@jamalsoueidan/bsb.types/booking";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
@@ -10,8 +10,8 @@ import { Avatar, Tooltip } from "@shopify/polaris";
 import React, { Suspense, memo, useCallback, useMemo } from "react";
 
 export interface BookingCalendarProps {
-  data: Array<Booking>;
-  onClickBooking: (booking: Booking) => void;
+  data: Array<BookingServiceGetByIdReturn>;
+  onClickBooking: (booking: BookingServiceGetByIdReturn) => void;
   onChangeDate: (date: CalendarDateState) => void;
 }
 
@@ -26,21 +26,23 @@ export const BookingCalendar = memo(
           ...d,
           backgroundColor: getColor(d.fulfillmentStatus),
           color: getColor(d.fulfillmentStatus),
-          end: toTimeZone(new Date(d.end)),
-          start: toTimeZone(new Date(d.start)),
+          end: d.end,
+          start: d.start,
           textColor: "#202223",
         })) || [],
       [data, getColor, toTimeZone],
     );
 
     const renderItem = useCallback((arg: EventContentArg) => {
-      const booking: Booking = arg.event.extendedProps as Booking;
+      const booking: BookingServiceGetByIdReturn = arg.event
+        .extendedProps as BookingServiceGetByIdReturn;
       const extendHour =
         arg?.event?.start && arg?.event?.end ? (
           <i>
             {`${HelperText.padTo2Digits(
               arg.event.start.getHours(),
             )}:${HelperText.padTo2Digits(arg.event.start.getMinutes())}`}
+            {" - "}
             {`${HelperText.padTo2Digits(
               arg.event.end.getHours(),
             )}:${HelperText.padTo2Digits(arg.event.end.getMinutes())}`}
@@ -90,7 +92,7 @@ export const BookingCalendar = memo(
 
     const handleClickEvent = useCallback(
       ({ event }: EventClickArg) => {
-        onClickBooking(event._def.extendedProps as Booking);
+        onClickBooking(event._def.extendedProps as BookingServiceGetByIdReturn);
       },
       [onClickBooking],
     );
