@@ -16,10 +16,11 @@ import mock from "./collection.mock";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 jest.mock("./collection.helper", () => ({
-  getCollection: jest.fn(async ({ id }: GetCollectionProps) => {
+  getCollection: ({ id }: GetCollectionProps) => {
+    const mock = require("./collection.mock").default;
     const collection = mock.find((c) => c.id === id);
-    return collection;
-  }),
+    return Promise.resolve(collection);
+  },
   __esModule: true,
 }));
 
