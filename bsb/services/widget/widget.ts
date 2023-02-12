@@ -1,7 +1,7 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { BookingModel, IBooking } from "@jamalsoueidan/bsb.services.booking";
 import { CartModel } from "@jamalsoueidan/bsb.services.cart";
-import { IProduct, ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { ProductModel } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import {
   Cart,
@@ -10,7 +10,8 @@ import {
   WidgetServiceGetBookingsReturn,
   WidgetServiceGetSchedulesProps,
   WidgetServiceGetSchedulesReturn,
-  WidgetStaff,
+  WidgetServiceGetStaffProps,
+  WidgetServiceGetStaffReturn,
 } from "@jamalsoueidan/bsb.types";
 import { Types } from "mongoose";
 import {
@@ -20,8 +21,11 @@ import {
 } from "./widget.helper";
 
 // get all staff from product for widget
-export const WidgetServiceGetStaff = ({ shop, productId }: Partial<IProduct>) =>
-  ProductModel.aggregate<WidgetStaff>([
+export const WidgetServiceGetStaff = ({
+  shop,
+  productId,
+}: WidgetServiceGetStaffProps & ShopQuery) =>
+  ProductModel.aggregate<WidgetServiceGetStaffReturn>([
     {
       $match: {
         active: true,

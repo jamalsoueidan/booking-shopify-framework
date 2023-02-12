@@ -33,7 +33,7 @@ export interface UseTimerProps {
 }
 
 export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
-  const { toTimeZone } = useDate();
+  const { toTimeZone, toUtc } = useDate();
   const { locale } = useTranslation({
     id: "withTimer",
     locales: { da: {}, en: {} },
@@ -68,8 +68,8 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
         field.onChange(undefined);
       } else {
         field.onChange({
-          end: new Date(selectedHour.end),
-          start: new Date(selectedHour.start),
+          end: toUtc(selectedHour.end),
+          start: toUtc(selectedHour.start),
         });
       }
     },

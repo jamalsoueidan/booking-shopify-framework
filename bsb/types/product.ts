@@ -31,12 +31,15 @@ export type ProductServiceUpdateQueryProps = {
   id: string;
 };
 
-type ProductServiceUpdateBodyStaffPropery = Partial<Omit<Staff, "_id">> & {
+export type ProductServiceUpdateBodyStaffProperty = Partial<
+  Omit<Staff, "_id">
+> & {
   _id: string;
   tag: string;
 };
+
 export type ProductServiceUpdateBodyProps = Partial<
   Pick<Product, "duration" | "buffertime" | "active">
 > & {
-  staff?: ProductServiceUpdateBodyStaffPropery[];
+  staff?: ProductServiceUpdateBodyStaffProperty[];
 };

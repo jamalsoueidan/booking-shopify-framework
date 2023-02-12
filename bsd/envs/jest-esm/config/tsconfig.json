@@ -2,7 +2,8 @@
   "extends": "@teambit/react.react-env/config/tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
-    "strict": true
+    "strict": true,
+    "preserveSymlinks": true
   },
   "include": ["**/*", "**/*.json"]
 }

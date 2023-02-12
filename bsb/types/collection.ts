@@ -12,6 +12,10 @@ export interface CollectionServiceGetAllReturn extends Collection {
   products: Product<Staff>[];
 }
 
-export interface CollectionBodyCreate {
+export interface CollectionServiceCreateBodyProps {
   selections: string[];
 }
+
+export type CollectionServiceDestroyProps = {
+  id: string;
+};

@@ -46,3 +46,9 @@ export type WidgetServiceGetSchedulesProps = Pick<
 
 export type WidgetServiceGetSchedulesReturn = Omit<Schedule, "staff"> &
   WidgetHourStaff;
+
+export type WidgetServiceGetStaffProps = {
+  productId: number;
+};
+
+export type WidgetServiceGetStaffReturn = WidgetStaff;
