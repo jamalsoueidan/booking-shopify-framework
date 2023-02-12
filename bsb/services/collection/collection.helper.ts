@@ -43,11 +43,12 @@ const getCollectionQuery = `
   }
 `;
 
-interface GetCollectionProps {
+export interface GetCollectionProps {
   session: ShopifySession;
   shopify: ShopifyApp<any, any>;
   id: string;
 }
+
 export const getCollection = async ({
   session,
   shopify,

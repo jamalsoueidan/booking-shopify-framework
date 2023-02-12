@@ -18,11 +18,6 @@ export interface Product<T = ProductStaff> {
   imageUrl: string;
 }
 
-// api/admin/products/:id/staff
-export type ProductServiceGetAvailableStaffReturn = Staff & {
-  tags: string[];
-};
-
 export type ProductServiceGetByIdProps = {
   id: string;
 };
@@ -31,9 +26,7 @@ export type ProductServiceUpdateQueryProps = {
   id: string;
 };
 
-export type ProductServiceUpdateBodyStaffProperty = Partial<
-  Omit<Staff, "_id">
-> & {
+export type ProductServiceUpdateBodyStaffProperty = Partial<Staff> & {
   _id: string;
   tag: string;
 };
@@ -42,4 +35,8 @@ export type ProductServiceUpdateBodyProps = Partial<
   Pick<Product, "duration" | "buffertime" | "active">
 > & {
   staff?: ProductServiceUpdateBodyStaffProperty[];
+};
+
+export type ProductServiceGetAvailableStaffReturn = Staff & {
+  tags: string[];
 };
