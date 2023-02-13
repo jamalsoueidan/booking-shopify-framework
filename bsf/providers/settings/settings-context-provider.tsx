@@ -2,8 +2,6 @@ import { AppProvider } from "@shopify/polaris";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
-import { setDefaultOptions } from "date-fns";
-import { da as daDateFns } from "date-fns/locale";
 import React, {
   ReactNode,
   useCallback,
@@ -59,7 +57,7 @@ export interface I18nProviderProps {
 }
 
 export const I18nProvider = ({ children }: I18nProviderProps) => {
-  const { language, update } = useContext(SettingsContext);
+  const { language } = useContext(SettingsContext);
 
   const manager = useMemo(
     () =>
@@ -78,8 +76,6 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
       manager.update({ locale: language });
     }
   }, [language, manager]);
-
-  setDefaultOptions({ locale: language === "da" ? daDateFns : undefined });
 
   return (
     <I18nContext.Provider value={manager}>{children}</I18nContext.Provider>

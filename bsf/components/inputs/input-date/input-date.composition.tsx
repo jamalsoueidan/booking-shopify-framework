@@ -1,5 +1,4 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
@@ -48,6 +47,37 @@ export const Selected = () => {
   );
 };
 
+export const DisableDates = () => {
+  const field = useField(undefined);
+  const [data, setData] = useState(mock);
+
+  const changeData = useCallback(() => {
+    const result = eachDayOfInterval({
+      end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
+    });
+    setData(
+      result.map((r) => ({
+        date: r,
+        hours: [],
+      })),
+    );
+    field.onChange(undefined);
+  }, [field]);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Inline mode with data" sectioned>
+        <InputDate data={data} field={field} disableDates />
+        <Button onClick={changeData}>Change Data</Button>
+        <Text variant="bodyMd" as="p">
+          {field.value ? format(field.value, "PPP") : ""}
+        </Text>
+      </Card>
+    </ApplicationFramePage>
+  );
+};
+
 export const WithDataChange = () => {
   const field = useField(undefined);
   const [data, setData] = useState(mock);
@@ -59,19 +89,17 @@ export const WithDataChange = () => {
     });
     setData(
       result.map((r) => ({
-        date: r.toJSON(),
+        date: r,
         hours: [],
       })),
     );
     field.onChange(undefined);
   }, [field]);
 
-  const newDate = useJsonDeserialization(data);
-
   return (
     <ApplicationFramePage>
       <Card title="Inline mode with data" sectioned>
-        <InputDate data={newDate} field={field} />
+        <InputDate data={data} field={field} />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
@@ -87,6 +115,6 @@ const result = eachDayOfInterval({
 });
 
 const mock = result.map((r) => ({
-  date: r.toJSON(),
+  date: r,
   hours: [],
 }));

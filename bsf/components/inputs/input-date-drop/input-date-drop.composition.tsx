@@ -1,5 +1,4 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
@@ -54,12 +53,48 @@ export const SelectedTodayDate = () => {
 
 export const WithData = () => {
   const field = useField(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="with data" sectioned>
-        <InputDateDrop data={data} field={field} />
+        <InputDateDrop data={mock} field={field} />
+        <Text variant="bodyMd" as="p">
+          {field.value ? format(field.value, "PPP") : ""}
+        </Text>
+      </Card>
+    </ApplicationFramePage>
+  );
+};
+
+export const DisableDates = () => {
+  const field = useField<InputDateDropField>(undefined);
+  const [data, setData] = useState<InputDataDropData>([]);
+
+  const changeData = useCallback(() => {
+    const result = eachDayOfInterval({
+      end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
+    });
+    setData(
+      result.map((r) => ({
+        date: r,
+        hours: [],
+      })),
+    );
+    field.onChange(undefined);
+  }, [field]);
+
+  return (
+    <ApplicationFramePage>
+      <Card title="Inline mode with data" sectioned>
+        <InputDateDrop
+          data={data}
+          field={field}
+          disableDates
+          input={{ disabled: data?.length === 0 }}
+        />
+        <br />
+        <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -110,6 +145,6 @@ const result = eachDayOfInterval({
 });
 
 const mock = result.map((r) => ({
-  date: r.toJSON(),
+  date: r,
   hours: [],
 }));

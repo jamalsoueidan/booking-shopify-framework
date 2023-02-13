@@ -1,6 +1,5 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card, Form } from "@shopify/polaris";
 import { SubmitResult, useField, useForm } from "@shopify/react-form";
 import { addDays, addHours, eachHourOfInterval, setHours } from "date-fns";
@@ -12,12 +11,11 @@ import {
 
 export const Basic = () => {
   const field = useField<InputTimerDividerField>(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="Basic" sectioned>
-        <InputTimerDivider data={data} field={field} />
+        <InputTimerDivider data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -34,8 +32,6 @@ export const Error = () => {
     value: undefined,
   });
 
-  const data = useJsonDeserialization(mock);
-
   const { fields, submit } = useForm({
     fields: { time: field },
     onSubmit: async (): Promise<SubmitResult> => ({ status: "success" }),
@@ -45,7 +41,7 @@ export const Error = () => {
     <ApplicationFramePage>
       <Card title="Selected" sectioned>
         <Form onSubmit={submit}>
-          <InputTimerDivider data={data} field={fields.time} />
+          <InputTimerDivider data={mock} field={fields.time} />
           <Button onClick={submit}>Send</Button>
         </Form>
       </Card>
@@ -57,7 +53,6 @@ export const Error = () => {
 };
 
 export const Selected = () => {
-  const data = useJsonDeserialization(mock);
   const field = useField<InputTimerDividerField>({
     end: new Date(mock[0].end),
     start: new Date(mock[0].start),
@@ -66,7 +61,7 @@ export const Selected = () => {
   return (
     <ApplicationFramePage>
       <Card title="Selected" sectioned>
-        <InputTimerDivider data={data} field={field} />
+        <InputTimerDivider data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -109,12 +104,10 @@ export const LazyLoad = () => {
   const field = useField<InputTimerDividerField>(undefined);
   const [data, setData] = useState(mock);
 
-  const newData = useJsonDeserialization(data);
-
   return (
     <ApplicationFramePage>
       <Card title="Lazy Load" sectioned>
-        <InputTimerDivider field={field} data={newData} />
+        <InputTimerDivider field={field} data={data} />
       </Card>
       <Button
         onClick={() => setData(createMock(addDays(new Date(), 2), 11, 18))}
@@ -128,16 +121,22 @@ export const LazyLoad = () => {
   );
 };
 
-const createMock = (date = new Date(), start = 9, end = 21) => {
+const createMock = (
+  date = new Date(),
+  startHour = new Date().getHours(),
+  endHour = 21,
+) => {
   const result = eachHourOfInterval({
-    end: setHours(date, end),
-    start: setHours(date, start),
+    end: setHours(date, endHour),
+    start: setHours(date, startHour),
   });
 
-  return result.map((r) => ({
-    end: addHours(r, 1).toJSON(),
-    start: r.toJSON(),
+  const modified = result.map((r) => ({
+    end: addHours(r, 1),
+    start: r,
   }));
+
+  return modified;
 };
 
 const mock = createMock();

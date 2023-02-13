@@ -97,52 +97,42 @@ export const WidgetServiceAvailability = async ({
   });
 
   if (product) {
+    const staff = product.staff.map((s) => s.staff);
+    const tag = product.staff.map((s) => s.tag);
+
     const schedules = await WidgetServiceGetSchedules({
       shop,
       end,
-      staff: product.staff.map((s) => s.staff),
+      staff,
       start,
-      tag: product.staff.map((s) => s.tag),
+      tag,
     });
 
     const bookings = await WidgetServiceGetBookings({
       end,
       shop,
-      staff: product.staff.map((s) => s.staff),
+      staff,
       start,
     });
 
     const carts = await WidgetServiceGetCarts({
       end,
       shop,
-      staff: product.staff.map((s) => s.staff),
+      staff,
       start,
     });
 
-    const createdAvailabilities = WidgetCreateAvailability(product, schedules);
+    let createdAvailabilities = WidgetCreateAvailability(product, schedules);
+    createdAvailabilities = WidgetRemoveAvailability(
+      createdAvailabilities,
+      bookings,
+    );
+    createdAvailabilities = WidgetRemoveAvailability(
+      createdAvailabilities,
+      carts,
+    );
 
-    let availabilities = createdAvailabilities;
-    bookings.forEach((book) => {
-      availabilities = createdAvailabilities.map(
-        WidgetRemoveAvailability({
-          end: book.end,
-          staff: book.staff,
-          start: book.start,
-        }),
-      );
-    });
-
-    carts.forEach((cart) => {
-      availabilities = createdAvailabilities.map(
-        WidgetRemoveAvailability({
-          end: cart.end,
-          start: cart.start,
-          staff: cart.staff,
-        }),
-      );
-    });
-
-    return availabilities;
+    return createdAvailabilities;
   }
   return [];
 };

@@ -5,7 +5,7 @@ import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { format, isEqual } from "date-fns";
+import { isEqual } from "date-fns";
 import { ReactNode, useCallback, useEffect, useMemo } from "react";
 
 export type UseTimerField =
@@ -33,7 +33,7 @@ export interface UseTimerProps {
 }
 
 export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
-  const { toTimeZone, toUtc } = useDate();
+  const { format, toUtc } = useDate();
   const { locale } = useTranslation({
     id: "withTimer",
     locales: { da: {}, en: {} },
@@ -48,15 +48,12 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
     const hours: Array<UseTimerOption> =
       [...data].sort(HelperArray.sortDateBy("start")).map((t) => ({
         key: t.start.toJSON(),
-        label: `${format(toTimeZone(t.start), "p")} - ${format(
-          toTimeZone(t.end),
-          "p",
-        )}`,
+        label: `${format(t.start, "p")} - ${format(t.end, "p")}`,
         value: t.start.toJSON(),
       })) || [];
 
     return hours;
-  }, [data, toTimeZone, locale]);
+  }, [data, format, locale]);
 
   const handleOnChange = useCallback(
     (startDate: string) => {

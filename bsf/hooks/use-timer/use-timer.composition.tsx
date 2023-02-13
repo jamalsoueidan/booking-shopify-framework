@@ -1,5 +1,4 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Card, Select } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
@@ -25,12 +24,11 @@ const InputTimerDrop = ({ data, field }: UseTimerProps) => {
 
 export const Basic = () => {
   const field = useField<UseTimerField>(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputTimerDrop field={field} data={data} />
+        <InputTimerDrop field={field} data={mock} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -45,6 +43,6 @@ const result = eachHourOfInterval({
 });
 
 const mock = result.map((r) => ({
-  end: addHours(r, 1).toJSON(),
-  start: r.toJSON(),
+  end: addHours(r, 1),
+  start: r,
 }));

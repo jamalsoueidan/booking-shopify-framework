@@ -20,7 +20,7 @@ const productId = parseInt(faker.random.numeric(10), 10);
 const tag = faker.random.word();
 
 describe("widget service test", () => {
-  it("Should find a staff after adding staff to the product", async () => {
+  it("Should return 1 staff after adding 1 staff to product", async () => {
     const product = await createProduct({ productId });
 
     await createStaffWithScheduleAndUpdateProduct({
@@ -36,12 +36,12 @@ describe("widget service test", () => {
     expect(allStaff.length).toEqual(1);
   });
 
-  it("should find all staff after adding 2 staff to the product", async () => {
+  it("should return 2 staff after adding 2 staff to product", async () => {
     const { staff: staff1 } = await createStaffWithSchedule({ tag });
     const { staff: staff2 } = await createStaffWithSchedule({ tag });
 
     const product = await createProduct({ productId });
-    const updatedProduct = await ProductServiceUpdate(
+    await ProductServiceUpdate(
       {
         id: product._id,
         shop,
@@ -82,7 +82,7 @@ describe("widget service test", () => {
     expect(allStaff.length).toEqual(0);
   });
 
-  it("Should return hours for staff for 1 day", async () => {
+  it("Should return hours for specific staff for 1 day", async () => {
     const product = await createProduct({ productId });
     const { staff } = await createStaffWithScheduleAndUpdateProduct({
       product,
@@ -101,7 +101,7 @@ describe("widget service test", () => {
     expect(availability.length).toEqual(1);
   });
 
-  it("Should return hours for staff between 2 days", async () => {
+  it("Should return hours for specific staff between 2 days", async () => {
     const product = await createProduct({ productId });
     const staff = await createStaff();
 

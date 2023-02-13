@@ -1,10 +1,20 @@
 import { WidgetSchedule } from "@jamalsoueidan/bsb.types";
 import { DatePicker, DatePickerProps, Range } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { eachDayOfInterval, endOfMonth, getMonth, getYear, isPast, isSameDay, startOfMonth, subDays } from "date-fns";
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  getMonth,
+  getYear,
+  isPast,
+  isSameDay,
+  startOfMonth,
+  subDays,
+} from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
 
-interface InputDatePickerProps extends Partial<Omit<DatePickerProps, "onMonthChange">> {
+interface InputDatePickerProps
+  extends Partial<Omit<DatePickerProps, "onMonthChange">> {
   onMonthChange?: (value: Range) => void;
 }
 
@@ -14,9 +24,15 @@ export interface InputDateProps {
   field: Field<InputDateField>;
   data?: InputDateData;
   input?: InputDatePickerProps;
+  disableDates?: boolean;
 }
 
-export const InputDate = ({ field, data, input }: InputDateProps) => {
+export const InputDate = ({
+  field,
+  data,
+  input,
+  disableDates,
+}: InputDateProps) => {
   const getMonthFromValue = useMemo(
     () => ({
       month: getMonth(field.value || new Date()),
@@ -50,8 +66,8 @@ export const InputDate = ({ field, data, input }: InputDateProps) => {
   );
 
   const disableSpecificDates = useMemo(() => {
-    if (!data) {
-      return undefined;
+    if (!disableDates) {
+      return;
     }
 
     const dayIntervals = eachDayOfInterval({
@@ -59,7 +75,9 @@ export const InputDate = ({ field, data, input }: InputDateProps) => {
       start: new Date(year, month),
     });
 
-    return dayIntervals.filter((r) => !data?.find((s) => isSameDay(new Date(s.date), r)));
+    return dayIntervals.filter(
+      (r) => !data?.find((s) => isSameDay(new Date(s.date), r)),
+    );
   }, [data, year, month]);
 
   return (

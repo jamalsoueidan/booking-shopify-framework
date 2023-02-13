@@ -4,7 +4,6 @@ import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
-import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { Avatar, Tooltip } from "@shopify/polaris";
 import React, { Suspense, memo, useCallback, useMemo } from "react";
@@ -18,7 +17,6 @@ export interface BookingCalendarProps {
 export const BookingCalendar = memo(
   ({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
     const { getColor } = useFulfillment();
-    const { toTimeZone } = useDate();
 
     const events = useMemo(
       () =>
@@ -30,7 +28,7 @@ export const BookingCalendar = memo(
           start: d.start,
           textColor: "#202223",
         })) || [],
-      [data, getColor, toTimeZone],
+      [data, getColor],
     );
 
     const renderItem = useCallback((arg: EventContentArg) => {

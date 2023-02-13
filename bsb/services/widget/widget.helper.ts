@@ -12,7 +12,7 @@ import {
   isWithinInterval,
   subMinutes,
 } from "date-fns";
-import { PipelineStage } from "mongoose";
+import mongoose, { PipelineStage } from "mongoose";
 
 type WidgetCreateAvailabilityProduct = Pick<Product, "duration" | "buffertime">;
 type WidgetCreateAvailabilitySchedule = WidgetHourRange & WidgetHourStaff;
@@ -75,37 +75,34 @@ type WidgetRemoveShifts = {
 /*
   We remove the availabilities that is already booked.
 */
-export const WidgetRemoveAvailability = (booking: WidgetRemoveShifts) => {
-  return (schedule: WidgetSchedule): WidgetSchedule => ({
-    ...schedule,
-    hours: schedule.hours.filter((hour) => {
-      if (hour.staff._id !== booking.staff) {
-        return true;
-      }
+export const WidgetRemoveAvailability = (
+  availabilities: Array<WidgetSchedule>,
+  bookings: Array<WidgetRemoveShifts>,
+) => {
+  let filteredAvailabilities = availabilities;
+  bookings.forEach((booking) => {
+    filteredAvailabilities = availabilities.map(
+      (schedule: WidgetSchedule): WidgetSchedule => ({
+        date: schedule.date,
+        hours: schedule.hours.filter((hour) => {
+          if (hour.staff._id !== booking.staff) {
+            return true;
+          }
 
-      if (
-        isWithinInterval(addMinutes(new Date(booking.start), 1), {
-          end: new Date(hour.end),
-          start: new Date(hour.start),
-        })
-      ) {
-        return false;
-      }
+          if (
+            isWithinInterval(addMinutes(new Date(booking.start), 1), hour) ||
+            isWithinInterval(subMinutes(new Date(booking.end), 1), hour)
+          ) {
+            return false;
+          }
 
-      if (
-        isWithinInterval(subMinutes(new Date(booking.end), 1), {
-          end: new Date(hour.end),
-          start: new Date(hour.start),
-        })
-      ) {
-        return false;
-      }
-
-      return true;
-    }),
+          return true;
+        }),
+      }),
+    );
   });
+  return filteredAvailabilities;
 };
-
 interface WidgetSericeGetProductProps {
   shop: string;
   productId: number;
@@ -136,7 +133,7 @@ export const WidgetServiceGetProduct = async ({
   if (staff) {
     pipeline.push({
       $match: {
-        "staff.staff": staff,
+        "staff.staff": new mongoose.Types.ObjectId(staff),
       },
     });
   }

@@ -1,5 +1,5 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
+import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
@@ -65,12 +65,11 @@ export const LabelHidden = () => {
 
 export const WithData = () => {
   const field = useField(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat data={data} field={field} />
+        <InputDateFlat data={mock} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
@@ -78,6 +77,36 @@ export const WithData = () => {
     </ApplicationFramePage>
   );
 };
+
+export const DisableDates = withApplication(() => {
+  const field = useField(undefined);
+  const [data, setData] = useState(mock);
+
+  const changeData = useCallback(() => {
+    const result = eachDayOfInterval({
+      end: addDays(new Date(), 9),
+      start: addDays(new Date(), 5),
+    });
+    setData(
+      result.map((r) => ({
+        date: r,
+        hours: [],
+      })),
+    );
+    field.onChange(undefined);
+  }, [field]);
+
+  return (
+    <Card sectioned>
+      <InputDateFlat data={data} field={field} disableDates />
+      <br />
+      <Button onClick={changeData}>Change Data</Button>
+      <Text variant="bodyMd" as="p">
+        {field.value ? format(field.value, "PPP") : ""}
+      </Text>
+    </Card>
+  );
+});
 
 export const WithDataChange = () => {
   const field = useField(undefined);
@@ -90,19 +119,17 @@ export const WithDataChange = () => {
     });
     setData(
       result.map((r) => ({
-        date: r.toJSON(),
+        date: r,
         hours: [],
       })),
     );
     field.onChange(undefined);
   }, [field]);
 
-  const newData = useJsonDeserialization(data);
-
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat data={newData} field={field} />
+        <InputDateFlat data={data} field={field} />
         <br />
         <Button onClick={changeData}>Change Data</Button>
         <Text variant="bodyMd" as="p">
@@ -119,6 +146,6 @@ const result = eachDayOfInterval({
 });
 
 const mock = result.map((r) => ({
-  date: r.toJSON(),
+  date: r,
   hours: [],
 }));

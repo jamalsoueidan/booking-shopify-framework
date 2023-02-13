@@ -1,5 +1,4 @@
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useJsonDeserialization } from "@jamalsoueidan/bsf.hooks.use-json-deserialization";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addHours, eachHourOfInterval, setHours } from "date-fns";
@@ -8,12 +7,11 @@ import { InputTimerDrop, InputTimerDropField } from "./input-timer-drop";
 
 export const Basic = () => {
   const field = useField<InputTimerDropField>(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="Basic" sectioned>
-        <InputTimerDrop data={data} field={field} />
+        <InputTimerDrop data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -24,7 +22,6 @@ export const Basic = () => {
 
 export const Error = () => {
   const field = useField<InputTimerDropField>(undefined);
-  const data = useJsonDeserialization(mock);
 
   useEffect(() => {
     field.setError("fejl");
@@ -35,7 +32,7 @@ export const Error = () => {
     <ApplicationFramePage>
       <Card title="Error" sectioned>
         <InputTimerDrop
-          data={data}
+          data={mock}
           field={field}
           input={{ placeholder: "-" }}
         />
@@ -52,12 +49,11 @@ export const Selected = () => {
     end: new Date(mock[0].end),
     start: new Date(mock[0].start),
   });
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="Selected" sectioned>
-        <InputTimerDrop data={data} field={field} />
+        <InputTimerDrop data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
@@ -83,13 +79,12 @@ export const Empty = () => {
 
 export const WithOptionLabel = () => {
   const field = useField<InputTimerDropField>(undefined);
-  const data = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="WithOptionLabel" sectioned>
         <InputTimerDrop
-          data={data}
+          data={mock}
           field={field}
           input={{ placeholder: "-" }}
         />
@@ -104,12 +99,11 @@ export const WithOptionLabel = () => {
 export const LazyLoad = () => {
   const field = useField<InputTimerDropField>(undefined);
   const [data, setData] = useState(mock);
-  const newDate = useJsonDeserialization(mock);
 
   return (
     <ApplicationFramePage>
       <Card title="Lazy Load" sectioned>
-        <InputTimerDrop field={field} data={newDate} />
+        <InputTimerDrop field={field} data={mock} />
       </Card>
       <Button
         onClick={() => setData(createMock(addDays(new Date(), 2), 11, 18))}
@@ -130,8 +124,8 @@ const createMock = (date = new Date(), start = 9, end = 21) => {
   });
 
   return result.map((r) => ({
-    end: addHours(r, 1).toJSON(),
-    start: r.toJSON(),
+    end: addHours(r, 1),
+    start: r,
   }));
 };
 

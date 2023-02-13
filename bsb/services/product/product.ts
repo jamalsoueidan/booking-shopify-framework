@@ -116,8 +116,8 @@ export const ProductServiceUpdate = async (
 export const ProductServiceGetAvailableStaff = (shop: string) =>
   ScheduleModel.aggregate<ProductServiceGetAvailableStaffReturn>([
     {
-      // TODO: should we only show staff who have schedule after today?
       $match: {
+        shop,
         start: {
           $gte: startOfDay(new Date()),
         },
@@ -126,7 +126,6 @@ export const ProductServiceGetAvailableStaff = (shop: string) =>
     {
       $group: {
         _id: {
-          shop,
           staff: "$staff",
           tag: "$tag",
         },
