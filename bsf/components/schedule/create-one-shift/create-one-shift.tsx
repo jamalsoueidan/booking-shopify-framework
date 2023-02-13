@@ -9,8 +9,7 @@ import {
   useField,
   useForm,
 } from "@shopify/react-form";
-import { format, setHours, setMinutes } from "date-fns";
-import React, { forwardRef, useImperativeHandle } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
 export interface CreateOneShiftBody {
   start: Date;
@@ -34,7 +33,19 @@ export const CreateOneShift = forwardRef<
 >(({ selectedDate, onSubmit }, ref) => {
   const { t } = useTranslation({ id: "create-one-day", locales });
   const { options } = useTag();
-  const { toUtc } = useDate();
+  const { toUtc, format } = useDate();
+
+  const convert = useCallback(
+    (time: string) => {
+      const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
+      return toUtc(
+        new Date(
+          `${format(selectedDate, "yyyy-MM-dd")} ${hour}:${minuttes}:00`,
+        ),
+      );
+    },
+    [format, selectedDate, toUtc],
+  );
 
   const { fields, submit, validate } = useForm({
     fields: {
@@ -43,13 +54,6 @@ export const CreateOneShift = forwardRef<
       tag: useField(options[0].value),
     },
     onSubmit: async (fieldValues) => {
-      const date = selectedDate;
-
-      const convert = (time: string) => {
-        const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
-        return toUtc(setHours(setMinutes(date, minuttes), hour));
-      };
-
       const start = convert(fieldValues.startTime);
       const end = convert(fieldValues.endTime);
 

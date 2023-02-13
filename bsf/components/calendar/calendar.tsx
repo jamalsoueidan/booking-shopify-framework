@@ -1,4 +1,4 @@
-import { DatesSetArg } from "@fullcalendar/core";
+import type { DatesSetArg } from "@fullcalendar/core";
 import da from "@fullcalendar/core/locales/da";
 import en from "@fullcalendar/core/locales/en-gb";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -6,17 +6,20 @@ import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
 import { isEqual } from "date-fns";
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useMemo, useState } from "react";
 
 export type CalendarDateState = {
   start: Date;
   end: Date;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
   const { language } = useSettings();
+  const { toTimeZone } = useDate();
 
   const [date, setDate] = useState<CalendarDateState>();
   const handleChangeDate = useCallback(
@@ -33,7 +36,17 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
         setDate(newDate);
       }
     },
-    [date, props.datesSet],
+    [date, props],
+  );
+
+  const events = useMemo(
+    () =>
+      props.events?.map((e) => ({
+        ...e,
+        end: toTimeZone(e.end),
+        start: toTimeZone(e.start),
+      })),
+    [props.events, toTimeZone],
   );
 
   return (
@@ -69,6 +82,7 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
       }}
       {...props}
       datesSet={handleChangeDate}
+      events={events}
     />
   );
 });

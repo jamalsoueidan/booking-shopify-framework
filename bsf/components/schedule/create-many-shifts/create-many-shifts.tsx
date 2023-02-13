@@ -11,8 +11,9 @@ import {
 
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { eachDayOfInterval, format } from "date-fns";
+import { eachDayOfInterval } from "date-fns";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
 export interface CreateManyShiftsValue {
@@ -37,6 +38,7 @@ export const CreateManyShifts = forwardRef<
   CreateManyShiftsProps
 >(({ selectedDate, onSubmit }, ref) => {
   const { options } = useTag();
+  const { format, toUtc } = useDate();
   const { t } = useTranslation({ id: "create-many-shifts", locales });
 
   const getDatesFromSelectedDaysInCalendar = useCallback(
@@ -53,8 +55,8 @@ export const CreateManyShifts = forwardRef<
 
   const convertToDate = useCallback(
     (date: Date, time: string) =>
-      new Date(`${format(date, "yyyy-MM-dd")} ${time}:00`),
-    [],
+      toUtc(new Date(`${format(date, "yyyy-MM-dd")} ${time}:00`)),
+    [format, toUtc],
   );
 
   const { fields, submit, validate } = useForm({

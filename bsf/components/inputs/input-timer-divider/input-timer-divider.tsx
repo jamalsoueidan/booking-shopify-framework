@@ -1,4 +1,5 @@
 import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import {
   UseTimerField,
   UseTimerInput,
@@ -15,7 +16,7 @@ import {
   Text,
 } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import { format, isEqual, setHours } from "date-fns";
+import { isEqual, setHours } from "date-fns";
 import React, { memo } from "react";
 
 export type InputTimerDividerField = UseTimerField;
@@ -30,6 +31,7 @@ export const InputTimerDivider = ({
   field,
   input,
 }: InputTimerDividerProps) => {
+  const { format } = useDate();
   const { options, onChange } = useTimer({
     autoSelectFirst: false,
     data,
@@ -106,6 +108,7 @@ interface ColumnPeriodProps {
 
 const ColumnPeriod = memo(
   ({ date, hours, onChange, selected }: ColumnPeriodProps) => {
+    const { format } = useDate();
     const { t } = useTranslation({
       id: "column-period",
       locales: {

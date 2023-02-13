@@ -1,5 +1,10 @@
 import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
-import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import {
+  format as fnsFormat,
+  formatInTimeZone as fnsFormatInTimezone,
+  utcToZonedTime,
+  zonedTimeToUtc,
+} from "date-fns-tz";
 import { da } from "date-fns/locale";
 import { useCallback } from "react";
 
@@ -20,26 +25,33 @@ export const useDate = () => {
       formatStr: string,
       overrideTimeZone?: string,
     ) =>
-      formatInTimeZone(date, overrideTimeZone || timeZone, formatStr, {
+      fnsFormatInTimezone(date, overrideTimeZone || timeZone, formatStr, {
         locale: language === "da" ? da : undefined,
       }),
     [timeZone, language],
   );
 
-  // from date object to utc
+  // render the date as it is
+  const onlyFormat = useCallback(
+    (date: Date, formatStr: string) =>
+      fnsFormat(date, formatStr, {
+        locale: language === "da" ? da : undefined,
+      }),
+    [language],
+  );
+
+  // from date object to local brower timezone
   const toUtc = useCallback(
     (date: string | Date, overrideTimeZone?: string) =>
-      zonedTimeToUtc(
-        format(date, "yyyy-MM-dd HH:mm:ss", overrideTimeZone || timeZone),
-        overrideTimeZone || timeZone,
-      ),
-    [timeZone, format],
+      zonedTimeToUtc(date, overrideTimeZone || timeZone),
+    [timeZone],
   );
 
   return {
     format,
-    toUtc,
-    toTimeZone,
+    onlyFormat,
     timeZone,
+    toTimeZone,
+    toUtc,
   };
 };

@@ -16,18 +16,19 @@ import mock from "./collection.mock";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 jest.mock("./collection.helper", () => ({
+  __esModule: true,
   getCollection: ({ id }: GetCollectionProps) => {
+    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     const mock = require("./collection.mock").default;
     const collection = mock.find((c) => c.id === id);
     return Promise.resolve(collection);
   },
-  __esModule: true,
 }));
 
 describe("collection testing", () => {
   it("Should be able create collections", async () => {
     const id = "gid://shopify/Collection/425845817661";
-    await CollectionServiceCreate({ session: { shop } } as any, {
+    await CollectionServiceCreate({ session: { shop } } as never, {
       selections: [id],
     });
 
@@ -40,7 +41,7 @@ describe("collection testing", () => {
   });
 
   it("Should be able to get collections with product => staff relations", async () => {
-    await CollectionServiceCreate({ session: { shop } } as any, {
+    await CollectionServiceCreate({ session: { shop } } as never, {
       selections: [
         "gid://shopify/Collection/425845817661",
         "gid://shopify/Collection/425290039613",
@@ -83,7 +84,7 @@ describe("collection testing", () => {
   });
 
   it("Should be able destroy collection", async () => {
-    await CollectionServiceCreate({ session: { shop } } as any, {
+    await CollectionServiceCreate({ session: { shop } } as never, {
       selections: [
         "gid://shopify/Collection/425845817661",
         "gid://shopify/Collection/425290039613",

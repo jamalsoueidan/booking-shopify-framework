@@ -39,7 +39,7 @@ export const SettingsProvider = ({
     if (value) {
       update(value);
     }
-  }, [value]);
+  }, [update, value]);
 
   return (
     <SettingsContext.Provider value={{ ...data, update }}>

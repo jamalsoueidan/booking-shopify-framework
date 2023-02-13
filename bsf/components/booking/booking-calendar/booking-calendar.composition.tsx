@@ -5,16 +5,14 @@ import { BookingCalendar } from "./booking-calendar";
 import mock from "./mock";
 
 export const BasicBookingCalendar = withApplication(
-  () => {
-    return (
-      <Card sectioned>
-        <BookingCalendar
-          data={mock}
-          onChangeDate={() => null}
-          onClickBooking={() => null}
-        />
-      </Card>
-    );
-  },
+  () => (
+    <Card sectioned>
+      <BookingCalendar
+        data={mock}
+        onChangeDate={() => null}
+        onClickBooking={() => null}
+      />
+    </Card>
+  ),
   { pageTitle: "Booking Calendar" },
 );

@@ -121,11 +121,7 @@ export const LazyLoad = () => {
   );
 };
 
-const createMock = (
-  date = new Date(),
-  startHour = new Date().getHours(),
-  endHour = 21,
-) => {
+const createMock = (date = new Date(), startHour = 9, endHour = 16) => {
   const result = eachHourOfInterval({
     end: setHours(date, endHour),
     start: setHours(date, startHour),

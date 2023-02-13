@@ -5,7 +5,6 @@ import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
-import { format } from "date-fns";
 import React, { useCallback, useMemo } from "react";
 
 export interface ScheduleCalendarProps {
@@ -21,7 +20,7 @@ export const ScheduleCalendar = ({
   onClickSchedule,
   onChangeDate,
 }: ScheduleCalendarProps) => {
-  const { toTimeZone } = useDate();
+  const { onlyFormat } = useDate();
   const { select: selectTag } = useTag();
 
   const events = useMemo(
@@ -29,11 +28,11 @@ export const ScheduleCalendar = ({
       data?.map((extendedProps) => ({
         backgroundColor: extendedProps.tag,
         color: extendedProps.tag,
-        end: toTimeZone(extendedProps.end),
+        end: extendedProps.end,
         extendedProps,
-        start: toTimeZone(extendedProps.start),
+        start: extendedProps.start,
       })) || [],
-    [data, toTimeZone],
+    [data],
   );
 
   const renderItem = useCallback(
@@ -41,8 +40,9 @@ export const ScheduleCalendar = ({
       const schedule: Schedule = arg.event.extendedProps as Schedule;
       const hour = (
         <i>
-          {format(arg.event.start || new Date(), "HH:mm")} -{" "}
-          {format(arg.event.end || new Date(), "HH:mm")}
+          {onlyFormat(schedule.start, "p")}
+          {" - "}
+          {onlyFormat(schedule.end, "p")}
         </i>
       );
 
@@ -70,7 +70,7 @@ export const ScheduleCalendar = ({
         </div>
       );
     },
-    [selectTag],
+    [selectTag, onlyFormat],
   );
 
   const handleClickEvent = useCallback(

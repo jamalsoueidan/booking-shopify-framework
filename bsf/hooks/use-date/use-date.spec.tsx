@@ -1,6 +1,6 @@
 import {
-  renderHook,
   act,
+  renderHook,
 } from "@jamalsoueidan/bsd.testing-library.react-hooks";
 import { useDate } from "./use-date";
 

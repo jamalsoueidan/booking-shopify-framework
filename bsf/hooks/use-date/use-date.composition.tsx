@@ -1,32 +1,52 @@
 import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
-import { Box, Divider, Text, TextContainer } from "@shopify/polaris";
+import { Box, Divider, Text, TextContainer, TextField } from "@shopify/polaris";
+import { useField } from "@shopify/react-form";
 import React from "react";
 import { useDate } from "./use-date";
 
-const date = new Date();
+/*
+// Send to backend
+  const copenhagen = new Date() // europe/copenhagen time
+  const local = zonedTimeToUtc(copenhagen, "Europe/Copenhagen") // convert to JSON
+  console.log("convert to json", local.toJSON()) // convert to JSON
 
-export const Basic = withApplication(() => {
-  const { format, timeZone, toUtc, toTimeZone } = useDate();
+  console.log("show copenhagen time", format(copenhagen, "yyyy-MM-dd HH:mm:ss")) //show time
+  console.log("show istanbul time", format(local, "Europe/Istanbul", "yyyy-MM-dd HH:mm:ss")) //Show time
+  console.log("show copenhagen time", format(local, "Europe/Copenhagen", "yyyy-MM-dd HH:mm:ss")) //Show time
 
-  const timeZoneFormat = format(date, "PPPppp", timeZone);
-  const timezoneToUtc = toUtc(date, timeZone);
 
-  console.log(toTimeZone(new Date(timeZoneFormat)));
+  // Read from backend
+  const istanbul = new Date(local.toJSON()) // europe/istanbul time
+  console.log("show istanbul time", format(istanbul, "Europe/Istanbul", "yyyy-MM-dd HH:mm:ss")) //Show time
+  console.log("show copenhagen time from istanbul", format(istanbul, "Europe/Copenhagen", "yyyy-MM-dd HH:mm:ss")) //Show tim
+  console.log(istanbul.toJSON())
+
+  const toCopenhagen = utcToZonedTime(istanbul, 'Europe/Copenhagen');
+  console.log("show copenhagen time from utc", format(toCopenhagen, "yyyy-MM-dd HH:mm:ss")) //Show tim
+  console.log(toCopenhagen.toJSON())
+*/
+
+export const ToBackend = withApplication(() => {
+  const { timeZone, toUtc, format } = useDate();
+
+  const copenhagen = new Date();
+  const local = toUtc(copenhagen);
 
   return (
     <>
       <Box paddingBlockStart="8" paddingBlockEnd="8">
         <Text variant="headingLg" as="h1">
-          Format:
+          To backend ({local.toJSON()})
         </Text>
         <Divider />
         <TextContainer>
           <Text variant="bodyMd" as="p" fontWeight="bold">
-            Locale
+            Current timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone}
+            )
           </Text>
           <Text variant="bodyMd" as="span">
             {format(
-              date,
+              local,
               "PPPppp",
               Intl.DateTimeFormat().resolvedOptions().timeZone,
             )}
@@ -37,29 +57,7 @@ export const Basic = withApplication(() => {
             {timeZone}:
           </Text>
           <Text variant="bodyMd" as="span">
-            {timeZoneFormat}
-          </Text>
-        </TextContainer>
-      </Box>
-      <Box paddingBlockStart="8" paddingBlockEnd="8">
-        <Text variant="headingLg" as="h1">
-          toUtc (back to server):
-        </Text>
-        <Divider />
-        <TextContainer>
-          <Text variant="bodyMd" as="p" fontWeight="bold">
-            Locale
-          </Text>
-          <Text variant="bodyMd" as="span">
-            {toUtc(date).toJSON()}
-          </Text>
-        </TextContainer>
-        <TextContainer>
-          <Text variant="bodyMd" as="p" fontWeight="bold">
-            {timeZone}:
-          </Text>
-          <Text variant="bodyMd" as="span">
-            {timezoneToUtc.toJSON()}
+            {format(local, "PPPppp")}
           </Text>
         </TextContainer>
       </Box>
@@ -67,51 +65,41 @@ export const Basic = withApplication(() => {
   );
 });
 
-const timeZones = [
-  "Europe/Amsterdam",
-  "Europe/Andorra",
-  "Europe/Astrakhan",
-  "Europe/Athens",
-  "Europe/Belgrade",
-  "Europe/Berlin",
-  "Europe/Brussels",
-  "Europe/Bucharest",
-  "Europe/Budapest",
-  "Europe/Chisinau",
-  "Europe/Copenhagen",
-  "Europe/Dublin",
-  "Europe/Gibraltar",
-  "Europe/Helsinki",
-  "Europe/Istanbul",
-  "Europe/Kaliningrad",
-  "Europe/Kiev",
-  "Europe/Kirov",
-  "Europe/Lisbon",
-  "Europe/London",
-  "Europe/Luxembourg",
-  "Europe/Madrid",
-  "Europe/Malta",
-  "Europe/Minsk",
-  "Europe/Monaco",
-  "Europe/Moscow",
-  "Europe/Oslo",
-  "Europe/Paris",
-  "Europe/Prague",
-  "Europe/Riga",
-  "Europe/Rome",
-  "Europe/Samara",
-  "Europe/Saratov",
-  "Europe/Simferopol",
-  "Europe/Sofia",
-  "Europe/Stockholm",
-  "Europe/Tallinn",
-  "Europe/Tirane",
-  "Europe/Ulyanovsk",
-  "Europe/Uzhgorod",
-  "Europe/Vienna",
-  "Europe/Vilnius",
-  "Europe/Volgograd",
-  "Europe/Warsaw",
-  "Europe/Zaporozhye",
-  "Europe/Zurich",
-];
+export const FromBackend = withApplication(() => {
+  const { timeZone, format } = useDate();
+  const field = useField<string>(new Date().toJSON());
+  const local = new Date(field.value); // europe/copenhagen time
+
+  return (
+    <>
+      <Box paddingBlockStart="8" paddingBlockEnd="8">
+        <TextField label="Value" autoComplete="off" {...field} />
+        <Text variant="headingLg" as="h1">
+          From backend:
+        </Text>
+        <Divider />
+        <TextContainer>
+          <Text variant="bodyMd" as="p" fontWeight="bold">
+            Current timezone ({Intl.DateTimeFormat().resolvedOptions().timeZone}
+            )
+          </Text>
+          <Text variant="bodyMd" as="span">
+            {format(
+              local,
+              "PPPppp",
+              Intl.DateTimeFormat().resolvedOptions().timeZone,
+            )}
+          </Text>
+        </TextContainer>
+        <TextContainer>
+          <Text variant="bodyMd" as="p" fontWeight="bold">
+            {timeZone}:
+          </Text>
+          <Text variant="bodyMd" as="span">
+            {format(local, "yyyy-MM-dd HH:mm:ss")}
+          </Text>
+        </TextContainer>
+      </Box>
+    </>
+  );
+});

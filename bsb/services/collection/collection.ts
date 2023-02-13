@@ -6,6 +6,7 @@ import {
   ShopQuery,
   ShopifySession,
 } from "@jamalsoueidan/bsb.types";
+import { ShopifyRestResources } from "@shopify/shopify-api";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 import { getCollection } from "./collection.helper";
 import { CollectionModel } from "./collection.model";
@@ -16,20 +17,20 @@ export const CollectionServiceDestroy = async (
   const { shop, id } = query;
 
   const collection = await CollectionModel.findOne({
-    shop,
     _id: id,
+    shop,
   });
 
   if (collection) {
-    await CollectionModel.deleteOne({ shop, _id: id });
+    await CollectionModel.deleteOne({ _id: id, shop });
     await ProductModel.updateMany(
       {
         collectionId: collection.collectionId,
       },
       {
         $set: {
-          hidden: true,
           active: false,
+          hidden: true,
         },
       },
     );
@@ -39,48 +40,46 @@ export const CollectionServiceDestroy = async (
 
 export const CollectionServiceCreate = async (
   query: {
-    shopify: ShopifyApp<any, any>;
+    shopify: ShopifyApp<ShopifyRestResources, never>;
   } & { session: ShopifySession },
   body: CollectionServiceCreateBodyProps,
 ) => {
   const { shop } = query.session;
 
-  const selections = body.selections;
+  const { selections } = body;
   const collections = (
     await Promise.all(
       selections.map((id) =>
-        getCollection({ shopify: query.shopify, session: query.session, id }),
+        getCollection({ id, session: query.session, shopify: query.shopify }),
       ),
     )
   ).filter((el) => el != null);
 
   const getGid = (value: string): number =>
-    parseInt(value.substring(value.lastIndexOf("/") + 1));
+    parseInt(value.substring(value.lastIndexOf("/") + 1), 10);
 
-  //TODO: What about the products that are removed from the collections, they needs to be removed also or moved?
-  const collectionBulkWrite = collections?.map((c) => {
-    return {
-      updateOne: {
-        filter: { collectionId: getGid(c.id) },
-        update: {
-          $set: { shop, title: c.title, collectionId: getGid(c.id) },
-        },
-        upsert: true,
+  // TODO: What about the products that are removed from the collections, they needs to be removed also or moved?
+  const collectionBulkWrite = collections?.map((c) => ({
+    updateOne: {
+      filter: { collectionId: getGid(c.id) },
+      update: {
+        $set: { collectionId: getGid(c.id), shop, title: c.title },
       },
-    };
-  });
+      upsert: true,
+    },
+  }));
 
   const products = collections?.reduce<
     Array<Omit<IProduct, "buffertime" | "active" | "duration" | "staff">>
   >((products, currentCollection) => {
     currentCollection.products.nodes.forEach((n) => {
       products.push({
-        shop,
         collectionId: getGid(currentCollection.id),
-        productId: getGid(n.id),
-        title: n.title,
-        imageUrl: n.featuredImage?.url,
         hidden: false,
+        imageUrl: n.featuredImage?.url,
+        productId: getGid(n.id),
+        shop,
+        title: n.title,
       });
     });
     return products;
@@ -99,28 +98,24 @@ export const CollectionServiceCreate = async (
       ),
   );
 
-  const productsHide = cleanupProducts.map((product) => {
-    return {
-      updateOne: {
-        filter: { _id: product._id },
-        update: {
-          $set: { hidden: true, active: false },
-        },
+  const productsHide = cleanupProducts.map((product) => ({
+    updateOne: {
+      filter: { _id: product._id },
+      update: {
+        $set: { active: false, hidden: true },
       },
-    };
-  });
+    },
+  }));
 
-  const productsBulkWrite = products.map((product) => {
-    return {
-      updateOne: {
-        filter: { productId: product.productId },
-        update: {
-          $set: product,
-        },
-        upsert: true,
+  const productsBulkWrite = products.map((product) => ({
+    updateOne: {
+      filter: { productId: product.productId },
+      update: {
+        $set: product,
       },
-    };
-  });
+      upsert: true,
+    },
+  }));
 
   await CollectionModel.bulkWrite(collectionBulkWrite);
   await ProductModel.bulkWrite([...productsBulkWrite, ...productsHide]);
@@ -144,6 +139,7 @@ export const CollectionServiceGetAll = () =>
             },
           },
         ],
+        // eslint-disable-next-line sort-keys/sort-keys-fix
         as: "products",
       },
     },
@@ -155,10 +151,10 @@ export const CollectionServiceGetAll = () =>
     },
     {
       $lookup: {
+        as: "products.foreignStaff",
+        foreignField: "_id",
         from: "Staff",
         localField: "products.staff.staff",
-        foreignField: "_id",
-        as: "products.foreignStaff",
       },
     },
     {
@@ -173,6 +169,7 @@ export const CollectionServiceGetAll = () =>
           $cond: {
             if: { $gte: ["$products.staff.tag", 0] },
             then: "$products.staff.tag",
+            // eslint-disable-next-line sort-keys/sort-keys-fix
             else: "$$REMOVE",
           },
         },
@@ -180,6 +177,7 @@ export const CollectionServiceGetAll = () =>
           $cond: {
             if: { $gte: ["$products.foreignStaff", 0] },
             then: "$products.foreignStaff",
+            // eslint-disable-next-line sort-keys/sort-keys-fix
             else: "$$REMOVE",
           },
         },

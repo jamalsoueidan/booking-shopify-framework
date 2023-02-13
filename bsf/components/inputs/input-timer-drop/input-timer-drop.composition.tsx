@@ -103,7 +103,7 @@ export const LazyLoad = () => {
   return (
     <ApplicationFramePage>
       <Card title="Lazy Load" sectioned>
-        <InputTimerDrop field={field} data={mock} />
+        <InputTimerDrop field={field} data={data} />
       </Card>
       <Button
         onClick={() => setData(createMock(addDays(new Date(), 2), 11, 18))}

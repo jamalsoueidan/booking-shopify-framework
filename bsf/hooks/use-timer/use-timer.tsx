@@ -2,7 +2,6 @@ import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
 import { HelperArray } from "@jamalsoueidan/bsf.helpers.helper-array";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
-import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { SelectProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import { isEqual } from "date-fns";
@@ -33,15 +32,10 @@ export interface UseTimerProps {
 }
 
 export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
-  const { format, toUtc } = useDate();
-  const { locale } = useTranslation({
-    id: "withTimer",
-    locales: { da: {}, en: {} },
-  });
+  const { format } = useDate();
 
   const options = useMemo(() => {
-    if (!data || data.length === 0 || !locale) {
-      // locale is only to force re-render
+    if (!data || data.length === 0) {
       return [];
     }
 
@@ -53,7 +47,7 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
       })) || [];
 
     return hours;
-  }, [data, format, locale]);
+  }, [data, format]);
 
   const handleOnChange = useCallback(
     (startDate: string) => {
@@ -65,8 +59,8 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
         field.onChange(undefined);
       } else {
         field.onChange({
-          end: toUtc(selectedHour.end),
-          start: toUtc(selectedHour.start),
+          end: selectedHour.end,
+          start: selectedHour.start,
         });
       }
     },

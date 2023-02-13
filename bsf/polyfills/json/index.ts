@@ -1,10 +1,13 @@
-var reISO =
+/* eslint-disable prefer-const */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+let reISO =
   /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
-var parse = JSON.parse;
+let { parse } = JSON;
 
 function dateParser(key, value) {
   if (typeof value === "string") {
-    var a = reISO.exec(value);
+    let a = reISO.exec(value);
     if (a) {
       return new Date(value);
     }
@@ -12,6 +15,7 @@ function dateParser(key, value) {
   return value;
 }
 
+// eslint-disable-next-line func-names
 JSON.parse = function (data) {
   return parse(data, dateParser);
 };
