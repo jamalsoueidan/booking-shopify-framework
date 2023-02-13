@@ -41,7 +41,7 @@ export const Calendar = forwardRef<FullCalendar, any>((props, ref) => {
 
   const events = useMemo(
     () =>
-      props.events?.map((e) => ({
+      props.events?.map((e: { end: Date; start: Date }) => ({
         ...e,
         end: toTimeZone(e.end),
         start: toTimeZone(e.start),
