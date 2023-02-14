@@ -1,13 +1,6 @@
-import { faker } from "@faker-js/faker";
-import {
-  addHours,
-  eachDayOfInterval,
-  endOfMonth,
-  setHours,
-  startOfMonth,
-} from "date-fns";
+import { addHours } from "date-fns";
 
-const fake = {
+export default {
   __v: 0,
   _id: "63bb72606bc93da9252b66c9",
   customer: {
@@ -63,21 +56,3 @@ const fake = {
   title: "Brudekonsultation",
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
-
-const result = eachDayOfInterval({
-  end: endOfMonth(new Date()),
-  start: startOfMonth(new Date()),
-});
-
-const picked = faker.helpers.arrayElements(result, 10);
-
-const data = picked.map((date) => {
-  const start = setHours(date, faker.datatype.number({ max: 24, min: 1 }));
-  return {
-    ...fake,
-    end: addHours(start, 1),
-    start,
-  };
-});
-
-export default data;

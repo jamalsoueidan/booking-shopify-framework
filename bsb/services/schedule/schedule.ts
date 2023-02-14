@@ -182,7 +182,7 @@ export const ScheduleServiceDestroyGroup = async (
 
   if (documents > 0) {
     await ScheduleModel.deleteMany({ groupId, shop });
+  } else {
+    throw new Error("Groupid doesn't exist");
   }
-
-  throw new Error("Groupid doesn't exist");
 };

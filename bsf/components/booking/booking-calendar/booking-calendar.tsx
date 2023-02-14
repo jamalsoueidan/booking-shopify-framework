@@ -17,7 +17,7 @@ export interface BookingCalendarProps {
 export const BookingCalendar = memo(
   ({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
     const { getColor } = useFulfillment();
-    const { onlyFormat, toTimeZone } = useDate();
+    const { onlyFormat } = useDate();
 
     const events = useMemo(
       () =>
@@ -25,17 +25,15 @@ export const BookingCalendar = memo(
           ...d,
           backgroundColor: getColor(d.fulfillmentStatus),
           color: getColor(d.fulfillmentStatus),
-          end: toTimeZone(d.end),
-          start: toTimeZone(d.start),
+          end: d.end,
+          start: d.start,
           textColor: "#202223",
         })) || [],
-      [data, getColor, toTimeZone],
+      [data, getColor],
     );
 
     const renderItem = useCallback(
       (arg: EventContentArg) => {
-        const booking: BookingServiceGetByIdReturn = arg.event
-          .extendedProps as BookingServiceGetByIdReturn;
         const extendHour =
           arg?.event?.start && arg?.event?.end ? (
             <i>
@@ -45,6 +43,7 @@ export const BookingCalendar = memo(
             </i>
           ) : null;
 
+        const booking = arg.event.extendedProps as BookingServiceGetByIdReturn;
         const fulfillmentStatus = booking.fulfillmentStatus || "In progress";
 
         return (

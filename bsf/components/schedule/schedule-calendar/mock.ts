@@ -18,19 +18,19 @@ const fake = {
 };
 
 const result = eachDayOfInterval({
-  start: startOfMonth(new Date()),
   end: endOfMonth(new Date()),
+  start: startOfMonth(new Date()),
 });
 
 const picked = faker.helpers.arrayElements(result, 10);
 
 const data = picked.map((date) => {
-  const min = faker.datatype.number({ min: 1, max: 14 });
+  const min = faker.datatype.number({ max: 14, min: 1 });
   const start = setHours(date, min);
   return {
     ...fake,
-    start: start,
-    end: setHours(start, faker.datatype.number({ min: min + 1, max: 24 })),
+    end: setHours(start, faker.datatype.number({ max: 24, min: min + 1 })),
+    start,
   };
 });
 

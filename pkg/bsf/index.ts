@@ -1,6 +1,8 @@
 // COMPONENTS
 export * from "@jamalsoueidan/bsf.components.booking.booking-calendar";
+export * from "@jamalsoueidan/bsf.components.booking.booking-customer";
 export * from "@jamalsoueidan/bsf.components.booking.booking-staff";
+export * from "@jamalsoueidan/bsf.components.booking.booking-view";
 export * from "@jamalsoueidan/bsf.components.calendar";
 export * from "@jamalsoueidan/bsf.components.form-errors";
 // COMPONENTS / INPUTS

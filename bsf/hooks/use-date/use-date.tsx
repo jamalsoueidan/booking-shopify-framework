@@ -1,4 +1,5 @@
 import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
+import { formatRelative as fnsFormatRelative } from "date-fns";
 import {
   format as fnsFormat,
   formatInTimeZone as fnsFormatInTimezone,
@@ -40,6 +41,14 @@ export const useDate = () => {
     [language],
   );
 
+  const formatRelative = useCallback(
+    (date: Date) =>
+      fnsFormatRelative(date, new Date(), {
+        locale: language === "da" ? da : undefined,
+      }),
+    [language],
+  );
+
   // from date object to local brower timezone
   const toUtc = useCallback(
     (date: string | Date, overrideTimeZone?: string) =>
@@ -49,6 +58,7 @@ export const useDate = () => {
 
   return {
     format,
+    formatRelative,
     onlyFormat,
     timeZone,
     toTimeZone,

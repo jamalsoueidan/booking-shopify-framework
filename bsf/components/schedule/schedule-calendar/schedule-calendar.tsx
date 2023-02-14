@@ -20,7 +20,7 @@ export const ScheduleCalendar = ({
   onClickSchedule,
   onChangeDate,
 }: ScheduleCalendarProps) => {
-  const { onlyFormat, toTimeZone } = useDate();
+  const { onlyFormat } = useDate();
   const { selectTag } = useTag();
 
   const events = useMemo(
@@ -28,24 +28,25 @@ export const ScheduleCalendar = ({
       data?.map((extendedProps) => ({
         backgroundColor: extendedProps.tag,
         color: extendedProps.tag,
-        end: toTimeZone(extendedProps.end),
+        end: extendedProps.end,
         extendedProps,
-        start: toTimeZone(extendedProps.start),
+        start: extendedProps.start,
       })) || [],
-    [data, toTimeZone],
+    [data],
   );
 
   const renderItem = useCallback(
     (arg: EventContentArg) => {
-      const schedule: Schedule = arg.event.extendedProps as Schedule;
-      const hour = (
-        <i>
-          {onlyFormat(schedule.start, "p")}
-          {" - "}
-          {onlyFormat(schedule.end, "p")}
-        </i>
-      );
+      const hour =
+        arg?.event?.start && arg?.event?.end ? (
+          <i>
+            {onlyFormat(arg.event.start, "p")}
+            {" - "}
+            {onlyFormat(arg.event.end, "p")}
+          </i>
+        ) : null;
 
+      const schedule: Schedule = arg.event.extendedProps as Schedule;
       return (
         <div
           style={{
