@@ -17,7 +17,7 @@ export interface BookingCalendarProps {
 export const BookingCalendar = memo(
   ({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
     const { getColor } = useFulfillment();
-    const { onlyFormat } = useDate();
+    const { onlyFormat, toTimeZone } = useDate();
 
     const events = useMemo(
       () =>
@@ -25,11 +25,11 @@ export const BookingCalendar = memo(
           ...d,
           backgroundColor: getColor(d.fulfillmentStatus),
           color: getColor(d.fulfillmentStatus),
-          end: d.end,
-          start: d.start,
+          end: toTimeZone(d.end),
+          start: toTimeZone(d.start),
           textColor: "#202223",
         })) || [],
-      [data, getColor],
+      [data, getColor, toTimeZone],
     );
 
     const renderItem = useCallback(

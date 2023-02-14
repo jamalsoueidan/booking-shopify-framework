@@ -13,7 +13,7 @@ import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { eachDayOfInterval } from "date-fns";
+import { eachDayOfInterval, endOfMonth } from "date-fns";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
 export interface CreateManyShiftsValue {
@@ -50,7 +50,7 @@ export const CreateManyShifts = forwardRef<
         return lowerCaseDayNames.includes(currentDayTextInDate);
       });
     },
-    [],
+    [format],
   );
 
   const convertToDate = useCallback(
@@ -65,11 +65,11 @@ export const CreateManyShifts = forwardRef<
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
         value: [format(selectedDate, "EEEE").toLowerCase()],
       }),
-      endDate: useField<Date | undefined>(undefined),
+      endDate: useField<Date | undefined>(endOfMonth(new Date())),
       endTime: useField("16:00"),
       startDate: useField<Date | undefined>({
         validates: [Validators.isDate("invalid date")],
-        value: undefined,
+        value: new Date(),
       }),
       startTime: useField("09:00"),
       tag: useField(options[0].value),

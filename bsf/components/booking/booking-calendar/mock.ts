@@ -61,21 +61,22 @@ const fake = {
   },
   start: new Date(),
   title: "Brudekonsultation",
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as any;
 
 const result = eachDayOfInterval({
-  start: startOfMonth(new Date()),
   end: endOfMonth(new Date()),
+  start: startOfMonth(new Date()),
 });
 
 const picked = faker.helpers.arrayElements(result, 10);
 
 const data = picked.map((date) => {
-  const start = setHours(date, faker.datatype.number({ min: 1, max: 24 }));
+  const start = setHours(date, faker.datatype.number({ max: 24, min: 1 }));
   return {
     ...fake,
-    start,
     end: addHours(start, 1),
+    start,
   };
 });
 

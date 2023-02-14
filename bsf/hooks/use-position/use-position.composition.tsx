@@ -1,27 +1,23 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import React from "react";
 import { usePosition } from "./use-position";
 
 function MockComponent() {
-  const { select } = usePosition();
+  const { selectPosition } = usePosition();
 
   const value = "2";
 
   return (
     <>
-      {select("1")}
+      {selectPosition("1")}
       <br />
-      {select("2")}
+      {selectPosition("2")}
       <br />
-      {select(value)}
+      {selectPosition(value)}
     </>
   );
 }
 
-export const BasicusePosition = () => {
-  return (
-    <ApplicationFramePage title="usePosition">
-      <MockComponent />
-    </ApplicationFramePage>
-  );
-};
+export const Basic = withApplication(() => <MockComponent />, {
+  pageTitle: "usePosition",
+});

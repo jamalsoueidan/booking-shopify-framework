@@ -40,7 +40,7 @@ interface UseTag {
 
 export interface UseTagReturn {
   options: UseTag[];
-  select: (value: TagColors) => string;
+  selectTag: (value: TagColors) => string;
 }
 
 export const useTag = (): UseTagReturn => {
@@ -58,13 +58,14 @@ export const useTag = (): UseTagReturn => {
     [t],
   );
 
-  const select = useCallback(
-    (value: TagColors) => options.find((o) => o.value === value)?.label || "no found",
+  const selectTag = useCallback(
+    (value: TagColors) =>
+      options.find((o) => o.value === value)?.label || "no found",
     [options],
   );
 
   return {
     options,
-    select,
+    selectTag,
   };
 };

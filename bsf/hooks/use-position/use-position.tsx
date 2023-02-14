@@ -17,7 +17,7 @@ const locales = {
 
 interface UseTagOptionsReturn {
   options: UseTagOptions[];
-  select: (value: Positions) => string;
+  selectPosition: (value: Positions) => string;
 }
 
 interface UseTagOptions {
@@ -36,7 +36,7 @@ export const usePosition = (): UseTagOptionsReturn => {
     [t],
   );
 
-  const select = useCallback(
+  const selectPosition = useCallback(
     (value: Positions) => {
       const option = options.find((o) => o.value === value);
       if (!option) {
@@ -49,6 +49,6 @@ export const usePosition = (): UseTagOptionsReturn => {
 
   return {
     options,
-    select,
+    selectPosition,
   };
 };

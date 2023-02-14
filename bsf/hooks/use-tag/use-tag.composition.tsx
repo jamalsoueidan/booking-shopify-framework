@@ -1,16 +1,12 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import React from "react";
 import { useTag } from "./use-tag";
 
 function MockComponent() {
-  const { select } = useTag();
-  return <>{select("#d24e01")}</>;
+  const { selectTag } = useTag();
+  return <>{selectTag("#d24e01")}</>;
 }
 
-export const BasicUseTag = () => {
-  return (
-    <ApplicationFramePage title="useToast">
-      <MockComponent />
-    </ApplicationFramePage>
-  );
-};
+export const Basic = withApplication(() => <MockComponent />, {
+  pageTitle: "useTag",
+});
