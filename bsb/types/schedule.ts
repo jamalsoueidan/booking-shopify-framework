@@ -23,7 +23,15 @@ export type ScheduleServiceDestroyProps = {
   staff: string;
 };
 
-export type ScheduleServiceUpdateQueryProps = ScheduleServiceDestroyProps;
+export type ScheduleServiceDestroyReturn = {
+  acknowledged: boolean;
+  deletedCount: number;
+};
+
+export type ScheduleServiceUpdateQueryProps = {
+  schedule: string;
+  staff: string;
+};
 
 export type ScheduleServiceUpdateBodyProps = Omit<ScheduleBody, "tag">;
 
@@ -32,7 +40,19 @@ export type ScheduleServiceUpdateProps = {
   body: ScheduleServiceUpdateBodyProps;
 };
 
-export type ScheduleServiceCreateGroupQueryProps = Pick<Schedule, "staff">;
+export type ScheduleServiceGetAllProps = Pick<
+  Schedule,
+  "staff" | "start" | "end"
+>;
+
+/*
+  Group
+*/
+
+export type ScheduleServiceCreateGroupQueryProps = {
+  staff: string;
+};
+
 export type ScheduleServiceCreateGroupBodyProps = Array<ScheduleBody>;
 export type ScheduleServiceCreateGroupProps = {
   query: ScheduleServiceCreateGroupQueryProps;
@@ -41,18 +61,19 @@ export type ScheduleServiceCreateGroupProps = {
 
 export type ScheduleServiceUpdateGroupQueryProps = {
   groupId: string;
-} & ScheduleServiceUpdateQueryProps;
+  staff: string;
+};
+
 export type ScheduleServiceUpdateGroupBodyProps = ScheduleBody;
 export interface ScheduleServiceUpdateGroupProps {
   query: ScheduleServiceUpdateGroupQueryProps;
   body: ScheduleServiceUpdateGroupBodyProps;
 }
 
-export type ScheduleServiceDestroyGroupProps = {
-  groupId: string;
-} & ScheduleServiceDestroyProps;
+export type ScheduleServiceDestroyGroupProps =
+  ScheduleServiceUpdateGroupQueryProps;
 
-export type ScheduleServiceGetAllProps = Pick<
-  Schedule,
-  "staff" | "start" | "end"
->;
+export type ScheduleServiceDestroyGroupReturn = {
+  acknowledged: boolean;
+  deletedCount: number;
+};

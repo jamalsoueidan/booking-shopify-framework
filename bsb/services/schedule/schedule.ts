@@ -4,7 +4,9 @@ import {
   ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
   ScheduleServiceDestroyGroupProps,
+  ScheduleServiceDestroyGroupReturn,
   ScheduleServiceDestroyProps,
+  ScheduleServiceDestroyReturn,
   ScheduleServiceGetAllProps,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
@@ -65,13 +67,13 @@ export const ScheduleServiceUpdate = (
     returnOriginal: false,
   });
 
-export const ScheduleServiceDestroy = ({
+export const ScheduleServiceDestroy = async ({
   schedule,
   staff,
   shop,
-}: ScheduleServiceDestroyProps & ShopQuery) => {
+}: ScheduleServiceDestroyProps &
+  ShopQuery): Promise<ScheduleServiceDestroyReturn> =>
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
-};
 
 export const ScheduleServiceGetAll = ({
   shop,
@@ -170,19 +172,7 @@ export const ScheduleServiceUpdateGroup = async (
 
 export const ScheduleServiceDestroyGroup = async (
   query: ScheduleServiceDestroyGroupProps & ShopQuery,
-) => {
-  const { shop, staff, schedule, groupId } = query;
-
-  const documents = await ScheduleModel.countDocuments({
-    _id: schedule,
-    groupId,
-    shop,
-    staff,
-  });
-
-  if (documents > 0) {
-    await ScheduleModel.deleteMany({ groupId, shop });
-  } else {
-    throw new Error("Groupid doesn't exist");
-  }
+): Promise<ScheduleServiceDestroyGroupReturn> => {
+  const { shop, staff, groupId } = query;
+  return ScheduleModel.deleteMany({ groupId, shop, staff });
 };

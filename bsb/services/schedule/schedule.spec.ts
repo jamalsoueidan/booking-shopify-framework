@@ -10,6 +10,8 @@ import {
 import {
   ScheduleServiceCreate,
   ScheduleServiceCreateGroup,
+  ScheduleServiceDestroy,
+  ScheduleServiceDestroyGroup,
   ScheduleServiceGetAll,
   ScheduleServiceUpdate,
   ScheduleServiceUpdateGroup,
@@ -142,7 +144,6 @@ describe("schedule service test", () => {
     await ScheduleServiceUpdateGroup(
       {
         groupId: createdSchedules[0].groupId || "",
-        schedule: createdSchedules[0]._id,
         shop,
         staff: staff._id,
       },
@@ -164,5 +165,62 @@ describe("schedule service test", () => {
     expect(start.getMinutes()).toEqual(updateSchedules[0].start.getMinutes());
     expect(start.getHours()).toEqual(updateSchedules[1].start.getHours());
     expect(start.getMinutes()).toEqual(updateSchedules[1].start.getMinutes());
+  });
+
+  it("Should be able to delete schedule", async () => {
+    const staff = await createStaff();
+
+    const schedule = await ScheduleServiceCreate(
+      {
+        shop,
+        staff: staff._id,
+      },
+      {
+        end: endOfToday(),
+        start: startOfToday(),
+        tag,
+      },
+    );
+
+    const destroyed = await ScheduleServiceDestroy({
+      schedule: schedule._id.toString(),
+      shop,
+      staff: staff._id.toString(),
+    });
+
+    expect(destroyed.deletedCount).toBe(1);
+  });
+
+  it("Should be able to delete group schedule", async () => {
+    const staff = await createStaff();
+
+    const createdSchedules = await ScheduleServiceCreateGroup(
+      {
+        shop,
+        staff: staff._id,
+      },
+      [
+        {
+          end: endOfToday(),
+          start: startOfToday(),
+          tag,
+        },
+        {
+          end: addDays(endOfToday(), 1),
+          start: addDays(startOfToday(), 1),
+          tag,
+        },
+      ],
+    );
+
+    const groupId = createdSchedules[0].groupId || "";
+
+    const destroyed = await ScheduleServiceDestroyGroup({
+      groupId,
+      shop,
+      staff: staff._id.toString(),
+    });
+
+    expect(destroyed.deletedCount).toBe(2);
   });
 });

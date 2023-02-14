@@ -79,7 +79,13 @@ export const BookingServiceGetAll = ({
         start: {
           $gte: DateHelpers.beginningOfDay(start),
         },
-        ...(staff && { staff: new mongoose.Types.ObjectId(staff) }),
+        ...(Array.isArray(staff) && {
+          staff: { $in: staff.map((s) => new mongoose.Types.ObjectId(s)) },
+        }),
+        ...(staff &&
+          !Array.isArray(staff) && {
+            staff: new mongoose.Types.ObjectId(staff),
+          }),
       },
     },
   ]);

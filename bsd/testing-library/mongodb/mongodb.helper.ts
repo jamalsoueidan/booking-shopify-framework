@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { BookingModel } from "@jamalsoueidan/bsb.services.booking";
 import { CustomerModel } from "@jamalsoueidan/bsb.services.customer";
 import {
   IProductDocument,
@@ -47,6 +48,32 @@ export const createProduct = ({ productId, duration = 45, buffertime = 15 }) =>
     duration,
     productId,
     shop,
+    title: faker.company.name(),
+  });
+
+type CreateBookingProps = {
+  productId: number;
+  staff: string;
+  start: Date;
+  end: Date;
+};
+export const createBooking = ({
+  productId,
+  staff,
+  start = new Date(),
+  end = addHours(new Date(), 1),
+}: CreateBookingProps) =>
+  BookingModel.create({
+    customerId: 12345,
+    fulfillmentStatus: "refunded",
+    lineItemId: 1100,
+    lineItemTotal: 1,
+    orderId: 1000,
+    productId,
+    shop,
+    staff,
+    start,
+    end,
     title: faker.company.name(),
   });
 

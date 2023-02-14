@@ -188,9 +188,6 @@ describe("widget service test", () => {
   });
 
   it("Should not return hours in cart", async () => {
-    const productId = parseInt(faker.random.numeric(10), 10);
-    const tag = faker.random.word();
-
     const product = await createProduct({ productId });
     const { staff } = await createStaffWithScheduleAndUpdateProduct({
       product,
@@ -227,9 +224,6 @@ describe("widget service test", () => {
   });
 
   it("Should not return hours in cart and booking", async () => {
-    const productId = parseInt(faker.random.numeric(10), 10);
-    const tag = faker.random.word();
-
     const product = await createProduct({ productId });
     const { staff } = await createStaffWithScheduleAndUpdateProduct({
       product,
@@ -286,9 +280,6 @@ describe("widget service test", () => {
   });
 
   it("Should return hours for all staff in product", async () => {
-    const productId = parseInt(faker.random.numeric(10), 10);
-    const tag = faker.random.word();
-
     const product = await createProduct({ productId });
 
     const { staff: staff1 } = await createStaffWithSchedule({ tag });
@@ -324,9 +315,6 @@ describe("widget service test", () => {
   });
 
   it("Should return hours for all staff in product without booked for one staff", async () => {
-    const productId = parseInt(faker.random.numeric(10), 10);
-    const tag = faker.random.word();
-
     const product = await createProduct({ productId });
 
     const { staff: staff1 } = await createStaffWithSchedule({ tag });

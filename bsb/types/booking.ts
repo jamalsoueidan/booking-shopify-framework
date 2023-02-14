@@ -43,8 +43,9 @@ export type BookingServiceCreateProps = Pick<
 export type BookingServiceFindProps = ShopQuery["shop"];
 
 export type BookingServiceGetAllReturn = Booking;
-export type BookingServiceGetAllProps = Pick<BaseBooking, "end" | "start"> &
-  Partial<Pick<BaseBooking, "staff">>;
+export type BookingServiceGetAllProps = Pick<BaseBooking, "end" | "start"> & {
+  staff?: string | string[];
+};
 
 export type BookingServiceUpdateQueryProps = Pick<BaseBooking, "_id">;
 
