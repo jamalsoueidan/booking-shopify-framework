@@ -11,7 +11,7 @@ import {
   createStaffWithScheduleAndUpdateProduct,
   shop,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addDays, addHours, setHours } from "date-fns";
+import { addDays, addHours, isWithinInterval, setHours } from "date-fns";
 import { WidgetServiceAvailability, WidgetServiceGetStaff } from "./widget";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
@@ -28,7 +28,7 @@ describe("widget service test", () => {
       tag,
     });
 
-    let allStaff = await WidgetServiceGetStaff({
+    const allStaff = await WidgetServiceGetStaff({
       productId,
       shop,
     });
@@ -54,7 +54,7 @@ describe("widget service test", () => {
       },
     );
 
-    let allStaff = await WidgetServiceGetStaff({
+    const allStaff = await WidgetServiceGetStaff({
       productId,
       shop,
     });
@@ -108,18 +108,18 @@ describe("widget service test", () => {
     let start = setHours(new Date(), 12);
 
     await createSchedule({
-      staff: staff._id,
-      tag,
-      start,
       end: addHours(start, 2),
+      staff: staff._id,
+      start,
+      tag,
     });
 
     start = addDays(start, 1);
     await createSchedule({
-      staff: staff._id,
-      tag,
-      start,
       end: addHours(start, 2),
+      staff: staff._id,
+      start,
+      tag,
     });
 
     await ProductServiceUpdate(
@@ -179,8 +179,11 @@ describe("widget service test", () => {
 
     availability = await WidgetServiceAvailability(query);
     const hours = availability[0]?.hours.filter(
-      (h) => h.start === schedule?.start && h.end === schedule?.end,
+      (h) =>
+        isWithinInterval(schedule?.start, h) ||
+        isWithinInterval(schedule.end, h),
     );
+
     expect(hours?.length).toEqual(0);
   });
 
@@ -216,7 +219,68 @@ describe("widget service test", () => {
 
     availability = await WidgetServiceAvailability(query);
     const hours = availability[0]?.hours.filter(
-      (h) => h.start === schedule?.start && h.end === schedule?.end,
+      (h) =>
+        isWithinInterval(schedule?.start, h) ||
+        isWithinInterval(schedule.end, h),
+    );
+    expect(hours?.length).toEqual(0);
+  });
+
+  it("Should not return hours in cart and booking", async () => {
+    const productId = parseInt(faker.random.numeric(10), 10);
+    const tag = faker.random.word();
+
+    const product = await createProduct({ productId });
+    const { staff } = await createStaffWithScheduleAndUpdateProduct({
+      product,
+      tag,
+    });
+
+    // prepare a product
+    const query = {
+      end: addDays(new Date(), 1),
+      productId: product.productId,
+      shop,
+      staffId: staff._id,
+      start: new Date(),
+    };
+
+    let availability = await WidgetServiceAvailability(query);
+    const schedule1 = faker.helpers.arrayElement(availability[0].hours);
+
+    await CartModel.create({
+      cartId: "asd",
+      end: schedule1.end,
+      shop,
+      staff: schedule1.staff._id,
+      start: schedule1.start,
+    });
+
+    availability = await WidgetServiceAvailability(query);
+    const schedule2 = faker.helpers.arrayElement(availability[0].hours);
+
+    await BookingModel.create({
+      customerId: 12345,
+      end: schedule2.end,
+      fulfillmentStatus: "refunded",
+      lineItemId: 1100,
+      lineItemTotal: 1,
+      orderId: 1000,
+      productId,
+      shop,
+      staff: schedule2.staff._id,
+      start: schedule2.start,
+      timeZone: "Europe/Paris",
+      title: "anything",
+    });
+
+    availability = await WidgetServiceAvailability(query);
+    const hours = availability[0]?.hours.filter(
+      (h) =>
+        isWithinInterval(schedule1.start, h) ||
+        isWithinInterval(schedule1.end, h) ||
+        isWithinInterval(schedule2.end, h) ||
+        isWithinInterval(schedule2.end, h),
     );
     expect(hours?.length).toEqual(0);
   });
@@ -257,5 +321,62 @@ describe("widget service test", () => {
     );
     const fullnamesUnique = [...new Set(fullNames)];
     expect(fullnamesUnique.length).toEqual(2);
+  });
+
+  it("Should return hours for all staff in product without booked for one staff", async () => {
+    const productId = parseInt(faker.random.numeric(10), 10);
+    const tag = faker.random.word();
+
+    const product = await createProduct({ productId });
+
+    const { staff: staff1 } = await createStaffWithSchedule({ tag });
+    const { staff: staff2 } = await createStaffWithSchedule({ tag });
+
+    await ProductServiceUpdate(
+      {
+        id: product._id,
+        shop,
+      },
+      {
+        staff: [
+          { _id: staff1._id, tag },
+          { _id: staff2._id, tag },
+        ],
+      },
+    );
+
+    const query = {
+      end: addDays(new Date(), 1),
+      productId: product.productId,
+      shop,
+      start: new Date(),
+    };
+
+    let availability = await WidgetServiceAvailability(query);
+    const schedule = faker.helpers.arrayElement(availability[0].hours);
+
+    await BookingModel.create({
+      customerId: 12345,
+      end: schedule.end,
+      fulfillmentStatus: "refunded",
+      lineItemId: 1100,
+      lineItemTotal: 1,
+      orderId: 1000,
+      productId,
+      shop,
+      staff: schedule.staff._id,
+      start: schedule.start,
+      timeZone: "Europe/Paris",
+      title: "anything",
+    });
+
+    availability = await WidgetServiceAvailability(query);
+    const hours = availability[0]?.hours.filter(
+      (h) =>
+        (isWithinInterval(schedule.start, h) ||
+          isWithinInterval(schedule.end, h)) &&
+        schedule.staff._id.toString() === h.staff._id.toString(),
+    );
+    expect(hours?.length).toEqual(0);
   });
 });

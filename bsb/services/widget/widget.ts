@@ -101,12 +101,14 @@ export const WidgetServiceAvailability = async ({
     const tag = product.staff.map((s) => s.tag);
 
     const schedules = await WidgetServiceGetSchedules({
-      shop,
       end,
+      shop,
       staff,
       start,
       tag,
     });
+
+    let createdAvailabilities = WidgetCreateAvailability(product, schedules);
 
     const bookings = await WidgetServiceGetBookings({
       end,
@@ -115,6 +117,11 @@ export const WidgetServiceAvailability = async ({
       start,
     });
 
+    createdAvailabilities = WidgetRemoveAvailability(
+      createdAvailabilities,
+      bookings,
+    );
+
     const carts = await WidgetServiceGetCarts({
       end,
       shop,
@@ -122,11 +129,6 @@ export const WidgetServiceAvailability = async ({
       start,
     });
 
-    let createdAvailabilities = WidgetCreateAvailability(product, schedules);
-    createdAvailabilities = WidgetRemoveAvailability(
-      createdAvailabilities,
-      bookings,
-    );
     createdAvailabilities = WidgetRemoveAvailability(
       createdAvailabilities,
       carts,
@@ -194,7 +196,7 @@ export const WidgetServiceGetBookings = ({
     },
   ]);
 
-const WidgetServiceGetSchedules = ({
+export const WidgetServiceGetSchedules = ({
   tag,
   staff,
   start,
@@ -254,7 +256,7 @@ interface GetCartsByStaffierProps extends Omit<Cart, "createdAt" | "staff"> {
   staff: Types.ObjectId[];
 }
 
-const WidgetServiceGetCarts = ({
+export const WidgetServiceGetCarts = ({
   shop,
   staff,
   start,

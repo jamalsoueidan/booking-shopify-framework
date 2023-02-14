@@ -5,13 +5,7 @@ import {
   WidgetHourStaff,
   WidgetSchedule,
 } from "@jamalsoueidan/bsb.types";
-import {
-  addMinutes,
-  isBefore,
-  isSameDay,
-  isWithinInterval,
-  subMinutes,
-} from "date-fns";
+import { addMinutes, isBefore, isSameDay, isWithinInterval } from "date-fns";
 import mongoose, { PipelineStage } from "mongoose";
 
 type WidgetCreateAvailabilityProduct = Pick<Product, "duration" | "buffertime">;
@@ -34,7 +28,7 @@ export const WidgetCreateAvailability = (
       const buffertime = product.buffertime || 0;
 
       // we push start time everytime
-      let start = current.start;
+      let { start } = current;
       let end;
 
       const previousHours = previous.find((p) => isSameDay(p.date, start));
@@ -85,18 +79,14 @@ export const WidgetRemoveAvailability = (
       (schedule: WidgetSchedule): WidgetSchedule => ({
         date: schedule.date,
         hours: schedule.hours.filter((hour) => {
-          if (hour.staff._id !== booking.staff) {
+          if (hour.staff._id.toString() !== booking.staff.toString()) {
             return true;
           }
 
-          if (
-            isWithinInterval(addMinutes(new Date(booking.start), 1), hour) ||
-            isWithinInterval(subMinutes(new Date(booking.end), 1), hour)
-          ) {
-            return false;
-          }
-
-          return true;
+          return (
+            !isWithinInterval(booking.start, hour) &&
+            !isWithinInterval(booking.end, hour)
+          );
         }),
       }),
     );
@@ -147,7 +137,7 @@ export const WidgetServiceGetProduct = async ({
 
   const products = await ProductModel.aggregate(pipeline);
 
-  if (products.length == 0) {
+  if (products.length === 0) {
     return null;
   }
   return products[0];
