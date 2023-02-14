@@ -8,7 +8,13 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
-import { addHours, setMilliseconds, setMinutes, setSeconds } from "date-fns";
+import {
+  addHours,
+  setHours,
+  setMilliseconds,
+  setMinutes,
+  setSeconds,
+} from "date-fns";
 
 export const shop = "testeriphone.myshopify.com";
 
@@ -54,14 +60,14 @@ export const createProduct = ({ productId, duration = 45, buffertime = 15 }) =>
 type CreateBookingProps = {
   productId: number;
   staff: string;
-  start: Date;
-  end: Date;
+  start?: Date;
+  end?: Date;
 };
 export const createBooking = ({
   productId,
   staff,
-  start = new Date(),
-  end = addHours(new Date(), 1),
+  start = setHours(new Date(), 15),
+  end = setHours(new Date(), 16),
 }: CreateBookingProps) =>
   BookingModel.create({
     customerId: 12345,

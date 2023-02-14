@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
 import {
+  createBooking,
   createStaffWithSchedule,
   shop,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addHours } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import { BookingServiceGetAll } from "./booking";
-import { BookingModel } from "./booking.model";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
@@ -17,42 +17,33 @@ describe("booking service test", () => {
     const { staff: staff2 } = await createStaffWithSchedule({ tag });
     const { staff: staff3 } = await createStaffWithSchedule({ tag });
 
-    await BookingModel.create({
-      end: addHours(new Date(), 1),
+    await createBooking({
       productId,
-      shop,
       staff: staff1._id,
-      start: new Date(),
     });
 
-    await BookingModel.create({
-      end: addHours(new Date(), 1),
+    await createBooking({
       productId,
-      shop,
       staff: staff2._id,
-      start: new Date(),
     });
 
-    await BookingModel.create({
-      end: addHours(new Date(), 1),
+    await createBooking({
       productId,
-      shop,
       staff: staff3._id,
-      start: new Date(),
     });
 
     let bookings = await BookingServiceGetAll({
       shop,
-      start: new Date(),
-      end: new Date(),
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
     });
 
     expect(bookings.length).toBe(3);
 
     bookings = await BookingServiceGetAll({
       shop,
-      start: new Date(),
-      end: new Date(),
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
       staff: staff1._id,
     });
 
@@ -62,8 +53,8 @@ describe("booking service test", () => {
     const staffs = [staff1._id.toString(), staff3._id.toString()];
     bookings = await BookingServiceGetAll({
       shop,
-      start: new Date(),
-      end: new Date(),
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
       staff: staffs,
     });
 
