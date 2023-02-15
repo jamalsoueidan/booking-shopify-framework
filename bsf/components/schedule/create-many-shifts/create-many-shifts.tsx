@@ -33,6 +33,8 @@ export interface CreateManyShiftsProps {
   onSubmit: (fields: CreateManyShiftsBody) => CreateManyShiftsSubmitResult;
 }
 
+const value = new Date();
+
 export const CreateManyShifts = forwardRef<
   CreateManyShiftsRefMethod,
   CreateManyShiftsProps
@@ -65,11 +67,11 @@ export const CreateManyShifts = forwardRef<
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
         value: [format(selectedDate, "EEEE").toLowerCase()],
       }),
-      endDate: useField<Date | undefined>(endOfMonth(new Date())),
+      endDate: useField<Date | undefined>(endOfMonth(selectedDate)),
       endTime: useField("16:00"),
       startDate: useField<Date | undefined>({
         validates: [Validators.isDate("invalid date")],
-        value: new Date(),
+        value: selectedDate,
       }),
       startTime: useField("09:00"),
       tag: useField(options[0].value),
