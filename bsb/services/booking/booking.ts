@@ -132,12 +132,19 @@ export const BookingServiceUpdate = async (
 export const BookingServiceGetById = async ({
   shop,
   _id,
+  staff,
 }: BookingServiceGetByIdProps & ShopQuery) => {
   const bookings = await BookingModel.aggregate<BookingServiceGetByIdReturn>([
     {
       $match: {
         _id: new mongoose.Types.ObjectId(_id),
         shop,
+        ...(Array.isArray(staff) && {
+          staff: { $in: staff.map((s) => new mongoose.Types.ObjectId(s)) },
+        }),
+        ...(typeof staff === "string" && {
+          staff: new mongoose.Types.ObjectId(staff),
+        }),
       },
     },
   ]);

@@ -52,9 +52,11 @@ describe("collection testing", () => {
     let collection = collections.find((c) => c.collectionId === 425845817661);
 
     expect(collection?.products.length).toEqual(2);
-    expect(collection?.products[0].active).toBeFalsy();
 
-    if (collection?.products[0]) {
+    let collectionProduct = collection?.products[0];
+    expect(collectionProduct?.active).toBeFalsy();
+
+    if (collectionProduct) {
       const staff = await createStaff();
       const start = addDays(new Date(), 1);
 
@@ -66,7 +68,7 @@ describe("collection testing", () => {
       });
 
       await ProductServiceUpdate(
-        { id: collection?.products[0]._id, shop },
+        { id: collectionProduct._id, shop },
         {
           staff: [{ _id: staff._id, tag: "test" }],
         },
@@ -77,10 +79,13 @@ describe("collection testing", () => {
     collection = collections.find((c) => c.collectionId === 425845817661);
 
     expect(collection?.products.length).toEqual(2);
-    const product = collection?.products[0];
-    expect(product?.staff.length).toBe(1);
-    expect(product?.staff[0].avatar).not.toBeNull();
-    expect(product?.staff[0].fullname).not.toBeNull();
+    collectionProduct = collection?.products.find(
+      (product) => product._id.toString() === collectionProduct?._id.toString(),
+    );
+
+    expect(collectionProduct?.staff.length).toBe(1);
+    expect(collectionProduct?.staff[0].avatar).not.toBeNull();
+    expect(collectionProduct?.staff[0].fullname).not.toBeNull();
   });
 
   it("Should be able destroy collection", async () => {

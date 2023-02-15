@@ -60,4 +60,6 @@ export interface BookingServiceUpdateProps {
 }
 
 export type BookingServiceGetByIdReturn = Booking;
-export type BookingServiceGetByIdProps = Pick<BaseBooking, "_id">;
+export type BookingServiceGetByIdProps = Pick<BaseBooking, "_id"> & {
+  staff?: string | string[];
+};

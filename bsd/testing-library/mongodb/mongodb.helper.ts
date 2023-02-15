@@ -57,12 +57,28 @@ export const createProduct = ({ productId, duration = 45, buffertime = 15 }) =>
     title: faker.company.name(),
   });
 
+export const createStaffWithBooking = async ({
+  productId,
+}: {
+  productId: number;
+}) => {
+  const staff = await createStaff();
+
+  const booking = await createBooking({
+    productId,
+    staff: staff._id,
+  });
+
+  return { staff, booking };
+};
+
 type CreateBookingProps = {
   productId: number;
   staff: string;
   start?: Date;
   end?: Date;
 };
+
 export const createBooking = ({
   productId,
   staff,
