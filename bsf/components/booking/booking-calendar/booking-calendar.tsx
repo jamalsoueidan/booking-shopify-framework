@@ -1,21 +1,29 @@
-import { EventClickArg, EventContentArg } from "@fullcalendar/core";
+import {
+  CalendarOptions,
+  EventClickArg,
+  EventContentArg,
+} from "@fullcalendar/core";
 import { BookingServiceGetByIdReturn } from "@jamalsoueidan/bsb.types/booking";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
-import { CalendarDate } from "@jamalsoueidan/bsf.components.calendar/calendar";
+import {
+  CalendarDate,
+  CalendarType,
+} from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { Avatar, Tooltip } from "@shopify/polaris";
-import React, { Suspense, memo, useCallback, useMemo } from "react";
+import React, { Suspense, forwardRef, useCallback, useMemo } from "react";
 
 export interface BookingCalendarProps {
   data: Array<BookingServiceGetByIdReturn>;
   onClickBooking: (booking: BookingServiceGetByIdReturn) => void;
   onChangeDate: (date: CalendarDate) => void;
+  headerToolbar?: CalendarOptions["headerToolbar"];
 }
 
-export const BookingCalendar = memo(
-  ({ data, onClickBooking, onChangeDate }: BookingCalendarProps) => {
+export const BookingCalendar = forwardRef<CalendarType, BookingCalendarProps>(
+  ({ data, onClickBooking, onChangeDate, headerToolbar }, ref) => {
     const { getColor } = useFulfillment();
     const { onlyFormat } = useDate();
 
@@ -101,10 +109,12 @@ export const BookingCalendar = memo(
     return (
       <Suspense fallback={<LoadingSpinner />}>
         <Calendar
+          ref={ref}
           events={events}
           eventContent={renderItem}
           datesSet={onChangeDate}
           eventClick={handleClickEvent}
+          headerToolbar={headerToolbar}
         />
       </Suspense>
     );
