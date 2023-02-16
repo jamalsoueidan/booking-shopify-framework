@@ -1,109 +1,83 @@
+import { CalendarType } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import {
-  CalendarOptions,
-  EventClickArg,
-  EventContentArg,
-} from "@fullcalendar/core";
-import { DateClickArg } from "@fullcalendar/interaction";
-import { Schedule } from "@jamalsoueidan/bsb.types";
-import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
-import {
-  CalendarDate,
-  CalendarType,
-} from "@jamalsoueidan/bsf.components.calendar/calendar";
+  InputTags,
+  InputTagsField,
+} from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
-import React, { forwardRef, useCallback, useMemo } from "react";
+import { Button, ButtonGroup, Icon, Stack, Text } from "@shopify/polaris";
+import { ResetMinor } from "@shopify/polaris-icons";
+import { useField } from "@shopify/react-form";
+import React, { useCallback, useMemo, useRef } from "react";
+import { ScheduleCalendarCore, ScheduleCalendarProps } from "./schedule-core";
 
-export type ScheduleCalendarProps = {
-  data: Array<Schedule>;
-  onClick: (date: Date) => void;
-  onClickSchedule: (schedule: Schedule) => void;
-  onChangeDate: (date: CalendarDate) => void;
-  headerToolbar?: CalendarOptions["headerToolbar"];
-};
+export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
+  const { format } = useDate();
+  const ref = useRef<CalendarType>(null);
+  const tag = useField<InputTagsField>(undefined);
 
-export const ScheduleCalendar = forwardRef<CalendarType, ScheduleCalendarProps>(
-  (
-    {
-      data,
-      onClick,
-      onClickSchedule,
-      onChangeDate,
-      headerToolbar,
-    }: ScheduleCalendarProps,
-    ref,
-  ) => {
-    const { onlyFormat } = useDate();
-    const { selectTagLabel, selectTagColor } = useTag();
+  const handleToday = useCallback(() => {
+    tag.onChange(undefined);
+    ref.current?.getApi().today();
+  }, [tag]);
 
-    const events = useMemo(
-      () =>
-        data?.map((schedule) => ({
-          backgroundColor: `#${selectTagColor(schedule.tag)}`,
-          color: `#${selectTagColor(schedule.tag)}`,
-          end: schedule.end,
-          extendedProps: schedule,
-          start: schedule.start,
-        })) || [],
-      [data, selectTagColor],
-    );
+  const handlePrev = useCallback(() => {
+    ref.current?.getApi().prev();
+  }, []);
 
-    const renderItem = useCallback(
-      (arg: EventContentArg) => {
-        const hour = arg?.event?.start && arg?.event.end && (
-          <i>
-            {onlyFormat(arg.event.start, "p")}
-            {" - "}
-            {onlyFormat(arg.event.end, "p")}
-          </i>
-        );
+  const handleNext = useCallback(() => {
+    ref.current?.getApi().next();
+  }, []);
 
-        const schedule: Schedule = arg.event.extendedProps as Schedule;
+  const currentDate = useMemo(
+    () => ref.current?.getApi().getDate() || new Date(),
+    [],
+  );
 
-        return (
-          <div
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              flexDirection: "column",
-              padding: "5px",
+  const data = useMemo(() => {
+    const { data } = props;
+    return tag.value ? data.filter((d) => d.tag === tag.value) : data;
+  }, [props, tag.value]);
+
+  const icon = <Icon source={ResetMinor} />;
+
+  return (
+    <>
+      <Stack>
+        <Stack.Item fill>
+          <Text as="h1" variant="heading3xl">
+            {format(currentDate, "LLLL yyyy")}
+          </Text>
+        </Stack.Item>
+        <Stack>
+          <Button onClick={handleToday} icon={icon} />
+
+          <ButtonGroup segmented>
+            <Button onClick={handlePrev}>&#60;</Button>
+            <Button onClick={handleNext}>&#62;</Button>
+          </ButtonGroup>
+
+          <InputTags
+            field={tag}
+            input={{
+              label: "Filtre tag",
+              labelHidden: true,
+              placeholder: "Filtre tag",
+              size: "medium",
             }}
-          >
-            <div>{hour}</div>
-            <div>{selectTagLabel(schedule.tag)} </div>
-          </div>
-        );
-      },
-      [selectTagLabel, onlyFormat],
-    );
+          />
+        </Stack>
+      </Stack>
 
-    const handleClickEvent = useCallback(
-      ({ event }: EventClickArg) => {
-        onClickSchedule(event._def.extendedProps as Schedule);
-      },
-      [onClickSchedule],
-    );
-
-    const handleOnClick = useCallback(
-      ({ dateStr }: DateClickArg) => {
-        onClick(new Date(dateStr));
-      },
-      [onClick],
-    );
-
-    const validRange = useCallback((start: Date) => ({ start }), []);
-
-    return (
-      <Calendar
+      <ScheduleCalendarCore
+        {...props}
+        headerToolbar={{
+          center: "",
+          left: "",
+          right: "",
+        }}
+        data={data}
         ref={ref}
-        events={events}
-        eventContent={renderItem}
-        datesSet={onChangeDate}
-        headerToolbar={headerToolbar}
-        dateClick={handleOnClick}
-        eventClick={handleClickEvent}
-        validRange={validRange}
       />
-    );
-  },
-);
+    </>
+  );
+};

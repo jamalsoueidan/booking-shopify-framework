@@ -3,6 +3,7 @@ import { Card } from "@shopify/polaris";
 import React from "react";
 import mock from "./mock";
 import { ScheduleCalendar } from "./schedule-calendar";
+import { ScheduleCalendarCore } from "./schedule-core";
 
 export const Basic = withApplication(
   () => (
@@ -15,13 +16,13 @@ export const Basic = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Booking Calendar" },
+  { pageTitle: "Schedule Calendar" },
 );
 
 export const Notoolbar = withApplication(
   () => (
     <Card sectioned>
-      <ScheduleCalendar
+      <ScheduleCalendarCore
         data={mock}
         onChangeDate={() => null}
         onClick={() => null}
@@ -34,5 +35,5 @@ export const Notoolbar = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Booking Calendar" },
+  { pageTitle: "Schedule Calendar no toolbar" },
 );
