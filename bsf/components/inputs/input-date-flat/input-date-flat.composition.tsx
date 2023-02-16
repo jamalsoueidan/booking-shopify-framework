@@ -10,17 +10,10 @@ export const Basic = () => {
   const [date, setDate] = useState<Range | undefined>(undefined);
   const field = useField(undefined);
 
-  const onMonthChange = useCallback(
-    (value: Range) => {
-      setDate(value);
-    },
-    [setDate],
-  );
-
   return (
     <ApplicationFramePage>
       <Card sectioned>
-        <InputDateFlat field={field} onMonthChange={onMonthChange} />
+        <InputDateFlat field={field} onMonthChange={setDate} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>

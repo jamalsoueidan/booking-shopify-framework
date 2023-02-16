@@ -1,13 +1,22 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
+import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
+import { Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React from "react";
-import { InputTags } from "./input-tags";
+import { InputTags, InputTagsField } from "./input-tags";
 
-export const BasicTagInput = () => {
-  const field = useField("");
-  return (
-    <ApplicationFramePage title="Tag input">
-      <InputTags field={field} />
-    </ApplicationFramePage>
-  );
-};
+export const BasicTagInput = withApplication(
+  () => {
+    const field = useField<InputTagsField>(undefined);
+    return (
+      <>
+        <Card sectioned>
+          <InputTags field={field} />
+        </Card>
+        <div>
+          <pre>choice: {field.value}</pre>
+        </div>
+      </>
+    );
+  },
+  { pageTitle: "Tag Input" },
+);

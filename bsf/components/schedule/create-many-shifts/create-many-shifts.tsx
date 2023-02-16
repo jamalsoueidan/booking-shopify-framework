@@ -1,6 +1,6 @@
 import { InputDateDrop } from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 import { InputDays } from "@jamalsoueidan/bsf.components.inputs.input-days";
-import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
+import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { Columns, Layout, Range, TextField } from "@shopify/polaris";
 import {
   FormError,
@@ -9,6 +9,7 @@ import {
   useForm,
 } from "@shopify/react-form";
 
+import { Tag } from "@jamalsoueidan/bsb.types";
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
@@ -19,7 +20,7 @@ import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 export interface CreateManyShiftsValue {
   start: Date;
   end: Date;
-  tag: TagColors;
+  tag: Tag;
 }
 
 export type CreateManyShiftsBody = CreateManyShiftsValue[];
@@ -32,8 +33,6 @@ export interface CreateManyShiftsProps {
   selectedDate: Date;
   onSubmit: (fields: CreateManyShiftsBody) => CreateManyShiftsSubmitResult;
 }
-
-const value = new Date();
 
 export const CreateManyShifts = forwardRef<
   CreateManyShiftsRefMethod,
@@ -74,7 +73,7 @@ export const CreateManyShifts = forwardRef<
         value: selectedDate,
       }),
       startTime: useField("09:00"),
-      tag: useField(options[0].value),
+      tag: useField<Tag>(options[0].value),
     },
     onSubmit: async (fieldValues) => {
       const daysSelected =

@@ -1,5 +1,6 @@
 import { BaseBooking } from "@jamalsoueidan/bsb.types/booking";
 import { Schedule } from "./schedule";
+import { Tag } from "./tag";
 
 export interface WidgetServiceAvailabilityProps {
   staff?: string;
@@ -9,7 +10,7 @@ export interface WidgetServiceAvailabilityProps {
 }
 
 export interface WidgetStaff {
-  tag: string;
+  tag: Tag;
   fullname: string;
   staff: string;
   avatar?: string;
@@ -41,7 +42,7 @@ export type WidgetServiceGetSchedulesProps = Pick<
   Schedule,
   "staff" | "start" | "end"
 > & {
-  tag: string[];
+  tag: Tag[];
 };
 
 export type WidgetServiceGetSchedulesReturn = Omit<Schedule, "staff"> &

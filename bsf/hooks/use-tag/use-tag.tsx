@@ -1,68 +1,51 @@
+import { Tag } from "@jamalsoueidan/bsb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { useCallback, useMemo } from "react";
 
 const locales = {
   da: {
-    all: "Alle dage",
-    end: "Slutning af ugen",
-    everyday: "Hverdag",
-    middle: "Midten af ugen",
-    start: "Starten af ugen",
-    weekend: "Weekend",
+    [Tag.all_day]: "Alle dage",
+    [Tag.end_of_week]: "Slutning af ugen",
+    [Tag.weekday]: "Hverdag",
+    [Tag.middle_of_week]: "Midten af ugen",
+    [Tag.start_of_week]: "Starten af ugen",
+    [Tag.weekend]: "Weekend",
   },
   en: {
-    all: "All days",
-    end: "End of the week",
-    everyday: "Everyday",
-    middle: "Middel of the week",
-    start: "Start of the week",
-    weekend: "Weekend",
+    [Tag.all_day]: "All days",
+    [Tag.end_of_week]: "End of the week",
+    [Tag.weekday]: "Weekday",
+    [Tag.middle_of_week]: "Middel of the week",
+    [Tag.start_of_week]: "Start of the week",
+    [Tag.weekend]: "Weekend",
   },
 };
 
-export type TagText = keyof typeof locales.da;
+export const TagColors: Record<Tag, string> = {
+  [Tag.all_day]: "d24e01",
+  [Tag.end_of_week]: "2980B9",
+  [Tag.weekday]: "4b6043",
+  [Tag.middle_of_week]: "A93226",
+  [Tag.start_of_week]: "8E44AD",
+  [Tag.weekend]: "235284",
+};
 
-export const TagTypesValues = {
-  all: "#d24e01",
-  end: "#2980B9",
-  everyday: "#4b6043",
-  middle: "#A93226",
-  start: "#8E44AD",
-  weekend: "#235284",
-} as const;
-
-export type TagColors = typeof TagTypesValues[TagText];
-
-interface UseTag {
-  label: string;
-  value: TagColors;
-}
-
-export interface UseTagReturn {
-  options: UseTag[];
-  selectTag: (value: TagColors) => string;
-}
-
-export const useTag = (): UseTagReturn => {
+export const useTag = () => {
   const { t } = useTranslation({ id: "tags", locales });
 
-  const options: UseTag[] = useMemo(
+  const options = useMemo(
     () => [
-      { label: t("everyday"), value: TagTypesValues.everyday },
-      { label: t("weekend"), value: TagTypesValues.weekend },
-      { label: t("all"), value: TagTypesValues.all },
-      { label: t("end"), value: TagTypesValues.end },
-      { label: t("start"), value: TagTypesValues.start },
-      { label: t("middle"), value: TagTypesValues.middle },
+      { label: t("weekday"), value: Tag.weekday },
+      { label: t("weekend"), value: Tag.weekend },
+      { label: t("all_day"), value: Tag.all_day },
+      { label: t("end_of_week"), value: Tag.end_of_week },
+      { label: t("start_of_week"), value: Tag.start_of_week },
+      { label: t("middle_of_week"), value: Tag.middle_of_week },
     ],
     [t],
   );
 
-  const selectTag = useCallback(
-    (value: TagColors) =>
-      options.find((o) => o.value === value)?.label || "no found",
-    [options],
-  );
+  const selectTag = useCallback((value: Tag) => TagColors[value], []);
 
   return {
     options,

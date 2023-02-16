@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import { createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import {
   addDays,
@@ -19,7 +19,7 @@ import {
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
-const tag = faker.random.word();
+const tag = Tag.weekday;
 
 describe("schedule service test", () => {
   it("Should be able to add one schedule and get it by date range", async () => {
@@ -150,7 +150,7 @@ describe("schedule service test", () => {
       {
         end,
         start,
-        tag: "jamal",
+        tag: Tag.weekday,
       },
     );
 

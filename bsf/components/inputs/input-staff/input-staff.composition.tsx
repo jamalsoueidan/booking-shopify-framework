@@ -1,4 +1,4 @@
-import { WidgetStaff } from "@jamalsoueidan/bsb.types";
+import { Tag, WidgetStaff } from "@jamalsoueidan/bsb.types";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
@@ -9,12 +9,12 @@ const data: WidgetStaff[] = [
   {
     fullname: "jamal swueidan",
     staff: "63bb71c898f50e4f24c883a8",
-    tag: "jamal",
+    tag: Tag.all_day,
   },
   {
     fullname: "sara soueidan",
     staff: "63bb71e798f50e4f24c883b9",
-    tag: "ahmad",
+    tag: Tag.middle_of_week,
   },
 ];
 
@@ -66,7 +66,10 @@ export const DisabledWithError = () => {
         <InputStaff
           data={staff}
           field={field}
-          input={{ disabled: !staff || staff.length === 0, helpText: "klik på knap og vælge bruger" }}
+          input={{
+            disabled: !staff || staff.length === 0,
+            helpText: "klik på knap og vælge bruger",
+          }}
         />
       </Card>
       <br />
@@ -88,7 +91,10 @@ export const LazyLoad = () => {
         <InputStaff
           data={staff}
           field={field}
-          input={{ disabled: !staff || staff.length === 0, helpText: "klik på knap og vælge bruger" }}
+          input={{
+            disabled: !staff || staff.length === 0,
+            helpText: "klik på knap og vælge bruger",
+          }}
         />
       </Card>
       <br />

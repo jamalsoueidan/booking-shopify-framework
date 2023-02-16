@@ -1,10 +1,12 @@
+import { Tag } from "./tag";
+
 export interface Schedule {
   _id: string;
   staff: string;
   groupId?: string;
   start: Date;
   end: Date;
-  tag: string;
+  tag: Tag;
   shop: string;
 }
 

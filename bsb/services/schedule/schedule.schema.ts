@@ -1,4 +1,4 @@
-import { Schedule } from "@jamalsoueidan/bsb.types";
+import { Schedule, Tag } from "@jamalsoueidan/bsb.types";
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface ISchedule extends Omit<Schedule, "_id" | "staff"> {
@@ -9,7 +9,10 @@ export interface IScheduleDocument extends ISchedule, Document {}
 
 export interface IScheduleModel extends Model<IScheduleDocument> {}
 
-export const ScheduleSchema = new mongoose.Schema<IScheduleDocument, IScheduleModel>({
+export const ScheduleSchema = new mongoose.Schema<
+  IScheduleDocument,
+  IScheduleModel
+>({
   end: {
     index: true,
     required: true,
@@ -28,6 +31,8 @@ export const ScheduleSchema = new mongoose.Schema<IScheduleDocument, IScheduleMo
     type: Date,
   },
   tag: {
+    default: Tag.weekday,
+    enum: Object.values(Tag),
     index: true,
     required: true,
     type: String,

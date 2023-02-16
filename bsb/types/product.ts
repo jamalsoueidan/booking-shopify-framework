@@ -1,8 +1,9 @@
 import { Staff } from "./staff";
+import { Tag } from "./tag";
 
 export interface ProductStaff {
   staff: string;
-  tag: string;
+  tag: Tag;
 }
 export interface Product<T = ProductStaff> {
   _id: string;
@@ -28,7 +29,7 @@ export type ProductServiceUpdateQueryProps = {
 
 export type ProductServiceUpdateBodyStaffProperty = Partial<Staff> & {
   _id: string;
-  tag: string;
+  tag: Tag;
 };
 
 export type ProductServiceUpdateBodyProps = Partial<
@@ -38,5 +39,5 @@ export type ProductServiceUpdateBodyProps = Partial<
 };
 
 export type ProductServiceGetAvailableStaffReturn = Staff & {
-  tags: string[];
+  tags: Tag[];
 };

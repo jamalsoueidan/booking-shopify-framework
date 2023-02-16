@@ -3,6 +3,7 @@ import { BookingModel } from "@jamalsoueidan/bsb.services.booking";
 import { CartModel } from "@jamalsoueidan/bsb.services.cart";
 import { ProductServiceUpdate } from "@jamalsoueidan/bsb.services.product";
 import { StaffServiceFindByIdAndUpdate } from "@jamalsoueidan/bsb.services.staff";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   createProduct,
   createSchedule,
@@ -17,7 +18,7 @@ import { WidgetServiceAvailability, WidgetServiceGetStaff } from "./widget";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = parseInt(faker.random.numeric(10), 10);
-const tag = faker.random.word();
+const tag = Tag.end_of_week;
 
 describe("widget service test", () => {
   it("Should return 1 staff after adding 1 staff to product", async () => {

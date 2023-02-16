@@ -1,9 +1,9 @@
-import { Product } from "@jamalsoueidan/bsb.types";
+import { Product, Tag } from "@jamalsoueidan/bsb.types";
 import { Document, Model, Schema, Types } from "mongoose";
 
 type ProductStaff = {
   staff: Types.ObjectId;
-  tag: string;
+  tag: Tag;
 };
 
 export interface IProduct extends Omit<Product<ProductStaff>, "_id"> {}
@@ -54,7 +54,11 @@ export const ProductSchema = new Schema<IProductDocument, IProductModel>({
         required: true,
         type: Schema.Types.ObjectId,
       },
-      tag: String,
+      tag: {
+        enum: Object.values(Tag),
+        required: true,
+        type: String,
+      },
     },
   ],
   title: String,

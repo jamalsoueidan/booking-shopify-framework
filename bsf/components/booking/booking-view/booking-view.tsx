@@ -1,6 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Booking, BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types";
-import { useDate, useModal } from "@jamalsoueidan/pkg.bsf";
+import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
+import { useModal } from "@jamalsoueidan/bsf.hooks.use-modal";
 import { Banner, Link, Modal, TextContainer } from "@shopify/polaris";
 import { differenceInHours, isAfter } from "date-fns";
 import React, { useEffect } from "react";

@@ -1,91 +1,124 @@
-import { Autocomplete, InlineError, Stack, Tag, TextFieldProps } from "@shopify/polaris";
-import { Field } from "@shopify/react-form";
-import React, { useCallback, useEffect, useState } from "react";
+import { InputButton } from "@jamalsoueidan/bsf.components.inputs.input-button";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import {
+  ButtonProps,
+  Labelled,
+  LabelledProps,
+  Popover,
+  ResourceList,
+} from "@shopify/polaris";
+import React, { useCallback, useId, useMemo, useState } from "react";
 
-export type InputDropdownField = string[] | undefined | null;
-export type InputDropdownInput = Partial<TextFieldProps>;
-export interface InputDropdownProps {
-  field: Field<InputDropdownField>;
-  input?: InputDropdownInput;
-  options: Array<{
-    label: string;
-    value: string;
-  }>;
+export type InputDropdownField = string | undefined;
+export interface InputDropdownInput
+  extends Partial<Pick<LabelledProps, "label" | "helpText">> {
+  placeholder?: string;
+  loading?: boolean;
+  disabled?: boolean;
+  icon?: ButtonProps["icon"];
+  size?: ButtonProps["size"];
 }
 
-export const InputDropdown = ({ field, input, options: defaultOptions }: InputDropdownProps) => {
-  const [inputValue, setInputValue] = useState("");
-  const [options, setOptions] = useState(defaultOptions);
+export type InputDropdownOption<T> = {
+  value: T;
+  label: string;
+  prefix: JSX.Element;
+};
 
-  useEffect(() => {
-    setOptions(defaultOptions);
-    field.onChange([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export interface InputDropdownProps<T> {
+  options?: Array<InputDropdownOption<T>>;
+  selected?: Partial<Pick<InputDropdownOption<T>, "label" | "prefix">>;
+  onChange: (item: T) => void;
+  error?: string;
+  input?: InputDropdownInput;
+}
 
-  const updateText = useCallback(
-    (value: string) => {
-      setInputValue(value);
+export function InputDropdown<T>({
+  options,
+  selected,
+  error,
+  onChange,
+  input,
+}: InputDropdownProps<T>) {
+  const id = useId();
+  const { t } = useTranslation({ id: "input-dropdown", locales });
+  const [popoverActive, setPopoverActive] = useState(false);
 
-      if (value === "") {
-        setOptions(defaultOptions);
-        return;
-      }
-
-      const filterRegex = new RegExp(value, "i");
-      const resultOptions = defaultOptions.filter((option) => option.label.match(filterRegex));
-      setOptions(resultOptions);
-    },
-    [defaultOptions],
+  const togglePopoverActive = useCallback(
+    () => setPopoverActive((popoverActive) => !popoverActive),
+    [],
   );
 
-  const removeTag = useCallback(
-    (tag: string) => () => {
-      if (field.value) {
-        const options = [...field.value];
-        options.splice(options.indexOf(tag), 1);
-        field.onChange(options);
-      }
+  const handleResourceListItemClick = useCallback(
+    (item: T) => {
+      onChange(item);
+      setPopoverActive(false);
     },
-    [field],
+    [onChange],
   );
 
-  const verticalContentMarkup =
-    field.value && field.value.length > 0 ? (
-      <Stack spacing="extraTight" alignment="center">
-        {field.value.map((option) => {
-          let tagLabel = "";
-          tagLabel = option.replace("_", " ");
-          return (
-            <Tag key={`option${option}`} onRemove={removeTag(option)}>
-              {tagLabel}
-            </Tag>
-          );
-        })}
-      </Stack>
-    ) : null;
+  const internalRenderItem = useCallback(
+    (item: InputDropdownOption<T>) => (
+      <ResourceList.Item
+        id={item.value as string}
+        media={item?.prefix}
+        onClick={handleResourceListItemClick as never}
+      >
+        {item.label}
+      </ResourceList.Item>
+    ),
+    [handleResourceListItemClick],
+  );
 
-  const textField = (
-    <Autocomplete.TextField
-      autoComplete="off"
-      onChange={updateText}
-      label={input?.label}
-      value={inputValue}
-      placeholder={input?.placeholder}
-      verticalContent={verticalContentMarkup}
-    />
+  // if disabled, don't show error msg.
+  const printError = !input?.disabled && error;
+
+  const activator = useMemo(
+    () => (
+      <InputButton
+        disabled={input?.disabled}
+        disclosure
+        error={printError}
+        onClick={togglePopoverActive}
+        size={input?.size || "slim"}
+        loading={input?.loading}
+        icon={input?.icon || selected?.prefix}
+      >
+        {selected?.label || input?.placeholder || t("placeholder")}
+      </InputButton>
+    ),
+    [input, printError, togglePopoverActive, selected, t],
   );
 
   return (
-    <>
-      <Autocomplete
-        allowMultiple
-        options={options}
-        selected={field.value || []}
-        textField={textField}
-        onSelect={field.onChange}
-      />
-      <InlineError message={field.error || ""} fieldID="" />
-    </>
+    <Labelled
+      id={`${id}input-dropdown`}
+      error={printError}
+      helpText={input?.helpText}
+      label={input?.label || t("label")}
+    >
+      <Popover
+        sectioned
+        active={popoverActive}
+        activator={activator}
+        onClose={togglePopoverActive}
+        ariaHaspopup={false}
+      >
+        <Popover.Pane>
+          <ResourceList items={options || []} renderItem={internalRenderItem} />
+        </Popover.Pane>
+      </Popover>
+    </Labelled>
   );
+}
+
+const locales = {
+  da: {
+    label: "Vælg",
+    placeholder: "Vælg",
+  },
+  en: {
+    label: "Choose",
+    placeholder: "Choose",
+  },
 };

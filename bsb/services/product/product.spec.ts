@@ -1,4 +1,5 @@
 import { IStaffDocument } from "@jamalsoueidan/bsb.services.staff";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   createProduct,
   createSchedule,
@@ -25,7 +26,7 @@ let staff1: ICustomStaffModel;
 let staff2: ICustomStaffModel;
 let staff3: ICustomStaffModel;
 
-const tag = "testerne";
+const tag = Tag.end_of_week;
 
 describe("product testing", () => {
   it("Should find by id", async () => {

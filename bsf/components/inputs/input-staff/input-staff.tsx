@@ -1,113 +1,61 @@
 import { WidgetStaff } from "@jamalsoueidan/bsb.types";
-import { InputButton } from "@jamalsoueidan/bsf.components.inputs.input-button";
-import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import {
-  Avatar,
-  ButtonProps,
-  Labelled,
-  LabelledProps,
-  Popover,
-  ResourceList,
-} from "@shopify/polaris";
+  InputDropdown,
+  InputDropdownInput,
+} from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { Avatar } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
-import React, { useCallback, useId, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 
-export type InputStaffField = WidgetStaff | undefined | null;
-
-export interface InputStaffInput
-  extends Partial<Pick<LabelledProps, "label" | "helpText">> {
-  placeholder?: string;
-  loading?: boolean;
-  disabled?: boolean;
-  icon?: ButtonProps["icon"];
-}
+export type InputStaffField = WidgetStaff | undefined;
 
 export interface InputStaffProps {
   data?: Array<WidgetStaff>;
   field: Field<InputStaffField>;
-  input?: InputStaffInput;
+  input?: InputDropdownInput;
 }
 
 export function InputStaff({ data, field, input }: InputStaffProps) {
-  const id = useId();
   const { t } = useTranslation({ id: "input-staff", locales });
-  const [popoverActive, setPopoverActive] = useState(false);
 
-  const togglePopoverActive = useCallback(
-    () => setPopoverActive((popoverActive) => !popoverActive),
+  const prefix = useCallback(
+    (staff: WidgetStaff) => (
+      <Avatar size="small" source={staff?.avatar} name={staff?.fullname} />
+    ),
     [],
   );
 
-  const handleResourceListItemClick = useCallback(
-    (item: WidgetStaff) => {
-      field.onChange(item);
-      setPopoverActive(false);
-    },
-    [field],
+  const options = useMemo(
+    () =>
+      data?.map((d) => ({
+        label: d.fullname,
+        prefix: prefix(d),
+        value: d.staff,
+      })),
+    [data, prefix],
   );
 
-  // if disabled, don't show error msg.
-  const error = input?.disabled ? undefined : field?.error;
+  const onChange = useCallback(
+    (value: string) => {
+      field.onChange(data?.find((option) => option.staff === value));
+    },
+    [data, field],
+  );
 
-  const activator = useMemo(() => {
-    const icon = field.value ? (
-      <Avatar
-        size="small"
-        source={field.value?.avatar}
-        name={field.value?.fullname}
-      />
-    ) : undefined;
-
-    return (
-      <InputButton
-        disabled={input?.disabled}
-        disclosure
-        error={error}
-        icon={icon}
-        onClick={togglePopoverActive}
-        size={icon ? "slim" : "medium"}
-      >
-        {field.value?.fullname || input?.placeholder || t("placeholder")}
-      </InputButton>
-    );
-  }, [
-    error,
-    field.value,
-    input?.disabled,
-    input?.placeholder,
-    t,
-    togglePopoverActive,
-  ]);
-
-  const renderItem = (item: WidgetStaff) => (
-    <ResourceList.Item
-      id={item.fullname}
-      media={<Avatar size="small" source={item.avatar} name={item.fullname} />}
-      onClick={() => handleResourceListItemClick(item)}
-    >
-      {item.fullname}
-    </ResourceList.Item>
+  const selected = useMemo(
+    () => options?.find((option) => option.value === field.value?.staff),
+    [field.value, options],
   );
 
   return (
-    <Labelled
-      id={`${id}input-staff`}
-      error={error}
-      helpText={input?.helpText}
-      label={input?.label || t("label")}
-    >
-      <Popover
-        sectioned
-        active={popoverActive}
-        activator={activator}
-        onClose={togglePopoverActive}
-        ariaHaspopup={false}
-      >
-        <Popover.Pane>
-          <ResourceList items={data || []} renderItem={renderItem} />
-        </Popover.Pane>
-      </Popover>
-    </Labelled>
+    <InputDropdown
+      input={{ label: t("label"), placeholder: t("placeholder"), ...input }}
+      options={options}
+      selected={selected}
+      error={field.error}
+      onChange={onChange}
+    />
   );
 }
 

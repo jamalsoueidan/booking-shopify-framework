@@ -8,6 +8,7 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   addHours,
   setHours,
@@ -69,7 +70,7 @@ export const createStaffWithBooking = async ({
     staff: staff._id,
   });
 
-  return { staff, booking };
+  return { booking, staff };
 };
 
 type CreateBookingProps = {
@@ -87,6 +88,7 @@ export const createBooking = ({
 }: CreateBookingProps) =>
   BookingModel.create({
     customerId: 12345,
+    end,
     fulfillmentStatus: "refunded",
     lineItemId: 1100,
     lineItemTotal: 1,
@@ -95,13 +97,12 @@ export const createBooking = ({
     shop,
     staff,
     start,
-    end,
     title: faker.company.name(),
   });
 
 interface CreateSchedule {
   staff: string;
-  tag: string;
+  tag: Tag;
   start?: Date;
   end?: Date;
 }
@@ -122,7 +123,7 @@ export const createSchedule = async ({
   );
 
 interface CreateStaffWithScheduleProps {
-  tag: string;
+  tag: Tag;
 }
 
 export const createStaffWithSchedule = async ({
@@ -138,7 +139,7 @@ export const createStaffWithSchedule = async ({
 
 interface CreateStaffAndUpdateProductProps {
   product: IProductDocument;
-  tag: string;
+  tag: Tag;
 }
 
 export const createStaffWithScheduleAndUpdateProduct = async ({

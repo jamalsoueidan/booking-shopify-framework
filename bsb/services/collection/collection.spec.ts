@@ -1,4 +1,5 @@
 import { ProductServiceUpdate } from "@jamalsoueidan/bsb.services.product";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   createSchedule,
   createStaff,
@@ -64,13 +65,13 @@ describe("collection testing", () => {
         end: addHours(start, 5),
         staff: staff._id,
         start,
-        tag: "test",
+        tag: Tag.end_of_week,
       });
 
       await ProductServiceUpdate(
         { id: collectionProduct._id, shop },
         {
-          staff: [{ _id: staff._id, tag: "test" }],
+          staff: [{ _id: staff._id, tag: Tag.end_of_week }],
         },
       );
     }

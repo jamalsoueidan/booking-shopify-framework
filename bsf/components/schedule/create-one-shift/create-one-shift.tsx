@@ -1,6 +1,7 @@
+import { Tag } from "@jamalsoueidan/bsb.types";
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
+import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Card, Columns, Layout, TextField } from "@shopify/polaris";
 import {
@@ -14,7 +15,7 @@ import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 export interface CreateOneShiftBody {
   start: Date;
   end: Date;
-  tag: TagColors;
+  tag: Tag;
 }
 
 export type CreateOneShiftSubmitResult = SubmitResult;
@@ -51,7 +52,7 @@ export const CreateOneShift = forwardRef<
     fields: {
       endTime: useField("16:00"),
       startTime: useField("09:00"),
-      tag: useField(options[0].value),
+      tag: useField<Tag>(options[0].value),
     },
     onSubmit: async (fieldValues) => {
       const start = convert(fieldValues.startTime);

@@ -10,5 +10,6 @@ export * from "./schedule";
 export * from "./setting";
 export * from "./shopify-session";
 export * from "./staff";
+export * from "./tag";
 export * from "./user";
 export * from "./widget";

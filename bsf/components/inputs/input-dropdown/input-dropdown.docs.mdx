@@ -4,10 +4,14 @@ description: A InputDropdown component.
 
 import { InputDropdown } from "./input-dropdown";
 
-A component that render dropdown with selection options.
+A component that render dropdown with selection options, it's means to be extended, but you can use it directly.
 
 ### Component usage
 
 ```js
-<InputDropdown field={field} options={options} input={{ label: "User list", placeholder: "Click and pick a user" }} />
+<InputDropdown
+  options={options}
+  input={{ label: "InputDropdown", placeholder: "Placeholder" }}
+  {...field}
+/>
 ```

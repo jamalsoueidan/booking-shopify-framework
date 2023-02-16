@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   eachDayOfInterval,
   endOfMonth,
@@ -14,7 +15,6 @@ const fake = {
   shop: "testeriphone.myshopify.com",
   staff: "63de6b5b769dac4d74557419",
   start: "2023-02-11T08:00:00.000Z",
-  tag: "#235284",
 };
 
 const result = eachDayOfInterval({
@@ -31,6 +31,7 @@ const data = picked.map((date) => {
     ...fake,
     end: setHours(start, faker.datatype.number({ max: 24, min: min + 1 })),
     start,
+    tag: faker.helpers.arrayElement(Object.values(Tag)),
   };
 });
 

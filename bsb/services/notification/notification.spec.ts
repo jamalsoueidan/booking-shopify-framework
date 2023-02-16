@@ -5,6 +5,7 @@ import {
   IBookingDocument,
 } from "@jamalsoueidan/bsb.services.booking";
 import { IStaffDocument } from "@jamalsoueidan/bsb.services.staff";
+import { Tag } from "@jamalsoueidan/bsb.types";
 import {
   clearDatabase,
   connect,
@@ -107,7 +108,7 @@ jest.mock("@jamalsoueidan/bsb.api.sms-dk", () => ({
 
 const createData = async () => {
   const productId = 123456789;
-  const tag = "testerne";
+  const tag = Tag.end_of_week;
 
   await createProduct({ productId });
 
