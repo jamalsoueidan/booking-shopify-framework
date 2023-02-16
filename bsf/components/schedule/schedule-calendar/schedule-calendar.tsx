@@ -28,10 +28,7 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
     ref.current?.getApi().next();
   }, []);
 
-  const currentDate = useMemo(
-    () => ref.current?.getApi().getDate() || new Date(),
-    [],
-  );
+  const currentDate = ref.current?.getApi().getDate() || new Date();
 
   const data = useMemo(() => {
     const { data } = props;
