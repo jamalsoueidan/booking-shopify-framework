@@ -3,7 +3,10 @@ import {
   InputDropdown,
   InputDropdownProps,
 } from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
-import { InputDropdownOption } from "@jamalsoueidan/bsf.components.inputs.input-dropdown/input-dropdown";
+import {
+  InputDropdownInput,
+  InputDropdownOption,
+} from "@jamalsoueidan/bsf.components.inputs.input-dropdown/input-dropdown";
 import { TagColors, useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Icon } from "@shopify/polaris";
@@ -24,9 +27,10 @@ const locales = {
 export type InputTagsField = Tag | undefined;
 export type InputTagsProps = Pick<InputDropdownProps<Tag>, "options"> & {
   field: Field<InputTagsField>;
+  input?: InputDropdownInput;
 };
 
-export const InputTags = ({ field }: InputTagsProps) => {
+export const InputTags = ({ field, input }: InputTagsProps) => {
   const { options: data } = useTag();
   const { t } = useTranslation({ id: "tag-input", locales });
 
@@ -56,7 +60,7 @@ export const InputTags = ({ field }: InputTagsProps) => {
 
   return (
     <InputDropdown
-      input={{ label: t("label"), placeholder: t("placeholder") }}
+      input={{ label: t("label"), placeholder: t("placeholder"), ...input }}
       options={options}
       selected={selected}
       error={field.error}

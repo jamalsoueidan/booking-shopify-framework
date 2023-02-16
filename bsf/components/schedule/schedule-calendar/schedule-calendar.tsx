@@ -2,7 +2,7 @@ import { EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
 import { Schedule } from "@jamalsoueidan/bsb.types";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
-import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
+import { CalendarDate } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import React, { useCallback, useMemo } from "react";
@@ -11,7 +11,7 @@ export interface ScheduleCalendarProps {
   data: Array<Schedule>;
   onClick: (date: Date) => void;
   onClickSchedule: (schedule: Schedule) => void;
-  onChangeDate: (date: CalendarDateState) => void;
+  onChangeDate: (date: CalendarDate) => void;
 }
 
 export const ScheduleCalendar = ({
@@ -57,7 +57,7 @@ export const ScheduleCalendar = ({
           }}
         >
           <div>{hour}</div>
-          <div>{selectTag(schedule.tag as never)} </div>
+          <div>{selectTag(schedule.tag)?.label} </div>
           {schedule.groupId && (
             <div
               style={{

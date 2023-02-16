@@ -45,10 +45,27 @@ export const useTag = () => {
     [t],
   );
 
-  const selectTag = useCallback((value: Tag) => TagColors[value], []);
+  const selectTag = useCallback(
+    (value: Tag) => options.find((o) => o.value === value),
+    [options],
+  );
+
+  const selectTagValue = useCallback(
+    (value: Tag) => options.find((o) => o.value === value)?.value,
+    [options],
+  );
+
+  const selectTagLabel = useCallback(
+    (value: Tag) => options.find((o) => o.value === value)?.label,
+    [options],
+  );
+  const selectTagColor = useCallback((value: Tag) => TagColors[value], []);
 
   return {
     options,
     selectTag,
+    selectTagColor,
+    selectTagLabel,
+    selectTagValue,
   };
 };

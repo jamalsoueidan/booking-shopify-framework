@@ -1,7 +1,7 @@
 import { EventClickArg, EventContentArg } from "@fullcalendar/core";
 import { BookingServiceGetByIdReturn } from "@jamalsoueidan/bsb.types/booking";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
-import { CalendarDateState } from "@jamalsoueidan/bsf.components.calendar/calendar";
+import { CalendarDate } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { LoadingSpinner } from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
@@ -11,7 +11,7 @@ import React, { Suspense, memo, useCallback, useMemo } from "react";
 export interface BookingCalendarProps {
   data: Array<BookingServiceGetByIdReturn>;
   onClickBooking: (booking: BookingServiceGetByIdReturn) => void;
-  onChangeDate: (date: CalendarDateState) => void;
+  onChangeDate: (date: CalendarDate) => void;
 }
 
 export const BookingCalendar = memo(

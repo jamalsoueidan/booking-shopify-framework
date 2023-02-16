@@ -11,7 +11,7 @@ import React, { useCallback, useId, useMemo, useState } from "react";
 
 export type InputDropdownField = string | undefined;
 export interface InputDropdownInput
-  extends Partial<Pick<LabelledProps, "label" | "helpText">> {
+  extends Partial<Pick<LabelledProps, "label" | "helpText" | "labelHidden">> {
   placeholder?: string;
   loading?: boolean;
   disabled?: boolean;
@@ -96,6 +96,7 @@ export function InputDropdown<T>({
       error={printError}
       helpText={input?.helpText}
       label={input?.label || t("label")}
+      labelHidden={input?.labelHidden}
     >
       <Popover
         sectioned
