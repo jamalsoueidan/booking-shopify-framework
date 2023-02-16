@@ -1,4 +1,5 @@
 import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
+import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
@@ -43,8 +44,22 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
     [field],
   );
 
+  usePrevious(
+    ([prevLocale]) => {
+      if (prevLocale !== locale) {
+        field.onChange([]);
+      }
+    },
+    [locale],
+  );
+
   return (
-    <Labelled {...input} label={input?.label || t("label")} error={field.error} id={`${id}-select-days-input`}>
+    <Labelled
+      {...input}
+      label={input?.label || t("label")}
+      error={field.error}
+      id={`${id}-select-days-input`}
+    >
       {options.map((day) => (
         <Button
           size="slim"

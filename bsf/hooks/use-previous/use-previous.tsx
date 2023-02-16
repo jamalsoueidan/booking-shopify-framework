@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-export interface usePreviousOptions {
+export type UsePreviousOptions = {
   initial?: boolean;
-}
+};
 // https://stackoverflow.com/a/72876811
-export const usePrevious = <T extends any[]>(
+export const usePrevious = <T extends unknown[]>(
   callback: (prev: T) => void,
   deps: T,
-  options: usePreviousOptions = { initial: false }
+  options: UsePreviousOptions = { initial: false },
 ): void => {
   const callbackRef = useRef<null | ((prev: T) => void)>(null);
 
@@ -26,7 +26,7 @@ export const usePrevious = <T extends any[]>(
 
     depsRef.current = deps;
     setInitial(true);
-  }, deps);
+  }, [deps, initial]);
 };
 
 export default usePrevious;
