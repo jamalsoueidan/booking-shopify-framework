@@ -63,11 +63,6 @@ export const Calendar = forwardRef<CalendarType, CalendarOptions>(
         ref={ref}
         plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"
-        headerToolbar={{
-          center: "title",
-          left: "today prev,next",
-          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-        }}
         firstDay={1}
         dayMaxEvents
         slotDuration="00:15:00"
@@ -91,6 +86,13 @@ export const Calendar = forwardRef<CalendarType, CalendarOptions>(
         {...props}
         datesSet={handleChangeDate}
         events={events}
+        headerToolbar={
+          props.headerToolbar || {
+            center: "title",
+            left: "today prev,next",
+            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          }
+        }
       />
     );
   },
