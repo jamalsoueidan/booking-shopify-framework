@@ -9,17 +9,16 @@ import { BookingServiceGetAll } from "./booking";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = parseInt(faker.random.numeric(10), 10);
-const tag = faker.random.word();
 describe("booking service test", () => {
   it("Should be able to get bookings for all staff by range", async () => {
     await createStaffWithBooking({ productId });
     await createStaffWithBooking({ productId });
     await createStaffWithBooking({ productId });
 
-    let bookings = await BookingServiceGetAll({
+    const bookings = await BookingServiceGetAll({
+      end: endOfDay(new Date()),
       shop,
       start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
     });
 
     expect(bookings.length).toBe(3);
@@ -29,11 +28,11 @@ describe("booking service test", () => {
     const { staff: staff1 } = await createStaffWithBooking({ productId });
     await createStaffWithBooking({ productId });
 
-    let bookings = await BookingServiceGetAll({
-      shop,
-      start: startOfDay(new Date()),
+    const bookings = await BookingServiceGetAll({
       end: endOfDay(new Date()),
+      shop,
       staff: staff1._id,
+      start: startOfDay(new Date()),
     });
 
     expect(bookings.length).toBe(1);
@@ -46,11 +45,11 @@ describe("booking service test", () => {
     const { staff: staff3 } = await createStaffWithBooking({ productId });
 
     const staffs = [staff1._id.toString(), staff3._id.toString()];
-    let bookings = await BookingServiceGetAll({
-      shop,
-      start: startOfDay(new Date()),
+    const bookings = await BookingServiceGetAll({
       end: endOfDay(new Date()),
+      shop,
       staff: staffs,
+      start: startOfDay(new Date()),
     });
 
     expect(bookings.length).toBe(2);

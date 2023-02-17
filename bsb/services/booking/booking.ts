@@ -88,6 +88,7 @@ export const BookingServiceGetAll = ({
           }),
       },
     },
+    ...lookup,
   ]);
 
 export const BookingServiceUpdate = async (
@@ -147,7 +148,56 @@ export const BookingServiceGetById = async ({
         }),
       },
     },
+    ...lookup,
   ]);
 
   return bookings.length > 0 ? bookings[0] : null;
 };
+
+/* Can't be added to BookingSchema.pre("aggregate", function (next) {
+  Because Widget also use BookingModel.aggreate, and don't need relation
+  */
+const lookup = [
+  {
+    $lookup: {
+      as: "customer",
+      foreignField: "customerId",
+      from: "Customer",
+      localField: "customerId",
+    },
+  },
+  {
+    $unwind: {
+      path: "$customer",
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $lookup: {
+      as: "staff",
+      foreignField: "_id",
+      from: "Staff",
+      localField: "staff",
+    },
+  },
+  {
+    $unwind: {
+      path: "$staff",
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $lookup: {
+      as: "product",
+      foreignField: "productId",
+      from: "Product",
+      localField: "productId",
+    },
+  },
+  {
+    $unwind: {
+      path: "$product",
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+];
