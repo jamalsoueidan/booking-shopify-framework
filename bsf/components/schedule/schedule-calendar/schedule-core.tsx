@@ -12,6 +12,7 @@ import {
 } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
+import { Text } from "@shopify/polaris";
 import React, { forwardRef, useCallback, useMemo } from "react";
 
 export type ScheduleCalendarProps = {
@@ -44,12 +45,12 @@ export const ScheduleCalendarCore = forwardRef<
       () =>
         data?.map((schedule) => ({
           backgroundColor: selectTagBackgroundColor(schedule.tag),
-          color: selectTagColor(schedule.tag),
+          color: selectTagBackgroundColor(schedule.tag),
           end: schedule.end,
           extendedProps: schedule,
           start: schedule.start,
         })) || [],
-      [data, selectTagColor, selectTagBackgroundColor],
+      [data, selectTagBackgroundColor],
     );
 
     const renderItem = useCallback(
@@ -67,18 +68,23 @@ export const ScheduleCalendarCore = forwardRef<
         return (
           <div
             style={{
+              color: selectTagColor(schedule.tag),
               cursor: "pointer",
               display: "flex",
               flexDirection: "column",
               padding: "5px",
             }}
           >
-            <div>{hour}</div>
-            <div>{selectTagLabel(schedule.tag)} </div>
+            <Text variant="bodyMd" as="span" fontWeight="semibold">
+              {selectTagLabel(schedule.tag)}
+            </Text>
+            <Text variant="bodySm" as="span">
+              {hour}
+            </Text>
           </div>
         );
       },
-      [selectTagLabel, onlyFormat],
+      [onlyFormat, selectTagColor, selectTagLabel],
     );
 
     const handleClickEvent = useCallback(

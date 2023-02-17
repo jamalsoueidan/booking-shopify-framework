@@ -17,6 +17,12 @@ export type CalendarDate = {
   end: Date;
 };
 
+export type CalenderView =
+  | "dayGridMonth"
+  | "timeGridWeek"
+  | "timeGridDay"
+  | "listWeek";
+
 export type CalendarOptions = Omit<CO, "events"> & {
   events?: Array<CalendarDate>;
 };
