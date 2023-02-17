@@ -3,7 +3,7 @@ import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useEffect, useState } from "react";
-import { InputStaff, InputStaffField } from "./input-staff";
+import { WidgetInputStaff, WidgetInputStaffField } from "./widget-input-staff";
 
 const data: WidgetStaff[] = [
   {
@@ -19,11 +19,11 @@ const data: WidgetStaff[] = [
 ];
 
 export const Basic = () => {
-  const field = useField<InputStaffField>(undefined);
+  const field = useField<WidgetInputStaffField>(undefined);
   return (
     <ApplicationFramePage>
       <Card title="Basic" sectioned>
-        <InputStaff data={data} field={field} />
+        <WidgetInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
@@ -33,7 +33,7 @@ export const Basic = () => {
 };
 
 export const Error = () => {
-  const field = useField<InputStaffField>(undefined);
+  const field = useField<WidgetInputStaffField>(undefined);
   useEffect(() => {
     field.setError("error");
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,7 +42,7 @@ export const Error = () => {
   return (
     <ApplicationFramePage>
       <Card title="Error" sectioned>
-        <InputStaff data={data} field={field} />
+        <WidgetInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
@@ -52,7 +52,7 @@ export const Error = () => {
 };
 
 export const DisabledWithError = () => {
-  const field = useField<InputStaffField>(undefined);
+  const field = useField<WidgetInputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export const DisabledWithError = () => {
   return (
     <ApplicationFramePage>
       <Card title="Disabled with error" sectioned>
-        <InputStaff
+        <WidgetInputStaff
           data={staff}
           field={field}
           input={{
@@ -82,13 +82,13 @@ export const DisabledWithError = () => {
 };
 
 export const LazyLoad = () => {
-  const field = useField<InputStaffField>(undefined);
+  const field = useField<WidgetInputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
     <ApplicationFramePage>
       <Card title="LazyLoad" sectioned>
-        <InputStaff
+        <WidgetInputStaff
           data={staff}
           field={field}
           input={{

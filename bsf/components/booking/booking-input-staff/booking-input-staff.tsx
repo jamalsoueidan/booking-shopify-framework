@@ -1,4 +1,4 @@
-import { WidgetStaff } from "@jamalsoueidan/bsb.types";
+import { Staff } from "@jamalsoueidan/bsb.types";
 import {
   InputDropdown,
   InputDropdownInput,
@@ -8,19 +8,23 @@ import { Avatar } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import React, { useCallback, useMemo } from "react";
 
-export type InputStaffField = WidgetStaff | undefined;
+export type BookingInputStaffField = Staff | undefined;
 
-export interface InputStaffProps {
-  data?: Array<WidgetStaff>;
-  field: Field<InputStaffField>;
+export interface BookingInputStaffProps {
+  data?: Array<Staff>;
+  field: Field<BookingInputStaffField>;
   input?: InputDropdownInput;
 }
 
-export function InputStaff({ data, field, input }: InputStaffProps) {
+export function BookingInputStaff({
+  data,
+  field,
+  input,
+}: BookingInputStaffProps) {
   const { t } = useTranslation({ id: "input-staff", locales });
 
   const prefix = useCallback(
-    (staff: WidgetStaff) => (
+    (staff: Staff) => (
       <Avatar size="small" source={staff?.avatar} name={staff?.fullname} />
     ),
     [],
@@ -31,20 +35,20 @@ export function InputStaff({ data, field, input }: InputStaffProps) {
       data?.map((d) => ({
         label: d.fullname,
         prefix: prefix(d),
-        value: d.staff,
+        value: d._id,
       })),
     [data, prefix],
   );
 
   const onChange = useCallback(
     (value: string) => {
-      field.onChange(data?.find((option) => option.staff === value));
+      field.onChange(data?.find((option) => option._id === value));
     },
     [data, field],
   );
 
   const selected = useMemo(
-    () => options?.find((option) => option.value === field.value?.staff),
+    () => options?.find((option) => option.value === field.value?._id),
     [field.value, options],
   );
 
