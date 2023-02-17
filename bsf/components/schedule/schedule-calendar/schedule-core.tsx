@@ -37,18 +37,19 @@ export const ScheduleCalendarCore = forwardRef<
     ref,
   ) => {
     const { onlyFormat } = useDate();
-    const { selectTagLabel, selectTagColor } = useTag();
+    const { selectTagLabel, selectTagBackgroundColor, selectTagColor } =
+      useTag();
 
     const events = useMemo(
       () =>
         data?.map((schedule) => ({
-          backgroundColor: `#${selectTagColor(schedule.tag)}`,
+          backgroundColor: `#${selectTagBackgroundColor(schedule.tag)}`,
           color: `#${selectTagColor(schedule.tag)}`,
           end: schedule.end,
           extendedProps: schedule,
           start: schedule.start,
         })) || [],
-      [data, selectTagColor],
+      [data, selectTagColor, selectTagBackgroundColor],
     );
 
     const renderItem = useCallback(

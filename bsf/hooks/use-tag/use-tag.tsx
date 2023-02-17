@@ -21,13 +21,16 @@ const locales = {
   },
 };
 
-export const TagColors: Record<Tag, string> = {
-  [Tag.all_day]: "d24e01",
-  [Tag.end_of_week]: "2980B9",
-  [Tag.weekday]: "4b6043",
-  [Tag.middle_of_week]: "A93226",
-  [Tag.start_of_week]: "8E44AD",
-  [Tag.weekend]: "235284",
+export const TagColors: Record<
+  Tag,
+  { backgroundColor: string; color: string }
+> = {
+  [Tag.all_day]: { backgroundColor: "ebeceb", color: "2f2e2e" },
+  [Tag.end_of_week]: { backgroundColor: "ffe1b8", color: "814319" },
+  [Tag.weekday]: { backgroundColor: "d5d4fe", color: "422d94" },
+  [Tag.middle_of_week]: { backgroundColor: "ceefa9", color: "304e1b" },
+  [Tag.start_of_week]: { backgroundColor: "a9caef", color: "1b354e" },
+  [Tag.weekend]: { backgroundColor: "efa9ae", color: "4e1b1b" },
 };
 
 export const useTag = () => {
@@ -59,11 +62,19 @@ export const useTag = () => {
     (value: Tag) => options.find((o) => o.value === value)?.label,
     [options],
   );
-  const selectTagColor = useCallback((value: Tag) => TagColors[value], []);
+  const selectTagBackgroundColor = useCallback(
+    (value: Tag) => TagColors[value].backgroundColor,
+    [],
+  );
+  const selectTagColor = useCallback(
+    (value: Tag) => TagColors[value].color,
+    [],
+  );
 
   return {
     options,
     selectTag,
+    selectTagBackgroundColor,
     selectTagColor,
     selectTagLabel,
     selectTagValue,
