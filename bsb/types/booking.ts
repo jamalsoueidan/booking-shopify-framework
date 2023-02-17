@@ -8,6 +8,7 @@ export enum BookingFulfillmentStatus {
   REFUNDED = "refunded",
   FULFILLED = "fulfilled",
   BOOKED = "booked",
+  DEFAULT = "default",
 }
 
 export type BaseBooking = {

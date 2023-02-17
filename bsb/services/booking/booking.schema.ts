@@ -1,4 +1,7 @@
-import { BaseBooking } from "@jamalsoueidan/bsb.types";
+import {
+  BaseBooking,
+  BookingFulfillmentStatus,
+} from "@jamalsoueidan/bsb.types";
 import { Document, Model, Schema, Types } from "mongoose";
 
 export interface IBooking extends Omit<BaseBooking, "_id" | "staff"> {
@@ -21,7 +24,9 @@ export const BookingSchema = new Schema<IBookingDocument, IBookingModel>({
     type: Date,
   },
   fulfillmentStatus: {
-    default: null,
+    default: BookingFulfillmentStatus.DEFAULT,
+    enum: Object.values(BookingFulfillmentStatus),
+    index: true,
     type: String,
   },
   isEdit: {
