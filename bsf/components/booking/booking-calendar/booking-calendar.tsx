@@ -24,20 +24,20 @@ export interface BookingCalendarProps {
 
 export const BookingCalendar = forwardRef<CalendarType, BookingCalendarProps>(
   ({ data, onClickBooking, onChangeDate, headerToolbar }, ref) => {
-    const { getColor } = useFulfillment();
+    const { selectFulfillmentColor } = useFulfillment();
     const { onlyFormat } = useDate();
 
     const events = useMemo(
       () =>
         data?.map((d) => ({
           ...d,
-          backgroundColor: getColor(d.fulfillmentStatus),
-          color: getColor(d.fulfillmentStatus),
+          backgroundColor: selectFulfillmentColor(d.fulfillmentStatus),
+          color: selectFulfillmentColor(d.fulfillmentStatus),
           end: d.end,
           start: d.start,
           textColor: "#202223",
         })) || [],
-      [data, getColor],
+      [data, selectFulfillmentColor],
     );
 
     const renderItem = useCallback(

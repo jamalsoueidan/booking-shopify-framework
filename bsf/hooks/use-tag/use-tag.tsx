@@ -1,6 +1,7 @@
 import { Tag } from "@jamalsoueidan/bsb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { useCallback, useMemo } from "react";
+import { Icon } from "@shopify/polaris";
+import React, { useCallback, useMemo } from "react";
 
 const locales = {
   da: {
@@ -21,7 +22,7 @@ const locales = {
   },
 };
 
-export const TagColors: Record<
+export const TagOptions: Record<
   Tag,
   { backgroundColor: string; color: string }
 > = {
@@ -34,18 +35,26 @@ export const TagColors: Record<
 };
 
 export const useTag = () => {
-  const { t } = useTranslation({ id: "tags", locales });
+  const { t } = useTranslation({ id: "use-tag", locales });
+
+  const prefix = useCallback(
+    (tag: Tag) => (
+      <Icon
+        source={`<svg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><circle cx='10' cy='10' r='10' fill='%23${TagOptions[tag].backgroundColor}' /></svg>`}
+        color="success"
+      />
+    ),
+    [],
+  );
 
   const options = useMemo(
-    () => [
-      { label: t("weekday"), value: Tag.weekday },
-      { label: t("weekend"), value: Tag.weekend },
-      { label: t("all_day"), value: Tag.all_day },
-      { label: t("end_of_week"), value: Tag.end_of_week },
-      { label: t("start_of_week"), value: Tag.start_of_week },
-      { label: t("middle_of_week"), value: Tag.middle_of_week },
-    ],
-    [t],
+    () =>
+      Object.values(Tag).map((value: Tag) => ({
+        label: t(value),
+        prefix: prefix(value),
+        value,
+      })),
+    [prefix, t],
   );
 
   const selectTag = useCallback(
@@ -62,12 +71,14 @@ export const useTag = () => {
     (value: Tag) => options.find((o) => o.value === value)?.label,
     [options],
   );
+
   const selectTagBackgroundColor = useCallback(
-    (value: Tag) => TagColors[value].backgroundColor,
+    (value: Tag) => `#${TagOptions[value].backgroundColor}`,
     [],
   );
+
   const selectTagColor = useCallback(
-    (value: Tag) => TagColors[value].color,
+    (value: Tag) => `#${TagOptions[value].color}`,
     [],
   );
 

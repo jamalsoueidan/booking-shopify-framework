@@ -1,8 +1,13 @@
+import { BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types";
+import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import React from "react";
 import { useFulfillment } from "./use-fulfillment";
 
-export const BasicuseFulfillment = () => {
-  const { getColor } = useFulfillment();
+function MockComponent() {
+  const { selectFulfillment } = useFulfillment();
+  return <>{selectFulfillment(BookingFulfillmentStatus.CANCELLED)}</>;
+}
 
-  return <>{getColor("booked")}</>;
-};
+export const Basic = withApplication(() => <MockComponent />, {
+  pageTitle: "useFulfillment",
+});

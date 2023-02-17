@@ -43,8 +43,8 @@ export const ScheduleCalendarCore = forwardRef<
     const events = useMemo(
       () =>
         data?.map((schedule) => ({
-          backgroundColor: `#${selectTagBackgroundColor(schedule.tag)}`,
-          color: `#${selectTagColor(schedule.tag)}`,
+          backgroundColor: selectTagBackgroundColor(schedule.tag),
+          color: selectTagColor(schedule.tag),
           end: schedule.end,
           extendedProps: schedule,
           start: schedule.start,

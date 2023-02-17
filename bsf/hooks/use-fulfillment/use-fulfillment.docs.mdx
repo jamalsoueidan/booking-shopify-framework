@@ -1,21 +1,11 @@
 ---
-description: "A React Hook that increments a count by 1 each time it is called."
+description: "A React Hook that handle fulfillment property in booking model."
 labels: ["hook", "counter"]
 ---
 
-## A React Hook to increment a count
-
-Increments the state of `count` by 1 each time `increment` is called
-
-### Component usage
-
-In this example clicking the button calls `increment` which increments the `count` by 1
+## A React Hook to handle fulfillment property
 
 ```js
-import { useFulfillment } from './use-fulfillment';
-
-const { count, increment } = useFulfillment();
-
-<h1>The count is {count}</h1>
-<button onClick={increment}>increment</button>
+const { selectFulfillment } = useFulfillment();
+selectFulfillment(BookingFulfillmentStatus.REFUNDED);
 ```

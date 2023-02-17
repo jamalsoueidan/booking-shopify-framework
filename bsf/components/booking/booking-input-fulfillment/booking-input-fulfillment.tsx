@@ -1,33 +1,39 @@
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { BookingFulfillmentStatus, Tag } from "@jamalsoueidan/bsb.types";
 import {
   InputDropdown,
   InputDropdownProps,
 } from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
 import { InputDropdownInput } from "@jamalsoueidan/bsf.components.inputs.input-dropdown/input-dropdown";
-import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
+import { useFulfillment } from "@jamalsoueidan/bsf.hooks.use-fulfillment";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Field } from "@shopify/react-form";
 import React, { useMemo } from "react";
 
 const locales = {
   da: {
-    label: "Tag",
-    placeholder: "Vælge tag",
+    label: "Status",
+    placeholder: "Vælge status",
   },
   en: {
-    label: "Tag",
-    placeholder: "Choose tag",
+    label: "Status",
+    placeholder: "Choose status",
   },
 };
 
-export type InputTagsField = Tag | undefined;
-export type InputTagsProps = Pick<InputDropdownProps<Tag>, "options"> & {
-  field: Field<InputTagsField>;
+export type BookingInputFulfillmentField = BookingFulfillmentStatus | undefined;
+export type BookingInputFulfillmentProps = Pick<
+  InputDropdownProps<Tag>,
+  "options"
+> & {
+  field: Field<BookingInputFulfillmentField>;
   input?: InputDropdownInput;
 };
 
-export const InputTags = ({ field, input }: InputTagsProps) => {
-  const { options } = useTag();
+export const BookingInputFulfillment = ({
+  field,
+  input,
+}: BookingInputFulfillmentProps) => {
+  const { options } = useFulfillment();
   const { t } = useTranslation({ id: "tag-input", locales });
 
   const selected = useMemo(

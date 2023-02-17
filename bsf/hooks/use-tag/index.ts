@@ -1,1 +1,1 @@
-export { TagColors, useTag } from "./use-tag";
+export { TagOptions as TagColors, useTag } from "./use-tag";
