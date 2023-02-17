@@ -1,6 +1,6 @@
 import { BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { Icon } from "@shopify/polaris";
+import { BadgeProps, Icon } from "@shopify/polaris";
 import React, { useCallback, useMemo } from "react";
 
 const locales = {
@@ -34,7 +34,7 @@ export type FulfillmentBannerStatus =
 
 export const FulfillmentOptions: Record<
   BookingFulfillmentStatus,
-  { bannerStatus?: string; color: string }
+  { bannerStatus?: BadgeProps["status"]; color: string }
 > = {
   [BookingFulfillmentStatus.BOOKED]: {
     bannerStatus: "info",
@@ -101,7 +101,8 @@ export const useFulfillment = () => {
   );
 
   const selectFulfillmentBannerStatus = useCallback(
-    (value: BookingFulfillmentStatus) => FulfillmentOptions[value].bannerStatus,
+    (value: BookingFulfillmentStatus): BadgeProps["status"] =>
+      FulfillmentOptions[value].bannerStatus || "info",
     [],
   );
 
