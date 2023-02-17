@@ -23,13 +23,13 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.35",
+        "version": "0.0.36",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.87",
+        "version": "0.0.88",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-calendar"
     },
@@ -41,7 +41,7 @@
     },
     "components/booking/booking-input-fulfillment": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-input-fulfillment"
     },
@@ -257,7 +257,7 @@
     },
     "hooks/use-fulfillment": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.39",
+        "version": "0.0.40",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-fulfillment"
     },
