@@ -52,7 +52,7 @@ const fake = {
     avatar:
       "https://gravatar.com/avatar/fcaa4e79f13775916c744afe85129170?s=400&d=robohash&r=x",
     email: "jamal@soueidan.com",
-    fullname: "jamal swueidan",
+    fullname: "jamalsoueidan",
     group: "all",
     phone: "4531317428",
     position: "1",

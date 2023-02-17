@@ -9,6 +9,7 @@ import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import {
   CalendarDate,
   CalendarType,
+  CalendarView,
 } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
@@ -21,6 +22,7 @@ export type ScheduleCalendarProps = {
   onClickSchedule: (schedule: Schedule) => void;
   onChangeDate: (date: CalendarDate) => void;
   headerToolbar?: CalendarOptions["headerToolbar"];
+  initialView?: CalendarView;
 };
 
 export const ScheduleCalendarCore = forwardRef<
@@ -113,6 +115,7 @@ export const ScheduleCalendarCore = forwardRef<
         dateClick={handleOnClick}
         eventClick={handleClickEvent}
         validRange={validRange}
+        initialView="dayGridMonth"
       />
     );
   },

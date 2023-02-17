@@ -5,6 +5,7 @@ import en from "@fullcalendar/core/locales/en-gb";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
@@ -18,6 +19,7 @@ export type CalendarDate = {
 };
 
 export type CalenderView =
+  | "multiMonthYear"
   | "dayGridMonth"
   | "timeGridWeek"
   | "timeGridDay"
@@ -67,8 +69,13 @@ export const Calendar = forwardRef<CalendarType, CalendarOptions>(
       <FullCalendar
         height="auto"
         ref={ref}
-        plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin, listPlugin]}
-        initialView="dayGridMonth"
+        plugins={[
+          timeGridPlugin,
+          dayGridPlugin,
+          interactionPlugin,
+          listPlugin,
+          multiMonthPlugin,
+        ]}
         firstDay={1}
         dayMaxEvents
         slotDuration="00:15:00"
@@ -96,9 +103,11 @@ export const Calendar = forwardRef<CalendarType, CalendarOptions>(
           props.headerToolbar || {
             center: "title",
             left: "today prev,next",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+            right:
+              "multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay,listWeek",
           }
         }
+        initialView={props.initialView || "dayGridMonth"}
       />
     );
   },
