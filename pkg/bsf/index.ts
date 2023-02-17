@@ -1,7 +1,7 @@
 // COMPONENTS
 export * from "@jamalsoueidan/bsf.components.booking.booking-calendar";
 export * from "@jamalsoueidan/bsf.components.booking.booking-customer";
-export * from "@jamalsoueidan/bsf.components.booking.booking-staff";
+export * from "@jamalsoueidan/bsf.components.booking.booking-input-staff";
 export * from "@jamalsoueidan/bsf.components.booking.booking-view";
 export * from "@jamalsoueidan/bsf.components.calendar";
 export * from "@jamalsoueidan/bsf.components.form-errors";
@@ -14,7 +14,6 @@ export * from "@jamalsoueidan/bsf.components.inputs.input-date-flat";
 export * from "@jamalsoueidan/bsf.components.inputs.input-days";
 export * from "@jamalsoueidan/bsf.components.inputs.input-dropdown";
 export * from "@jamalsoueidan/bsf.components.inputs.input-language";
-export * from "@jamalsoueidan/bsf.components.inputs.input-staff";
 export * from "@jamalsoueidan/bsf.components.inputs.input-tags";
 export * from "@jamalsoueidan/bsf.components.inputs.input-time-zone";
 export * from "@jamalsoueidan/bsf.components.inputs.input-timer-divider";
@@ -26,6 +25,7 @@ export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
 export * from "@jamalsoueidan/bsf.components.schedule.schedule-calendar";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";
+export * from "@jamalsoueidan/bsf.components.widget.widget-input-staff";
 // HELPERS
 export * from "@jamalsoueidan/bsf.helpers.helper-array";
 export * from "@jamalsoueidan/bsf.helpers.helper-text";

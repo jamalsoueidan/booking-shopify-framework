@@ -23,7 +23,7 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.31",
+        "version": "0.0.32",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
@@ -39,11 +39,11 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-customer"
     },
-    "components/booking/booking-staff": {
+    "components/booking/booking-input-staff": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.103",
+        "version": "0.0.1",
         "mainFile": "index.ts",
-        "rootDir": "bsf/components/booking/booking-staff"
+        "rootDir": "bsf/components/booking/booking-input-staff"
     },
     "components/booking/booking-view": {
         "scope": "jamalsoueidan.bsf",
@@ -123,12 +123,6 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-multi-select"
     },
-    "components/inputs/input-staff": {
-        "scope": "jamalsoueidan.bsf",
-        "version": "0.0.91",
-        "mainFile": "index.ts",
-        "rootDir": "bsf/components/inputs/input-staff"
-    },
     "components/inputs/input-tags": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.50",
@@ -194,6 +188,12 @@
         "version": "0.0.104",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/staff/staff-form"
+    },
+    "components/widget/widget-input-staff": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/widget/widget-input-staff"
     },
     "envs/jest-esm": {
         "scope": "jamalsoueidan.bsd",
