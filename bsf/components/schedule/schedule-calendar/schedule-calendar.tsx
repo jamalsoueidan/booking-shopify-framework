@@ -68,9 +68,9 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
       <ScheduleCalendarCore
         {...props}
         headerToolbar={{
-          center: "",
-          left: "",
-          right: "",
+          center: undefined,
+          left: undefined,
+          right: undefined,
         }}
         data={data}
         ref={ref}
