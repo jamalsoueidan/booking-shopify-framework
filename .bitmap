@@ -17,19 +17,19 @@
     },
     "bsb": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.32",
+        "version": "0.0.33",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsb"
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.42",
+        "version": "0.0.43",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.91",
+        "version": "0.0.92",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-calendar"
     },
@@ -185,7 +185,7 @@
     },
     "components/schedule/schedule-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.61",
+        "version": "0.0.62",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/schedule-calendar"
     },
@@ -377,7 +377,7 @@
     },
     "services/collection": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.53",
+        "version": "0.0.54",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/collection"
     },
