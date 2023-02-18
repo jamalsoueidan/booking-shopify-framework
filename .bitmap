@@ -23,13 +23,13 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.39",
+        "version": "0.0.42",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.89",
+        "version": "0.0.91",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-calendar"
     },
@@ -41,7 +41,7 @@
     },
     "components/booking/booking-input-fulfillment": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/booking/booking-input-fulfillment"
     },
@@ -59,7 +59,7 @@
     },
     "components/calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.58",
+        "version": "0.0.60",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/calendar"
     },
@@ -131,7 +131,7 @@
     },
     "components/inputs/input-tags": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.53",
+        "version": "0.0.54",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/inputs/input-tags"
     },
@@ -173,19 +173,19 @@
     },
     "components/schedule/create-many-shifts": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.101",
+        "version": "0.0.102",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-many-shifts"
     },
     "components/schedule/create-one-shift": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.68",
+        "version": "0.0.69",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-one-shift"
     },
     "components/schedule/schedule-calendar": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.58",
+        "version": "0.0.61",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/schedule-calendar"
     },
@@ -257,7 +257,7 @@
     },
     "hooks/use-fulfillment": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.40",
+        "version": "0.0.41",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-fulfillment"
     },
@@ -293,7 +293,7 @@
     },
     "hooks/use-tag": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.67",
+        "version": "0.0.68",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-tag"
     },
