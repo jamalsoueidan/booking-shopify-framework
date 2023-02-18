@@ -36,6 +36,7 @@ export const ScheduleCalendarCore = forwardRef<
       onClickSchedule,
       onChangeDate,
       headerToolbar,
+      initialView,
     }: ScheduleCalendarProps,
     ref,
   ) => {
@@ -115,7 +116,7 @@ export const ScheduleCalendarCore = forwardRef<
         dateClick={handleOnClick}
         eventClick={handleClickEvent}
         validRange={validRange}
-        initialView="dayGridMonth"
+        initialView={initialView || "dayGridMonth"}
       />
     );
   },

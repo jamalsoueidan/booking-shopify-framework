@@ -1,21 +1,22 @@
+import { CalendarTitle } from "@jamalsoueidan/bsf.components.calendar";
 import { CalendarType } from "@jamalsoueidan/bsf.components.calendar/calendar";
 import {
   InputTags,
   InputTagsField,
 } from "@jamalsoueidan/bsf.components.inputs.input-tags";
-import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { Button, ButtonGroup, Icon, Stack, Text } from "@shopify/polaris";
+import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { Button, ButtonGroup, Stack } from "@shopify/polaris";
 import { ResetMinor } from "@shopify/polaris-icons";
 import { useField } from "@shopify/react-form";
 import React, { useCallback, useMemo, useRef } from "react";
 import { ScheduleCalendarCore, ScheduleCalendarProps } from "./schedule-core";
 
 export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
-  const { format } = useDate();
+  const { t } = useTranslation({ id: "schedule-calendar", locales });
   const ref = useRef<CalendarType>(null);
   const tag = useField<InputTagsField>(undefined);
 
-  const handleToday = useCallback(() => {
+  const reset = useCallback(() => {
     tag.onChange(undefined);
     ref.current?.getApi().today();
   }, [tag]);
@@ -28,37 +29,37 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
     ref.current?.getApi().next();
   }, []);
 
-  const currentDate = ref.current?.getApi().getDate() || new Date();
-
   const data = useMemo(() => {
     const { data } = props;
     return tag.value ? data.filter((d) => d.tag === tag.value) : data;
   }, [props, tag.value]);
 
-  const icon = <Icon source={ResetMinor} />;
-
   return (
     <>
       <Stack>
         <Stack.Item fill>
-          <Text as="h1" variant="heading3xl">
-            {format(currentDate, "LLLL yyyy")}
-          </Text>
+          <Stack alignment="center">
+            <CalendarTitle calendarRef={ref.current} />
+            <ButtonGroup segmented>
+              <Button onClick={handlePrev} size="slim">
+                &#60;
+              </Button>
+              <Button onClick={handleNext} size="slim">
+                &#62;
+              </Button>
+            </ButtonGroup>
+          </Stack>
         </Stack.Item>
         <Stack>
-          <Button onClick={handleToday} icon={icon} />
-
-          <ButtonGroup segmented>
-            <Button onClick={handlePrev}>&#60;</Button>
-            <Button onClick={handleNext}>&#62;</Button>
-          </ButtonGroup>
+          <Button onClick={reset} icon={ResetMinor}>
+            {t("reset")}
+          </Button>
 
           <InputTags
             field={tag}
             input={{
-              label: "Filtre tag",
               labelHidden: true,
-              placeholder: "Filtre tag",
+              placeholder: t("input.tag"),
               size: "medium",
             }}
           />
@@ -77,4 +78,21 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
       />
     </>
   );
+};
+
+const locales = {
+  da: {
+    dayGridMonth: "Måned",
+    input: {
+      tag: "Filtre tag",
+    },
+    reset: "Nulstil",
+  },
+  en: {
+    dayGridMonth: "Month",
+    input: {
+      tag: "Filter by tag",
+    },
+    reset: "Reset",
+  },
 };

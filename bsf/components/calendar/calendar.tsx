@@ -18,7 +18,7 @@ export type CalendarDate = {
   end: Date;
 };
 
-export type CalenderView =
+export type CalendarView =
   | "multiMonthYear"
   | "dayGridMonth"
   | "timeGridWeek"
