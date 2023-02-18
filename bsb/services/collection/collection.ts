@@ -40,7 +40,8 @@ export const CollectionServiceDestroy = async (
 
 export const CollectionServiceCreate = async (
   query: {
-    shopify: ShopifyApp<ShopifyRestResources, never>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    shopify: ShopifyApp<ShopifyRestResources, any>;
   } & { session: ShopifySession },
   body: CollectionServiceCreateBodyProps,
 ) => {

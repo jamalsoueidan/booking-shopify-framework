@@ -46,7 +46,8 @@ const getCollectionQuery = `
 
 export interface GetCollectionProps {
   session: ShopifySession;
-  shopify: ShopifyApp<ShopifyRestResources, never>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  shopify: ShopifyApp<ShopifyRestResources, any>;
   id: string;
 }
 
