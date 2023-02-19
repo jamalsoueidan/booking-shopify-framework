@@ -1,4 +1,8 @@
-import { Booking, BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import {
+  Booking,
+  BookingFulfillmentStatus,
+} from "@jamalsoueidan/bsb.types.booking";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useModal } from "@jamalsoueidan/bsf.hooks.use-modal";
 import { Banner, Link, Modal, TextContainer } from "@shopify/polaris";

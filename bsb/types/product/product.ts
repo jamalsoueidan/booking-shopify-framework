@@ -1,5 +1,5 @@
-import { Staff } from "./staff";
-import { Tag } from "./tag";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 
 export interface ProductStaff {
   staff: string;

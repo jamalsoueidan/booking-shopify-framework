@@ -9,7 +9,7 @@ import {
   useForm,
 } from "@shopify/react-form";
 
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";

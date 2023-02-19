@@ -1,4 +1,4 @@
-import { Notification } from "@jamalsoueidan/bsb.types";
+import { Notification } from "@jamalsoueidan/bsb.types.notification";
 import mongoose, { Document, Model } from "mongoose";
 
 export interface INotification extends Omit<Notification, "_id"> {}
@@ -7,7 +7,10 @@ export interface INotificationDocument extends INotification, Document {}
 
 export interface INotificationModel extends Model<INotificationDocument> {}
 
-export const NotificationSchema = new mongoose.Schema<INotificationDocument, INotificationModel>(
+export const NotificationSchema = new mongoose.Schema<
+  INotificationDocument,
+  INotificationModel
+>(
   {
     batchId: {
       index: true,

@@ -1,4 +1,4 @@
-import { WidgetStaff } from "@jamalsoueidan/bsb.types";
+import { WidgetStaff } from "@jamalsoueidan/bsb.types.widget";
 import {
   InputDropdown,
   InputDropdownInput,

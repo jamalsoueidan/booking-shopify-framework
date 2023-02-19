@@ -1,4 +1,5 @@
-import { ShopifySession } from "@jamalsoueidan/bsb.types";
+/* eslint-disable @typescript-eslint/ban-types */
+import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import mongoose, { Model } from "mongoose";
 
 export interface IShopifySession extends ShopifySession {}
@@ -7,7 +8,10 @@ export interface IShopifySessionDocument extends IShopifySession, Document {}
 
 export interface IShopifySessionModel extends Model<IShopifySessionDocument> {}
 
-const ShopifySessionSchema = new mongoose.Schema<IShopifySessionDocument, IShopifySessionModel>({
+const ShopifySessionSchema = new mongoose.Schema<
+  IShopifySessionDocument,
+  IShopifySessionModel
+>({
   accessToken: String,
   id: String,
   isOnline: Boolean,
@@ -20,8 +24,13 @@ const ShopifySessionSchema = new mongoose.Schema<IShopifySessionDocument, IShopi
   state: String,
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const ShopifySessionModel: Model<IShopifySessionDocument, {}, {}, {}, IShopifySessionModel> =
+export const ShopifySessionModel: Model<
+  IShopifySessionDocument,
+  {},
+  {},
+  {},
+  IShopifySessionModel
+> =
   mongoose.models.shopify_sessions ||
   mongoose.model<IShopifySessionDocument, IShopifySessionModel>(
     "shopify_sessions",

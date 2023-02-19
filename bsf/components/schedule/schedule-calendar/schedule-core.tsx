@@ -4,7 +4,7 @@ import {
   EventContentArg,
 } from "@fullcalendar/core";
 import { DateClickArg } from "@fullcalendar/interaction";
-import { Schedule } from "@jamalsoueidan/bsb.types";
+import { Schedule } from "@jamalsoueidan/bsb.types.schedule";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import {
   CalendarDate,

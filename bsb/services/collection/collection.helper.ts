@@ -1,4 +1,4 @@
-import { ShopifySession } from "@jamalsoueidan/pkg.bsb";
+import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 
 interface Product {

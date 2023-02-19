@@ -8,7 +8,11 @@ import {
   NotificationTemplateServiceReplace,
 } from "@jamalsoueidan/bsb.services.notification-template";
 import { StaffModel } from "@jamalsoueidan/bsb.services.staff";
-import { Notification, NotificationBody, NotificationQuery } from "@jamalsoueidan/bsb.types";
+import {
+  Notification,
+  NotificationBody,
+  NotificationQuery,
+} from "@jamalsoueidan/bsb.types.notification";
 import { subDays, subMinutes } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import mongoose from "mongoose";
@@ -24,7 +28,16 @@ interface SendProps {
   isStaff: boolean;
 }
 
-const send = async ({ orderId, lineItemId, shop, receiver, message, template, scheduled, isStaff }: SendProps) => {
+const send = async ({
+  orderId,
+  lineItemId,
+  shop,
+  receiver,
+  message,
+  template,
+  scheduled,
+  isStaff,
+}: SendProps) => {
   // clear out all old schedules messages before sending new one.
 
   const notification = new NotificationModel({
@@ -57,7 +70,12 @@ interface NoMesageSendLastMinutesProps {
   receiver: string;
 }
 
-const noMesageSendLastMinutes = async ({ shop, orderId, lineItemId, receiver }: NoMesageSendLastMinutesProps) => {
+const noMesageSendLastMinutes = async ({
+  shop,
+  orderId,
+  lineItemId,
+  receiver,
+}: NoMesageSendLastMinutesProps) => {
   const totalSend = await NotificationModel.find({
     lineItemId,
     orderId,
@@ -75,7 +93,11 @@ interface GetProps extends NotificationQuery {
   shop: string;
 }
 
-export const NotificationServiceGet = ({ shop, orderId, lineItemId }: GetProps) =>
+export const NotificationServiceGet = ({
+  shop,
+  orderId,
+  lineItemId,
+}: GetProps) =>
   NotificationModel.find({
     lineItemId: { $in: [lineItemId, -1] },
     orderId,
@@ -296,7 +318,10 @@ export const NotificationServiceSendBookingReminderCustomer = async ({
         message,
         orderId: booking.orderId,
         receiver: receiver.phone?.replace("+", ""),
-        scheduled: utcToZonedTime(subDays(booking.start, 1), notificationTemplate.timeZone),
+        scheduled: utcToZonedTime(
+          subDays(booking.start, 1),
+          notificationTemplate.timeZone,
+        ),
         shop,
         template,
       });
@@ -323,10 +348,13 @@ export const NotificationServiceSendBookingReminderStaff = async ({
     bookings.forEach(async (booking) => {
       const receiver = await StaffModel.findById(booking.staff);
       if (receiver) {
-        const message = NotificationTemplateServiceReplace(notificationTemplate, {
-          booking,
-          receiver,
-        });
+        const message = NotificationTemplateServiceReplace(
+          notificationTemplate,
+          {
+            booking,
+            receiver,
+          },
+        );
 
         await send({
           isStaff: true,
@@ -334,7 +362,10 @@ export const NotificationServiceSendBookingReminderStaff = async ({
           message,
           orderId: booking.orderId,
           receiver: receiver?.phone?.replace("+", "") || "",
-          scheduled: utcToZonedTime(subDays(booking.start, 1), notificationTemplate.timeZone),
+          scheduled: utcToZonedTime(
+            subDays(booking.start, 1),
+            notificationTemplate.timeZone,
+          ),
           shop,
           template,
         });
@@ -348,7 +379,10 @@ interface CancelProps {
   shop: string;
 }
 
-export const NotificationServiceCancel = async ({ id: _id, shop }: CancelProps) => {
+export const NotificationServiceCancel = async ({
+  id: _id,
+  shop,
+}: CancelProps) => {
   const notification = await NotificationModel.findOneAndUpdate(
     {
       _id,
@@ -369,7 +403,11 @@ interface CancelAllProps extends Pick<Notification, "orderId" | "lineItemId"> {
   shop: string;
 }
 
-export const NotificationServiceCancelAll = async ({ orderId, lineItemId, shop }: CancelAllProps) => {
+export const NotificationServiceCancelAll = async ({
+  orderId,
+  lineItemId,
+  shop,
+}: CancelAllProps) => {
   const notifications = await NotificationModel.find({
     lineItemId,
     orderId,

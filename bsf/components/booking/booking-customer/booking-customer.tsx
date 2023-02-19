@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { Booking } from "@jamalsoueidan/bsb.types";
+import { Booking } from "@jamalsoueidan/bsb.types.booking";
 import { Link, Modal, TextContainer } from "@shopify/polaris";
 import React, { memo } from "react";
 

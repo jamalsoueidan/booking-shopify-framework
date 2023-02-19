@@ -1,4 +1,4 @@
-import { WidgetSchedule } from "@jamalsoueidan/bsb.types";
+import { WidgetSchedule } from "@jamalsoueidan/bsb.types.widget";
 import { DatePicker, DatePickerProps, Range } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
 import {
@@ -67,7 +67,7 @@ export const InputDate = ({
 
   const disableSpecificDates = useMemo(() => {
     if (!disableDates) {
-      return;
+      return undefined;
     }
 
     const dayIntervals = eachDayOfInterval({
@@ -78,7 +78,7 @@ export const InputDate = ({
     return dayIntervals.filter(
       (r) => !data?.find((s) => isSameDay(new Date(s.date), r)),
     );
-  }, [data, year, month]);
+  }, [disableDates, year, month, data]);
 
   return (
     <DatePicker

@@ -1,4 +1,5 @@
-import { Product, Tag } from "@jamalsoueidan/bsb.types";
+import { Product } from "@jamalsoueidan/bsb.types.product";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { Document, Model, Schema, Types } from "mongoose";
 
 type ProductStaff = {

@@ -1,4 +1,4 @@
-import { User } from "@jamalsoueidan/bsb.types";
+import { User } from "@jamalsoueidan/bsb.types.user";
 import bcrypt from "bcryptjs";
 import mongoose, { Document, Model, Types } from "mongoose";
 

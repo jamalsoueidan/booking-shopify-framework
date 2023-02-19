@@ -1,4 +1,4 @@
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import {
   addDays,

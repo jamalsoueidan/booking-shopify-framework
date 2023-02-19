@@ -1,5 +1,9 @@
-import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
-import { UseTimerField, UseTimerInput, useTimer } from "@jamalsoueidan/bsf.hooks.use-timer";
+import { WidgetHourRange } from "@jamalsoueidan/bsb.types.widget";
+import {
+  UseTimerField,
+  UseTimerInput,
+  useTimer,
+} from "@jamalsoueidan/bsf.hooks.use-timer";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Select } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";

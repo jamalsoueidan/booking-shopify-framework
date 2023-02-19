@@ -3,7 +3,7 @@ import {
   EventClickArg,
   EventContentArg,
 } from "@fullcalendar/core";
-import { BookingServiceGetByIdReturn } from "@jamalsoueidan/bsb.types/booking";
+import { BookingServiceGetByIdReturn } from "@jamalsoueidan/bsb.types.booking";
 import { Calendar } from "@jamalsoueidan/bsf.components.calendar";
 import {
   CalendarDate,

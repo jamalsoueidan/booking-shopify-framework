@@ -1,4 +1,4 @@
-import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types";
+import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types.staff";
 import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useForm } from "@jamalsoueidan/bsf.hooks.use-form";
@@ -31,7 +31,13 @@ export interface StaffFormProps {
 }
 
 export const StaffForm = memo(
-  ({ action, breadcrumbs, titleMetadata, data, disallowEditing = { active: true, group: true } }: StaffFormProps) => {
+  ({
+    action,
+    breadcrumbs,
+    titleMetadata,
+    data,
+    disallowEditing = { active: true, group: true },
+  }: StaffFormProps) => {
     const { options } = usePosition();
     const { show } = useToast();
     const { t } = useTranslation({
@@ -61,15 +67,24 @@ export const StaffForm = memo(
           value: data?.avatar || "",
         }),
         email: useField({
-          validates: [notEmpty("Email is required"), Validators.isEmail("Invalid email")],
+          validates: [
+            notEmpty("Email is required"),
+            Validators.isEmail("Invalid email"),
+          ],
           value: data?.email || "",
         }),
         fullname: useField({
-          validates: [notEmpty("Fullname is required"), lengthMoreThan(3, "Fullname must be more than 3 characters")],
+          validates: [
+            notEmpty("Fullname is required"),
+            lengthMoreThan(3, "Fullname must be more than 3 characters"),
+          ],
           value: data?.fullname || "",
         }),
         phone: useField({
-          validates: [notEmpty("Phone is required"), Validators.isPhoneNumber("Invalid phonenumber")],
+          validates: [
+            notEmpty("Phone is required"),
+            Validators.isPhoneNumber("Invalid phonenumber"),
+          ],
           value: data?.phone || "",
         }),
         position: useField({
@@ -98,7 +113,10 @@ export const StaffForm = memo(
       },
     });
 
-    const changePostal = useCallback((value: string) => fields?.postal.onChange(parseInt(value, 10)), [fields?.postal]);
+    const changePostal = useCallback(
+      (value: string) => fields?.postal.onChange(parseInt(value, 10)),
+      [fields?.postal],
+    );
 
     const onSubmit = useCallback(() => {
       if (submit) {
@@ -165,7 +183,11 @@ export const StaffForm = memo(
             <Layout.AnnotatedSection title={t("position.title")}>
               <Card sectioned>
                 <FormLayout>
-                  <Select label={t("position.label")} options={options} {...fields?.position} />
+                  <Select
+                    label={t("position.label")}
+                    options={options}
+                    {...fields?.position}
+                  />
                   {disallowEditing.group ? (
                     <TextField
                       label={t("group.label")}
@@ -192,7 +214,11 @@ export const StaffForm = memo(
                   />
                   {fields?.avatar.value && (
                     <Box paddingBlockStart="4">
-                      <Image source={fields?.avatar.value} alt="avatar url" width="100px" />
+                      <Image
+                        source={fields?.avatar.value}
+                        alt="avatar url"
+                        width="100px"
+                      />
                     </Box>
                   )}
                 </Card.Section>

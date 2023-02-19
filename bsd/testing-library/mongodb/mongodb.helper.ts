@@ -8,7 +8,7 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   addHours,
   setHours,

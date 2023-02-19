@@ -1,3 +1,5 @@
 import React from "react";
 
-export const BasicBsfPkg = () => <>Package (all components)</>;
+export function Basic() {
+  return <div>Booking Shopify Frontend - components</div>;
+}

@@ -1,4 +1,4 @@
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";

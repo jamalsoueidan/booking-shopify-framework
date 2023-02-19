@@ -1,5 +1,5 @@
-import { Product } from "./product";
-import { Staff } from "./staff";
+import { Product } from "@jamalsoueidan/bsb.types.product";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
 
 export interface Collection {
   _id: string;

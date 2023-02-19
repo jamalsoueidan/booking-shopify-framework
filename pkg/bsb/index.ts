@@ -14,4 +14,4 @@ export * from "@jamalsoueidan/bsb.services.shopify-session";
 export * from "@jamalsoueidan/bsb.services.staff";
 export * from "@jamalsoueidan/bsb.services.user";
 export * from "@jamalsoueidan/bsb.services.widget";
-export * from "@jamalsoueidan/bsb.types";
+export * from "@jamalsoueidan/pkg.bsb-types";

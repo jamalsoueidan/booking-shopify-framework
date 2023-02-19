@@ -1,5 +1,5 @@
 import { ProductServiceUpdate } from "@jamalsoueidan/bsb.services.product";
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   createSchedule,
   createStaff,

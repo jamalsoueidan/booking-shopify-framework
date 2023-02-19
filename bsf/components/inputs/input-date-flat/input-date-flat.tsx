@@ -1,4 +1,4 @@
-import { WidgetSchedule } from "@jamalsoueidan/bsb.types";
+import { WidgetSchedule } from "@jamalsoueidan/bsb.types.widget";
 import {
   InputDate,
   InputDateField,

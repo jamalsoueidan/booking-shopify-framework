@@ -1,4 +1,4 @@
-import { Tag } from "./tag";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 
 export interface Schedule {
   _id: string;

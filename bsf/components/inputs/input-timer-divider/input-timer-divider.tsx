@@ -1,4 +1,4 @@
-import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
+import { WidgetHourRange } from "@jamalsoueidan/bsb.types.widget";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import {
   UseTimerField,

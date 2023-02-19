@@ -1,4 +1,4 @@
-import { BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types";
+import { BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types.booking";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { BadgeProps, Icon } from "@shopify/polaris";
 import React, { useCallback, useMemo } from "react";

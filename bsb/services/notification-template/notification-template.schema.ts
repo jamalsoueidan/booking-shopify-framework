@@ -1,12 +1,16 @@
 import mongoose, { Document, Model } from "mongoose";
 
-import { NotificationTemplate } from "@jamalsoueidan/bsb.types";
+import { NotificationTemplate } from "@jamalsoueidan/bsb.types.notification-template";
 
-export interface INotificationTemplate extends Omit<NotificationTemplate, "_id"> {}
+export interface INotificationTemplate
+  extends Omit<NotificationTemplate, "_id"> {}
 
-export interface INotificationTemplateDocument extends INotificationTemplate, Document {}
+export interface INotificationTemplateDocument
+  extends INotificationTemplate,
+    Document {}
 
-export interface INotificationTemplateModel extends Model<INotificationTemplateDocument> {}
+export interface INotificationTemplateModel
+  extends Model<INotificationTemplateDocument> {}
 
 export const NotificationTemplateSchema = new mongoose.Schema<
   INotificationTemplateDocument,
@@ -30,4 +34,7 @@ export const NotificationTemplateSchema = new mongoose.Schema<
   },
 });
 
-NotificationTemplateSchema.index({ language: 1, name: 1, shop: 1 }, { unique: true });
+NotificationTemplateSchema.index(
+  { language: 1, name: 1, shop: 1 },
+  { unique: true },
+);

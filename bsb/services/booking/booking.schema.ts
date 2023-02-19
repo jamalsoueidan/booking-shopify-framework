@@ -1,7 +1,7 @@
 import {
   BaseBooking,
   BookingFulfillmentStatus,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.booking";
 import { Document, Model, Schema, Types } from "mongoose";
 
 export interface IBooking extends Omit<BaseBooking, "_id" | "staff"> {

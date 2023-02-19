@@ -3,7 +3,7 @@ import { BookingModel } from "@jamalsoueidan/bsb.services.booking";
 import { CartModel } from "@jamalsoueidan/bsb.services.cart";
 import { ProductServiceUpdate } from "@jamalsoueidan/bsb.services.product";
 import { StaffServiceFindByIdAndUpdate } from "@jamalsoueidan/bsb.services.staff";
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   createProduct,
   createSchedule,

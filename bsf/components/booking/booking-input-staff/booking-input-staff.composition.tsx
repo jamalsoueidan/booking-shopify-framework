@@ -1,4 +1,4 @@
-import { Staff } from "@jamalsoueidan/bsb.types";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";

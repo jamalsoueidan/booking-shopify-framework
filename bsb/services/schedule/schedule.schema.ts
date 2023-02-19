@@ -1,4 +1,5 @@
-import { Schedule, Tag } from "@jamalsoueidan/bsb.types";
+import { Schedule } from "@jamalsoueidan/bsb.types.schedule";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface ISchedule extends Omit<Schedule, "_id" | "staff"> {

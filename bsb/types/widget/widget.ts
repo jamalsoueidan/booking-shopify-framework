@@ -1,6 +1,6 @@
-import { BaseBooking } from "@jamalsoueidan/bsb.types/booking";
-import { Schedule } from "./schedule";
-import { Tag } from "./tag";
+import { BaseBooking } from "@jamalsoueidan/bsb.types.booking";
+import { Schedule } from "@jamalsoueidan/bsb.types.schedule";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 
 export interface WidgetServiceAvailabilityProps {
   staff?: string;

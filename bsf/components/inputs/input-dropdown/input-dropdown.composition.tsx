@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
-import { Tag, WidgetStaff } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
+import { WidgetStaff } from "@jamalsoueidan/bsb.types.widget";
 import { withApplication } from "@jamalsoueidan/bsd.preview.with-application";
 import { Button, Card, Icon } from "@shopify/polaris";
 import { DynamicSourceMajor, FavoriteMajor } from "@shopify/polaris-icons";

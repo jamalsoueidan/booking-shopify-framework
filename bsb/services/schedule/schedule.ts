@@ -1,5 +1,6 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
@@ -11,8 +12,8 @@ import {
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
-  ShopQuery,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.schedule";
+
 import {
   addHours,
   getHours,

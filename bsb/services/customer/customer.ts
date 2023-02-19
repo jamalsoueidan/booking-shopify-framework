@@ -1,9 +1,10 @@
 import { ShopifySessionModel } from "@jamalsoueidan/bsb.services.shopify-session";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   CustomerServiceFindAndUpdateProps,
   CustomerServiceSearchProps,
-  ShopQuery,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.customer";
+
 import { ShopifyApp } from "@shopify/shopify-app-express";
 import { CustomerModel } from "./customer.model";
 

@@ -1,4 +1,4 @@
-import { Cart } from "@jamalsoueidan/bsb.types";
+import { Cart } from "@jamalsoueidan/bsb.types.cart";
 import mongoose, { Model, Types } from "mongoose";
 
 export interface ICart extends Omit<Cart, "_id" | "staff"> {

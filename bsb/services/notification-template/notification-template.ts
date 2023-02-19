@@ -3,7 +3,8 @@ import { ICustomer } from "@jamalsoueidan/bsb.services.customer";
 import { NotificationTemplateModel } from "@jamalsoueidan/bsb.services.notification-template";
 import { SettingModel } from "@jamalsoueidan/bsb.services.setting";
 import { IStaff } from "@jamalsoueidan/bsb.services.staff";
-import { NotificationTemplate, Setting } from "@jamalsoueidan/bsb.types";
+import { NotificationTemplate } from "@jamalsoueidan/bsb.types.notification-template";
+import { Setting } from "@jamalsoueidan/bsb.types.setting";
 
 import { format, formatRelative, subDays } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
@@ -55,19 +56,35 @@ export const NotificationTemplateServiceReplace = (
     message = message.replace(
       /{time}/g,
       formatRelative(
-        utcToZonedTime(new Date(replace.booking.start), notificationTemplate.timeZone),
-        utcToZonedTime(subDays(new Date(replace.booking.start), 1), notificationTemplate.timeZone),
+        utcToZonedTime(
+          new Date(replace.booking.start),
+          notificationTemplate.timeZone,
+        ),
+        utcToZonedTime(
+          subDays(new Date(replace.booking.start), 1),
+          notificationTemplate.timeZone,
+        ),
         { locale: notificationTemplate.language !== "en-US" ? da : undefined },
       ),
     );
     message = message.replace(
       /{date}/g,
-      format(utcToZonedTime(new Date(replace.booking.start), notificationTemplate.timeZone), "d. MMMM - HH:mm", {
-        locale: notificationTemplate.language !== "en-US" ? da : undefined,
-      }),
+      format(
+        utcToZonedTime(
+          new Date(replace.booking.start),
+          notificationTemplate.timeZone,
+        ),
+        "d. MMMM - HH:mm",
+        {
+          locale: notificationTemplate.language !== "en-US" ? da : undefined,
+        },
+      ),
     );
     message = message.replace(/{title}/g, replace.booking.title);
-    message = message.replace(/{total}/g, replace.booking.lineItemTotal.toString());
+    message = message.replace(
+      /{total}/g,
+      replace.booking.lineItemTotal.toString(),
+    );
   }
 
   return message;

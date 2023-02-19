@@ -33,4 +33,5 @@ export interface UserSettingsResponse {
   timeZone: string;
 }
 
-export interface UserSettingsUpdateBodyRequest extends Omit<UserSettingsResponse, "_id"> {}
+export interface UserSettingsUpdateBodyRequest
+  extends Omit<UserSettingsResponse, "_id"> {}

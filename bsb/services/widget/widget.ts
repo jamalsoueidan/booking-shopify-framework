@@ -3,16 +3,16 @@ import { BookingModel, IBooking } from "@jamalsoueidan/bsb.services.booking";
 import { CartModel } from "@jamalsoueidan/bsb.services.cart";
 import { ProductModel } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
+import { BaseBooking } from "@jamalsoueidan/bsb.types.booking";
+import { Cart } from "@jamalsoueidan/bsb.types.cart";
 import {
-  Cart,
-  ShopQuery,
   WidgetServiceAvailabilityProps,
-  WidgetServiceGetBookingsReturn,
   WidgetServiceGetSchedulesProps,
   WidgetServiceGetSchedulesReturn,
   WidgetServiceGetStaffProps,
   WidgetServiceGetStaffReturn,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.widget";
 import { Types } from "mongoose";
 import {
   WidgetCreateAvailability,
@@ -139,7 +139,8 @@ export const WidgetServiceAvailability = async ({
   return [];
 };
 
-interface GetBookingsByStaffProps extends Pick<IBooking, "start" | "end"> {
+export interface GetBookingsByStaffProps
+  extends Pick<IBooking, "start" | "end"> {
   shop: string;
   staff: Types.ObjectId[];
 }
@@ -150,7 +151,7 @@ export const WidgetServiceGetBookings = ({
   end,
   staff,
 }: GetBookingsByStaffProps) =>
-  BookingModel.aggregate<WidgetServiceGetBookingsReturn>([
+  BookingModel.aggregate<BaseBooking>([
     {
       $match: {
         $or: [
@@ -252,7 +253,8 @@ export const WidgetServiceGetSchedules = ({
     },
   ]);
 
-interface GetCartsByStaffierProps extends Omit<Cart, "createdAt" | "staff"> {
+export interface GetCartsByStaffierProps
+  extends Omit<Cart, "createdAt" | "staff"> {
   staff: Types.ObjectId[];
 }
 

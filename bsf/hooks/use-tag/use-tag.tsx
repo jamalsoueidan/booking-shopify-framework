@@ -1,4 +1,4 @@
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Icon } from "@shopify/polaris";
 import React, { useCallback, useMemo } from "react";

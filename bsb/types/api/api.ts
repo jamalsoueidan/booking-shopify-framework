@@ -1,4 +1,4 @@
-import { ShopifySession } from "./shopify-session";
+import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 
 export interface ApiResponse<T> {
   success: boolean;

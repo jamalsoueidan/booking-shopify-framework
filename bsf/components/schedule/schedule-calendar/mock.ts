@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   eachDayOfInterval,
   endOfMonth,

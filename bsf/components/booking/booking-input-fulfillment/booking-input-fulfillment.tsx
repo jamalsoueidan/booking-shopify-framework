@@ -1,4 +1,5 @@
-import { BookingFulfillmentStatus, Tag } from "@jamalsoueidan/bsb.types";
+import { BookingFulfillmentStatus } from "@jamalsoueidan/bsb.types.booking";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   InputDropdown,
   InputDropdownProps,

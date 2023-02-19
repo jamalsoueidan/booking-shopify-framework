@@ -1,11 +1,11 @@
 import { IProduct, ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   CollectionServiceCreateBodyProps,
   CollectionServiceDestroyProps,
   CollectionServiceGetAllReturn,
-  ShopQuery,
-  ShopifySession,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.collection";
+import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 import { getCollection } from "./collection.helper";
 import { CollectionModel } from "./collection.model";

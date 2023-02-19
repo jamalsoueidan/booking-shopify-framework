@@ -5,7 +5,7 @@ import {
   IBookingDocument,
 } from "@jamalsoueidan/bsb.services.booking";
 import { IStaffDocument } from "@jamalsoueidan/bsb.services.staff";
-import { Tag } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   clearDatabase,
   connect,

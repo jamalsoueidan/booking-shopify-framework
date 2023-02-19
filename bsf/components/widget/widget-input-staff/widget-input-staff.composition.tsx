@@ -1,4 +1,5 @@
-import { Tag, WidgetStaff } from "@jamalsoueidan/bsb.types";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
+import { WidgetStaff } from "@jamalsoueidan/bsb.types.widget";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";

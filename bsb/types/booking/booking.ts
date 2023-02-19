@@ -1,7 +1,7 @@
-import { ShopQuery } from "@jamalsoueidan/bsb.types";
-import { Customer } from "./customer";
-import { Product } from "./product";
-import { Staff } from "./staff";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
+import { Customer } from "@jamalsoueidan/bsb.types.customer";
+import { Product } from "@jamalsoueidan/bsb.types.product";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
 
 export enum BookingFulfillmentStatus {
   CANCELLED = "cancelled",

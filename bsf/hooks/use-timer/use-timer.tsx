@@ -1,4 +1,4 @@
-import { WidgetHourRange } from "@jamalsoueidan/bsb.types";
+import { WidgetHourRange } from "@jamalsoueidan/bsb.types.widget";
 import { HelperArray } from "@jamalsoueidan/bsf.helpers.helper-array";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";

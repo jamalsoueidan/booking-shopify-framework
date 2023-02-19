@@ -1,10 +1,10 @@
 import { ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { Product } from "@jamalsoueidan/bsb.types.product";
 import {
-  Product,
   WidgetHourRange,
   WidgetHourStaff,
   WidgetSchedule,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.widget";
 import { addMinutes, isBefore, isSameDay, isWithinInterval } from "date-fns";
 import mongoose, { PipelineStage } from "mongoose";
 

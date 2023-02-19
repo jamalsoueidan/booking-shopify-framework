@@ -1,4 +1,4 @@
-import { Staff } from "@jamalsoueidan/bsb.types";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
 import {
   BookingInputFulfillment,
   BookingInputFulfillmentField,

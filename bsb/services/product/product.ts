@@ -1,11 +1,11 @@
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   ProductServiceGetAvailableStaffReturn,
   ProductServiceGetByIdProps,
   ProductServiceUpdateBodyProps,
   ProductServiceUpdateQueryProps,
-  ShopQuery,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.product";
 import { startOfDay } from "date-fns";
 import mongoose from "mongoose";
 import { ProductModel } from "./product.model";

@@ -1,4 +1,4 @@
-import { Staff } from "@jamalsoueidan/bsb.types";
+import { Staff } from "@jamalsoueidan/bsb.types.staff";
 import mongoose, { Document, Model } from "mongoose";
 
 export interface IStaff extends Omit<Staff, "_id"> {}

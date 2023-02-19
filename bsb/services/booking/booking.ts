@@ -8,6 +8,7 @@ import {
   NotificationServiceSendBookingReminderStaff,
 } from "@jamalsoueidan/bsb.services.notification";
 import { ProductModel } from "@jamalsoueidan/bsb.services.product";
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   BookingServiceCreateProps,
   BookingServiceFindProps,
@@ -17,8 +18,7 @@ import {
   BookingServiceGetByIdReturn,
   BookingServiceUpdateBodyProps,
   BookingServiceUpdateQueryProps,
-  ShopQuery,
-} from "@jamalsoueidan/bsb.types";
+} from "@jamalsoueidan/bsb.types.booking";
 import mongoose from "mongoose";
 import { BookingModel } from "./booking.model";
 
