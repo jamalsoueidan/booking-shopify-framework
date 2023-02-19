@@ -6,7 +6,6 @@ import {
   ShopQuery,
   ShopifySession,
 } from "@jamalsoueidan/bsb.types";
-import { ShopifyRestResources } from "@shopify/shopify-api";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 import { getCollection } from "./collection.helper";
 import { CollectionModel } from "./collection.model";
@@ -41,7 +40,7 @@ export const CollectionServiceDestroy = async (
 export const CollectionServiceCreate = async (
   query: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    shopify: ShopifyApp<ShopifyRestResources, any>;
+    shopify: ShopifyApp<any, any>;
   } & { session: ShopifySession },
   body: CollectionServiceCreateBodyProps,
 ) => {

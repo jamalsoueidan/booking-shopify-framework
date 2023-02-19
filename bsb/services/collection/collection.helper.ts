@@ -1,5 +1,4 @@
 import { ShopifySession } from "@jamalsoueidan/pkg.bsb";
-import { ShopifyRestResources } from "@shopify/shopify-api";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 
 interface Product {
@@ -47,7 +46,7 @@ const getCollectionQuery = `
 export interface GetCollectionProps {
   session: ShopifySession;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  shopify: ShopifyApp<ShopifyRestResources, any>;
+  shopify: ShopifyApp<any, any>;
   id: string;
 }
 
@@ -56,7 +55,7 @@ export const getCollection = async ({
   shopify,
   id,
 }: GetCollectionProps): Promise<Collection> => {
-  const client = new shopify.api.clients.Graphql({ session } as never);
+  const client = new shopify.api.clients.Graphql({ session } as any);
 
   const payload: GetCollectionQuery = await client.query({
     data: {

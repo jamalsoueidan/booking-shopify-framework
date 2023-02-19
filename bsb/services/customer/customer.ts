@@ -13,6 +13,7 @@ export const CustomerServiceFindAndUpdate = async ({
   customerId,
   shopify,
 }: CustomerServiceFindAndUpdateProps &
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ShopQuery & { shopify: ShopifyApp<any, any> }) => {
   // customer saving
   const session = await ShopifySessionModel.findOne({ shop });
