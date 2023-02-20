@@ -90,14 +90,15 @@ type CreateBookingProps = {
   end?: Date;
 };
 
-export const createBooking = ({
+export const createBooking = async ({
   productId,
   staff,
   start = setHours(new Date(), 15),
   end = setHours(new Date(), 16),
-}: CreateBookingProps) =>
-  BookingModel.create({
-    customerId: 12345,
+}: CreateBookingProps) => {
+  const customer = await createCustomer();
+  return BookingModel.create({
+    customerId: customer.customerId,
     end,
     fulfillmentStatus: "refunded",
     lineItemId: 1100,
@@ -109,6 +110,7 @@ export const createBooking = ({
     start,
     title: faker.company.name(),
   });
+};
 
 interface CreateSchedule {
   staff: string;

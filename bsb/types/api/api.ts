@@ -33,6 +33,8 @@ export interface AppSession {
   group: string;
   iat?: number;
   exp?: number;
+  isAdmin: boolean;
+  isUser: boolean;
 }
 
 export type AppControllerProps<Q = never, B = never> = ControllerProps<

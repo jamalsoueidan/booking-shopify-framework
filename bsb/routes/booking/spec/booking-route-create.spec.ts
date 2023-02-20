@@ -10,7 +10,7 @@ import {
   createStaff,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import { addHours } from "date-fns";
-import { bookingRouteCreate } from "../booking";
+import { bookingRouteCreate } from "../booking.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
@@ -18,7 +18,6 @@ const productId = faker.random.numeric(10);
 
 describe("booking create route test (embedded-app)", () => {
   it("Should be able to create booking", async () => {
-    const request = createShopifyExpress(bookingRouteCreate);
     const randomStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
@@ -28,6 +27,7 @@ describe("booking create route test (embedded-app)", () => {
 
     await createProduct({ productId });
 
+    const request = createShopifyExpress(bookingRouteCreate);
     const res = await request.post(`/bookings`).send({
       customerId: customer.customerId,
       end: addHours(new Date(), 1),
@@ -57,23 +57,19 @@ describe("booking create route test (embedded-app)", () => {
 });
 
 describe("booking create route test (external-app)", () => {
-  it("Should not be able to create booking for another user", async () => {
+  it("User: Should not be able to create booking for another user", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
     });
-
-    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
-
     const newUser = await createStaff({
       group: "a",
       role: StaffRole.user,
     });
-
     const customer = await createCustomer();
-
     await createProduct({ productId });
 
+    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
     const res = await request.post(`/bookings`).send({
       customerId: customer.customerId,
       end: addHours(new Date(), 1),
@@ -86,23 +82,73 @@ describe("booking create route test (external-app)", () => {
     expect(res.body.error).toBeDefined();
     expect(res.body.success).toBeFalsy();
   });
-  it("Should be able to create booking", async () => {
+  it("User: Should be able to create booking", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
     });
 
-    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
-
     const customer = await createCustomer();
-
     await createProduct({ productId });
 
+    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
     const res = await request.post(`/bookings`).send({
       customerId: customer.customerId,
       end: addHours(new Date(), 1),
       productId,
       staff: loggedInStaff._id,
+      start: new Date(),
+    });
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.payload._id).toBeDefined();
+    expect(res.body.success).toBeTruthy();
+  });
+
+  it("Admin: Should not be able to create booking for another user in another gorup", async () => {
+    const loggedInStaff = await createStaff({
+      group: "a",
+      role: StaffRole.admin,
+    });
+    const newUser = await createStaff({
+      group: "b",
+      role: StaffRole.user,
+    });
+    const customer = await createCustomer();
+    await createProduct({ productId });
+
+    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
+    const res = await request.post(`/bookings`).send({
+      customerId: customer.customerId,
+      end: addHours(new Date(), 1),
+      productId,
+      staff: newUser._id,
+      start: new Date(),
+    });
+
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBeDefined();
+    expect(res.body.success).toBeFalsy();
+  });
+  it("Admin: Should be able to create booking for users in the same group", async () => {
+    const loggedInStaff = await createStaff({
+      group: "a",
+      role: StaffRole.admin,
+    });
+
+    const newUser = await createStaff({
+      group: "a",
+      role: StaffRole.user,
+    });
+    const customer = await createCustomer();
+    await createProduct({ productId });
+
+    const request = createAppExpress(bookingRouteCreate, loggedInStaff);
+    const res = await request.post(`/bookings`).send({
+      customerId: customer.customerId,
+      end: addHours(new Date(), 1),
+      productId,
+      staff: newUser.id,
       start: new Date(),
     });
 

@@ -24,8 +24,10 @@ module.exports = {
   plugins: ["sort-keys"],
   rules: {
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/no-throw-literal": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "arrow-body-style": ["error", "as-needed"],
     "import/named": "off",

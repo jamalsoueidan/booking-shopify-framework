@@ -36,7 +36,7 @@ export const StaffServiceGetStaffIdsbyGroup = async ({
   group,
 }: StaffServiceGetStaffIdsbyGroupProps & ShopQuery): Promise<Array<string>> => {
   const users = await StaffModel.find({ group, shop }, "");
-  return users.map((user) => user._id);
+  return users.map((user) => user.id);
 };
 
 export const StaffServiceCreateNewPassword = async (staff: IStaffDocument) => {

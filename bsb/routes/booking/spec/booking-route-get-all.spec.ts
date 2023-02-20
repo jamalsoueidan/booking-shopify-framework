@@ -8,7 +8,7 @@ import {
   createStaff,
   createStaffWithBooking,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { bookingRouteGetAll } from "../booking";
+import { bookingRouteGetAll } from "../booking.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
@@ -16,12 +16,11 @@ const productId = parseInt(faker.random.numeric(10), 10);
 
 describe("booking get all route test (embedded-app)", () => {
   it("Should be able to get all bookings", async () => {
-    const request = createShopifyExpress(bookingRouteGetAll);
-
     const { booking } = await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "b", productId });
 
+    const request = createShopifyExpress(bookingRouteGetAll);
     const res = await request
       .get(
         `/bookings?start=${booking.start.toJSON()}&end=${booking.end.toJSON()}`,

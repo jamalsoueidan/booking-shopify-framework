@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Staff } from "@jamalsoueidan/bsb.types.staff";
+import { Staff, StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
+import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
 import supertest from "supertest";
 
@@ -18,6 +19,8 @@ export interface Route {
 
 export const createShopifyExpress = (route: Route) => {
   const app = express();
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use("/*", (req: any, res: any, next: any) => {
     req.query.shop = shop;
     req.session = {
@@ -37,14 +40,19 @@ export const createShopifyExpress = (route: Route) => {
 
 export const createAppExpress = (route: Route, staff: Staff) => {
   const app = express();
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+
   app.use("/*", (req: any, res: any, next: any) => {
     req.query.shop = shop;
     req.session = {
       _id: "a",
       group: staff.group,
+      isAdmin: staff.role === StaffRole.admin,
+      isUser: staff.role === StaffRole.user,
       role: staff.role,
       shop,
-      staff: staff._id,
+      staff: staff._id.toString(),
     };
     next();
   });

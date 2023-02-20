@@ -1,107 +1,91 @@
-import {
-  BookingModel,
-  BookingServiceCreate,
-  BookingServiceGetAll,
-  BookingServiceGetById,
-  BookingServiceUpdate,
-} from "@jamalsoueidan/bsb.services.booking";
-import { StaffServiceGetStaffIdsbyGroup } from "@jamalsoueidan/bsb.services.staff";
-import {
-  AppSession,
-  ControllerProps,
-  isExternalApplication,
-} from "@jamalsoueidan/bsb.types.api";
-import {
-  BookingServiceCreateProps,
-  BookingServiceGetAllProps,
-  BookingServiceGetByIdProps,
-  BookingServiceUpdateProps,
-} from "@jamalsoueidan/bsb.types.booking";
-import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
-import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
+import { handleRoute } from "@jamalsoueidan/bsb.express.handle-route";
+import { CustomValidator, checkSchema } from "express-validator";
+import { ValidatorsSchema } from "express-validator/src/middlewares/schema";
+import { isValidObjectId } from "mongoose";
+import { create, getAll, getById, update } from "./booking";
 
-export const getAll = async ({
-  query,
-  session,
-}: ControllerProps<
-  BookingServiceGetAllProps,
-  never,
-  ShopifySession | AppSession
->) => {
-  const getAll = query;
-  if (isExternalApplication(session)) {
-    if (session.role > StaffRole.admin) {
-      getAll.staff = await StaffServiceGetStaffIdsbyGroup({
-        group: session.group,
-        shop: session.shop,
-      });
-    }
-  }
-  return BookingServiceGetAll(getAll);
+const isValidObject: ValidatorsSchema["custom"] = {
+  errorMessage: "not valid objectId",
+  options: (value: CustomValidator) => isValidObjectId(value),
 };
 
-export const getById = async ({
-  query,
-  session,
-}: ControllerProps<
-  BookingServiceGetByIdProps,
-  never,
-  ShopifySession | AppSession
->) => {
-  const getById: Parameters<typeof BookingServiceGetById>[0] = {
-    _id: query._id,
-    shop: session.shop,
-  };
-
-  if (isExternalApplication(session)) {
-    getById.staff = await StaffServiceGetStaffIdsbyGroup({
-      shop: session.shop,
-      group: session.group,
-    });
-  }
-
-  return BookingServiceGetById(getById);
+export const bookingRouteGetAll = {
+  method: "get",
+  middlewares: [
+    checkSchema({
+      end: { isISO8601: true, notEmpty: true, toDate: true },
+      start: { isISO8601: true, notEmpty: true, toDate: true },
+    }),
+    handleRoute(getAll),
+  ],
+  route: "/bookings",
 };
 
-export const create = ({
-  body,
-  session,
-}: ControllerProps<
-  any,
-  BookingServiceCreateProps,
-  ShopifySession | AppSession
->) => {
-  const { shop } = session;
-  const { staff } = body;
-
-  if (isExternalApplication(session) && session.role > StaffRole.admin) {
-    if (staff !== session.staff) {
-      throw { staff: "cant create booking for another staff" };
-    }
-  }
-
-  return BookingServiceCreate({ ...body, staff, shop });
+export const bookingRouteGetById = {
+  method: "get",
+  middlewares: [
+    checkSchema({
+      _id: {
+        custom: isValidObject,
+        in: ["params"],
+        notEmpty: true,
+      },
+    }),
+    handleRoute(getById),
+  ],
+  route: "/bookings/:_id",
 };
 
-export const update = ({
-  query,
-  body,
-  session,
-}: ControllerProps<
-  BookingServiceUpdateProps["query"],
-  BookingServiceUpdateProps["body"],
-  ShopifySession | AppSession
->) => {
-  const { _id } = query;
-  const { shop } = session;
-  let { staff } = body;
+export const bookingRouteCreate = {
+  method: "post",
+  middlewares: [
+    checkSchema({
+      customerId: {
+        in: ["body"],
+        notEmpty: true,
+        toInt: true,
+      },
+      end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+      productId: {
+        in: ["body"],
+        notEmpty: true,
+        toInt: true,
+      },
+      staff: {
+        custom: isValidObject,
+        in: ["body"],
+        notEmpty: true,
+      },
+      start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+    }),
+    handleRoute(create),
+  ],
+  route: "/bookings",
+};
 
-  if (isExternalApplication(session)) {
-    const booking = BookingModel.findOne({ _id, shop, staff: session.staff });
-    if (!booking) {
-      throw new Error("not allowed");
-    }
-  }
-
-  return BookingServiceUpdate({ shop, _id }, { ...body, staff });
+export const bookingRouteUpdate = {
+  method: "put",
+  middlewares: [
+    checkSchema({
+      _id: {
+        custom: isValidObject,
+        in: ["params"],
+        notEmpty: true,
+      },
+      customerId: {
+        in: ["body"],
+        notEmpty: true,
+        toInt: true,
+      },
+      end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+      productId: {
+        in: ["body"],
+        notEmpty: true,
+        toInt: true,
+      },
+      start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+    }),
+    handleRoute(update),
+  ],
+  route: "/bookings/:_id",
 };
