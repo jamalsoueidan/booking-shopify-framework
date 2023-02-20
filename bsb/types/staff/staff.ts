@@ -1,23 +1,16 @@
-export enum StaffUserRole {
+export enum StaffRole {
   "owner" = 1,
   "admin" = 3,
   "user" = 99,
 }
 
-export const StaffUserRoleKeys = Object.keys(StaffUserRole).reduce(
+export const StaffRoleKeys = Object.keys(StaffRole).reduce(
   (acc: number[], curr, index, arr) => {
     if (index < arr.length / 2) acc.push(parseInt(curr, 10));
     return acc;
   },
   [],
 );
-
-export interface StaffUser {
-  password: string;
-  language: string;
-  timeZone: string;
-  role: StaffUserRole;
-}
 
 export interface Staff {
   _id: string;
@@ -31,7 +24,10 @@ export interface Staff {
   postal: number;
   address: string;
   group: string;
-  user?: StaffUser;
+  password: string;
+  language: string;
+  timeZone: string;
+  role: StaffRole;
 }
 
 export interface StaffBodyUpdate extends Partial<Omit<Staff, "_id" | "shop">> {}

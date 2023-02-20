@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 
-export const connect = async (callback) => {
+export const connect = (callback: undefined) => {
   try {
     if (!process.env.MONGODB_URI) {
-      throw Error("Please set MONGODB_URI env variable, export mongodb_uri");
+      throw new Error(
+        "Please set MONGODB_URI env variable, export mongodb_uri",
+      );
     }
     mongoose.set("strictQuery", false);
     mongoose.connect(process.env.MONGODB_URI, callback);

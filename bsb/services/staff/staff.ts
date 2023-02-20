@@ -1,3 +1,4 @@
+import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types.staff";
 import { StaffModel } from "./staff.model";
 
@@ -21,3 +22,15 @@ export const StaffServiceFindByIdAndUpdate = (_id, body: StaffBodyUpdate) =>
   StaffModel.findByIdAndUpdate(_id, body, {
     new: true,
   });
+
+interface StaffServiceGetStaffIdsbyGroupProps extends ShopQuery {
+  group: string;
+}
+
+export const StaffServiceGetStaffIdsbyGroup = async ({
+  shop,
+  group,
+}: StaffServiceGetStaffIdsbyGroupProps) => {
+  const users = await StaffModel.find({ group, shop }, "");
+  return users.map((user) => user._id);
+};

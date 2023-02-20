@@ -1,5 +1,9 @@
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 
+export const isExternalApplication = (
+  session: AppSession | ShopifySession,
+): session is AppSession => (session as AppSession).staff !== undefined;
+
 export interface ApiResponse<T> {
   success: boolean;
   error?: string;

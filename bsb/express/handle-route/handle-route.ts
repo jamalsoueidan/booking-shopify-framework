@@ -8,21 +8,21 @@ export const handleRoute = (controller) => async (req, res) => {
     }
 
     res.status(202).send({
-      success: true,
       payload: await controller({
+        body: req.body,
         query: {
           shop: req.query.shop || req.session?.shop,
           ...req.query,
           ...req.params,
         },
-        body: req.body,
         session: req.session,
       }),
+      success: true,
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
       error: error instanceof Error ? `${error}` : error,
+      success: false,
     });
   }
 };

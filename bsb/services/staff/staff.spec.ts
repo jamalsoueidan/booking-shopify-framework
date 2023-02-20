@@ -1,10 +1,11 @@
-import { StaffUserRole } from "@jamalsoueidan/bsb.types.staff";
-import { shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
+import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
+import { createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import {
   StaffServiceCreate,
   StaffServiceFindAll,
   StaffServiceFindByIdAndUpdate,
   StaffServiceFindOne,
+  StaffServiceGetStaffIdsbyGroup,
 } from "./staff";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
@@ -16,16 +17,14 @@ const staff = {
   email: "test@test.com",
   fullname: "jamasdeidan",
   group: "a",
+  language: "da",
+  password: "12345678",
   phone: "+4531317428",
   position: "1",
   postal: 8000,
+  role: StaffRole.admin,
   shop,
-  user: {
-    language: "da",
-    password: "12345678",
-    role: StaffUserRole.admin,
-    timeZone: "Europe/Copenhagen",
-  },
+  timeZone: "Europe/Copenhagen",
 };
 
 describe("StaffService test", () => {
@@ -65,5 +64,30 @@ describe("StaffService test", () => {
       shop,
     });
     expect(oneStaff?._id).toEqual(staff?._id);
+  });
+
+  it("Should return all staff in the same group", async () => {
+    const staffGroupA = await createStaff({
+      group: "a",
+      role: StaffRole.user,
+    });
+
+    await createStaff({ group: "a", role: StaffRole.owner });
+    await createStaff({ group: "a", role: StaffRole.admin });
+    const staffGroupB = await createStaff({ group: "b" });
+
+    let users = await StaffServiceGetStaffIdsbyGroup({
+      group: staffGroupA.group,
+      shop,
+    });
+
+    expect(users.length).toBe(3);
+
+    users = await StaffServiceGetStaffIdsbyGroup({
+      group: staffGroupB.group,
+      shop,
+    });
+
+    expect(users.length).toBe(1);
   });
 });
