@@ -11,5 +11,4 @@ export * from "@jamalsoueidan/bsb.types.setting";
 export * from "@jamalsoueidan/bsb.types.shopify-session";
 export * from "@jamalsoueidan/bsb.types.staff";
 export * from "@jamalsoueidan/bsb.types.tag";
-export * from "@jamalsoueidan/bsb.types.user";
 export * from "@jamalsoueidan/bsb.types.widget";
