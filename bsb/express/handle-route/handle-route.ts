@@ -2,12 +2,15 @@ import { validationResult } from "express-validator";
 
 export const handleRoute = (controller) => async (req, res) => {
   try {
-    const { errors } = validationResult(req) as any;
-    if (errors.length) {
-      throw errors;
+    const validate = validationResult(req);
+    if (!validate.isEmpty()) {
+      return res.status(500).json({
+        error: validate.mapped(),
+        success: false,
+      });
     }
 
-    res.status(202).send({
+    return res.status(200).json({
       payload: await controller({
         body: req.body,
         query: {
@@ -20,8 +23,8 @@ export const handleRoute = (controller) => async (req, res) => {
       success: true,
     });
   } catch (error) {
-    res.status(500).json({
-      error: error instanceof Error ? `${error}` : error,
+    return res.status(500).json({
+      error,
       success: false,
     });
   }

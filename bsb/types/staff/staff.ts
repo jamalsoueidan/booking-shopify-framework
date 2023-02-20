@@ -57,3 +57,12 @@ export interface StaffSettingsResponse {
 
 export interface StaffSettingsUpdateBodyRequest
   extends Omit<StaffSettingsResponse, "_id"> {}
+
+export interface StaffServiceLoginProps {
+  identification: string;
+  password: string;
+}
+
+export interface StaffServiceGetStaffIdsbyGroupProps {
+  group: string;
+}

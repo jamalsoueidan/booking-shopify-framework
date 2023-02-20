@@ -12,6 +12,6 @@ export function BookingRouteGetAll() {
       }),
       handleRoute(BookingGetAll),
     ],
-    route: "/booking",
+    route: "/bookings",
   };
 }

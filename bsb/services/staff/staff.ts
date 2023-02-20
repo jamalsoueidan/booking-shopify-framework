@@ -1,5 +1,10 @@
 import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
-import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types.staff";
+import {
+  Staff,
+  StaffBodyUpdate,
+  StaffServiceGetStaffIdsbyGroupProps,
+  StaffServiceLoginProps,
+} from "@jamalsoueidan/bsb.types.staff";
 import bcrypt from "bcryptjs";
 import generator from "generate-password";
 import { StaffModel } from "./staff.model";
@@ -26,19 +31,15 @@ export const StaffServiceFindByIdAndUpdate = (_id, body: StaffBodyUpdate) =>
     new: true,
   });
 
-interface StaffServiceGetStaffIdsbyGroupProps extends ShopQuery {
-  group: string;
-}
-
 export const StaffServiceGetStaffIdsbyGroup = async ({
   shop,
   group,
-}: StaffServiceGetStaffIdsbyGroupProps) => {
+}: StaffServiceGetStaffIdsbyGroupProps & ShopQuery) => {
   const users = await StaffModel.find({ group, shop }, "");
   return users.map((user) => user._id);
 };
 
-export const createNewPassword = async (staff: IStaffDocument) => {
+export const StaffServiceCreateNewPassword = async (staff: IStaffDocument) => {
   const password = generator.generate({
     length: 6,
     numbers: true,
@@ -52,16 +53,11 @@ export const createNewPassword = async (staff: IStaffDocument) => {
   return password;
 };
 
-interface FindUserByPhoneAndPasswordProps extends ShopQuery {
-  identification: string;
-  password: string;
-}
-
-export const findUser = async ({
+export const StaffServiceLogin = async ({
   shop,
   identification,
   password,
-}: FindUserByPhoneAndPasswordProps) => {
+}: StaffServiceLoginProps & ShopQuery) => {
   const staff = await StaffModel.findOne({
     $or: [{ phone: identification }, { email: identification }],
     active: true,
