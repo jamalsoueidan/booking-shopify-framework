@@ -1,11 +1,4 @@
 export const da = {
-  image: {
-    title: "Vedhæft",
-  },
-  save: "Gem",
-  form: {
-    title: "Medarbejder overblik",
-  },
   address: {
     label: "Din adresse",
     placeholder: "Indtast din adresse",
@@ -20,6 +13,9 @@ export const da = {
     label: "E-mail",
     placeholder: "Eksempel: kristina.larsen@gmail.com",
   },
+  form: {
+    title: "Medarbejder overblik",
+  },
   fullname: {
     label: "Fuldnavn",
     placeholder: "Eksempel: Kristina Larsen",
@@ -28,6 +24,9 @@ export const da = {
     help: "Læg bruger ind i samme gruppe hvis de skal have adgang til hinanden tid",
     label: "Gruppe",
     placeholder: "Angive gruppe",
+  },
+  image: {
+    title: "Vedhæft",
   },
   phone: {
     help: "Vi bruger denne mobilnummer til at informere dig om fremtidige bestillinger.",
@@ -43,17 +42,11 @@ export const da = {
     label: "Postnummer",
     placeholder: "Postnummer",
   },
+  save: "Gem",
   title: "Ny medarbejder",
 } as const;
 
 export const en = {
-  image: {
-    title: "Upload",
-  },
-  save: "Save",
-  form: {
-    title: "Staff overview",
-  },
   address: {
     label: "Your address",
     placeholder: "Enter your address",
@@ -68,6 +61,9 @@ export const en = {
     label: "Email",
     placeholder: "Example: kristina.larsen@gmail.com",
   },
+  form: {
+    title: "Staff overview",
+  },
   fullname: {
     label: "Full name",
     placeholder: "Example: Kristina Larsen",
@@ -76,6 +72,9 @@ export const en = {
     help: "Put users in the same group if they need to share booking timeline",
     label: "Group",
     placeholder: "Write group",
+  },
+  image: {
+    title: "Upload",
   },
   phone: {
     help: "We’ll use this phone number to inform you about future appointments.",
@@ -91,5 +90,6 @@ export const en = {
     label: "Postal",
     placeholder: "Postal",
   },
+  save: "Save",
   title: "New staff",
 };

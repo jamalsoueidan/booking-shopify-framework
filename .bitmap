@@ -31,7 +31,16 @@
         "scope": "jamalsoueidan.pkg",
         "version": "0.0.45",
         "mainFile": "index.ts",
-        "rootDir": "pkg/bsf"
+        "rootDir": "pkg/bsf",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "peerDependencies": {
+                        "date-fns-tz": "^2.0.0"
+                    }
+                }
+            }
+        }
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.bsf",
