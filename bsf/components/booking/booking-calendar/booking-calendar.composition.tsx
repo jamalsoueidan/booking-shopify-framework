@@ -67,3 +67,17 @@ export const NoToolbar = withApplication(
   ),
   { pageTitle: "Booking Calendar" },
 );
+
+export const BasicNoStaff = withApplication(
+  () => (
+    <Card sectioned>
+      <BookingCalendar
+        staff={[]}
+        data={mock}
+        onChangeDate={() => null}
+        onClickBooking={() => null}
+      />
+    </Card>
+  ),
+  { pageTitle: "Booking Calendar" },
+);

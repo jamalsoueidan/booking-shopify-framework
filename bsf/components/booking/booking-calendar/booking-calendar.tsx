@@ -61,8 +61,9 @@ export const BookingCalendar = (props: BookingCalendarProps) => {
   const data = useMemo(() => {
     const { data } = props;
     const filterStaff = staffField.value
-      ? data?.filter((d) => d.staff._id === staffField.value?._id)
+      ? data?.filter((d) => d.staff?._id === staffField.value?._id)
       : data;
+
     return fulfillmentField.value
       ? filterStaff.filter(
           (d) => d.fulfillmentStatus === fulfillmentField.value,

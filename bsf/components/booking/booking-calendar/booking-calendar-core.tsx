@@ -92,7 +92,7 @@ export const BookingCalendarCore = forwardRef<
             >
               {arg.event.title}
               <br />
-              {booking.staff.fullname}
+              {booking.staff?.fullname || "-"}
             </div>
           </div>
         </Tooltip>
