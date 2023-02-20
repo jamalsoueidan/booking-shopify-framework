@@ -1,5 +1,11 @@
+import { StaffUserRole } from "@jamalsoueidan/bsb.types.staff";
 import { shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { StaffServiceCreate, StaffServiceFindAll, StaffServiceFindByIdAndUpdate, StaffServiceFindOne } from "./staff";
+import {
+  StaffServiceCreate,
+  StaffServiceFindAll,
+  StaffServiceFindByIdAndUpdate,
+  StaffServiceFindOne,
+} from "./staff";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
@@ -14,6 +20,12 @@ const staff = {
   position: "1",
   postal: 8000,
   shop,
+  user: {
+    language: "da",
+    password: "12345678",
+    role: StaffUserRole.admin,
+    timeZone: "Europe/Copenhagen",
+  },
 };
 
 describe("StaffService test", () => {
@@ -37,7 +49,10 @@ describe("StaffService test", () => {
       fullname: "jamal soueidan",
     };
 
-    const updateStaff = await StaffServiceFindByIdAndUpdate(oneStaff?._id, body);
+    const updateStaff = await StaffServiceFindByIdAndUpdate(
+      oneStaff?._id,
+      body,
+    );
     expect(updateStaff?.fullname).toEqual(body.fullname);
   });
 

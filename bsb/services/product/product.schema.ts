@@ -1,5 +1,5 @@
 import { Product } from "@jamalsoueidan/bsb.types.product";
-import { Tag } from "@jamalsoueidan/bsb.types.tag";
+import { Tag, TagKeys } from "@jamalsoueidan/bsb.types.tag";
 import { Document, Model, Schema, Types } from "mongoose";
 
 type ProductStaff = {
@@ -56,7 +56,7 @@ export const ProductSchema = new Schema<IProductDocument, IProductModel>({
         type: Schema.Types.ObjectId,
       },
       tag: {
-        enum: Object.values(Tag),
+        enum: TagKeys,
         required: true,
         type: String,
       },

@@ -6,3 +6,7 @@ export enum Tag {
   "start_of_week" = "start_of_week",
   "middle_of_week" = "middle_of_week",
 }
+
+export const TagKeys = Object.values(Tag).filter(
+  (x, i, a) => a.indexOf(x) === i,
+);
