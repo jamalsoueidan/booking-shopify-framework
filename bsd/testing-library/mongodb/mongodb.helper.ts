@@ -8,6 +8,7 @@ import {
 } from "@jamalsoueidan/bsb.services.product";
 import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
+import { Staff, StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
   addHours,
@@ -34,7 +35,7 @@ export const createCustomer = () => {
   return customer.save();
 };
 
-export const createStaff = () =>
+export const createStaff = (props: Partial<Staff>) =>
   StaffServiceCreate({
     active: true,
     address: "asdiojdsajioadsoji",
@@ -42,10 +43,15 @@ export const createStaff = () =>
     email: faker.internet.email(),
     fullname: faker.name.fullName(),
     group: "all",
+    language: "da",
+    password: "12345678",
     phone: "+4531317411",
     position: "2",
     postal: 8000,
+    role: StaffRole.user,
     shop,
+    timeZone: "Europe/Copenhagen",
+    ...props,
   });
 
 export const createProduct = ({ productId, duration = 45, buffertime = 15 }) =>
@@ -58,12 +64,16 @@ export const createProduct = ({ productId, duration = 45, buffertime = 15 }) =>
     title: faker.company.name(),
   });
 
+type CreateStaffWithBookingProps = {
+  productId: number;
+  group?: string;
+};
+
 export const createStaffWithBooking = async ({
   productId,
-}: {
-  productId: number;
-}) => {
-  const staff = await createStaff();
+  group = "all",
+}: CreateStaffWithBookingProps) => {
+  const staff = await createStaff({ group });
 
   const booking = await createBooking({
     productId,
@@ -124,12 +134,14 @@ export const createSchedule = async ({
 
 interface CreateStaffWithScheduleProps {
   tag: Tag;
+  group?: string;
 }
 
 export const createStaffWithSchedule = async ({
   tag,
+  group = "all",
 }: CreateStaffWithScheduleProps) => {
-  const staff = await createStaff();
+  const staff = await createStaff({ group });
   const schedule = await createSchedule({
     staff: staff._id,
     tag,
@@ -140,13 +152,15 @@ export const createStaffWithSchedule = async ({
 interface CreateStaffAndUpdateProductProps {
   product: IProductDocument;
   tag: Tag;
+  group?: string;
 }
 
 export const createStaffWithScheduleAndUpdateProduct = async ({
   product,
   tag,
+  group = "all",
 }: CreateStaffAndUpdateProductProps) => {
-  const { staff, schedule } = await createStaffWithSchedule({ tag });
+  const { staff, schedule } = await createStaffWithSchedule({ group, tag });
   const updatedProduct = await ProductServiceUpdate(
     {
       id: product._id,

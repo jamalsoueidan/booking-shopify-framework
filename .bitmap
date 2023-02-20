@@ -15,6 +15,26 @@
         "mainFile": "index.ts",
         "rootDir": "bsb/api/sms-dk"
     },
+    "app": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "jamalsoueidan.bsd",
+        "mainFile": "index.ts",
+        "rootDir": "bsd/app",
+        "config": {
+            "teambit.harmony/aspect": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/aspect"
+            },
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "peerDependencies": {
+                        "mongoose": "6.8.4"
+                    }
+                }
+            }
+        }
+    },
     "bsb": {
         "scope": "jamalsoueidan.pkg",
         "version": "0.0.38",
@@ -368,6 +388,26 @@
         "version": "0.0.69",
         "mainFile": "index.ts",
         "rootDir": "bsf/providers/toast"
+    },
+    "routes/booking": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "jamalsoueidan.bsb",
+        "mainFile": "index.ts",
+        "rootDir": "bsb/routes/booking",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            },
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "peerDependencies": {
+                        "mongoose": "6.8.4"
+                    }
+                }
+            }
+        }
     },
     "services/booking": {
         "scope": "jamalsoueidan.bsb",
