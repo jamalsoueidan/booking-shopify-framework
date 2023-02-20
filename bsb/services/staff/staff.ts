@@ -34,7 +34,7 @@ export const StaffServiceFindByIdAndUpdate = (_id, body: StaffBodyUpdate) =>
 export const StaffServiceGetStaffIdsbyGroup = async ({
   shop,
   group,
-}: StaffServiceGetStaffIdsbyGroupProps & ShopQuery) => {
+}: StaffServiceGetStaffIdsbyGroupProps & ShopQuery): Promise<Array<string>> => {
   const users = await StaffModel.find({ group, shop }, "");
   return users.map((user) => user._id);
 };

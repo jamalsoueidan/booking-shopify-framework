@@ -8,23 +8,24 @@ import {
   createStaff,
   createStaffWithBooking,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { endOfDay, startOfDay } from "date-fns";
-import { BookingRouteGetAll } from "../booking";
+import { bookingRouteGetAll } from "../booking";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = parseInt(faker.random.numeric(10), 10);
 
-describe("booking routes test (embedded-app)", () => {
+describe("booking get all route test (embedded-app)", () => {
   it("Should be able to get all bookings", async () => {
-    const request = createShopifyExpress(BookingRouteGetAll());
+    const request = createShopifyExpress(bookingRouteGetAll);
 
-    await createStaffWithBooking({ group: "a", productId });
+    const { booking } = await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "b", productId });
 
     const res = await request
-      .get(`/bookings?start=${new Date().toJSON()}&end=${new Date().toJSON()}`)
+      .get(
+        `/bookings?start=${booking.start.toJSON()}&end=${booking.end.toJSON()}`,
+      )
       .set("Accept", "application/json");
 
     expect(res.statusCode).toBe(200);
@@ -33,7 +34,7 @@ describe("booking routes test (embedded-app)", () => {
   });
 
   it("Should throw error when end param is missing", async () => {
-    const request = createShopifyExpress(BookingRouteGetAll());
+    const request = createShopifyExpress(bookingRouteGetAll);
 
     const res = await request
       .get(`/bookings?start=${new Date().toJSON()}`)
@@ -44,7 +45,7 @@ describe("booking routes test (embedded-app)", () => {
   });
 
   it("Should throw error when start param is missing", async () => {
-    const request = createShopifyExpress(BookingRouteGetAll());
+    const request = createShopifyExpress(bookingRouteGetAll);
 
     const res = await request
       .get(`/bookings?end=${new Date().toJSON()}`)
@@ -55,23 +56,21 @@ describe("booking routes test (embedded-app)", () => {
   });
 });
 
-describe("booking routes test (external-app)", () => {
+describe("booking get all route test (external-app)", () => {
   it("Should be able to get only bookings in the same group by range", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
     });
 
-    await createStaffWithBooking({ group: "a", productId });
+    const { booking } = await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "b", productId });
 
-    const request = createAppExpress(BookingRouteGetAll(), loggedInStaff);
+    const request = createAppExpress(bookingRouteGetAll, loggedInStaff);
     const res = await request
       .get(
-        `/bookings?start=${startOfDay(new Date()).toJSON()}&end=${endOfDay(
-          new Date(),
-        ).toJSON()}`,
+        `/bookings?start=${booking.start.toJSON()}&end=${booking.end.toJSON()}`,
       )
       .set("Accept", "application/json");
 
@@ -80,22 +79,20 @@ describe("booking routes test (external-app)", () => {
     expect(res.body.payload.length).toEqual(2);
   });
 
-  it("Should be able to get all bookings when user.role is admin ", async () => {
+  it("Should be able to get all bookings when user.role is admin", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.owner,
     });
 
-    await createStaffWithBooking({ group: "b", productId });
+    const { booking } = await createStaffWithBooking({ group: "b", productId });
     await createStaffWithBooking({ group: "c", productId });
     await createStaffWithBooking({ group: "d", productId });
 
-    const request = createAppExpress(BookingRouteGetAll(), loggedInStaff);
+    const request = createAppExpress(bookingRouteGetAll, loggedInStaff);
     const res = await request
       .get(
-        `/bookings?start=${startOfDay(new Date()).toJSON()}&end=${endOfDay(
-          new Date(),
-        ).toJSON()}`,
+        `/bookings?start=${booking.start.toJSON()}&end=${booking.end.toJSON()}`,
       )
       .set("Accept", "application/json");
 
