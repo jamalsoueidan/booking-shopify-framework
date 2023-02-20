@@ -61,6 +61,7 @@
         "@shopify/polaris-icons": "^6.11.1",
         "@shopify/react-form": "^2.5.0",
         "@shopify/react-i18n": "^7.6.0",
+        "generate-password": "^1.7.0",
         "bcryptjs": "2.4.3",
         "date-fns": "^2.29.3",
         "date-fns-tz": "^2.0.0",

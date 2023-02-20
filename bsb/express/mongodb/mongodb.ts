@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose, { CallbackWithoutResult } from "mongoose";
 
-export const connect = (callback: undefined) => {
+export const connect = (callback?: CallbackWithoutResult) => {
   try {
     if (!process.env.MONGODB_URI) {
       throw new Error(
@@ -8,7 +8,11 @@ export const connect = (callback: undefined) => {
       );
     }
     mongoose.set("strictQuery", false);
-    mongoose.connect(process.env.MONGODB_URI, callback);
+    if (callback) {
+      mongoose.connect(process.env.MONGODB_URI, callback);
+    } else {
+      mongoose.connect(process.env.MONGODB_URI);
+    }
     // eslint-disable-next-line no-console
     console.log("Connecting to MongoDB Atlas cluster...");
   } catch (error) {

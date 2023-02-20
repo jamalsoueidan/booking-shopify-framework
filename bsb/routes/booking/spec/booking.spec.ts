@@ -8,14 +8,14 @@ import {
   shop,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import { endOfDay, startOfDay } from "date-fns";
-import { BookingGetAll } from "./booking.routes";
+import { BookingGetAll } from "../booking.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = parseInt(faker.random.numeric(10), 10);
 
-describe("booking service test", () => {
-  it("Should be able to get bookings for all staff by range when embedded app", async () => {
+describe("booking routes test (embedded-app)", () => {
+  it("Should be able to get all bookings by range", async () => {
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "b", productId });
@@ -37,8 +37,9 @@ describe("booking service test", () => {
 
     expect(bookings.length).toBe(3);
   });
-
-  it("Should be able to get bookings for specific staff by range when external app", async () => {
+});
+describe("booking routes test (external-app)", () => {
+  it("Should be able to get only bookings in the same group by range", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
@@ -66,7 +67,7 @@ describe("booking service test", () => {
     expect(bookings.length).toBe(2);
   });
 
-  it("Should be able to get bookings for all staff when user.role is admin and below when external app", async () => {
+  it("Should be able to get all bookings when user.role is admin and below", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
       role: StaffRole.owner,
