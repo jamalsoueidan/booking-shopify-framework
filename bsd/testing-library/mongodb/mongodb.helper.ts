@@ -35,7 +35,7 @@ export const createCustomer = () => {
   return customer.save();
 };
 
-export const createStaff = (props: Partial<Staff>) =>
+export const createStaff = (props: Partial<Staff> = {}) =>
   StaffServiceCreate({
     active: true,
     address: "asdiojdsajioadsoji",

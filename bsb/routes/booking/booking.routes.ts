@@ -14,7 +14,7 @@ export const BookingGetAll = async ({
   session,
 }: ControllerProps<
   BookingServiceGetAllProps,
-  null,
+  never,
   ShopifySession | AppSession
 >) => {
   const getAll = query;

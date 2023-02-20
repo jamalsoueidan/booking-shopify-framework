@@ -65,7 +65,8 @@ StaffSchema.pre("save", async function save(next) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.password = hash;
     return next();
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
     return next(err);
   }
 });

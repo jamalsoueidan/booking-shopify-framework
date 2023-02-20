@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { getBookingRoute } from "@jamalsoueidan/bsb.routes.booking";
+import { BookingRouteGetAll } from "@jamalsoueidan/bsb.routes.booking";
 import { ShopifySessionModel } from "@jamalsoueidan/bsb.services.shopify-session";
 import {
   connect,
@@ -64,7 +64,7 @@ export const expressApp = async () => {
 };
 
 function registerRoutes(app: Application.Application) {
-  const routes = [getBookingRoute()];
+  const routes = [BookingRouteGetAll()];
   routes.forEach((route) => {
     app[route.method](route.route, route.middlewares);
   });

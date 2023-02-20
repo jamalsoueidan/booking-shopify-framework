@@ -1,4 +1,6 @@
 import { faker } from "@faker-js/faker";
+import { AppSession } from "@jamalsoueidan/bsb.types.api";
+import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import {
   createStaff,
@@ -30,7 +32,7 @@ describe("booking service test", () => {
         isOnline: true,
         shop,
         state: "a",
-      },
+      } as ShopifySession,
     });
 
     expect(bookings.length).toBe(3);
@@ -58,7 +60,7 @@ describe("booking service test", () => {
         role: loggedInStaff.role,
         shop,
         staff: loggedInStaff._id.toString(),
-      },
+      } as AppSession,
     });
 
     expect(bookings.length).toBe(2);
@@ -86,7 +88,7 @@ describe("booking service test", () => {
         role: loggedInStaff.role,
         shop,
         staff: loggedInStaff._id.toString(),
-      },
+      } as AppSession,
     });
 
     expect(bookings.length).toBe(3);

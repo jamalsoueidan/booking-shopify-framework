@@ -24,36 +24,36 @@ export interface Staff {
   postal: number;
   address: string;
   group: string;
-  password: string;
-  language: string;
-  timeZone: string;
-  role: StaffRole;
+  password?: string;
+  language?: string;
+  timeZone?: string;
+  role?: StaffRole;
 }
 
 export interface StaffBodyUpdate extends Partial<Omit<Staff, "_id" | "shop">> {}
 export interface StaffBodyCreate extends Omit<Staff, "_id" | "shop"> {}
 
-export interface StaffUserReceivePasswordBodyRequest {
+export interface StaffReceivePasswordBodyRequest {
   phone: string;
 }
 
-export interface StaffUserReceivePasswordResponse {
+export interface StaffReceivePasswordResponse {
   message: string;
 }
 
-export interface StaffUserLoginBodyRequest {
+export interface StaffLoginBodyRequest {
   identification: string;
   password: string;
 }
 
-export interface StaffUserLoginResponse {
+export interface StaffLoginResponse {
   token: string;
 }
 
-export interface StaffUserSettingsResponse {
+export interface StaffSettingsResponse {
   language: string;
   timeZone: string;
 }
 
-export interface StaffUserSettingsUpdateBodyRequest
-  extends Omit<StaffUserSettingsResponse, "_id"> {}
+export interface StaffSettingsUpdateBodyRequest
+  extends Omit<StaffSettingsResponse, "_id"> {}
