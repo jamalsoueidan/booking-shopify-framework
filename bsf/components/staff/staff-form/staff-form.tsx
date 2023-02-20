@@ -41,7 +41,7 @@ export const StaffForm = memo(
     const { options } = usePosition();
     const { show } = useToast();
     const { t } = useTranslation({
-      id: "staff",
+      id: "staff-form",
       locales: { da, en },
     });
 

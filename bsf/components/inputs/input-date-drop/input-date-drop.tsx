@@ -37,7 +37,7 @@ export const InputDateDrop = ({
   onMonthChange,
   disableDates,
 }: InputDateDropProps) => {
-  const { t } = useTranslation({ id: "input-date-pop-over", locales });
+  const { t } = useTranslation({ id: "input-date-drop", locales });
   const [popoverActive, setPopoverActive] = useState(false);
 
   const togglePopoverActive = useCallback(

@@ -12,7 +12,7 @@ export interface InputLanguageProps
 
 export const InputLanguage = (field: InputLanguageProps) => {
   const { t } = useTranslation({
-    id: "language-input",
+    id: "input-language",
     locales,
   });
 
@@ -30,7 +30,14 @@ export const InputLanguage = (field: InputLanguageProps) => {
     [t],
   );
 
-  return <Select label={t("label")} placeholder={t("placeholder")} options={languageOptions} {...field} />;
+  return (
+    <Select
+      label={t("label")}
+      placeholder={t("placeholder")}
+      options={languageOptions}
+      {...field}
+    />
+  );
 };
 
 const locales = {

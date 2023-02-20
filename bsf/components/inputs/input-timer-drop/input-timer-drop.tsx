@@ -24,7 +24,7 @@ export const InputTimerDrop = ({ data, input, field }: InputTimerDropProps) => {
   });
 
   const { t } = useTranslation({
-    id: "input-timer-select",
+    id: "input-timer-drop",
     locales,
   });
 

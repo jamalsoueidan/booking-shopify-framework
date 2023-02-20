@@ -35,7 +35,7 @@ export const BookingInputFulfillment = ({
   input,
 }: BookingInputFulfillmentProps) => {
   const { options } = useFulfillment();
-  const { t } = useTranslation({ id: "tag-input", locales });
+  const { t } = useTranslation({ id: "booking-tag-input", locales });
 
   const selected = useMemo(
     () => options.find((option) => option.value === field.value),

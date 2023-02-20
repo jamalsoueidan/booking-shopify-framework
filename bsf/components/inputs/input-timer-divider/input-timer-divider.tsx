@@ -38,7 +38,7 @@ export const InputTimerDivider = ({
     field,
   });
 
-  const { t } = useTranslation({ id: "input-timer-list", locales });
+  const { t } = useTranslation({ id: "input-timer-divider", locales });
 
   const morning =
     options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) ||

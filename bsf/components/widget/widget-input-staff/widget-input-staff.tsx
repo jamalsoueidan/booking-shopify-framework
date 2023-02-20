@@ -21,7 +21,7 @@ export function WidgetInputStaff({
   field,
   input,
 }: WidgetInputStaffProps) {
-  const { t } = useTranslation({ id: "input-staff", locales });
+  const { t } = useTranslation({ id: "widget-input-staff", locales });
 
   const prefix = useCallback(
     (staff: WidgetStaff) => (

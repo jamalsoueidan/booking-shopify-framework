@@ -28,7 +28,7 @@ export type InputTagsProps = Pick<InputDropdownProps<Tag>, "options"> & {
 
 export const InputTags = ({ field, input }: InputTagsProps) => {
   const { options } = useTag();
-  const { t } = useTranslation({ id: "tag-input", locales });
+  const { t } = useTranslation({ id: "input-tags", locales });
 
   const selected = useMemo(
     () => options.find((option) => option.value === field.value),

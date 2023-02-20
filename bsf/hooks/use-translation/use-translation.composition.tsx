@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-console */
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
 import { Link } from "@shopify/polaris";
 import React from "react";
@@ -16,22 +18,22 @@ const FilesTranslation = () => {
 
 const locales = {
   da: {
-    lang: "Dansk",
-    option: {
-      zero: "Ingen fundet",
-      other: "{count} fundet",
-    },
     details: "Besøg { link }",
+    lang: "Dansk",
     link: "Se console",
+    option: {
+      other: "{count} fundet",
+      zero: "Ingen fundet",
+    },
   },
   en: {
-    lang: "English",
-    option: {
-      zero: "Nothing exists",
-      other: "{count} found",
-    },
     details: "See { link }",
+    lang: "English",
     link: "See console",
+    option: {
+      other: "{count} found",
+      zero: "Nothing exists",
+    },
   },
 };
 
@@ -45,9 +47,12 @@ const ExternalTranslation = () => {
     <div>
       {t("lang")}
       <br />
-      {tdynamic("option", { count: 0 })} - {tdynamic("option", { count: 1 })} - {tdynamic("option", { count: 10 })}
+      {tdynamic("option", { count: 0 })} - {tdynamic("option", { count: 1 })} -{" "}
+      {tdynamic("option", { count: 10 })}
       <br />
-      {tdynamic("details", { link: <Link onClick={console.log}>{t("link")}</Link> })}
+      {tdynamic("details", {
+        link: <Link onClick={console.log}>{t("link")}</Link>,
+      })}
     </div>
   );
 };

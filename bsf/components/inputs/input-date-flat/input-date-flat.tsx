@@ -31,7 +31,7 @@ export const InputDateFlat = ({
   disableDates,
 }: InputDateFlatProps) => {
   const id = useId();
-  const { t } = useTranslation({ id: "input-date-inline", locales });
+  const { t } = useTranslation({ id: "input-date-flat", locales });
 
   return (
     <Labelled

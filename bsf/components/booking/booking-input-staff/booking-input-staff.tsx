@@ -21,7 +21,7 @@ export function BookingInputStaff({
   field,
   input,
 }: BookingInputStaffProps) {
-  const { t } = useTranslation({ id: "input-staff", locales });
+  const { t } = useTranslation({ id: "booking-input-staff", locales });
 
   const prefix = useCallback(
     (staff: Staff) => (

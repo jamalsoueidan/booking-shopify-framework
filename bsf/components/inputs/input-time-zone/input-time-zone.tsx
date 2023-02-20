@@ -24,7 +24,7 @@ export interface InputTimeZoneProps
 
 export const InputTimeZone = memo((field: InputTimeZoneProps) => {
   const { t } = useTranslation({
-    id: "time-zone-input",
+    id: "input-time-zone",
     locales,
   });
 
@@ -46,7 +46,9 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
     (value: string) => {
       setInputValue(value);
       const filterRegex = new RegExp(value, "i");
-      const resultOptions = deselectedOptions.filter((option) => option.label.match(filterRegex));
+      const resultOptions = deselectedOptions.filter((option) =>
+        option.label.match(filterRegex),
+      );
       setOptions(resultOptions);
     },
     [deselectedOptions],
@@ -55,7 +57,9 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
   const updateSelection = useCallback(
     (selected: string[]) => {
       const selectedValue = selected.map((selectedItem: string) => {
-        const matchedOption = options.find((option) => option.value.match(selectedItem));
+        const matchedOption = options.find((option) =>
+          option.value.match(selectedItem),
+        );
         return matchedOption && matchedOption.label;
       });
 
@@ -83,7 +87,14 @@ export const InputTimeZone = memo((field: InputTimeZoneProps) => {
     />
   );
 
-  return <Autocomplete options={options} selected={selectedOptions} onSelect={updateSelection} textField={textField} />;
+  return (
+    <Autocomplete
+      options={options}
+      selected={selectedOptions}
+      onSelect={updateSelection}
+      textField={textField}
+    />
+  );
 });
 
 const timeZones = [

@@ -12,7 +12,7 @@ export interface InputDaysProps {
 
 export const InputDays = ({ input, field }: InputDaysProps) => {
   const id = useId();
-  const { t, locale } = useTranslation({ id: "select-days-input", locales });
+  const { t, locale } = useTranslation({ id: "input-days", locales });
 
   const options = useMemo(
     () =>
