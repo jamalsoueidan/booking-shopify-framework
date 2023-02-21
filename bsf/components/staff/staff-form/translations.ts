@@ -42,8 +42,21 @@ export const da = {
     label: "Postnummer",
     placeholder: "Postnummer",
   },
+  role: {
+    help: "Brugerrettigheder",
+    label: "Brugerrettigheder",
+    placeholder: "Brugerrettigheder",
+  },
+  roles: {
+    admin: "Admin",
+    owner: "Ejer",
+    user: "Bruger",
+  },
   save: "Gem",
   title: "Ny medarbejder",
+  user: {
+    title: "Medarbejder indstillinger",
+  },
 } as const;
 
 export const en = {
@@ -82,7 +95,6 @@ export const en = {
     placeholder: "Example: +4531311234",
   },
   position: {
-    label: "Title",
     title: "Your position makeup artist or hair artist?",
   },
   postal: {
@@ -90,6 +102,19 @@ export const en = {
     label: "Postal",
     placeholder: "Postal",
   },
+  role: {
+    help: "Staff role",
+    label: "Staff role",
+    placeholder: "Staff role",
+  },
+  roles: {
+    admin: "Admin",
+    owner: "Owner",
+    user: "User",
+  },
   save: "Save",
   title: "New staff",
+  user: {
+    title: "Staff settings",
+  },
 };

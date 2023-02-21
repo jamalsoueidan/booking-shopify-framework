@@ -1,4 +1,9 @@
-import { Staff, StaffBodyUpdate } from "@jamalsoueidan/bsb.types.staff";
+import {
+  Staff,
+  StaffBodyUpdate,
+  StaffRole,
+  StaffRoleKeys,
+} from "@jamalsoueidan/bsb.types.staff";
 import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useForm } from "@jamalsoueidan/bsf.hooks.use-form";
@@ -19,7 +24,7 @@ import {
   TextField,
 } from "@shopify/polaris";
 import { lengthMoreThan, notEmpty, useField } from "@shopify/react-form";
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { da, en } from "./translations";
 
 export interface StaffFormProps {
@@ -27,7 +32,7 @@ export interface StaffFormProps {
   breadcrumbs?: BreadcrumbsProps["breadcrumbs"];
   titleMetadata?: React.ReactNode;
   data?: Staff;
-  disallowEditing?: Record<string, boolean>;
+  allowEditing?: Record<string, boolean>;
 }
 
 export const StaffForm = memo(
@@ -36,11 +41,11 @@ export const StaffForm = memo(
     breadcrumbs,
     titleMetadata,
     data,
-    disallowEditing = { active: true, group: true },
+    allowEditing = {},
   }: StaffFormProps) => {
     const { options } = usePosition();
     const { show } = useToast();
-    const { t } = useTranslation({
+    const { t, tdynamic } = useTranslation({
       id: "staff-form",
       locales: { da, en },
     });
@@ -48,6 +53,20 @@ export const StaffForm = memo(
     const group = useField({
       validates: [notEmpty("group must be filled")],
       value: data?.group || "",
+    });
+
+    const roleOptions = useMemo(
+      () =>
+        StaffRoleKeys.map((key: string) => ({
+          label: tdynamic(`roles.${key.toString()}`) as unknown as string,
+          value: StaffRole[key].toString(),
+        })),
+      [tdynamic],
+    );
+
+    const role = useField<StaffRole>({
+      validates: [notEmpty("role must be filled")],
+      value: data?.role || StaffRole.user,
     });
 
     const active = useField({
@@ -95,14 +114,19 @@ export const StaffForm = memo(
           validates: [notEmpty("postal must be filled")],
           value: data?.postal || undefined,
         }),
-        ...(disallowEditing.group
+        ...(allowEditing.group
           ? {
               group,
             }
           : null),
-        ...(disallowEditing.active
+        ...(allowEditing.active
           ? {
               active,
+            }
+          : null),
+        ...(allowEditing.role
+          ? {
+              role,
             }
           : null),
       },
@@ -180,7 +204,7 @@ export const StaffForm = memo(
                 </FormLayout>
               </Card>
             </Layout.AnnotatedSection>
-            <Layout.AnnotatedSection title={t("position.title")}>
+            <Layout.AnnotatedSection title={t("user.title")}>
               <Card sectioned>
                 <FormLayout>
                   <Select
@@ -188,7 +212,7 @@ export const StaffForm = memo(
                     options={options}
                     {...fields?.position}
                   />
-                  {disallowEditing.group ? (
+                  {allowEditing.group ? (
                     <TextField
                       label={t("group.label")}
                       type="text"
@@ -196,6 +220,16 @@ export const StaffForm = memo(
                       placeholder={t("group.placeholder")}
                       helpText={<span>{t("group.help")}</span>}
                       {...fields?.group}
+                    />
+                  ) : null}
+                  {allowEditing.role ? (
+                    <Select
+                      label={t("role.label")}
+                      placeholder={t("role.placeholder")}
+                      helpText={<span>{t("role.help")}</span>}
+                      options={roleOptions}
+                      value={role.value.toString()}
+                      onChange={(value) => role.onChange(parseInt(value, 10))}
                     />
                   ) : null}
                 </FormLayout>

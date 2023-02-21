@@ -1,7 +1,7 @@
 import {
   Staff,
   StaffRole,
-  StaffRoleKeys,
+  StaffRoleValues,
 } from "@jamalsoueidan/bsb.types.staff";
 import bcrypt from "bcryptjs";
 import mongoose, { Document, Model } from "mongoose";
@@ -41,7 +41,7 @@ export const StaffSchema = new mongoose.Schema<IStaffDocument, IStaffModel>({
   },
   role: {
     default: StaffRole.user,
-    enum: StaffRoleKeys,
+    enum: StaffRoleValues,
     required: true,
     type: Number,
   },

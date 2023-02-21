@@ -35,7 +35,7 @@ export const BasicStaffForm = () => (
   </ApplicationFramePage>
 );
 
-export const BasicStaffFormDisallow = () => (
+export const BasicStaffFormAllow = () => (
   <ApplicationFramePage>
     <SaveBarProvider>
       <ToastProvider>
@@ -43,7 +43,7 @@ export const BasicStaffFormDisallow = () => (
           data={staff}
           action={() => {}}
           titleMetadata={<Badge status="success">Active</Badge>}
-          disallowEditing={{ active: false, group: false }}
+          allowEditing={{ active: true, group: true, role: true }}
         />
       </ToastProvider>
     </SaveBarProvider>

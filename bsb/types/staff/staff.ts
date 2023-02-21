@@ -4,12 +4,16 @@ export enum StaffRole {
   "user" = 99,
 }
 
-export const StaffRoleKeys = Object.keys(StaffRole).reduce(
+export const StaffRoleValues = Object.keys(StaffRole).reduce(
   (acc: number[], curr, index, arr) => {
     if (index < arr.length / 2) acc.push(parseInt(curr, 10));
     return acc;
   },
   [],
+);
+
+export const StaffRoleKeys = Object.keys(StaffRole).filter((v) =>
+  Number.isNaN(Number(v)),
 );
 
 export interface Staff {
