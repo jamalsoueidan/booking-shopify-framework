@@ -9,7 +9,8 @@ import {
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import Application from "express";
 
-import { bookingRouteGetAll } from "@jamalsoueidan/bsb.routes.booking";
+import { bookingRouter } from "@jamalsoueidan/bsb.routes.booking";
+import { widgetRouter } from "@jamalsoueidan/bsb.routes.widget";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { getPort } from "./get-port";
 
@@ -64,10 +65,8 @@ export const expressApp = async () => {
 };
 
 function registerRoutes(app: Application.Application) {
-  const routes = [bookingRouteGetAll];
-  routes.forEach((route) => {
-    app[route.method](route.route, route.middlewares);
-  });
+  app.use("/", bookingRouter);
+  app.use("/", widgetRouter);
 }
 
 expressApp().catch((err) => {

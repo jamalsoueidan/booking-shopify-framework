@@ -137,13 +137,15 @@ export const createSchedule = async ({
 interface CreateStaffWithScheduleProps {
   tag: Tag;
   group?: string;
+  role?: StaffRole;
 }
 
 export const createStaffWithSchedule = async ({
   tag,
   group = "all",
+  role = StaffRole.user,
 }: CreateStaffWithScheduleProps) => {
-  const staff = await createStaff({ group });
+  const staff = await createStaff({ group, role });
   const schedule = await createSchedule({
     staff: staff._id,
     tag,
@@ -155,14 +157,20 @@ interface CreateStaffAndUpdateProductProps {
   product: IProductDocument;
   tag: Tag;
   group?: string;
+  role?: StaffRole;
 }
 
 export const createStaffWithScheduleAndUpdateProduct = async ({
   product,
   tag,
   group = "all",
+  role = StaffRole.user,
 }: CreateStaffAndUpdateProductProps) => {
-  const { staff, schedule } = await createStaffWithSchedule({ group, tag });
+  const { staff, schedule } = await createStaffWithSchedule({
+    group,
+    role,
+    tag,
+  });
   const updatedProduct = await ProductServiceUpdate(
     {
       id: product._id,
