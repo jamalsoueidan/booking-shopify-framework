@@ -1,16 +1,16 @@
 ---
-description: A CreateOneShift component.
+description: A EditOneShift component.
 ---
 
-This components creates one shift and has a onSubmit handler that sends an event when the form is submitted successfully.
+This component lets you edit one shift, and it has a onSubmit handler that sends an event when the form is submitted successfully.
 You must handle submit via ref because this component can be used in modal and other pages that need to put the submit button in different places on the page (see example).
 
 ### Component usage
 
 ```ts
-const ref = useRef < CreateOneShiftRefMethod > null;
+const ref = useRef < EditOneShiftRefMethod > null;
 
-const onSubmit = useCallback((fieldValues): CreateOneShiftSubmitResult => {
+const onSubmit = useCallback((fieldValues): EditOneShiftSubmitResult => {
   return {
     status: "success",
   };
@@ -22,7 +22,7 @@ const submit = useCallback(() => {
 
 return (
   <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
-    <CreateOneShift selectedDate={new Date()} onSubmit={onSubmit} ref={ref} />
+    <EditOneShift schedule={schedule} onSubmit={onSubmit} ref={ref} />
   </Card>
 );
 ```
