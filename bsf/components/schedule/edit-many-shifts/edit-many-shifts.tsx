@@ -1,6 +1,6 @@
 import {
   Schedule,
-  ScheduleServiceUpdateBodyProps,
+  ScheduleServiceUpdateGroupBodyProps,
 } from "@jamalsoueidan/bsb.types.schedule";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
@@ -13,22 +13,22 @@ import {
 } from "@shopify/react-form";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
-export type EditOneShiftBody = ScheduleServiceUpdateBodyProps;
-export type EditOneShiftSubmitResult = SubmitResult;
-export interface EditOneShiftRefMethod {
+export type EditManyShiftsBody = ScheduleServiceUpdateGroupBodyProps;
+export type EditManyShiftsSubmitResult = SubmitResult;
+export interface EditManyShiftsRefMethod {
   submit: () => FormError[];
 }
 
-export interface EditOneShiftProps {
+export interface EditManyShiftsProps {
   schedule: Schedule;
-  onSubmit: (fields: EditOneShiftBody) => EditOneShiftSubmitResult;
+  onSubmit: (fields: EditManyShiftsBody) => EditManyShiftsSubmitResult;
 }
 
-export const EditOneShift = forwardRef<
-  EditOneShiftRefMethod,
-  EditOneShiftProps
+export const EditManyShifts = forwardRef<
+  EditManyShiftsRefMethod,
+  EditManyShiftsProps
 >(({ schedule, onSubmit }, ref) => {
-  const { t } = useTranslation({ id: "edit-one-day-shift", locales });
+  const { t } = useTranslation({ id: "edit-many-day-shifts", locales });
   const { toUtc, format } = useDate();
 
   const convert = useCallback(
@@ -55,6 +55,7 @@ export const EditOneShift = forwardRef<
       return onSubmit({
         end,
         start,
+        tag: schedule.tag,
       });
     },
   });
@@ -70,6 +71,7 @@ export const EditOneShift = forwardRef<
     <Layout>
       <Layout.Section>
         {t("title")}
+        <br />
         <br />
         {t("from", {
           from: <strong>{format(schedule.start, "PPp")}</strong>,
@@ -113,7 +115,8 @@ const locales = {
     time_to: {
       label: "Ændre tid til",
     },
-    title: "Nuværende vagtplan er:",
+    title:
+      "Dette vagtplan er en del af en gruppe af vagtplaner, ændring af tiden påvirker alle vagtplaner:",
     to: "til: {to}",
   },
   en: {
@@ -124,7 +127,8 @@ const locales = {
     time_to: {
       label: "Edit time to",
     },
-    title: "Present shift is:",
+    title:
+      "This shift is part of a group of shifts, changes to time affects all shifts:",
     to: "to: {to}",
   },
 };
