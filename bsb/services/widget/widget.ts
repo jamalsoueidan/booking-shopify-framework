@@ -13,7 +13,7 @@ import {
   WidgetServiceGetStaffProps,
   WidgetServiceGetStaffReturn,
 } from "@jamalsoueidan/bsb.types.widget";
-import { Types } from "mongoose";
+import mongoose, { PipelineStage, Types } from "mongoose";
 import {
   WidgetCreateAvailability,
   WidgetRemoveAvailability,
@@ -24,8 +24,9 @@ import {
 export const WidgetServiceGetStaff = ({
   shop,
   productId,
-}: WidgetServiceGetStaffProps & ShopQuery) =>
-  ProductModel.aggregate<WidgetServiceGetStaffReturn>([
+  staff,
+}: WidgetServiceGetStaffProps & { staff?: string } & ShopQuery) => {
+  let pipeline: PipelineStage[] = [
     {
       $match: {
         active: true,
@@ -34,8 +35,20 @@ export const WidgetServiceGetStaff = ({
       },
     },
     {
-      $unwind: { path: "$staff" },
+      $unwind: "$staff",
     },
+  ];
+
+  if (staff) {
+    pipeline.push({
+      $match: {
+        "staff.staff": new mongoose.Types.ObjectId(staff),
+      },
+    });
+  }
+
+  pipeline = [
+    ...pipeline,
     {
       $lookup: {
         as: "staff.staff",
@@ -81,7 +94,10 @@ export const WidgetServiceGetStaff = ({
         shop: 0,
       },
     },
-  ]);
+  ];
+
+  return ProductModel.aggregate<WidgetServiceGetStaffReturn>(pipeline);
+};
 
 export const WidgetServiceAvailability = async ({
   staff,

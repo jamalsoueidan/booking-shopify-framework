@@ -14,7 +14,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = parseInt(faker.random.numeric(10), 10);
 
-describe("booking get by id route test (embedded-app)", () => {
+describe("Shopify: booking get by id route test", () => {
   it("Should be able to get any booking by id", async () => {
     const { booking } = await createStaffWithBooking({ group: "a", productId });
 
@@ -29,7 +29,7 @@ describe("booking get by id route test (embedded-app)", () => {
   });
 });
 
-describe("booking get by id route test (external-app)", () => {
+describe("Application: booking get by id route test", () => {
   it("User: Should not be able to get booking by id in another group", async () => {
     const loggedInStaff = await createStaff({
       group: "a",

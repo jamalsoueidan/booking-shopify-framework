@@ -2,7 +2,7 @@ import { handleRoute } from "@jamalsoueidan/bsb.express.handle-route";
 import { CustomValidator, checkSchema } from "express-validator";
 import { ValidatorsSchema } from "express-validator/src/middlewares/schema";
 import { isValidObjectId } from "mongoose";
-import { create, getAll, getById, update } from "./booking";
+import { create, getAll, getById, update } from "./booking.controller";
 
 const isValidObject: ValidatorsSchema["custom"] = {
   errorMessage: "not valid objectId",

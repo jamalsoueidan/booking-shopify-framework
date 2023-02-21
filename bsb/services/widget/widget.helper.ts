@@ -23,12 +23,11 @@ export const WidgetCreateAvailability = (
       previous: Array<WidgetSchedule>,
       current: WidgetCreateAvailabilitySchedule,
     ) => {
-      const scheduleEnd = current.end;
+      const scheduleEnd = new Date(current.end);
       const duration = product.duration || 60;
       const buffertime = product.buffertime || 0;
 
-      // we push start time everytime
-      let { start } = current;
+      let start = new Date(current.start);
       let end;
 
       const previousHours = previous.find((p) => isSameDay(p.date, start));
@@ -48,12 +47,11 @@ export const WidgetCreateAvailability = (
           },
           start,
         });
-
         start = addMinutes(start, 15);
       }
 
       if (!previousHours) {
-        previous.push({ date: start, hours });
+        previous.push({ date: current.start, hours });
       }
       return previous;
     },
@@ -75,7 +73,7 @@ export const WidgetRemoveAvailability = (
 ) => {
   let filteredAvailabilities = availabilities;
   bookings.forEach((booking) => {
-    filteredAvailabilities = availabilities.map(
+    filteredAvailabilities = filteredAvailabilities.map(
       (schedule: WidgetSchedule): WidgetSchedule => ({
         date: schedule.date,
         hours: schedule.hours.filter((hour) => {

@@ -16,7 +16,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const productId = faker.random.numeric(10);
 
-describe("booking update route test (embedded-app)", () => {
+describe("Shopify: booking update route test", () => {
   it("Should be able to update booking", async () => {
     const randomStaff = await createStaff({
       group: "a",
@@ -60,7 +60,7 @@ describe("booking update route test (embedded-app)", () => {
   });
 });
 
-describe("booking create route test (external-app)", () => {
+describe("Application: booking create route test", () => {
   it("User: Should not be able to update booking for another user", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
