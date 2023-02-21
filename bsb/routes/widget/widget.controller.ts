@@ -1,3 +1,4 @@
+import { SettingModel } from "@jamalsoueidan/bsb.services.setting";
 import {
   WidgetServiceAvailability,
   WidgetServiceGetStaff,
@@ -23,11 +24,14 @@ export const widgetStaff = ({
 >) => {
   const { productId, shop } = query;
   let staff;
+  let group;
   if (isExternalApplication(session) && session.isUser) {
     staff = session.staff;
+    group = session.group;
   }
 
   return WidgetServiceGetStaff({
+    group,
     productId,
     shop,
     staff,
@@ -42,10 +46,16 @@ export const widgetAvailability = ({
   never,
   ShopifySession | AppSession
 >) => {
-  let { staff } = query;
-  if (isExternalApplication(session)) {
-    staff = session.staff;
+  if (
+    isExternalApplication(session) &&
+    session.isUser &&
+    query.staff !== session.staff
+  ) {
+    throw "Error: You can't get availabilities for this staff";
   }
 
-  return WidgetServiceAvailability({ ...query, staff });
+  return WidgetServiceAvailability(query);
 };
+
+export const widgetSettings = () =>
+  SettingModel.findOne({}, "language status timeZone");

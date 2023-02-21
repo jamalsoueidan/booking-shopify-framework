@@ -25,7 +25,8 @@ export const WidgetServiceGetStaff = ({
   shop,
   productId,
   staff,
-}: WidgetServiceGetStaffProps & { staff?: string } & ShopQuery) => {
+  group,
+}: WidgetServiceGetStaffProps & ShopQuery) => {
   let pipeline: PipelineStage[] = [
     {
       $match: {
@@ -95,6 +96,14 @@ export const WidgetServiceGetStaff = ({
       },
     },
   ];
+
+  if (group) {
+    pipeline.push({
+      $match: {
+        group,
+      },
+    });
+  }
 
   return ProductModel.aggregate<WidgetServiceGetStaffReturn>(pipeline);
 };

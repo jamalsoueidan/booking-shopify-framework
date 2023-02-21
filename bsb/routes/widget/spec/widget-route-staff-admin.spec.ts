@@ -31,6 +31,12 @@ describe("Application: widget staff route admin test", () => {
       tag,
     });
 
+    // another group staff
+    await createStaffWithSchedule({
+      group: "b",
+      tag,
+    });
+
     await ProductServiceUpdate(
       {
         id: product._id,

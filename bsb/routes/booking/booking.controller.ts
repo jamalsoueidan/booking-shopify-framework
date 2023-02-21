@@ -82,7 +82,7 @@ export const create = async ({
     // user can only create for self self
     if (session.isUser) {
       if (staff !== session.staff) {
-        throw { staff: "cant create booking for another staff" };
+        throw { staff: "You can't create booking for another staff" };
       }
     } else if (session.isAdmin) {
       const allStaff = await StaffServiceGetStaffIdsbyGroup({
@@ -91,7 +91,7 @@ export const create = async ({
       });
       const notFound = !allStaff.find((s) => s === staff);
       if (notFound) {
-        throw { staff: "cant create booking in another group" };
+        throw { staff: "You can't create booking in another group" };
       }
     }
   }

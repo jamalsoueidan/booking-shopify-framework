@@ -1,6 +1,10 @@
 import { handleRoute } from "@jamalsoueidan/bsb.express.handle-route";
 import { checkSchema } from "express-validator";
-import { widgetAvailability, widgetStaff } from "./widget.controller";
+import {
+  widgetAvailability,
+  widgetSettings,
+  widgetStaff,
+} from "./widget.controller";
 
 export const widgetRouteStaff = {
   method: "get",
@@ -24,4 +28,10 @@ export const widgetRouteAvailability = {
     handleRoute(widgetAvailability),
   ],
   route: "/widget/availability",
+};
+
+export const widgetRouteSettings = {
+  method: "get",
+  middlewares: [handleRoute(widgetSettings)],
+  route: "/widget/settings",
 };

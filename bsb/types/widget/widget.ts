@@ -50,6 +50,8 @@ export type WidgetServiceGetSchedulesReturn = Omit<Schedule, "staff"> &
 
 export type WidgetServiceGetStaffProps = {
   productId: number;
+  staff?: string;
+  group?: string;
 };
 
 export type WidgetServiceGetStaffReturn = WidgetStaff;

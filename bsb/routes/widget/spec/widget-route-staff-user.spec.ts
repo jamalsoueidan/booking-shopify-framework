@@ -72,7 +72,9 @@ describe("Application: widget staff route user test", () => {
       .get(
         `/widget/availability?productId=${
           product.productId
-        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}`,
+        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}&staff=${
+          staff.id
+        }`,
       )
       .set("Accept", "application/json");
 
@@ -87,7 +89,7 @@ describe("Application: widget staff route user test", () => {
     );
   });
 
-  it("User: Should be able to book and get availabillities for only himself", async () => {
+  it("User: Should not return booked time in availabilities returned", async () => {
     const product = await createProduct({ productId });
 
     const { staff, schedule } = await createStaffWithScheduleAndUpdateProduct({
@@ -101,7 +103,9 @@ describe("Application: widget staff route user test", () => {
       .get(
         `/widget/availability?productId=${
           product.productId
-        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}`,
+        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}&staff=${
+          staff._id
+        }`,
       )
       .set("Accept", "application/json");
 
@@ -121,7 +125,9 @@ describe("Application: widget staff route user test", () => {
       .get(
         `/widget/availability?productId=${
           product.productId
-        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}`,
+        }&start=${schedule.start.toJSON()}&end=${schedule.end.toJSON()}&staff=${
+          staff._id
+        }`,
       )
       .set("Accept", "application/json");
 
@@ -174,14 +180,6 @@ describe("Application: widget staff route user test", () => {
       )
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(200);
-    const widgetSchedule: WidgetSchedule[] = res.body.payload;
-    expect(widgetSchedule).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          date: schedule.start.toJSON(),
-        }),
-      ]),
-    );
+    expect(res.statusCode).toBe(500);
   });
 });
