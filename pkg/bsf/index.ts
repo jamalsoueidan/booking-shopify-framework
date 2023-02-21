@@ -24,6 +24,7 @@ export * from "@jamalsoueidan/bsf.components.loading.loading-page";
 export * from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
+export * from "@jamalsoueidan/bsf.components.schedule.edit-one-shift";
 export * from "@jamalsoueidan/bsf.components.schedule.schedule-calendar";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";
 export * from "@jamalsoueidan/bsf.components.widget.widget-input-staff";
