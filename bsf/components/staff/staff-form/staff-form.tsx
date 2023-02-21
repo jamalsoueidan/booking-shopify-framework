@@ -2,7 +2,6 @@ import {
   Staff,
   StaffBodyUpdate,
   StaffRole,
-  StaffRoleKeys,
 } from "@jamalsoueidan/bsb.types.staff";
 import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
@@ -57,10 +56,12 @@ export const StaffForm = memo(
 
     const roleOptions = useMemo(
       () =>
-        StaffRoleKeys.map((key: string) => ({
-          label: tdynamic(`roles.${key.toString()}`) as unknown as string,
-          value: StaffRole[key].toString(),
-        })),
+        Object.entries(StaffRole)
+          .filter(([, value]) => !Number.isNaN(Number(value)))
+          .map(([label, value]) => ({
+            label: tdynamic(`roles.${label}`) as unknown as string,
+            value: value.toString(),
+          })),
       [tdynamic],
     );
 
@@ -78,40 +79,40 @@ export const StaffForm = memo(
     const { fields, submit, submitErrors, primaryAction } = useForm({
       fields: {
         address: useField({
-          validates: [notEmpty("postal must be filled")],
+          validates: [notEmpty(t("address.error"))],
           value: data?.address || "",
         }),
         avatar: useField({
-          validates: [notEmpty("avatarUrl is required")],
+          validates: [notEmpty(t("avatar.error"))],
           value: data?.avatar || "",
         }),
         email: useField({
           validates: [
-            notEmpty("Email is required"),
-            Validators.isEmail("Invalid email"),
+            notEmpty(t("email.error_empty")),
+            Validators.isEmail(t("email.empty_invalid_email")),
           ],
           value: data?.email || "",
         }),
         fullname: useField({
           validates: [
-            notEmpty("Fullname is required"),
-            lengthMoreThan(3, "Fullname must be more than 3 characters"),
+            notEmpty(t("fullname.error_empty")),
+            lengthMoreThan(3, t("fullname.error_short")),
           ],
           value: data?.fullname || "",
         }),
         phone: useField({
           validates: [
-            notEmpty("Phone is required"),
-            Validators.isPhoneNumber("Invalid phonenumber"),
+            notEmpty(t("phone.error_empty")),
+            Validators.isPhoneNumber(t("phone.error_invalid")),
           ],
           value: data?.phone || "",
         }),
         position: useField({
-          validates: [notEmpty("position must be selected")],
+          validates: [notEmpty(t("position.empty"))],
           value: data?.position || options[0].value,
         }),
         postal: useField<number | undefined>({
-          validates: [notEmpty("postal must be filled")],
+          validates: [notEmpty(t("postal.empty"))],
           value: data?.postal || undefined,
         }),
         ...(allowEditing.group
@@ -132,7 +133,7 @@ export const StaffForm = memo(
       },
       onSubmit: async (fieldValues) => {
         action(fieldValues);
-        show({ content: data ? "Staff has been updated" : "Staff created" });
+        show({ content: data ? t("updated") : t("created") });
         return { status: "success" };
       },
     });
@@ -239,11 +240,11 @@ export const StaffForm = memo(
               <Card>
                 <Card.Section>
                   <TextField
-                    label={t("avatarUrl.label")}
+                    label={t("avatar.label")}
                     type="text"
-                    autoComplete="avatarUrl"
-                    placeholder={t("avatarUrl.placeholder")}
-                    helpText={<span>{t("avatarUrl.help")}</span>}
+                    autoComplete="avatar"
+                    placeholder={t("avatar.placeholder")}
+                    helpText={<span>{t("avatar.help")}</span>}
                     {...fields?.avatar}
                   />
                   {fields?.avatar.value && (
