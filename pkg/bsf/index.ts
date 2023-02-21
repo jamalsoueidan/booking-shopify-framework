@@ -6,7 +6,6 @@ export * from "@jamalsoueidan/bsf.components.booking.booking-input-staff";
 export * from "@jamalsoueidan/bsf.components.booking.booking-view";
 export * from "@jamalsoueidan/bsf.components.calendar";
 export * from "@jamalsoueidan/bsf.components.form-errors";
-// COMPONENTS / INPUTS
 export * from "@jamalsoueidan/bsf.components.inputs.input-auto-complete";
 export * from "@jamalsoueidan/bsf.components.inputs.input-button";
 export * from "@jamalsoueidan/bsf.components.inputs.input-date";
@@ -24,6 +23,7 @@ export * from "@jamalsoueidan/bsf.components.loading.loading-page";
 export * from "@jamalsoueidan/bsf.components.loading.loading-spinner";
 export * from "@jamalsoueidan/bsf.components.schedule.create-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.create-one-shift";
+export * from "@jamalsoueidan/bsf.components.schedule.edit-many-shifts";
 export * from "@jamalsoueidan/bsf.components.schedule.edit-one-shift";
 export * from "@jamalsoueidan/bsf.components.schedule.schedule-calendar";
 export * from "@jamalsoueidan/bsf.components.staff.staff-form";

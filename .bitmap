@@ -41,7 +41,7 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.54",
+        "version": "0.0.55",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
@@ -201,9 +201,15 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/create-one-shift"
     },
-    "components/schedule/edit-one-shift": {
+    "components/schedule/edit-many-shifts": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/components/schedule/edit-many-shifts"
+    },
+    "components/schedule/edit-one-shift": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/schedule/edit-one-shift"
     },
