@@ -50,7 +50,7 @@ describe("Shopify: booking create route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
     expect(res.body.error.customerId).toBeTruthy();
   });
@@ -78,7 +78,7 @@ describe("Application: booking create route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.error).toBeDefined();
     expect(res.body.success).toBeFalsy();
   });
@@ -126,7 +126,7 @@ describe("Application: booking create route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.error).toBeDefined();
     expect(res.body.success).toBeFalsy();
   });

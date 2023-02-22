@@ -1,6 +1,6 @@
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 
-export const isExternalApplication = (
+export const isApplicationSession = (
   session: AppSession | ShopifySession,
 ): session is AppSession => (session as AppSession).staff !== undefined;
 

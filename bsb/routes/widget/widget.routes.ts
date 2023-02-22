@@ -1,5 +1,7 @@
-import { handleRoute } from "@jamalsoueidan/bsb.express.handle-route";
+import { handleController } from "@jamalsoueidan/bsb.middlewares.handle-controller";
+import { validate } from "@jamalsoueidan/bsb.middlewares.validate";
 import { checkSchema } from "express-validator";
+import { widgetAvailabiliyApp, widgetStaffApp } from "./widget.application";
 import {
   widgetAvailability,
   widgetSettings,
@@ -9,10 +11,12 @@ import {
 export const widgetRouteStaff = {
   method: "get",
   middlewares: [
-    checkSchema({
-      productId: { isInt: true, notEmpty: true, toInt: true },
-    }),
-    handleRoute(widgetStaff),
+    validate(
+      checkSchema({
+        productId: { isInt: true, notEmpty: true, toInt: true },
+      }),
+    ),
+    handleController(widgetStaffApp, widgetStaff),
   ],
   route: "/widget/staff",
 };
@@ -20,18 +24,20 @@ export const widgetRouteStaff = {
 export const widgetRouteAvailability = {
   method: "get",
   middlewares: [
-    checkSchema({
-      end: { isISO8601: true, notEmpty: true, toDate: true },
-      productId: { isInt: true, notEmpty: true, toInt: true },
-      start: { isISO8601: true, notEmpty: true, toDate: true },
-    }),
-    handleRoute(widgetAvailability),
+    validate(
+      checkSchema({
+        end: { isISO8601: true, notEmpty: true, toDate: true },
+        productId: { isInt: true, notEmpty: true, toInt: true },
+        start: { isISO8601: true, notEmpty: true, toDate: true },
+      }),
+    ),
+    handleController(widgetAvailabiliyApp, widgetAvailability),
   ],
   route: "/widget/availability",
 };
 
 export const widgetRouteSettings = {
   method: "get",
-  middlewares: [handleRoute(widgetSettings)],
+  middlewares: [handleController(widgetSettings)],
   route: "/widget/settings",
 };

@@ -1,22 +1,25 @@
-import { handleRoute } from "@jamalsoueidan/bsb.express.handle-route";
-import { CustomValidator, checkSchema } from "express-validator";
-import { ValidatorsSchema } from "express-validator/src/middlewares/schema";
-import { isValidObjectId } from "mongoose";
+import { handleController } from "@jamalsoueidan/bsb.middlewares.handle-controller";
+import { validate } from "@jamalsoueidan/bsb.middlewares.validate";
+import { isValidObject } from "@jamalsoueidan/bsb.middlewares.validate/validate";
+import { checkSchema } from "express-validator";
+import {
+  createApp,
+  getAllApp,
+  getByIdApp,
+  updateApp,
+} from "./booking.application";
 import { create, getAll, getById, update } from "./booking.controller";
-
-const isValidObject: ValidatorsSchema["custom"] = {
-  errorMessage: "not valid objectId",
-  options: (value: CustomValidator) => isValidObjectId(value),
-};
 
 export const bookingRouteGetAll = {
   method: "get",
   middlewares: [
-    checkSchema({
-      end: { isISO8601: true, notEmpty: true, toDate: true },
-      start: { isISO8601: true, notEmpty: true, toDate: true },
-    }),
-    handleRoute(getAll),
+    validate(
+      checkSchema({
+        end: { isISO8601: true, notEmpty: true, toDate: true },
+        start: { isISO8601: true, notEmpty: true, toDate: true },
+      }),
+    ),
+    handleController(getAllApp, getAll),
   ],
   route: "/bookings",
 };
@@ -24,14 +27,16 @@ export const bookingRouteGetAll = {
 export const bookingRouteGetById = {
   method: "get",
   middlewares: [
-    checkSchema({
-      _id: {
-        custom: isValidObject,
-        in: ["params"],
-        notEmpty: true,
-      },
-    }),
-    handleRoute(getById),
+    validate(
+      checkSchema({
+        _id: {
+          custom: isValidObject,
+          in: ["params"],
+          notEmpty: true,
+        },
+      }),
+    ),
+    handleController(getByIdApp, getById),
   ],
   route: "/bookings/:_id",
 };
@@ -39,26 +44,28 @@ export const bookingRouteGetById = {
 export const bookingRouteCreate = {
   method: "post",
   middlewares: [
-    checkSchema({
-      customerId: {
-        in: ["body"],
-        notEmpty: true,
-        toInt: true,
-      },
-      end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
-      productId: {
-        in: ["body"],
-        notEmpty: true,
-        toInt: true,
-      },
-      staff: {
-        custom: isValidObject,
-        in: ["body"],
-        notEmpty: true,
-      },
-      start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
-    }),
-    handleRoute(create),
+    validate(
+      checkSchema({
+        customerId: {
+          in: ["body"],
+          notEmpty: true,
+          toInt: true,
+        },
+        end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+        productId: {
+          in: ["body"],
+          notEmpty: true,
+          toInt: true,
+        },
+        staff: {
+          custom: isValidObject,
+          in: ["body"],
+          notEmpty: true,
+        },
+        start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+      }),
+    ),
+    handleController(createApp, create),
   ],
   route: "/bookings",
 };
@@ -66,26 +73,28 @@ export const bookingRouteCreate = {
 export const bookingRouteUpdate = {
   method: "put",
   middlewares: [
-    checkSchema({
-      _id: {
-        custom: isValidObject,
-        in: ["params"],
-        notEmpty: true,
-      },
-      customerId: {
-        in: ["body"],
-        notEmpty: true,
-        toInt: true,
-      },
-      end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
-      productId: {
-        in: ["body"],
-        notEmpty: true,
-        toInt: true,
-      },
-      start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
-    }),
-    handleRoute(update),
+    validate(
+      checkSchema({
+        _id: {
+          custom: isValidObject,
+          in: ["params"],
+          notEmpty: true,
+        },
+        customerId: {
+          in: ["body"],
+          notEmpty: true,
+          toInt: true,
+        },
+        end: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+        productId: {
+          in: ["body"],
+          notEmpty: true,
+          toInt: true,
+        },
+        start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
+      }),
+    ),
+    handleController(updateApp, update),
   ],
   route: "/bookings/:_id",
 };

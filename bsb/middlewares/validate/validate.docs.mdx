@@ -1,0 +1,21 @@
+---
+labels: ["middleware"]
+description: "A validate middleware to use with express-validator"
+---
+
+API:
+
+```ts
+export const bookingRouteGetAll = {
+  method: "get",
+  middlewares: [
+    // here we wrap the validation methods from express-validator
+    validate(
+      checkSchema({
+        //....
+      }),
+    ),
+  ],
+  route: "/bookings",
+};
+```

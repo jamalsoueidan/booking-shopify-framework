@@ -44,7 +44,7 @@ describe("Application: booking get by id route test", () => {
       .get(`/bookings/${booking.id}`)
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
 
@@ -62,7 +62,7 @@ describe("Application: booking get by id route test", () => {
       .get(`/bookings/${booking.id}`)
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
 

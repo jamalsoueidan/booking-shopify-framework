@@ -70,3 +70,18 @@ export interface StaffServiceLoginProps {
 export interface StaffServiceGetStaffIdsbyGroupProps {
   group: string;
 }
+
+export type StaffServiceGetAllProps = {
+  shop: string;
+  group?: string;
+};
+
+export interface StaffServiceGetStaffByIdQuery {
+  _id: string;
+  group?: string;
+  shop: string;
+}
+
+export interface StaffServiceUpdateQuery {
+  _id: string;
+}

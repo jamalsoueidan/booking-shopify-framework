@@ -2,6 +2,8 @@ import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   Staff,
   StaffBodyUpdate,
+  StaffServiceGetAllProps,
+  StaffServiceGetStaffByIdQuery,
   StaffServiceGetStaffIdsbyGroupProps,
   StaffServiceLoginProps,
 } from "@jamalsoueidan/bsb.types.staff";
@@ -15,15 +17,12 @@ export const StaffServiceCreate = (doc: Omit<Staff, "_id">) => {
   return newStaff.save();
 };
 
-export const StaffServiceFindAll = (shop: string) => StaffModel.find({ shop });
+export type StaffServiceFindAllProps = StaffServiceGetAllProps;
 
-interface StaffServiceFindOneProps
-  extends Partial<Omit<Staff, "_id" | "_shop">> {
-  _id: string;
-  shop: string;
-}
+export const StaffServiceFindAll = (query: StaffServiceFindAllProps) =>
+  StaffModel.find(query);
 
-export const StaffServiceFindOne = (filter: StaffServiceFindOneProps) =>
+export const StaffServiceFindOne = (filter: StaffServiceGetStaffByIdQuery) =>
   StaffModel.findOne(filter);
 
 export const StaffServiceFindByIdAndUpdate = (_id, body: StaffBodyUpdate) =>

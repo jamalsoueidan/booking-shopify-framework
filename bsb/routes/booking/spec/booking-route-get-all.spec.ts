@@ -39,7 +39,7 @@ describe("Shopify: booking get all route test", () => {
       .get(`/bookings?start=${new Date().toJSON()}`)
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
 
@@ -50,7 +50,7 @@ describe("Shopify: booking get all route test", () => {
       .get(`/bookings?end=${new Date().toJSON()}`)
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
 });

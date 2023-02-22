@@ -1,12 +1,12 @@
 ---
 labels: ["module", "express"]
-description: "Handle route"
+description: "Handle controller"
 ---
 
 API:
 
 ```ts
-router.get("/url", handleRoute(controller.user));
+router.get("/url", handleController(controller.user));
 
 // controller.user
 export const user = async ({

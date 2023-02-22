@@ -54,13 +54,13 @@ describe("Shopify: booking update route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
     expect(res.body.error.customerId).toBeTruthy();
   });
 });
 
-describe("Application: booking create route test", () => {
+describe("Application: booking update route test", () => {
   it("User: Should not be able to update booking for another user", async () => {
     const loggedInStaff = await createStaff({
       group: "a",
@@ -89,7 +89,7 @@ describe("Application: booking create route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
   it("User: Should be able to update own booking", async () => {
@@ -107,7 +107,7 @@ describe("Application: booking create route test", () => {
     });
 
     const request = createAppExpress(bookingRouteUpdate, loggedInStaff);
-    const res = await request.put(`/bookings/${booking._id}`).send({
+    const res = await request.put(`/bookings/${booking.id}`).send({
       customerId: "1234567890",
       end: addHours(new Date(), 1),
       productId,
@@ -148,7 +148,7 @@ describe("Application: booking create route test", () => {
       start: new Date(),
     });
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
     expect(res.body.success).toBeFalsy();
   });
   it("Admin: Should be able to update booking for any users in the same group", async () => {

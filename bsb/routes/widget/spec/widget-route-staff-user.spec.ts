@@ -156,6 +156,7 @@ describe("Application: widget staff route user test", () => {
       group: "a",
       tag,
     });
+
     await ProductServiceUpdate(
       {
         id: product._id,
@@ -180,6 +181,6 @@ describe("Application: widget staff route user test", () => {
       )
       .set("Accept", "application/json");
 
-    expect(res.statusCode).toBe(500);
+    expect(res.statusCode).toBe(400);
   });
 });
