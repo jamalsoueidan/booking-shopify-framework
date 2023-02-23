@@ -1,14 +1,21 @@
 import { handleController } from "@jamalsoueidan/bsb.middlewares.handle-controller";
-import { validate } from "@jamalsoueidan/bsb.middlewares.validate";
-import { isValidObject } from "@jamalsoueidan/bsb.middlewares.validate/validate";
+import {
+  isValidObject,
+  validate,
+} from "@jamalsoueidan/bsb.middlewares.validate";
 import { checkSchema } from "express-validator";
 import {
-  createApp,
-  getAllApp,
-  getByIdApp,
-  updateApp,
+  bookingCreateApp,
+  bookingGetAllApp,
+  bookingGetByIdApp,
+  bookingUpdateApp,
 } from "./booking.application";
-import { create, getAll, getById, update } from "./booking.controller";
+import {
+  bookingCreate,
+  bookingGetAll,
+  bookingGetById,
+  bookingUpdate,
+} from "./booking.controller";
 
 export const bookingRouteGetAll = {
   method: "get",
@@ -19,7 +26,7 @@ export const bookingRouteGetAll = {
         start: { isISO8601: true, notEmpty: true, toDate: true },
       }),
     ),
-    handleController(getAllApp, getAll),
+    handleController(bookingGetAllApp, bookingGetAll),
   ],
   route: "/bookings",
 };
@@ -36,7 +43,7 @@ export const bookingRouteGetById = {
         },
       }),
     ),
-    handleController(getByIdApp, getById),
+    handleController(bookingGetByIdApp, bookingGetById),
   ],
   route: "/bookings/:_id",
 };
@@ -65,7 +72,7 @@ export const bookingRouteCreate = {
         start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
       }),
     ),
-    handleController(createApp, create),
+    handleController(bookingCreateApp, bookingCreate),
   ],
   route: "/bookings",
 };
@@ -94,7 +101,7 @@ export const bookingRouteUpdate = {
         start: { in: ["body"], isISO8601: true, notEmpty: true, toDate: true },
       }),
     ),
-    handleController(updateApp, update),
+    handleController(bookingUpdateApp, bookingUpdate),
   ],
   route: "/bookings/:_id",
 };

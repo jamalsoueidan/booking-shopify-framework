@@ -25,7 +25,7 @@ export const ScheduleSchema = new mongoose.Schema<
     required: true,
     type: String,
   },
-  staff: { index: true, ref: "Staff", type: Schema.Types.ObjectId },
+  staff: { index: true, ref: "staff", type: Schema.Types.ObjectId },
   start: {
     index: true,
     required: true,

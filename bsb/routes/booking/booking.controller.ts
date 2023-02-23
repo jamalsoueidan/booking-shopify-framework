@@ -15,10 +15,11 @@ import {
   BookingServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.booking";
 
-export const getAll = ({ query }: ControllerProps<BookingServiceGetAllProps>) =>
-  BookingServiceGetAll(query);
+export const bookingGetAll = ({
+  query,
+}: ControllerProps<BookingServiceGetAllProps>) => BookingServiceGetAll(query);
 
-export const getById = async ({
+export const bookingGetById = async ({
   query,
 }: ControllerProps<BookingServiceGetByIdProps>) => {
   const booking = await BookingServiceGetById(query);
@@ -28,13 +29,13 @@ export const getById = async ({
   return booking;
 };
 
-export const create = ({
+export const bookingCreate = ({
   body,
   session,
 }: AppControllerProps<never, BookingServiceCreateProps>) =>
   BookingServiceCreate({ ...body, shop: session.shop });
 
-export const update = ({
+export const bookingUpdate = ({
   query,
   body,
 }: ControllerProps<

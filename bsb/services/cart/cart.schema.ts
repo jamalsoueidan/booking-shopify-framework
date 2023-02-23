@@ -31,7 +31,7 @@ export const CartSchema = new mongoose.Schema<ICartDocument, ICartModel>({
     type: String,
   },
   staff: {
-    ref: "Staff",
+    ref: "staff",
     required: true,
     type: mongoose.Schema.Types.ObjectId,
   },

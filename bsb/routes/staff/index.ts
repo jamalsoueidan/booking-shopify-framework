@@ -6,23 +6,25 @@ import {
   staffRouteUpdate,
 } from "./staff.routes";
 
-const bookingRouter = Router();
+const staffRouter = Router();
 
-bookingRouter[staffRouteCreate.method](
+staffRouter[staffRouteCreate.method](
   staffRouteCreate.route,
   staffRouteCreate.middlewares,
 );
-bookingRouter[staffRouteGetAll.method](
+staffRouter[staffRouteGetAll.method](
   staffRouteGetAll.route,
   staffRouteGetAll.middlewares,
 );
-bookingRouter[staffRouteGetById.method](
+staffRouter[staffRouteGetById.method](
   staffRouteGetById.route,
   staffRouteGetById.middlewares,
 );
-bookingRouter[staffRouteUpdate.method](
+staffRouter[staffRouteUpdate.method](
   staffRouteUpdate.route,
   staffRouteUpdate.middlewares,
 );
 
-export { bookingRouter };
+export * from "./staff.controller";
+export * from "./staff.routes";
+export { staffRouter };

@@ -51,7 +51,7 @@ export const ProductSchema = new Schema<IProductDocument, IProductModel>({
   staff: [
     {
       staff: {
-        ref: "Staff",
+        ref: "staff",
         required: true,
         type: Schema.Types.ObjectId,
       },

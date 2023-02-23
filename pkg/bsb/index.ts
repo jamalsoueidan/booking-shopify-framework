@@ -1,6 +1,6 @@
 export * from "@jamalsoueidan/bsb.api.sms-dk";
-export * from "@jamalsoueidan/bsb.express.handle-route";
 export * from "@jamalsoueidan/bsb.express.mongodb";
+export * from "@jamalsoueidan/bsb.middlewares.handle-controller";
 export * from "@jamalsoueidan/bsb.services.booking";
 export * from "@jamalsoueidan/bsb.services.cart";
 export * from "@jamalsoueidan/bsb.services.collection";

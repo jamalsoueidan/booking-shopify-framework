@@ -1,6 +1,5 @@
-import React from 'react';
-import { roles } from './roles';
+import React from "react";
 
-export function ReturnsCorrectValue() {
-  return <div>{roles()}</div>;
+export function Basic() {
+  return <div>Roles middleware package</div>;
 }

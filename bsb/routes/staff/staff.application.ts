@@ -8,7 +8,7 @@ import {
   StaffServiceGetStaffByIdQuery,
 } from "@jamalsoueidan/bsb.types.staff";
 
-export const getAllStaffApp = ({
+export const staffGetAllApp = ({
   query,
   session,
 }: AppControllerProps<StaffServiceGetAllProps>) => {
@@ -17,7 +17,7 @@ export const getAllStaffApp = ({
   }
 };
 
-export const createStaffApp = ({
+export const staffCreateApp = ({
   body,
   session,
 }: AppControllerProps<never, Partial<StaffBodyCreate>>) => {
@@ -30,7 +30,7 @@ export const createStaffApp = ({
   }
 };
 
-export const getStaffByIdApp = ({
+export const staffGetByIdApp = ({
   query,
   session,
 }: AppControllerProps<StaffServiceGetStaffByIdQuery>) => {
@@ -39,7 +39,7 @@ export const getStaffByIdApp = ({
   }
 };
 
-export const updateStaffApp = ({
+export const staffUpdateApp = ({
   body,
   session,
 }: AppControllerProps<never, StaffBodyUpdate>) => {

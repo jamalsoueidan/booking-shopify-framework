@@ -35,7 +35,7 @@ export type ScheduleServiceUpdateQueryProps = {
   staff: string;
 };
 
-export type ScheduleServiceUpdateBodyProps = Omit<ScheduleBody, "tag">;
+export type ScheduleServiceUpdateBodyProps = Omit<ScheduleBody, "tag">; // if we allow tag, and in product we choose the tag?
 
 export type ScheduleServiceUpdateProps = {
   query: ScheduleServiceUpdateQueryProps;

@@ -35,13 +35,13 @@ describe("StaffService test", () => {
 
   it("Should get list of staff", async () => {
     await StaffServiceCreate(staff);
-    const allStaff = await StaffServiceFindAll(shop);
+    const allStaff = await StaffServiceFindAll({ shop });
     expect(allStaff.length).toEqual(1);
   });
 
   it("Should update staff", async () => {
     await StaffServiceCreate(staff);
-    const allStaff = await StaffServiceFindAll(shop);
+    const allStaff = await StaffServiceFindAll({ shop });
     const oneStaff = allStaff.pop();
 
     const body = {
@@ -56,7 +56,7 @@ describe("StaffService test", () => {
   });
 
   it("Should get one staff by id", async () => {
-    const allStaff = await StaffServiceFindAll(shop);
+    const allStaff = await StaffServiceFindAll({ shop });
     const staff = allStaff.pop();
 
     const oneStaff = await StaffServiceFindOne({

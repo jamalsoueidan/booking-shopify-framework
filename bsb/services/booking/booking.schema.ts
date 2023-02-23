@@ -57,7 +57,7 @@ export const BookingSchema = new Schema<IBookingDocument, IBookingModel>({
     type: String,
   },
   staff: {
-    ref: "Staff",
+    ref: "staff",
     required: true,
     type: Schema.Types.ObjectId,
   },

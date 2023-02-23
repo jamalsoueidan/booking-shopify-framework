@@ -6,7 +6,10 @@ import {
   ProductModel,
   ProductServiceUpdate,
 } from "@jamalsoueidan/bsb.services.product";
-import { ScheduleServiceCreate } from "@jamalsoueidan/bsb.services.schedule";
+import {
+  ScheduleServiceCreate,
+  ScheduleServiceCreateGroup,
+} from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
 import { Staff, StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
@@ -147,6 +150,27 @@ export const createStaffWithSchedule = async ({
 }: CreateStaffWithScheduleProps) => {
   const staff = await createStaff({ group, role });
   const schedule = await createSchedule({
+    staff: staff._id,
+    tag,
+  });
+  return { schedule, staff };
+};
+
+export const createScheduleGroup = async ({
+  staff,
+  tag,
+  start = resetTime(new Date()),
+  end = resetTime(addHours(new Date(), 5)),
+}: CreateSchedule) =>
+  ScheduleServiceCreateGroup({ shop, staff }, [{ end, start, tag }]);
+
+export const createStaffWithScheduleGroup = async ({
+  tag,
+  group = "all",
+  role = StaffRole.user,
+}: CreateStaffWithScheduleProps) => {
+  const staff = await createStaff({ group, role });
+  const schedule = await createScheduleGroup({
     staff: staff._id,
     tag,
   });

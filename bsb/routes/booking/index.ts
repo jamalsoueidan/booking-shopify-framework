@@ -25,4 +25,5 @@ bookingRouter[bookingRouteGetById.method](
   bookingRouteGetById.middlewares,
 );
 
+export * from "./booking.routes";
 export { bookingRouter };

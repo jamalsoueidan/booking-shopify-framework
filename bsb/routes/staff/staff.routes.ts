@@ -1,30 +1,32 @@
 import { handleController } from "@jamalsoueidan/bsb.middlewares.handle-controller";
 import { onlyAdmin } from "@jamalsoueidan/bsb.middlewares.roles";
-import { validate } from "@jamalsoueidan/bsb.middlewares.validate";
-import { isValidObject } from "@jamalsoueidan/bsb.middlewares.validate/validate";
+import {
+  isValidObject,
+  validate,
+} from "@jamalsoueidan/bsb.middlewares.validate";
 import { checkSchema } from "express-validator";
 import {
-  createStaffApp,
-  getAllStaffApp,
-  getStaffByIdApp,
-  updateStaffApp,
+  staffCreateApp,
+  staffGetAllApp,
+  staffGetByIdApp,
+  staffUpdateApp,
 } from "./staff.application";
 import {
-  createStaff,
-  getAllStaff,
-  getStaffById,
-  updateStaff,
+  staffCreate,
+  staffGetAll,
+  staffGetById,
+  staffUpdate,
 } from "./staff.controller";
 
 export const staffRouteGetAll = {
   method: "get",
-  middlewares: [handleController(getAllStaffApp, getAllStaff)],
+  middlewares: [handleController(staffGetAllApp, staffGetAll)],
   route: "/staff",
 };
 
 export const staffRouteCreate = {
   method: "post",
-  middlewares: [handleController(onlyAdmin, createStaffApp, createStaff)],
+  middlewares: [handleController(onlyAdmin, staffCreateApp, staffCreate)],
   route: "/staff",
 };
 
@@ -40,7 +42,7 @@ export const staffRouteGetById = {
         },
       }),
     ),
-    handleController(getStaffByIdApp, getStaffById),
+    handleController(staffGetByIdApp, staffGetById),
   ],
   route: "/staff/:_id",
 };
@@ -57,7 +59,7 @@ export const staffRouteUpdate = {
         },
       }),
     ),
-    handleController(onlyAdmin, updateStaffApp, updateStaff),
+    handleController(onlyAdmin, staffUpdateApp, staffUpdate),
   ],
   route: "/staff/:_id",
 };

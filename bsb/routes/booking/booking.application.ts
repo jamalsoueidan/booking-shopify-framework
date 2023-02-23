@@ -9,7 +9,7 @@ import {
 } from "@jamalsoueidan/bsb.types.booking";
 import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 
-export const getAllApp = async ({
+export const bookingGetAllApp = async ({
   query,
   session,
 }: AppControllerProps<BookingServiceGetAllProps>) => {
@@ -21,7 +21,7 @@ export const getAllApp = async ({
   }
 };
 
-export const getByIdApp = async ({
+export const bookingGetByIdApp = async ({
   query,
   session,
 }: AppControllerProps<BookingServiceGetByIdProps>) => {
@@ -33,7 +33,7 @@ export const getByIdApp = async ({
   }
 };
 
-export const createApp = async ({
+export const bookingCreateApp = async ({
   body,
   session,
 }: AppControllerProps<never, BookingServiceCreateProps>) => {
@@ -56,7 +56,7 @@ export const createApp = async ({
   }
 };
 
-export const updateApp = async ({
+export const bookingUpdateApp = async ({
   body,
   session,
 }: AppControllerProps<

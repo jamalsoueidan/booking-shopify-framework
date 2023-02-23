@@ -13,11 +13,11 @@ import {
   StaffServiceUpdateQuery,
 } from "@jamalsoueidan/bsb.types.staff";
 
-export const getAllStaff = ({
+export const staffGetAll = ({
   query,
 }: ControllerProps<StaffServiceGetAllProps>) => StaffServiceFindAll(query);
 
-export const createStaff = ({
+export const staffCreate = ({
   query,
   body,
 }: ControllerProps<ShopQuery, StaffBodyCreate>) => {
@@ -25,7 +25,7 @@ export const createStaff = ({
   return StaffServiceCreate({ shop, ...body });
 };
 
-export const getStaffById = async ({
+export const staffGetById = async ({
   query,
 }: ControllerProps<StaffServiceGetStaffByIdQuery>) => {
   const staff = await StaffServiceFindOne(query);
@@ -35,7 +35,7 @@ export const getStaffById = async ({
   return staff;
 };
 
-export const updateStaff = ({
+export const staffUpdate = ({
   body,
   query,
 }: ControllerProps<StaffServiceUpdateQuery, StaffBodyUpdate>) =>
