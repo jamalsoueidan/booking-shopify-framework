@@ -10,7 +10,18 @@ export interface Schedule {
   shop: string;
 }
 
+export type ScheduleServiceGetAllProps = Pick<
+  Schedule,
+  "staff" | "start" | "end"
+>;
+
+export type ScheduleServiceRange = Pick<Schedule, "start" | "end">;
+
 export type ScheduleBody = Pick<Schedule, "tag" | "start" | "end">;
+
+/*
+  Create
+*/
 
 export type ScheduleServiceCreateQueryProps = Pick<Schedule, "staff">;
 export type ScheduleServiceCreateBodyProps = ScheduleBody;
@@ -42,11 +53,6 @@ export type ScheduleServiceUpdateProps = {
   body: ScheduleServiceUpdateBodyProps;
 };
 
-export type ScheduleServiceGetAllProps = Pick<
-  Schedule,
-  "staff" | "start" | "end"
->;
-
 /*
   Group
 */
@@ -55,7 +61,10 @@ export type ScheduleServiceCreateGroupQueryProps = {
   staff: string;
 };
 
-export type ScheduleServiceCreateGroupBodyProps = Array<ScheduleBody>;
+export type ScheduleServiceCreateGroupBodyProps = ScheduleBody & {
+  days: Array<Date>;
+};
+
 export type ScheduleServiceCreateGroupProps = {
   query: ScheduleServiceCreateGroupQueryProps;
   body: ScheduleServiceCreateGroupBodyProps;

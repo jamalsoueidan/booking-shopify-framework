@@ -1,53 +1,54 @@
 import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
-import { createAppExpress } from "@jamalsoueidan/bsd.testing-library.express";
+import {
+  createAppExpress,
+  createShopifyExpress,
+} from "@jamalsoueidan/bsd.testing-library.express";
 import {
   createStaff,
-  createStaffWithSchedule,
+  createStaffWithScheduleGroup,
 } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { setHours } from "date-fns";
 import { scheduleRouteDestroyGroup } from "../schedule.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const group = "a";
 const tag = Tag.all_day;
-const date = setHours(new Date(), 10);
-const start = date.toJSON();
-const end = setHours(date, 16).toJSON();
 
 describe("Shopify: schedule delete group route test", () => {
   it("Should be able to delete group for all users", async () => {
-    /*const { staff, schedule } = await createStaffWithScheduleGroup({ tag });
+    const { staff, schedules } = await createStaffWithScheduleGroup({ tag });
 
     const request = createShopifyExpress(scheduleRouteDestroyGroup);
     const res = await request
-      .delete(`/schedules/group/${schedule.groupId}?staff=${staff.id}`)
+      .delete(`/schedules/group/${schedules[0].groupId}?staff=${staff.id}`)
       .set("Accept", "application/json");
 
-    console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(1);*/
+    expect(res.body.payload.deletedCount).toEqual(3);
   });
 });
 
 describe("Application: schedule delete group route test", () => {
   it("User: Should able to delete group for himself", async () => {
-    const { staff: loggedInStaff, schedule } = await createStaffWithSchedule({
-      group,
-      role: StaffRole.user,
-      tag,
-    });
+    const { staff: loggedInStaff, schedules } =
+      await createStaffWithScheduleGroup({
+        group,
+        role: StaffRole.user,
+        tag,
+      });
 
     const request = createAppExpress(scheduleRouteDestroyGroup, loggedInStaff);
     const res = await request
-      .delete(`/schedules/group/${schedule.groupId}?staff=${loggedInStaff.id}`)
+      .delete(
+        `/schedules/group/${schedules[0].groupId}?staff=${loggedInStaff.id}`,
+      )
       .set("Accept", "application/json");
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(1);
+    expect(res.body.payload.deletedCount).toEqual(3);
   });
 
   it("User: Should not able to delete group for other staff", async () => {
@@ -56,15 +57,15 @@ describe("Application: schedule delete group route test", () => {
       role: StaffRole.user,
     });
 
-    const { staff, schedule } = await createStaffWithSchedule({
-      group,
+    const { staff, schedules } = await createStaffWithScheduleGroup({
+      group: "b",
       role: StaffRole.user,
       tag,
     });
 
     const request = createAppExpress(scheduleRouteDestroyGroup, loggedInStaff);
     const res = await request
-      .delete(`/schedules/group/${schedule.groupId}?staff=${staff.id}`)
+      .delete(`/schedules/group/${schedules[0].groupId}?staff=${staff.id}`)
       .set("Accept", "application/json");
 
     expect(res.statusCode).toBe(400);
@@ -77,7 +78,7 @@ describe("Application: schedule delete group route test", () => {
       role: StaffRole.admin,
     });
 
-    const { staff, schedule } = await createStaffWithSchedule({
+    const { staff, schedules } = await createStaffWithScheduleGroup({
       group,
       role: StaffRole.user,
       tag,
@@ -85,12 +86,12 @@ describe("Application: schedule delete group route test", () => {
 
     const request = createAppExpress(scheduleRouteDestroyGroup, loggedInStaff);
     const res = await request
-      .delete(`/schedules/group/${schedule.groupId}?staff=${staff.id}`)
+      .delete(`/schedules/group/${schedules[0].groupId}?staff=${staff.id}`)
       .set("Accept", "application/json");
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(1);
+    expect(res.body.payload.deletedCount).toEqual(3);
   });
 
   it("Admin: Should NOT be able to delete group for staff in other group", async () => {
@@ -99,7 +100,7 @@ describe("Application: schedule delete group route test", () => {
       role: StaffRole.admin,
     });
 
-    const { staff, schedule } = await createStaffWithSchedule({
+    const { staff, schedules } = await createStaffWithScheduleGroup({
       group: "b",
       role: StaffRole.user,
       tag,
@@ -107,7 +108,7 @@ describe("Application: schedule delete group route test", () => {
 
     const request = createAppExpress(scheduleRouteDestroyGroup, loggedInStaff);
     const res = await request
-      .delete(`/schedules/group/${schedule.groupId}?staff=${staff.id}`)
+      .delete(`/schedules/group/${schedules[0].groupId}?staff=${staff.id}`)
       .set("Accept", "application/json");
 
     expect(res.statusCode).toBe(400);

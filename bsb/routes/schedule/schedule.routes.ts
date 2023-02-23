@@ -89,10 +89,11 @@ export const scheduleRouteCreateGroup = {
   middlewares: [
     validate(
       checkSchema(staffSchema),
-      body().isArray({ min: 1 }),
-      body("*.start").notEmpty().toDate(),
-      body("*.end").notEmpty().toDate(),
-      body("*.tag").notEmpty().isIn(TagKeys),
+      body("days").isArray({ min: 1 }),
+      body("days.*").notEmpty().toDate(),
+      body("start").notEmpty().toDate(),
+      body("end").notEmpty().toDate(),
+      body("tag").notEmpty().isIn(TagKeys),
     ),
     handleController(scheduleCreateOrUpdateApp, scheduleCreateGroup),
   ],

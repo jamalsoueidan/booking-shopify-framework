@@ -21,14 +21,15 @@ import {
   isAfter,
   isBefore,
   setHours,
-  setMilliseconds,
   setMinutes,
-  setSeconds,
   subHours,
 } from "date-fns";
 import mongoose from "mongoose";
-
-const resetTime = (value) => setSeconds(setMilliseconds(value, 0), 0);
+import {
+  createDateTime,
+  getDatesFromSelectedDaysInCalendar,
+  resetTime,
+} from "./schedule.helper";
 
 export const ScheduleServiceGetAll = ({
   shop,
@@ -86,22 +87,24 @@ export const ScheduleServiceDestroy = async ({
   ShopQuery): Promise<ScheduleServiceDestroyReturn> =>
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 
-export const ScheduleServiceCreateGroup = (
+export const ScheduleServiceCreateGroup = async (
   query: ScheduleServiceCreateGroupProps["query"] & ShopQuery,
-  schedules: ScheduleServiceCreateGroupProps["body"],
+  body: ScheduleServiceCreateGroupProps["body"],
 ) => {
   const { shop, staff } = query;
   const groupId = new Date().getTime().toString();
-  return ScheduleModel.insertMany(
-    schedules?.map((b) => ({
-      end: resetTime(b.end),
-      groupId,
-      shop,
-      staff,
-      start: resetTime(b.start),
-      tag: b.tag,
-    })),
-  );
+  const daysSelected = getDatesFromSelectedDaysInCalendar(body.days, body);
+  const schedules = daysSelected.map((date) => ({
+    end: createDateTime(date, body.end),
+    groupId,
+    shop,
+    staff,
+    start: createDateTime(date, body.start),
+    tag: body.tag,
+  }));
+
+  await ScheduleModel.insertMany(schedules);
+  return schedules;
 };
 
 export const ScheduleServiceUpdateGroup = async (

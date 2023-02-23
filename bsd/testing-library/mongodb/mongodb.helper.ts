@@ -14,7 +14,9 @@ import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
 import { Staff, StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
+  addDays,
   addHours,
+  addWeeks,
   setHours,
   setMilliseconds,
   setMinutes,
@@ -159,10 +161,13 @@ export const createStaffWithSchedule = async ({
 export const createScheduleGroup = async ({
   staff,
   tag,
-  start = resetTime(new Date()),
-  end = resetTime(addHours(new Date(), 5)),
+  start = setHours(new Date(), 10),
+  end = addWeeks(setHours(new Date(), 16), 1),
 }: CreateSchedule) =>
-  ScheduleServiceCreateGroup({ shop, staff }, [{ end, start, tag }]);
+  ScheduleServiceCreateGroup(
+    { shop, staff },
+    { days: [new Date(), addDays(new Date(), 1)], end, start, tag },
+  );
 
 export const createStaffWithScheduleGroup = async ({
   tag,
@@ -170,11 +175,11 @@ export const createStaffWithScheduleGroup = async ({
   role = StaffRole.user,
 }: CreateStaffWithScheduleProps) => {
   const staff = await createStaff({ group, role });
-  const schedule = await createScheduleGroup({
+  const schedules = await createScheduleGroup({
     staff: staff._id,
     tag,
   });
-  return { schedule, staff };
+  return { schedules, staff };
 };
 
 interface CreateStaffAndUpdateProductProps {

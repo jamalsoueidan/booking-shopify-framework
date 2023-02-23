@@ -62,6 +62,11 @@ export const scheduleDestroy = ({
   });
 };
 
+export type Range = {
+  start: Date;
+  end: Date;
+};
+
 export const scheduleCreateGroup = ({
   query,
   body,
