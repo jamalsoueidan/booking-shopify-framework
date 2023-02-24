@@ -1,17 +1,16 @@
-import {
-  AppSession,
-  isApplicationSession as sessionIsApplication,
-} from "@jamalsoueidan/bsb.types.api";
+import { AppSession, isApplicationSession } from "@jamalsoueidan/bsb.types.api";
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { Request, Response } from "express";
 
-export interface SessionRequest extends Request {
-  session: ShopifySession | AppSession;
+declare module "express-serve-static-core" {
+  interface Request {
+    session: ShopifySession | AppSession;
+  }
 }
 
 export const handleController =
-  (...args) =>
-  async (req: SessionRequest, res: Response) => {
+  (...args: any[]) =>
+  async (req: Request, res: Response) => {
     const object = {
       body: req.body,
       query: {
@@ -24,7 +23,7 @@ export const handleController =
 
     try {
       if (args.length > 1) {
-        if (sessionIsApplication(req.session)) {
+        if (isApplicationSession(req.session)) {
           let i = 0;
           const len = args.length - 1;
           for (; i < len; i += 1) {
