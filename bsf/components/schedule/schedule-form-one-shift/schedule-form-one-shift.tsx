@@ -12,6 +12,9 @@ import {
 } from "@shopify/react-form";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
+export type ScheduleFormOneShiftAllowEditing = {
+  tag: boolean;
+};
 export interface ScheduleFormOneShiftBody {
   start: Date;
   end: Date;
@@ -25,6 +28,7 @@ export interface ScheduleFormOneShiftRefMethod {
 
 export interface ScheduleFormOneShiftProps {
   data: ScheduleFormOneShiftBody;
+  allowEditing?: ScheduleFormOneShiftAllowEditing;
   onSubmit: (
     fields: ScheduleFormOneShiftBody,
   ) => ScheduleFormOneShiftSubmitResult;
@@ -33,7 +37,7 @@ export interface ScheduleFormOneShiftProps {
 export const ScheduleFormOneShift = forwardRef<
   ScheduleFormOneShiftRefMethod,
   ScheduleFormOneShiftProps
->(({ data, onSubmit }, ref) => {
+>(({ data, onSubmit, allowEditing }, ref) => {
   const { t } = useTranslation({ id: "create-one-day", locales });
   const { options } = useTag();
   const { toUtc, format } = useDate();
@@ -106,9 +110,11 @@ export const ScheduleFormOneShift = forwardRef<
           />
         </Columns>
       </Layout.Section>
-      <Layout.Section>
-        <InputTags field={fields.tag} />
-      </Layout.Section>
+      {allowEditing?.tag ? (
+        <Layout.Section>
+          <InputTags field={fields.tag} />
+        </Layout.Section>
+      ) : null}
     </Layout>
   );
 });

@@ -6,12 +6,19 @@ import { addMonths, setHours, setMinutes } from "date-fns";
 import React, { useCallback, useRef, useState } from "react";
 import {
   ScheduleFormManyShifts,
+  ScheduleFormManyShiftsAllowEditing,
   ScheduleFormManyShiftsBody,
   ScheduleFormManyShiftsRefMethod,
   ScheduleFormManyShiftsSubmitResult,
 } from "./schedule-form-many-shifts";
 
-const MockComponent = ({ data }: { data?: ScheduleFormManyShiftsBody }) => {
+const MockComponent = ({
+  data,
+  allowEditing,
+}: {
+  data: ScheduleFormManyShiftsBody;
+  allowEditing?: ScheduleFormManyShiftsAllowEditing;
+}) => {
   const ref = useRef<ScheduleFormManyShiftsRefMethod>(null);
   const { show } = useToast();
   const [body, setBody] = useState({});
@@ -38,7 +45,12 @@ const MockComponent = ({ data }: { data?: ScheduleFormManyShiftsBody }) => {
       sectioned
       primaryFooterAction={{ content: "Submit", onAction: submit }}
     >
-      <ScheduleFormManyShifts data={data} onSubmit={onSubmit} ref={ref} />
+      <ScheduleFormManyShifts
+        data={data}
+        allowEditing={allowEditing}
+        onSubmit={onSubmit}
+        ref={ref}
+      />
 
       <div>
         <pre>{JSON.stringify(body, null, 2)}</pre>
@@ -47,18 +59,18 @@ const MockComponent = ({ data }: { data?: ScheduleFormManyShiftsBody }) => {
   );
 };
 
-export const BasicCreateShifts = () => (
-  <ApplicationFramePage title="Create shifts">
-    <MockComponent />
-  </ApplicationFramePage>
-);
-
 const initData: ScheduleFormManyShiftsBody = {
   days: ["monday"],
   end: addMonths(setMinutes(setHours(new Date(), 16), 0), 1),
   start: setMinutes(setHours(new Date(), 10), 0),
   tag: Tag.all_day,
 };
+
+export const BasicCreateShifts = () => (
+  <ApplicationFramePage title="Create shifts">
+    <MockComponent data={initData} allowEditing={{ tag: true }} />
+  </ApplicationFramePage>
+);
 
 export const BasicEditShifts = () => (
   <ApplicationFramePage title="Edit shifts">

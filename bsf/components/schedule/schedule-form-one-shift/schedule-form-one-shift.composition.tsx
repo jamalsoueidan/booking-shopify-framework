@@ -6,12 +6,19 @@ import { setHours, setMinutes } from "date-fns";
 import React, { useCallback, useRef, useState } from "react";
 import {
   ScheduleFormOneShift,
+  ScheduleFormOneShiftAllowEditing,
   ScheduleFormOneShiftBody,
   ScheduleFormOneShiftRefMethod,
   ScheduleFormOneShiftSubmitResult,
 } from "./schedule-form-one-shift";
 
-const MockComponent = ({ data }: { data: ScheduleFormOneShiftBody }) => {
+const MockComponent = ({
+  data,
+  allowEditing,
+}: {
+  data: ScheduleFormOneShiftBody;
+  allowEditing?: ScheduleFormOneShiftAllowEditing;
+}) => {
   const ref = useRef<ScheduleFormOneShiftRefMethod>(null);
   const { show } = useToast();
   const [body, setBody] = useState({});
@@ -38,7 +45,12 @@ const MockComponent = ({ data }: { data: ScheduleFormOneShiftBody }) => {
       sectioned
       primaryFooterAction={{ content: "Submit", onAction: submit }}
     >
-      <ScheduleFormOneShift data={data} onSubmit={onSubmit} ref={ref} />
+      <ScheduleFormOneShift
+        data={data}
+        allowEditing={allowEditing}
+        onSubmit={onSubmit}
+        ref={ref}
+      />
 
       <div>
         <pre>{JSON.stringify(body, null, 2)}</pre>
@@ -55,7 +67,7 @@ const initData: ScheduleFormOneShiftBody = {
 
 export const BasicCreateOneShift = () => (
   <ApplicationFramePage title="Create one shift">
-    <MockComponent data={initData} />
+    <MockComponent data={initData} allowEditing={{ tag: true }} />
   </ApplicationFramePage>
 );
 

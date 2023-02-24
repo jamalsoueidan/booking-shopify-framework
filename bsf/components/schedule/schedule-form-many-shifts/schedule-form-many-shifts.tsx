@@ -1,6 +1,5 @@
 import { InputDateDrop } from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 import { InputDays } from "@jamalsoueidan/bsf.components.inputs.input-days";
-import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
 import { Columns, Layout, TextField } from "@shopify/polaris";
 import {
   FormError,
@@ -9,6 +8,10 @@ import {
   useForm,
 } from "@shopify/react-form";
 
+import {
+  ScheduleServiceCreateGroupBodyProps,
+  ScheduleServiceUpdateGroupBodyProps,
+} from "@jamalsoueidan/bsb.types.schedule";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
@@ -22,12 +25,13 @@ import React, {
   useMemo,
 } from "react";
 
-export type ScheduleFormManyShiftsBody = {
-  days: Array<string>;
-  start: Date;
-  end: Date;
-  tag: Tag;
+export type ScheduleFormManyShiftsAllowEditing = {
+  tag: boolean;
 };
+
+export type ScheduleFormManyShiftsBody =
+  | ScheduleServiceCreateGroupBodyProps
+  | ScheduleServiceUpdateGroupBodyProps;
 
 export type ScheduleFormManyShiftsSubmitResult = SubmitResult;
 export type ScheduleFormManyShiftsRefMethod = {
@@ -35,7 +39,8 @@ export type ScheduleFormManyShiftsRefMethod = {
 };
 
 export interface ScheduleFormManyShiftsProps {
-  data?: ScheduleFormManyShiftsBody;
+  data: ScheduleFormManyShiftsBody;
+  allowEditing?: ScheduleFormManyShiftsAllowEditing;
   onSubmit: (
     fields: ScheduleFormManyShiftsBody,
   ) => ScheduleFormManyShiftsSubmitResult;
@@ -44,8 +49,7 @@ export interface ScheduleFormManyShiftsProps {
 export const ScheduleFormManyShifts = forwardRef<
   ScheduleFormManyShiftsRefMethod,
   ScheduleFormManyShiftsProps
->(({ data, onSubmit }, ref) => {
-  const { options } = useTag();
+>(({ data, onSubmit, allowEditing }, ref) => {
   const { format, toUtc } = useDate();
   const { t } = useTranslation({ id: "create-many-shifts", locales });
 
@@ -56,14 +60,14 @@ export const ScheduleFormManyShifts = forwardRef<
   );
 
   const endDate = useMemo(() => {
-    if (data?.end) {
+    if (data.end) {
       return data.end;
     }
     return setMinutes(endOfMonth(setHours(new Date(), 17)), 0);
   }, [data]);
 
   const startDate = useMemo(() => {
-    if (data?.start) {
+    if (data.start) {
       return data.start;
     }
     return setMinutes(setHours(new Date(), 10), 0);
@@ -73,7 +77,7 @@ export const ScheduleFormManyShifts = forwardRef<
     fields: {
       days: useField({
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
-        value: data?.days || [],
+        value: data.days || [],
       }),
       endDate: useField<Date>({
         validates: [Validators.isDate("invalid date")],
@@ -85,7 +89,7 @@ export const ScheduleFormManyShifts = forwardRef<
         value: startDate,
       }),
       startTime: useField(format(startDate, "HH:mm")),
-      tag: useField<Tag>(options[0].value),
+      tag: useField<Tag>(data.tag),
     },
     onSubmit: async (fieldValues) =>
       onSubmit({
@@ -136,9 +140,11 @@ export const ScheduleFormManyShifts = forwardRef<
           />
         </Columns>
       </Layout.Section>
-      <Layout.Section>
-        <InputTags field={fields.tag} />
-      </Layout.Section>
+      {allowEditing?.tag ? (
+        <Layout.Section>
+          <InputTags field={fields.tag} />
+        </Layout.Section>
+      ) : null}
     </Layout>
   );
 });

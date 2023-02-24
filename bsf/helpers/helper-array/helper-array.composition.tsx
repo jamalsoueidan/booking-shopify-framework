@@ -1,5 +1,3 @@
 import React from "react";
 
-export const Basic = () => {
-  return <>Helper Array Package</>;
-};
+export const Basic = () => <>Helper Array Package</>;
