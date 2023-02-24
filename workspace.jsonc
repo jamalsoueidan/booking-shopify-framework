@@ -72,7 +72,8 @@
         "react-router-dom": "^6.6.1",
         "superagent": "^8.0.9",
         "express": "4.18.2",
-        "express-validator": "^6.14.2"
+        "express-validator": "^6.14.2",
+        "react-query": "^3.39.2"
       }
     },
     "linkCoreAspects": true
@@ -88,7 +89,7 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}, {bsf}": {
+    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}, {state/**}, {bsf}": {
       "jamalsoueidan.bsd/envs/jest-esm": {}
     }
   }

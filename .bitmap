@@ -17,13 +17,13 @@
     },
     "app": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.16",
+        "version": "0.0.17",
         "mainFile": "index.ts",
         "rootDir": "bsd/app"
     },
     "bsb": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.54",
+        "version": "0.0.56",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsb"
     },
@@ -35,7 +35,7 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.69",
+        "version": "0.0.75",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
@@ -203,7 +203,7 @@
     },
     "components/staff/staff-form": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.120",
+        "version": "0.0.121",
         "mainFile": "index.ts",
         "rootDir": "bsf/components/staff/staff-form"
     },
@@ -261,9 +261,15 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-date"
     },
+    "hooks/use-fetch": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.6",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/hooks/use-fetch"
+    },
     "hooks/use-form": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.80",
+        "version": "0.0.81",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-form"
     },
@@ -329,7 +335,7 @@
     },
     "middlewares/handle-controller": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "mainFile": "index.ts",
         "rootDir": "bsb/middlewares/handle-controller"
     },
@@ -369,6 +375,12 @@
         "mainFile": "index.ts",
         "rootDir": "bsd/preview/with-application"
     },
+    "providers/fetch": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.6",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/providers/fetch"
+    },
     "providers/modal": {
         "scope": "jamalsoueidan.bsf",
         "version": "0.0.24",
@@ -395,25 +407,25 @@
     },
     "routes/booking": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.16",
+        "version": "0.0.17",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/booking"
     },
     "routes/schedule": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/schedule"
     },
     "routes/staff": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/staff"
     },
     "routes/widget": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.10",
+        "version": "0.0.11",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/widget"
     },
@@ -488,6 +500,12 @@
         "version": "0.0.75",
         "mainFile": "index.ts",
         "rootDir": "bsb/services/widget"
+    },
+    "state/schedule": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/state/schedule"
     },
     "testing-library/express": {
         "scope": "jamalsoueidan.bsd",
