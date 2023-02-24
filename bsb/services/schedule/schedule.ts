@@ -9,25 +9,17 @@ import {
   ScheduleServiceDestroyProps,
   ScheduleServiceDestroyReturn,
   ScheduleServiceGetAllProps,
+  ScheduleServiceUGetGroupProps,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.schedule";
 
-import {
-  addHours,
-  getHours,
-  getMinutes,
-  isAfter,
-  isBefore,
-  setHours,
-  setMinutes,
-  subHours,
-} from "date-fns";
 import mongoose from "mongoose";
 import {
   createDateTime,
-  getDatesFromSelectedDaysInCalendar,
+  getDaysFromRange,
+  handleWinterSummerTime,
   resetTime,
 } from "./schedule.helper";
 
@@ -87,21 +79,30 @@ export const ScheduleServiceDestroy = async ({
   ShopQuery): Promise<ScheduleServiceDestroyReturn> =>
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 
+export const ScheduleServiceGetGroup = async (
+  query: ScheduleServiceUGetGroupProps & ShopQuery,
+) => {
+  ScheduleModel.find(query);
+};
+
 export const ScheduleServiceCreateGroup = async (
   query: ScheduleServiceCreateGroupProps["query"] & ShopQuery,
   body: ScheduleServiceCreateGroupProps["body"],
 ) => {
   const { shop, staff } = query;
   const groupId = new Date().getTime().toString();
-  const daysSelected = getDatesFromSelectedDaysInCalendar(body.days, body);
-  const schedules = daysSelected.map((date) => ({
-    end: createDateTime(date, body.end),
-    groupId,
-    shop,
-    staff,
-    start: createDateTime(date, body.start),
-    tag: body.tag,
-  }));
+  const daysSelected = getDaysFromRange(body.days, body);
+  const schedules = handleWinterSummerTime(
+    body,
+    daysSelected.map((date) => ({
+      end: createDateTime(date, body.end),
+      groupId,
+      shop,
+      staff,
+      start: createDateTime(date, body.start),
+      tag: body.tag,
+    })),
+  );
 
   await ScheduleModel.insertMany(schedules);
   return schedules;
@@ -111,78 +112,8 @@ export const ScheduleServiceUpdateGroup = async (
   query: ScheduleServiceUpdateGroupQueryProps & ShopQuery,
   body: ScheduleServiceUpdateGroupBodyProps,
 ) => {
-  const { staff, shop, groupId } = query;
-
-  const schedules = await ScheduleModel.find({
-    groupId,
-    shop,
-    staff,
-  });
-
-  if (schedules.length > 0) {
-    await ScheduleModel.bulkWrite(
-      schedules.map((schedule) => {
-        const startDateTime = body.start;
-        const endDateTime = body.end;
-
-        let start = setHours(schedule.start, getHours(startDateTime));
-        let end = setHours(schedule.end, getHours(endDateTime));
-
-        // startDateTime is before 30 oct
-        const beforeAdd =
-          isBefore(
-            startDateTime,
-            new Date(schedule.start.getFullYear(), 9, 30),
-          ) && isAfter(start, new Date(schedule.start.getFullYear(), 9, 30)); // 9 is for october
-
-        // startDateTime is after 27 march, and current is before
-        const afterAdd =
-          isAfter(
-            startDateTime,
-            new Date(schedule.start.getFullYear(), 2, 27),
-          ) && isBefore(start, new Date(schedule.start.getFullYear(), 2, 27)); // 2 is for march
-
-        // startDateTime is after 30 oct, and current is before subs
-        const afterSubs =
-          isAfter(
-            startDateTime,
-            new Date(schedule.start.getFullYear(), 9, 30),
-          ) && // 9 is for october
-          isBefore(start, new Date(schedule.start.getFullYear(), 9, 30));
-
-        // startDateTime is before 27 march, and current is after
-        const beforeSubs =
-          isBefore(
-            startDateTime,
-            new Date(schedule.start.getFullYear(), 2, 27),
-          ) && isAfter(start, new Date(schedule.start.getFullYear(), 2, 27)); // 2 is for march
-
-        if (beforeAdd || afterAdd) {
-          start = addHours(start, 1);
-          end = addHours(end, 1);
-        } else if (afterSubs || beforeSubs) {
-          start = subHours(start, 1);
-          end = subHours(end, 1);
-        }
-
-        start = setMinutes(start, getMinutes(startDateTime));
-        end = setMinutes(end, getMinutes(endDateTime));
-
-        return {
-          updateOne: {
-            filter: { _id: schedule._id, shop },
-            update: {
-              $set: {
-                end,
-                start,
-                tag: body.tag,
-              },
-            },
-          },
-        };
-      }),
-    );
-  }
+  await ScheduleServiceDestroyGroup(query);
+  return ScheduleServiceCreateGroup(query, body);
 };
 
 export const ScheduleServiceDestroyGroup = async (

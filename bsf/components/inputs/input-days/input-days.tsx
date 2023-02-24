@@ -1,5 +1,4 @@
 import { HelperText } from "@jamalsoueidan/bsf.helpers.helper-text";
-import { usePrevious } from "@jamalsoueidan/bsf.hooks.use-previous";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
 import { Field } from "@shopify/react-form";
@@ -22,7 +21,11 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
             weekday: "long",
           }),
         );
-        const value = label.toLocaleLowerCase();
+        const value = d
+          .toLocaleString("en-US", {
+            weekday: "long",
+          })
+          .toLowerCase();
 
         return {
           label,
@@ -44,15 +47,6 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
     [field],
   );
 
-  usePrevious(
-    ([prevLocale]) => {
-      if (prevLocale !== locale) {
-        field.onChange([]);
-      }
-    },
-    [locale],
-  );
-
   return (
     <Labelled
       {...input}
@@ -64,7 +58,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
         <Button
           size="slim"
           key={day.value}
-          pressed={field.value.includes(day.value.toLowerCase())}
+          pressed={!!field.value?.find((p) => day.value === p)}
           onClick={() => onPressed(day.value)}
         >
           {day.label}

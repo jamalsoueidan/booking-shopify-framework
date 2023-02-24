@@ -5,7 +5,7 @@ import {
   createShopifyExpress,
 } from "@jamalsoueidan/bsd.testing-library.express";
 import { createStaff } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { addDays, addMonths, setHours } from "date-fns";
+import { addMonths, setDay, setHours, setMonth } from "date-fns";
 import { scheduleRouteCreateGroup } from "../schedule.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
@@ -24,7 +24,7 @@ describe("Shopify: schedule create group route test", () => {
     const res = await request
       .post(`/schedules/group?staff=${staff.id}`)
       .send({
-        days: [new Date(), addDays(new Date(), 1).toJSON()],
+        days: ["thursday", "friday"],
         end,
         start,
         tag,
@@ -36,7 +36,32 @@ describe("Shopify: schedule create group route test", () => {
     expect(res.body.payload.length).toBe(9);
   });
 
-  it("Should NOT be able to create group with invalid date", async () => {
+  it("Should handle winter time when creating group", async () => {
+    const staff = await createStaff();
+
+    const request = createShopifyExpress(scheduleRouteCreateGroup);
+    const res = await request
+      .post(`/schedules/group?staff=${staff.id}`)
+      .send({
+        days: ["monday", "tuesday"],
+        end: setMonth(setDay(setHours(new Date(), 10), 25), 10),
+        start: setMonth(setDay(setHours(new Date(), 10), 25), 9),
+        tag,
+      })
+      .set("Accept", "application/json");
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.success).toBeTruthy();
+    expect(res.body.payload.length).toBeGreaterThan(1);
+
+    const hour =
+      new Date(res.body.payload[res.body.payload.length - 1].start).getHours() -
+      new Date(res.body.payload[0].start).getHours();
+
+    expect(hour).toEqual(1);
+  });
+
+  it("Should NOT be able to create group with invalid props", async () => {
     const staff = await createStaff();
 
     const request = createShopifyExpress(scheduleRouteCreateGroup);
@@ -69,7 +94,7 @@ describe("Application: schedule create group route test", () => {
     const res = await request
       .post(`/schedules/group?staff=${loggedInStaff.id}`)
       .send({
-        days: [new Date(), addDays(new Date(), 1).toJSON()],
+        days: ["thursday"],
         end,
         start,
         tag,
@@ -96,7 +121,7 @@ describe("Application: schedule create group route test", () => {
     const res = await request
       .post(`/schedules/group?staff=${staff.id}`)
       .send({
-        days: [new Date(), addDays(new Date(), 1).toJSON()],
+        days: ["thursday"],
         end,
         start,
         tag,
@@ -122,7 +147,7 @@ describe("Application: schedule create group route test", () => {
     const res = await request
       .post(`/schedules/group?staff=${staff.id}`)
       .send({
-        days: [new Date(), addDays(new Date(), 1).toJSON()],
+        days: ["monday"],
         end,
         start,
         tag,
@@ -149,7 +174,7 @@ describe("Application: schedule create group route test", () => {
     const res = await request
       .post(`/schedules/group?staff=${staff.id}`)
       .send({
-        days: [new Date(), addDays(new Date(), 1).toJSON()],
+        days: ["tuesday"],
         end,
         start,
         tag,

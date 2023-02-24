@@ -56,13 +56,17 @@ export type ScheduleServiceUpdateProps = {
 /*
   Group
 */
+export type ScheduleServiceUGetGroupProps = {
+  groupId: string;
+  staff: string;
+};
 
 export type ScheduleServiceCreateGroupQueryProps = {
   staff: string;
 };
 
 export type ScheduleServiceCreateGroupBodyProps = ScheduleBody & {
-  days: Array<Date>;
+  days: Array<string>;
 };
 
 export type ScheduleServiceCreateGroupProps = {
@@ -70,12 +74,11 @@ export type ScheduleServiceCreateGroupProps = {
   body: ScheduleServiceCreateGroupBodyProps;
 };
 
-export type ScheduleServiceUpdateGroupQueryProps = {
-  groupId: string;
-  staff: string;
-};
+export type ScheduleServiceUpdateGroupQueryProps =
+  ScheduleServiceUGetGroupProps;
 
-export type ScheduleServiceUpdateGroupBodyProps = ScheduleBody;
+export type ScheduleServiceUpdateGroupBodyProps =
+  ScheduleServiceCreateGroupBodyProps;
 export interface ScheduleServiceUpdateGroupProps {
   query: ScheduleServiceUpdateGroupQueryProps;
   body: ScheduleServiceUpdateGroupBodyProps;

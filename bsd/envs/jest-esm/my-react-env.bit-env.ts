@@ -44,7 +44,6 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
       npmIgnore: [],
       packageJson: {
         main: "dist/index.js",
-        type: "module",
         types: "index.ts",
       },
     });

@@ -1,24 +1,29 @@
 import {
+  ISchedule,
+  ScheduleModel,
   ScheduleServiceCreate,
   ScheduleServiceCreateGroup,
   ScheduleServiceDestroy,
   ScheduleServiceDestroyGroup,
   ScheduleServiceGetAll,
   ScheduleServiceUpdate,
-  ScheduleServiceUpdateGroup,
 } from "@jamalsoueidan/bsb.services.schedule";
 import { StaffServiceFindOne } from "@jamalsoueidan/bsb.services.staff";
 import { ControllerProps } from "@jamalsoueidan/bsb.types.api";
 import {
+  ScheduleServiceCreateGroupBodyProps,
   ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyProps,
   ScheduleServiceGetAllProps,
+  ScheduleServiceUGetGroupProps,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.schedule";
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
+import { format } from "date-fns";
 
 export const scheduleGetAll = ({
   query,
@@ -26,6 +31,10 @@ export const scheduleGetAll = ({
   const { shop, staff, start, end } = query;
   return ScheduleServiceGetAll({ end, shop, staff, start });
 };
+
+/*
+ * Create
+ **************************** */
 
 export const scheduleCreate = ({
   query,
@@ -62,9 +71,39 @@ export const scheduleDestroy = ({
   });
 };
 
-export type Range = {
-  start: Date;
-  end: Date;
+/*
+ * Group
+ **************************** */
+
+export const scheduleGetGroup = async ({
+  query,
+}: ControllerProps<ScheduleServiceUGetGroupProps>) => {
+  const schedules = await ScheduleModel.find(query).sort({ start: "asc" }); // sort is important to generate the body for editing group
+  return schedules.reduce<ScheduleServiceCreateGroupBodyProps>(
+    (
+      body: ScheduleServiceCreateGroupBodyProps,
+      schedule: ISchedule,
+      currentIndex: number,
+    ) => {
+      const day = format(schedule.start, "EEEE").toLowerCase();
+      if (!body.days.includes(day)) {
+        body.days.push(day);
+      }
+      if (currentIndex === 0) {
+        // eslint-disable-next-line no-param-reassign
+        body.start = schedule.start;
+        // eslint-disable-next-line no-param-reassign
+        body.tag = schedule.tag;
+      }
+
+      if (currentIndex + 1 === schedules.length) {
+        // eslint-disable-next-line no-param-reassign
+        body.end = schedule.end;
+      }
+      return body;
+    },
+    { days: [], end: new Date(), start: new Date(), tag: Tag.all_day },
+  );
 };
 
 export const scheduleCreateGroup = ({
@@ -81,7 +120,10 @@ export const scheduleUpdateGroup = async ({
 }: ControllerProps<
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateGroupBodyProps
->) => ScheduleServiceUpdateGroup(query, body);
+>) => {
+  await ScheduleServiceDestroyGroup(query);
+  return ScheduleServiceCreateGroup(query, body);
+};
 
 export const scheduleDestroyGroup = async ({
   query,

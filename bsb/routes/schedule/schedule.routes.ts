@@ -4,6 +4,7 @@ import {
   validate,
 } from "@jamalsoueidan/bsb.middlewares.validate";
 import { TagKeys } from "@jamalsoueidan/bsb.types.tag";
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
 import { body, checkSchema, query } from "express-validator";
 import {
   scheduleCreateOrUpdateApp,
@@ -15,10 +16,19 @@ import {
   scheduleDestroy,
   scheduleDestroyGroup,
   scheduleGetAll,
+  scheduleGetGroup,
   scheduleUpdate,
   scheduleUpdateGroup,
 } from "./schedule.controller";
 import { groupSchema, scheduleSchema, staffSchema } from "./schedule.schema";
+
+const now = new Date();
+const weekDays: string[] = [];
+const start = startOfWeek(now);
+const end = endOfWeek(now);
+eachDayOfInterval({ end, start }).forEach((day) => {
+  weekDays.push(format(day, "EEEE").toLowerCase());
+});
 
 export const scheduleRouteGetAll = {
   method: "get",
@@ -84,13 +94,22 @@ export const scheduleRouteDestroy = {
  * Group
  **************************** */
 
+export const scheduleRouteGetGroup = {
+  method: "get",
+  middlewares: [
+    validate(checkSchema(staffSchema), checkSchema(groupSchema)),
+    handleController(scheduleGetGroup),
+  ],
+  route: "/schedules/group/:groupId",
+};
+
 export const scheduleRouteCreateGroup = {
   method: "post",
   middlewares: [
     validate(
       checkSchema(staffSchema),
       body("days").isArray({ min: 1 }),
-      body("days.*").notEmpty().toDate(),
+      body("days.*").notEmpty().isIn(weekDays),
       body("start").notEmpty().toDate(),
       body("end").notEmpty().toDate(),
       body("tag").notEmpty().isIn(TagKeys),
@@ -106,8 +125,11 @@ export const scheduleRouteUpdateGroup = {
     validate(
       checkSchema(staffSchema),
       checkSchema(groupSchema),
+      body("days").isArray({ min: 1 }),
+      body("days.*").notEmpty().isIn(weekDays),
       body("start").notEmpty().toDate(),
       body("end").notEmpty().toDate(),
+      body("tag").notEmpty().isIn(TagKeys),
     ),
     handleController(scheduleCreateOrUpdateApp, scheduleUpdateGroup),
   ],

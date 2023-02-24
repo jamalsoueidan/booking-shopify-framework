@@ -14,7 +14,6 @@ import { StaffServiceCreate } from "@jamalsoueidan/bsb.services.staff";
 import { Staff, StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import {
-  addDays,
   addHours,
   addWeeks,
   setHours,
@@ -158,7 +157,7 @@ export const createStaffWithSchedule = async ({
   return { schedule, staff };
 };
 
-export const createScheduleGroup = async ({
+export const createScheduleGroup = ({
   staff,
   tag,
   start = setHours(new Date(), 10),
@@ -166,7 +165,7 @@ export const createScheduleGroup = async ({
 }: CreateSchedule) =>
   ScheduleServiceCreateGroup(
     { shop, staff },
-    { days: [new Date(), addDays(new Date(), 1)], end, start, tag },
+    { days: ["monday", "friday"], end, start, tag },
   );
 
 export const createStaffWithScheduleGroup = async ({
