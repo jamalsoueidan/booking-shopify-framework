@@ -1,0 +1,20 @@
+---
+description: Fetch context.
+labels: ["context"]
+---
+
+## React Fetch Context
+
+Since the authentication for Shopify and the standalone app are different, we need to be able to inject different fetch.
+Our service uses this provider's fetch, and the application can inject the fetch it needs to use, depending injection.
+
+### Component usage
+
+```tsx
+() => {
+const customFetch = useAuth();
+<FetchProvider fetch={customFetch}>
+  // later when we can
+  // const fetch = useFetch();
+</FetchProvider>;
+```

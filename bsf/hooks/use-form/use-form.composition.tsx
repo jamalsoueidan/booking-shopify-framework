@@ -9,8 +9,8 @@ const Mock = () => {
   const { fields } = useForm({
     fields: {
       fullname: useField({
-        value: "",
         validates: [],
+        value: "",
       }),
     },
   });
@@ -18,12 +18,10 @@ const Mock = () => {
   return <TextField label="Fullname" autoComplete="" {...fields?.fullname} />;
 };
 
-export const BasicuseForm = () => {
-  return (
-    <ApplicationFramePage title="useForm()">
-      <SaveBarProvider>
-        <Mock />
-      </SaveBarProvider>
-    </ApplicationFramePage>
-  );
-};
+export const BasicuseForm = () => (
+  <ApplicationFramePage title="useForm()">
+    <SaveBarProvider>
+      <Mock />
+    </SaveBarProvider>
+  </ApplicationFramePage>
+);
