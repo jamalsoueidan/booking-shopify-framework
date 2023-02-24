@@ -1,29 +1,14 @@
 import { Router } from "express";
-import {
-  bookingRouteCreate,
-  bookingRouteGetAll,
-  bookingRouteGetById,
-  bookingRouteUpdate,
-} from "./booking.routes";
+import * as routes from "./booking.routes";
 
 const bookingRouter = Router();
 
-bookingRouter[bookingRouteGetAll.method](
-  bookingRouteGetAll.route,
-  bookingRouteGetAll.middlewares,
-);
-bookingRouter[bookingRouteCreate.method](
-  bookingRouteCreate.route,
-  bookingRouteCreate.middlewares,
-);
-bookingRouter[bookingRouteUpdate.method](
-  bookingRouteUpdate.route,
-  bookingRouteUpdate.middlewares,
-);
-bookingRouter[bookingRouteGetById.method](
-  bookingRouteGetById.route,
-  bookingRouteGetById.middlewares,
-);
+const keys = Object.keys(routes);
+keys.forEach((k) => {
+  // eslint-disable-next-line import/namespace
+  const route = routes[k];
+  bookingRouter[route.method](route.route, route.middlewares);
+});
 
 export * from "./booking.routes";
 export { bookingRouter };

@@ -1,20 +1,25 @@
 import { DateHelpers } from "@jamalsoueidan/bsb.helpers.date";
-import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
+import { ISchedule, ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
+  ScheduleServiceCreateGroupBodyProps,
   ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
+  ScheduleServiceDaysInterval,
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyGroupReturn,
   ScheduleServiceDestroyProps,
   ScheduleServiceDestroyReturn,
   ScheduleServiceGetAllProps,
-  ScheduleServiceUGetGroupProps,
+  ScheduleServiceGetGroupProps,
+  ScheduleServiceGetGroupReturn,
   ScheduleServiceUpdateGroupBodyProps,
   ScheduleServiceUpdateGroupQueryProps,
   ScheduleServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.schedule";
 
+import { Tag } from "@jamalsoueidan/bsb.types.tag";
+import { format } from "date-fns";
 import mongoose from "mongoose";
 import {
   createDateTime,
@@ -80,9 +85,37 @@ export const ScheduleServiceDestroy = async ({
   ScheduleModel.deleteOne({ _id: schedule, shop, staff });
 
 export const ScheduleServiceGetGroup = async (
-  query: ScheduleServiceUGetGroupProps & ShopQuery,
+  query: ScheduleServiceGetGroupProps & ShopQuery,
 ) => {
-  ScheduleModel.find(query);
+  const schedules = await ScheduleModel.find(query).sort({ start: "asc" }); // sort is important to generate the body for editing group
+  return schedules.reduce<ScheduleServiceGetGroupReturn>(
+    (
+      body: ScheduleServiceCreateGroupBodyProps,
+      schedule: ISchedule,
+      currentIndex: number,
+    ) => {
+      const day = format(
+        schedule.start,
+        "EEEE",
+      ).toLowerCase() as ScheduleServiceDaysInterval;
+      if (!body.days.includes(day)) {
+        body.days.push(day);
+      }
+      if (currentIndex === 0) {
+        // eslint-disable-next-line no-param-reassign
+        body.start = schedule.start;
+        // eslint-disable-next-line no-param-reassign
+        body.tag = schedule.tag;
+      }
+
+      if (currentIndex + 1 === schedules.length) {
+        // eslint-disable-next-line no-param-reassign
+        body.end = schedule.end;
+      }
+      return body;
+    },
+    { days: [], end: new Date(), start: new Date(), tag: Tag.all_day },
+  );
 };
 
 export const ScheduleServiceCreateGroup = async (

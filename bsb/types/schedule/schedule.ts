@@ -56,10 +56,12 @@ export type ScheduleServiceUpdateProps = {
 /*
   Group
 */
-export type ScheduleServiceUGetGroupProps = {
+export type ScheduleServiceGetGroupProps = {
   groupId: string;
   staff: string;
 };
+
+export type ScheduleServiceGetGroupReturn = ScheduleServiceCreateGroupBodyProps;
 
 export type ScheduleServiceCreateGroupQueryProps = {
   staff: string;
@@ -83,8 +85,7 @@ export type ScheduleServiceCreateGroupProps = {
   body: ScheduleServiceCreateGroupBodyProps;
 };
 
-export type ScheduleServiceUpdateGroupQueryProps =
-  ScheduleServiceUGetGroupProps;
+export type ScheduleServiceUpdateGroupQueryProps = ScheduleServiceGetGroupProps;
 
 export type ScheduleServiceUpdateGroupBodyProps =
   ScheduleServiceCreateGroupBodyProps;
