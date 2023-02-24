@@ -3,6 +3,7 @@ import { createStaff, shop } from "@jamalsoueidan/bsd.testing-library.mongodb";
 import {
   addDays,
   addHours,
+  addWeeks,
   endOfToday,
   setHours,
   startOfToday,
@@ -16,6 +17,7 @@ import {
   ScheduleServiceUpdate,
   ScheduleServiceUpdateGroup,
 } from "./schedule";
+import { resetTime } from "./schedule.helper";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
@@ -76,41 +78,36 @@ describe("schedule service test", () => {
       },
     );
 
-    expect(updated?.start).toStrictEqual(start);
-    expect(updated?.end).toStrictEqual(end);
+    expect(updated?.start).toStrictEqual(resetTime(start));
+    expect(updated?.end).toStrictEqual(resetTime(end));
   });
 
   it("Should be able to create group schedule and get them by date range", async () => {
     const staff = await createStaff();
 
+    const start = setHours(startOfToday(), 10);
+    const end = addWeeks(setHours(new Date(), 18), 1);
     await ScheduleServiceCreateGroup(
       {
         shop,
         staff: staff._id,
       },
-      [
-        {
-          end: endOfToday(),
-          start: startOfToday(),
-          tag,
-        },
-        {
-          end: addDays(endOfToday(), 1),
-          start: addDays(startOfToday(), 1),
-          tag,
-        },
-      ],
+      {
+        days: ["thursday"],
+        end,
+        start,
+        tag,
+      },
     );
 
     const schedules = await ScheduleServiceGetAll({
-      end: addDays(endOfToday(), 1),
+      end,
       shop,
       staff: staff._id,
-      start: startOfToday(),
+      start,
     });
 
-    expect(schedules.length).toEqual(2);
-
+    expect(schedules.length).toEqual(1);
     const groupIds = schedules.map((s) => s.groupId);
     const unqiue = [...new Set(groupIds)];
     expect(unqiue.length).toEqual(1);
@@ -124,47 +121,38 @@ describe("schedule service test", () => {
         shop,
         staff: staff._id,
       },
-      [
-        {
-          end: endOfToday(),
-          start: startOfToday(),
-          tag,
-        },
-        {
-          end: addDays(endOfToday(), 1),
-          start: addDays(startOfToday(), 1),
-          tag,
-        },
-      ],
+      {
+        days: ["thursday"],
+        end: addWeeks(setHours(new Date(), 18), 4),
+        start: setHours(startOfToday(), 10),
+        tag,
+      },
     );
 
-    const start = setHours(new Date(), 10);
-    const end = setHours(new Date(), 17);
-
-    await ScheduleServiceUpdateGroup(
+    const updatedSchedules = await ScheduleServiceUpdateGroup(
       {
         groupId: createdSchedules[0].groupId || "",
         shop,
         staff: staff._id,
       },
       {
-        end,
-        start,
-        tag: Tag.weekday,
+        days: ["wednesday"],
+        end: addWeeks(setHours(new Date(), 20), 2),
+        start: setHours(startOfToday(), 12),
+        tag,
       },
     );
 
-    const updateSchedules = await ScheduleServiceGetAll({
-      end: addDays(endOfToday(), 1),
+    const schedules = await ScheduleServiceGetAll({
+      end: addWeeks(setHours(new Date(), 20), 4),
       shop,
       staff: staff._id,
       start: startOfToday(),
     });
 
-    expect(start.getHours()).toEqual(updateSchedules[0].start.getHours());
-    expect(start.getMinutes()).toEqual(updateSchedules[0].start.getMinutes());
-    expect(start.getHours()).toEqual(updateSchedules[1].start.getHours());
-    expect(start.getMinutes()).toEqual(updateSchedules[1].start.getMinutes());
+    expect(createdSchedules.length).toBe(4);
+    expect(updatedSchedules.length).toBe(2);
+    expect(schedules.length).toBe(2);
   });
 
   it("Should be able to delete schedule", async () => {
@@ -199,18 +187,12 @@ describe("schedule service test", () => {
         shop,
         staff: staff._id,
       },
-      [
-        {
-          end: endOfToday(),
-          start: startOfToday(),
-          tag,
-        },
-        {
-          end: addDays(endOfToday(), 1),
-          start: addDays(startOfToday(), 1),
-          tag,
-        },
-      ],
+      {
+        days: ["thursday"],
+        end: addWeeks(setHours(new Date(), 18), 1),
+        start: setHours(startOfToday(), 10),
+        tag,
+      },
     );
 
     const groupId = createdSchedules[0].groupId || "";
@@ -221,6 +203,6 @@ describe("schedule service test", () => {
       staff: staff._id.toString(),
     });
 
-    expect(destroyed.deletedCount).toBe(2);
+    expect(destroyed.deletedCount).toBe(1);
   });
 });

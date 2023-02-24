@@ -17,10 +17,15 @@ import {
   subHours,
 } from "date-fns";
 
-export const getDaysFromRange = (days: string[], range: ScheduleServiceRange) =>
-  eachDayOfInterval(range).filter((date) =>
+export const getDaysFromRange = (
+  days: string[],
+  range: ScheduleServiceRange,
+) => {
+  const daysOfInterval = eachDayOfInterval(range);
+  return daysOfInterval.filter((date) =>
     days.includes(format(date, "EEEE").toLowerCase()),
   );
+};
 
 export const createDateTime = (date: Date, time: Date) =>
   resetTime(new Date(`${format(date, "yyyy-MM-dd")} ${format(time, "pp")}`));
