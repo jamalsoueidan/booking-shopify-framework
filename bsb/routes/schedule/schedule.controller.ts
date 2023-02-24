@@ -14,6 +14,7 @@ import {
   ScheduleServiceCreateGroupBodyProps,
   ScheduleServiceCreateGroupProps,
   ScheduleServiceCreateProps,
+  ScheduleServiceDaysInterval,
   ScheduleServiceDestroyGroupProps,
   ScheduleServiceDestroyProps,
   ScheduleServiceGetAllProps,
@@ -85,7 +86,10 @@ export const scheduleGetGroup = async ({
       schedule: ISchedule,
       currentIndex: number,
     ) => {
-      const day = format(schedule.start, "EEEE").toLowerCase();
+      const day = format(
+        schedule.start,
+        "EEEE",
+      ).toLowerCase() as ScheduleServiceDaysInterval;
       if (!body.days.includes(day)) {
         body.days.push(day);
       }

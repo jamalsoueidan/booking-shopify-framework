@@ -7,7 +7,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 const tag = Tag.all_day;
 
-describe("Shopify: schedule create group route test", () => {
+describe("Shopify: schedule get group route test", () => {
   it("Should be able to get group", async () => {
     const { staff, schedules } = await createStaffWithScheduleGroup({ tag });
 

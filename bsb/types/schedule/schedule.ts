@@ -65,8 +65,17 @@ export type ScheduleServiceCreateGroupQueryProps = {
   staff: string;
 };
 
+export type ScheduleServiceDaysInterval =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
 export type ScheduleServiceCreateGroupBodyProps = ScheduleBody & {
-  days: Array<string>;
+  days: Array<ScheduleServiceDaysInterval>;
 };
 
 export type ScheduleServiceCreateGroupProps = {
