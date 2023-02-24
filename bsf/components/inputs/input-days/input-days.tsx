@@ -35,7 +35,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
     [locale],
   );
 
-  const onPressed = useCallback(
+  const onClickDay = useCallback(
     (value: string) => {
       const values = field.value;
       if (values.includes(value)) {
@@ -47,6 +47,21 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
     [field],
   );
 
+  const daysMarkup = useMemo(
+    () =>
+      options.map((day) => (
+        <Button
+          size="slim"
+          key={day.value}
+          pressed={!!field.value?.find((p) => day.value === p)}
+          onClick={() => onClickDay(day.value)}
+        >
+          {day.label}
+        </Button>
+      )),
+    [field.value, onClickDay, options],
+  );
+
   return (
     <Labelled
       {...input}
@@ -54,16 +69,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
       error={field.error}
       id={`${id}-select-days-input`}
     >
-      {options.map((day) => (
-        <Button
-          size="slim"
-          key={day.value}
-          pressed={!!field.value?.find((p) => day.value === p)}
-          onClick={() => onPressed(day.value)}
-        >
-          {day.label}
-        </Button>
-      ))}
+      {daysMarkup}
     </Labelled>
   );
 };

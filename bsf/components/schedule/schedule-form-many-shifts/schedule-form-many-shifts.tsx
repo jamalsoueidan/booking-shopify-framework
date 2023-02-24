@@ -1,7 +1,7 @@
 import { InputDateDrop } from "@jamalsoueidan/bsf.components.inputs.input-date-drop";
 import { InputDays } from "@jamalsoueidan/bsf.components.inputs.input-days";
 import { useTag } from "@jamalsoueidan/bsf.hooks.use-tag";
-import { Columns, Layout, Range, TextField } from "@shopify/polaris";
+import { Columns, Layout, TextField } from "@shopify/polaris";
 import {
   FormError,
   SubmitResult,
@@ -14,45 +14,40 @@ import { InputTags } from "@jamalsoueidan/bsf.components.inputs.input-tags";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
-import { eachDayOfInterval, endOfMonth } from "date-fns";
-import React, { forwardRef, useCallback, useImperativeHandle } from "react";
+import { endOfMonth, setHours, setMinutes } from "date-fns";
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 
-export interface CreateManyShiftsValue {
+export type ScheduleFormManyShiftsBody = {
+  days: Array<string>;
   start: Date;
   end: Date;
   tag: Tag;
-}
+};
 
-export type CreateManyShiftsBody = CreateManyShiftsValue[];
-export type CreateManyShiftsSubmitResult = SubmitResult;
-export type CreateManyShiftsRefMethod = {
+export type ScheduleFormManyShiftsSubmitResult = SubmitResult;
+export type ScheduleFormManyShiftsRefMethod = {
   submit: () => FormError[];
 };
 
-export interface CreateManyShiftsProps {
-  selectedDate: Date;
-  onSubmit: (fields: CreateManyShiftsBody) => CreateManyShiftsSubmitResult;
+export interface ScheduleFormManyShiftsProps {
+  data?: ScheduleFormManyShiftsBody;
+  onSubmit: (
+    fields: ScheduleFormManyShiftsBody,
+  ) => ScheduleFormManyShiftsSubmitResult;
 }
 
-export const CreateManyShifts = forwardRef<
-  CreateManyShiftsRefMethod,
-  CreateManyShiftsProps
->(({ selectedDate, onSubmit }, ref) => {
+export const ScheduleFormManyShifts = forwardRef<
+  ScheduleFormManyShiftsRefMethod,
+  ScheduleFormManyShiftsProps
+>(({ data, onSubmit }, ref) => {
   const { options } = useTag();
   const { format, toUtc } = useDate();
   const { t } = useTranslation({ id: "create-many-shifts", locales });
-
-  const getDatesFromSelectedDaysInCalendar = useCallback(
-    (days: string[], range: Range) => {
-      const allDaysInCalendarRange = eachDayOfInterval(range);
-      const lowerCaseDayNames = days.map((d) => d.toLowerCase());
-      return allDaysInCalendarRange.filter((date) => {
-        const currentDayTextInDate = format(date, "EEEE").toLowerCase();
-        return lowerCaseDayNames.includes(currentDayTextInDate);
-      });
-    },
-    [format],
-  );
 
   const convertToDate = useCallback(
     (date: Date, time: string) =>
@@ -60,38 +55,45 @@ export const CreateManyShifts = forwardRef<
     [format, toUtc],
   );
 
+  const endDate = useMemo(() => {
+    if (data?.end) {
+      return data.end;
+    }
+    return setMinutes(endOfMonth(setHours(new Date(), 17)), 0);
+  }, [data]);
+
+  const startDate = useMemo(() => {
+    if (data?.start) {
+      return data.start;
+    }
+    return setMinutes(setHours(new Date(), 10), 0);
+  }, [data]);
+
   const { fields, submit, validate } = useForm({
     fields: {
       days: useField({
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
-        value: [format(selectedDate, "EEEE").toLowerCase()],
+        value: data?.days || [],
       }),
-      endDate: useField<Date | undefined>(endOfMonth(selectedDate)),
-      endTime: useField("16:00"),
-      startDate: useField<Date | undefined>({
+      endDate: useField<Date>({
         validates: [Validators.isDate("invalid date")],
-        value: selectedDate,
+        value: endDate,
       }),
-      startTime: useField("09:00"),
+      endTime: useField(format(endDate, "HH:mm")),
+      startDate: useField<Date>({
+        validates: [Validators.isDate("invalid date")],
+        value: startDate,
+      }),
+      startTime: useField(format(startDate, "HH:mm")),
       tag: useField<Tag>(options[0].value),
     },
-    onSubmit: async (fieldValues) => {
-      const daysSelected =
-        fieldValues.startDate && fieldValues.endDate
-          ? getDatesFromSelectedDaysInCalendar(fieldValues.days, {
-              end: fieldValues.endDate,
-              start: fieldValues.startDate,
-            })
-          : [];
-
-      return onSubmit(
-        daysSelected.map((date) => ({
-          end: convertToDate(date, fieldValues.endTime),
-          start: convertToDate(date, fieldValues.startTime),
-          tag: fieldValues.tag,
-        })),
-      );
-    },
+    onSubmit: async (fieldValues) =>
+      onSubmit({
+        days: fieldValues.days,
+        end: convertToDate(fieldValues.endDate, fieldValues.endTime),
+        start: convertToDate(fieldValues.startDate, fieldValues.startTime),
+        tag: fieldValues.tag,
+      }),
   });
 
   useImperativeHandle(ref, () => ({

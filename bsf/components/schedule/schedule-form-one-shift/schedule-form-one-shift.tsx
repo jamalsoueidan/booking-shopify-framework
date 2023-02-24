@@ -12,26 +12,28 @@ import {
 } from "@shopify/react-form";
 import React, { forwardRef, useCallback, useImperativeHandle } from "react";
 
-export interface CreateOneShiftBody {
+export interface ScheduleFormOneShiftBody {
   start: Date;
   end: Date;
   tag: Tag;
 }
 
-export type CreateOneShiftSubmitResult = SubmitResult;
-export interface CreateOneShiftRefMethod {
+export type ScheduleFormOneShiftSubmitResult = SubmitResult;
+export interface ScheduleFormOneShiftRefMethod {
   submit: () => FormError[];
 }
 
-export interface CreateOneShiftProps {
-  selectedDate: Date;
-  onSubmit: (fields: CreateOneShiftBody) => CreateOneShiftSubmitResult;
+export interface ScheduleFormOneShiftProps {
+  data: ScheduleFormOneShiftBody;
+  onSubmit: (
+    fields: ScheduleFormOneShiftBody,
+  ) => ScheduleFormOneShiftSubmitResult;
 }
 
-export const CreateOneShift = forwardRef<
-  CreateOneShiftRefMethod,
-  CreateOneShiftProps
->(({ selectedDate, onSubmit }, ref) => {
+export const ScheduleFormOneShift = forwardRef<
+  ScheduleFormOneShiftRefMethod,
+  ScheduleFormOneShiftProps
+>(({ data, onSubmit }, ref) => {
   const { t } = useTranslation({ id: "create-one-day", locales });
   const { options } = useTag();
   const { toUtc, format } = useDate();
@@ -40,18 +42,16 @@ export const CreateOneShift = forwardRef<
     (time: string) => {
       const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
       return toUtc(
-        new Date(
-          `${format(selectedDate, "yyyy-MM-dd")} ${hour}:${minuttes}:00`,
-        ),
+        new Date(`${format(data.start, "yyyy-MM-dd")} ${hour}:${minuttes}:00`),
       );
     },
-    [format, selectedDate, toUtc],
+    [format, data, toUtc],
   );
 
   const { fields, submit, validate } = useForm({
     fields: {
-      endTime: useField("16:00"),
-      startTime: useField("09:00"),
+      endTime: useField(format(data.end, "HH:mm")),
+      startTime: useField(format(data.start, "HH:mm")),
       tag: useField<Tag>(options[0].value),
     },
     onSubmit: async (fieldValues) => {
@@ -79,8 +79,8 @@ export const CreateOneShift = forwardRef<
         <Card>
           <Card.Section>
             {t("title", {
-              date: <strong>{format(selectedDate, "PPP")}</strong>,
-              day: <strong>{format(selectedDate, "EEEE")}</strong>,
+              date: <strong>{format(data?.start, "PPP")}</strong>,
+              day: <strong>{format(data?.start, "EEEE")}</strong>,
             })}
           </Card.Section>
         </Card>

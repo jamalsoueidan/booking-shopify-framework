@@ -1,9 +1,9 @@
-import React from "react";
 import { render } from "@jamalsoueidan/bsd.testing-library.react";
-import { BasicCreateManyShifts } from "./create-many-shifts.composition";
+import React from "react";
+import { BasicCreateShifts } from "./schedule-form-many-shifts.composition";
 
 it("should render with the correct text", () => {
-  const { getByText } = render(<BasicCreateManyShifts />);
+  const { getByText } = render(<BasicCreateShifts />);
   const rendered = getByText("Create many shifts");
   expect(rendered).toBeTruthy();
 });
