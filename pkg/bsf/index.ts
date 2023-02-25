@@ -52,8 +52,9 @@ export * from "@jamalsoueidan/bsf.providers.modal";
 export * from "@jamalsoueidan/bsf.providers.save-bar";
 export * from "@jamalsoueidan/bsf.providers.settings";
 export * from "@jamalsoueidan/bsf.providers.toast";
-export * from "@jamalsoueidan/bsf.state.booking";
 // SERVICES
+export * from "@jamalsoueidan/bsf.state.booking";
+export * from "@jamalsoueidan/bsf.state.collection";
 export * from "@jamalsoueidan/bsf.state.schedule";
 export * from "@jamalsoueidan/bsf.state.staff";
 export * from "@jamalsoueidan/bsf.state.widget";

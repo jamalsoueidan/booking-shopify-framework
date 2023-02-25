@@ -423,6 +423,19 @@
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/collection"
     },
+    "routes/product": {
+        "scope": "",
+        "version": "",
+        "defaultScope": "jamalsoueidan.bsb",
+        "mainFile": "index.ts",
+        "rootDir": "bsb/routes/product",
+        "config": {
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            }
+        }
+    },
     "routes/schedule": {
         "scope": "jamalsoueidan.bsb",
         "version": "0.0.7",
@@ -518,6 +531,12 @@
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bsf/state/booking"
+    },
+    "state/collection": {
+        "scope": "",
+        "version": "",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/state/collection"
     },
     "state/schedule": {
         "scope": "jamalsoueidan.bsf",
