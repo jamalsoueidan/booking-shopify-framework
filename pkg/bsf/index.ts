@@ -45,6 +45,7 @@ export * from "@jamalsoueidan/bsf.hooks.use-tag";
 export * from "@jamalsoueidan/bsf.hooks.use-timer";
 export * from "@jamalsoueidan/bsf.hooks.use-toast";
 export * from "@jamalsoueidan/bsf.hooks.use-translation";
+export * from "@jamalsoueidan/bsf.hooks.use-url";
 export * from "@jamalsoueidan/bsf.providers.fetch";
 // PROVIDERS
 export * from "@jamalsoueidan/bsf.providers.modal";

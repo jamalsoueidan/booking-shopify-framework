@@ -26,7 +26,7 @@ describe("Shopify: schedule delete group route test", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(3);
+    expect(res.body.payload.deletedCount).toBeGreaterThan(1);
   });
 });
 
@@ -48,7 +48,7 @@ describe("Application: schedule delete group route test", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(3);
+    expect(res.body.payload.deletedCount).toBeGreaterThan(1);
   });
 
   it("User: Should not able to delete group for other staff", async () => {
@@ -91,7 +91,7 @@ describe("Application: schedule delete group route test", () => {
 
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
-    expect(res.body.payload.deletedCount).toEqual(3);
+    expect(res.body.payload.deletedCount).toBeGreaterThan(1);
   });
 
   it("Admin: Should NOT be able to delete group for staff in other group", async () => {

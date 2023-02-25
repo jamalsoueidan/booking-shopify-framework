@@ -2,6 +2,7 @@ import { AppSession, isApplicationSession } from "@jamalsoueidan/bsb.types.api";
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { Request, Response } from "express";
 
+// https://plusreturn.com/blog/how-to-extend-express-request-interface-in-typescript/
 declare module "express-serve-static-core" {
   interface Request {
     session: ShopifySession | AppSession;

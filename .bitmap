@@ -17,13 +17,13 @@
     },
     "app": {
         "scope": "jamalsoueidan.bsd",
-        "version": "0.0.17",
+        "version": "0.0.18",
         "mainFile": "index.ts",
         "rootDir": "bsd/app"
     },
     "bsb": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.56",
+        "version": "0.0.57",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsb"
     },
@@ -35,7 +35,7 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.75",
+        "version": "0.0.77",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
@@ -263,7 +263,7 @@
     },
     "hooks/use-fetch": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-fetch"
     },
@@ -333,9 +333,15 @@
         "mainFile": "index.ts",
         "rootDir": "bsf/hooks/use-translation"
     },
+    "hooks/use-url": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/hooks/use-url"
+    },
     "middlewares/handle-controller": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "mainFile": "index.ts",
         "rootDir": "bsb/middlewares/handle-controller"
     },
@@ -377,7 +383,7 @@
     },
     "providers/fetch": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.6",
+        "version": "0.0.7",
         "mainFile": "index.ts",
         "rootDir": "bsf/providers/fetch"
     },
@@ -407,25 +413,25 @@
     },
     "routes/booking": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.17",
+        "version": "0.0.18",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/booking"
     },
     "routes/schedule": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.5",
+        "version": "0.0.6",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/schedule"
     },
     "routes/staff": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/staff"
     },
     "routes/widget": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.11",
+        "version": "0.0.12",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/widget"
     },
@@ -503,7 +509,7 @@
     },
     "state/schedule": {
         "scope": "jamalsoueidan.bsf",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "bsf/state/schedule"
     },
