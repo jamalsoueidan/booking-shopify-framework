@@ -1,3 +1,3 @@
 import React from "react";
 
-export const BasicSchedule = () => <>Schedule service</>;
+export const Basic = () => <>Schedule service</>;
