@@ -6,3 +6,9 @@ export const onlyAdmin = ({ session }: AppControllerProps) => {
     throw { access: "not allowed" };
   }
 };
+
+export const onlyOwner = ({ session }: AppControllerProps) => {
+  if (session.role > StaffRole.owner) {
+    throw { access: "not allowed" };
+  }
+};

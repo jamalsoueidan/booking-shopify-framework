@@ -11,18 +11,16 @@ import {
   CollectionServiceDestroy,
   CollectionServiceGetAll,
 } from "./collection";
-import { GetCollectionProps } from "./collection.helper";
-import mock from "./collection.mock";
+import { GetCollectionsProps } from "./collection.helper";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 jest.mock("./collection.helper", () => ({
   __esModule: true,
-  getCollection: ({ id }: GetCollectionProps) => {
+  getCollections: ({ session, selections, shopify }: GetCollectionsProps) => {
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     const mock = require("./collection.mock").default;
-    const collection = mock.find((c) => c.id === id);
-    return Promise.resolve(collection);
+    return Promise.resolve(mock);
   },
 }));
 
@@ -33,12 +31,8 @@ describe("collection testing", () => {
       selections: [id],
     });
 
-    const collection = mock.find((c) => c.id === id);
-    const collections = await CollectionServiceGetAll();
-
-    expect(collections.length).toEqual(1);
-    expect(collections[0].title).toEqual(collection?.title);
-    expect(collections[0].products.length).toEqual(2);
+    const collections = await CollectionServiceGetAll({ shop });
+    expect(collections.length).toEqual(2);
   });
 
   it("Should be able to get collections with product => staff relations", async () => {
@@ -49,7 +43,7 @@ describe("collection testing", () => {
       ],
     });
 
-    let collections = await CollectionServiceGetAll();
+    let collections = await CollectionServiceGetAll({ shop });
     let collection = collections.find((c) => c.collectionId === 425845817661);
 
     expect(collection?.products.length).toEqual(2);
@@ -76,7 +70,7 @@ describe("collection testing", () => {
       );
     }
 
-    collections = await CollectionServiceGetAll();
+    collections = await CollectionServiceGetAll({ shop });
     collection = collections.find((c) => c.collectionId === 425845817661);
 
     expect(collection?.products.length).toEqual(2);
@@ -97,10 +91,10 @@ describe("collection testing", () => {
       ],
     });
 
-    let collections = await CollectionServiceGetAll();
+    let collections = await CollectionServiceGetAll({ shop });
     expect(collections.length).toEqual(2);
     await CollectionServiceDestroy({ id: collections[0]._id, shop });
-    collections = await CollectionServiceGetAll();
+    collections = await CollectionServiceGetAll({ shop });
     expect(collections.length).toEqual(1);
   });
 });

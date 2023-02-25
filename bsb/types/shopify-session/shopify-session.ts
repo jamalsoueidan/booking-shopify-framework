@@ -6,4 +6,5 @@ export interface ShopifySession {
   scope?: string;
   expires?: Date;
   accessToken?: string;
+  shopify: any;
 }

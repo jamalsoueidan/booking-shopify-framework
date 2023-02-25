@@ -1,26 +1,26 @@
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
 import { ShopifyApp } from "@shopify/shopify-app-express";
 
-interface Product {
+interface ShopifyProduct {
   id: string;
   title: string;
-  featuredImage: {
-    url: string;
+  featuredImage?: {
+    url?: string;
   };
 }
 
-interface Collection {
+export interface ShopifyCollection {
   id: string;
   title: string;
   products: {
-    nodes: Array<Product>;
+    nodes: Array<ShopifyProduct>;
   };
 }
 
 interface GetCollectionQuery {
   body: {
     data: {
-      collection: Collection;
+      collection: ShopifyCollection;
     };
   };
 }
@@ -43,18 +43,18 @@ const getCollectionQuery = `
   }
 `;
 
-export interface GetCollectionProps {
+export interface QueryShopifyProps {
   session: ShopifySession;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   shopify: ShopifyApp<any, any>;
   id: string;
 }
 
-export const getCollection = async ({
+export const queryShopify = async ({
   session,
   shopify,
   id,
-}: GetCollectionProps): Promise<Collection> => {
+}: QueryShopifyProps): Promise<ShopifyCollection> => {
   const client = new shopify.api.clients.Graphql({ session } as any);
 
   const payload: GetCollectionQuery = await client.query({
@@ -67,4 +67,22 @@ export const getCollection = async ({
   });
 
   return payload.body.data.collection;
+};
+
+export interface GetCollectionsProps {
+  session: ShopifySession;
+  selections: string[];
+  shopify: ShopifyApp<any, any>;
+}
+
+export const getCollections = async ({
+  session,
+  selections,
+  shopify,
+}: GetCollectionsProps) => {
+  return (
+    await Promise.all(
+      selections.map((id) => queryShopify({ id, session, shopify })),
+    )
+  ).filter((el) => el != null);
 };

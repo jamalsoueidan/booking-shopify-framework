@@ -3,11 +3,12 @@ import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
   CollectionServiceCreateBodyProps,
   CollectionServiceDestroyProps,
+  CollectionServiceGetAllProps,
   CollectionServiceGetAllReturn,
 } from "@jamalsoueidan/bsb.types.collection";
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
-import { ShopifyApp } from "@shopify/shopify-app-express";
-import { getCollection } from "./collection.helper";
+import { PipelineStage } from "mongoose";
+import { ShopifyCollection, getCollections } from "./collection.helper";
 import { CollectionModel } from "./collection.model";
 
 export const CollectionServiceDestroy = async (
@@ -38,23 +39,29 @@ export const CollectionServiceDestroy = async (
 };
 
 export const CollectionServiceCreate = async (
-  query: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    shopify: ShopifyApp<any, any>;
-  } & { session: ShopifySession },
+  query: { session: ShopifySession },
   body: CollectionServiceCreateBodyProps,
 ) => {
   const { shop } = query.session;
 
-  const { selections } = body;
-  const collections = (
-    await Promise.all(
-      selections.map((id) =>
-        getCollection({ id, session: query.session, shopify: query.shopify }),
-      ),
-    )
-  ).filter((el) => el != null);
+  const collections = await getCollections({
+    session: query.session,
+    shopify: query.session.shopify,
+    selections: body.selections,
+  });
 
+  await CollectionServerCreateBulk({ collections, shop });
+};
+
+interface CollectionServerCreateBulkProps {
+  collections: ShopifyCollection[];
+  shop: string;
+}
+
+export const CollectionServerCreateBulk = async ({
+  collections,
+  shop,
+}: CollectionServerCreateBulkProps) => {
   const getGid = (value: string): number =>
     parseInt(value.substring(value.lastIndexOf("/") + 1), 10);
 
@@ -76,7 +83,7 @@ export const CollectionServiceCreate = async (
       products.push({
         collectionId: getGid(currentCollection.id),
         hidden: false,
-        imageUrl: n.featuredImage?.url,
+        imageUrl: n.featuredImage?.url || "",
         productId: getGid(n.id),
         shop,
         title: n.title,
@@ -121,8 +128,16 @@ export const CollectionServiceCreate = async (
   await ProductModel.bulkWrite([...productsBulkWrite, ...productsHide]);
 };
 
-export const CollectionServiceGetAll = () =>
-  CollectionModel.aggregate<CollectionServiceGetAllReturn>([
+export const CollectionServiceGetAll = ({
+  group,
+  shop,
+}: CollectionServiceGetAllProps & ShopQuery) => {
+  let pipeline: PipelineStage[] = [
+    {
+      $match: {
+        shop,
+      },
+    },
     {
       $lookup: {
         from: "Product",
@@ -186,49 +201,70 @@ export const CollectionServiceGetAll = () =>
     {
       $project: {
         "products.foreignStaff": 0,
+        "products.staff.password": 0,
+        "products.staff.timeZone": 0,
+        "products.staff.address": 0,
+        "products.staff.email": 0,
+        "products.staff.language": 0,
       },
     },
-    // { $sort: { "products.staff.fullname": 1 } },
-    {
-      $group: {
-        _id: {
-          _id: "$_id",
-          products: "$products._id",
-        },
-        collection: { $first: "$$ROOT" },
-        staff: { $push: "$products.staff" },
+  ];
+
+  if (group) {
+    pipeline.push({
+      $match: {
+        "products.staff.group": group,
       },
-    },
-    {
-      $addFields: {
-        "collection.products.staff": "$staff",
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        staff: 0,
-      },
-    },
-    // { $sort: { "products.title": 1 } },
-    { $replaceRoot: { newRoot: "$collection" } },
-    {
-      $group: {
+    });
+  }
+
+  pipeline = [...pipeline, ...restAggreate];
+
+  return CollectionModel.aggregate<CollectionServiceGetAllReturn>(pipeline);
+};
+
+const restAggreate = [
+  // { $sort: { "products.staff.fullname": 1 } },
+  {
+    $group: {
+      _id: {
         _id: "$_id",
-        collection: { $first: "$$ROOT" },
-        products: { $push: "$products" },
+        products: "$products._id",
       },
+      collection: { $first: "$$ROOT" },
+      staff: { $push: "$products.staff" },
     },
-    {
-      $addFields: {
-        "collection.products": "$products",
-      },
+  },
+  {
+    $addFields: {
+      "collection.products.staff": "$staff",
     },
-    {
-      $project: {
-        products: 0,
-      },
+  },
+  {
+    $project: {
+      _id: 0,
+      staff: 0,
     },
-    { $replaceRoot: { newRoot: "$collection" } },
-    // { $sort: { title: 1 } },
-  ]);
+  },
+  // { $sort: { "products.title": 1 } },
+  { $replaceRoot: { newRoot: "$collection" } },
+  {
+    $group: {
+      _id: "$_id",
+      collection: { $first: "$$ROOT" },
+      products: { $push: "$products" },
+    },
+  },
+  {
+    $addFields: {
+      "collection.products": "$products",
+    },
+  },
+  {
+    $project: {
+      products: 0,
+    },
+  },
+  { $replaceRoot: { newRoot: "$collection" } },
+  // { $sort: { title: 1 } }
+];

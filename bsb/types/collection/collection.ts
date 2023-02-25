@@ -19,3 +19,7 @@ export interface CollectionServiceCreateBodyProps {
 export type CollectionServiceDestroyProps = {
   id: string;
 };
+
+export type CollectionServiceGetAllProps = {
+  group?: string;
+};
