@@ -1,0 +1,19 @@
+---
+description: "A React Hook that generate url."
+labels: ["hook", "url"]
+---
+
+## A React Hook to generate url
+
+```js
+const { createURL } = useUrl("/api/admin");
+
+return (
+  <>
+    <h1>
+      the current url{" "}
+      {createURL({ url: "/schedules", params: { test: new Date() } })}
+    </h1>
+  </>
+);
+```

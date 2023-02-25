@@ -2,7 +2,8 @@ import { createContext } from "react";
 
 export type FetchContextOptions = {
   url: string;
-  params?: Record<string, string | number | Date | undefined>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params?: Record<string, any>;
   body?: unknown;
 };
 
