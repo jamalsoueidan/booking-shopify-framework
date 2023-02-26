@@ -17,7 +17,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 const productId = faker.random.numeric(10);
 
 describe("Shopify: booking update route test", () => {
-  it("Should be able to update booking", async () => {
+  it("Owner: Should be able to update booking", async () => {
     const randomStaff = await createStaff({
       group: "a",
       role: StaffRole.user,
@@ -45,7 +45,7 @@ describe("Shopify: booking update route test", () => {
     expect(res.body.success).toBeTruthy();
   });
 
-  it("Should throw error when fields missing when creating booking", async () => {
+  it("Owner: Should throw error when fields missing when creating booking", async () => {
     const request = createShopifyExpress(bookingRouteUpdate);
 
     const res = await request.put(`/bookings/63f3f086caaed6a0b582123b`).send({

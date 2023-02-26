@@ -15,7 +15,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 const productId = parseInt(faker.random.numeric(10), 10);
 
 describe("Shopify: booking get all route test", () => {
-  it("Should be able to get all bookings", async () => {
+  it("Owner: Should be able to get all bookings", async () => {
     const { booking } = await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "a", productId });
     await createStaffWithBooking({ group: "b", productId });
@@ -32,7 +32,7 @@ describe("Shopify: booking get all route test", () => {
     expect(res.body.payload.length).toEqual(3);
   });
 
-  it("Should throw error when end param is missing", async () => {
+  it("Owner: Should throw error when end param is missing", async () => {
     const request = createShopifyExpress(bookingRouteGetAll);
 
     const res = await request
@@ -43,7 +43,7 @@ describe("Shopify: booking get all route test", () => {
     expect(res.body.success).toBeFalsy();
   });
 
-  it("Should throw error when start param is missing", async () => {
+  it("Owner: Should throw error when start param is missing", async () => {
     const request = createShopifyExpress(bookingRouteGetAll);
 
     const res = await request

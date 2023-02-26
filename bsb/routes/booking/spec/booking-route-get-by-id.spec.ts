@@ -15,7 +15,7 @@ require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 const productId = parseInt(faker.random.numeric(10), 10);
 
 describe("Shopify: booking get by id route test", () => {
-  it("Should be able to get any booking by id", async () => {
+  it("Owner: Should be able to get any booking by id", async () => {
     const { booking } = await createStaffWithBooking({ group: "a", productId });
 
     const request = createShopifyExpress(bookingRouteGetById);
