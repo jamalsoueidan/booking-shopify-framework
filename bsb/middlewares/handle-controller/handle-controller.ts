@@ -1,5 +1,6 @@
 import { AppSession, isApplicationSession } from "@jamalsoueidan/bsb.types.api";
 import { ShopifySession } from "@jamalsoueidan/bsb.types.shopify-session";
+import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { Request, Response } from "express";
 
 // https://plusreturn.com/blog/how-to-extend-express-request-interface-in-typescript/
@@ -24,7 +25,10 @@ export const handleController =
 
     try {
       if (args.length > 1) {
-        if (isApplicationSession(req.session)) {
+        if (
+          isApplicationSession(req.session) &&
+          req.session.role > StaffRole.owner // only run these methods for admin and the rest, not owner
+        ) {
           let i = 0;
           const len = args.length - 1;
           for (; i < len; i += 1) {

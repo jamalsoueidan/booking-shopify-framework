@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { CollectionServerCreateBulk } from "@jamalsoueidan/bsb.services.collection";
 import {
   ProductModel,
@@ -21,7 +20,6 @@ import { collectionsMock } from "./collection.mock";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
-const productId = parseInt(faker.random.numeric(10), 10);
 const tag = Tag.all_day;
 
 describe("Shopify: collection get all route test", () => {

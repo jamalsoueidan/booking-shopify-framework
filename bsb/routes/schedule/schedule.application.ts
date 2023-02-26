@@ -10,13 +10,11 @@ export const scheduleGetAllApp = async ({
   query,
   session,
 }: AppControllerProps<ScheduleServiceGetAllProps>) => {
-  if (session.role > StaffRole.owner) {
-    const { staff: id } = query;
+  const { staff: id } = query;
 
-    const staff = await StaffModel.findById(id, "group");
-    if (staff?.group !== session.group) {
-      throw { access: "not allowed to modifiy staff in other groups" };
-    }
+  const staff = await StaffModel.findById(id, "group");
+  if (staff?.group !== session.group) {
+    throw { access: "not allowed to modifiy staff in other groups" };
   }
 };
 
@@ -28,10 +26,8 @@ export const scheduleCreateOrUpdateApp = async ({
     throw { access: "not allowed to modifiy other staff" };
   }
 
-  if (session.role >= StaffRole.admin) {
-    const staff = await StaffModel.findById(query.staff, "group");
-    if (staff?.group !== session.group) {
-      throw { access: "not allowed to modifiy staff in other groups" };
-    }
+  const staff = await StaffModel.findById(query.staff, "group");
+  if (staff?.group !== session.group) {
+    throw { access: "not allowed to modifiy staff in other groups" };
   }
 };

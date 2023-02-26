@@ -7,30 +7,25 @@ import {
   BookingServiceGetByIdProps,
   BookingServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.booking";
-import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 
 export const bookingGetAllApp = async ({
   query,
   session,
 }: AppControllerProps<BookingServiceGetAllProps>) => {
-  if (session.role > StaffRole.owner) {
-    query.staff = await StaffServiceGetStaffIdsbyGroup({
-      group: session.group,
-      shop: session.shop,
-    });
-  }
+  query.staff = await StaffServiceGetStaffIdsbyGroup({
+    group: session.group,
+    shop: session.shop,
+  });
 };
 
 export const bookingGetByIdApp = async ({
   query,
   session,
 }: AppControllerProps<BookingServiceGetByIdProps>) => {
-  if (session.role > StaffRole.owner) {
-    query.staff = await StaffServiceGetStaffIdsbyGroup({
-      group: session.group,
-      shop: session.shop,
-    });
-  }
+  query.staff = await StaffServiceGetStaffIdsbyGroup({
+    group: session.group,
+    shop: session.shop,
+  });
 };
 
 export const bookingCreateApp = async ({

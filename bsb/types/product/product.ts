@@ -19,7 +19,13 @@ export interface Product<T = ProductStaff> {
   imageUrl: string;
 }
 
+export type ProductServiceGetAllProps = {
+  group?: string;
+  staff?: string;
+};
+
 export type ProductServiceGetByIdProps = {
+  group?: string;
   id: string;
 };
 
@@ -38,6 +44,17 @@ export type ProductServiceUpdateBodyProps = Partial<
   staff?: ProductServiceUpdateBodyStaffProperty[];
 };
 
+export type ProductServiceUpdateReturn = {
+  acknowledged: boolean;
+  modifiedCount: number;
+  upsertedCount: number;
+  matchedCount: number;
+};
+
 export type ProductServiceGetAvailableStaffReturn = Staff & {
   tags: Tag[];
+};
+
+export type ProductServiceGetAvailableStaffProps = {
+  group?: string;
 };

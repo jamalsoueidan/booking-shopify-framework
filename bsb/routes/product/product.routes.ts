@@ -1,22 +1,27 @@
-import { body, checkSchema, param } from "express-validator";
+import { body, checkSchema } from "express-validator";
 
-import { onlyOwner } from "@jamalsoueidan/bsb.middlewares.roles";
+import { onlyAdmin } from "@jamalsoueidan/bsb.middlewares.roles";
 import {
   isValidObject,
   validate,
 } from "@jamalsoueidan/bsb.middlewares.validate";
 import { handleController } from "@jamalsoueidan/pkg.bsb";
-import { isValidObjectId } from "mongoose";
+import {
+  productGetAllApp,
+  productGetAvailableStaffApp,
+  productUpdateApp,
+} from "./product.application";
 import {
   productGetAll,
   productGetAvailableStaff,
   productGetById,
   productUpdate,
 } from "./product.controller";
+import { validStaffArray } from "./product.validator";
 
 export const productRouteGetAll = {
   method: "get",
-  middlewares: [handleController(productGetAll)],
+  middlewares: [handleController(productGetAllApp, productGetAll)],
   route: "/products",
 };
 
@@ -41,21 +46,32 @@ export const productRouteUpdate = {
   method: "put",
   middlewares: [
     validate(
-      param("id")
-        .custom((value) => isValidObjectId(value))
-        .withMessage("not valid objectId"),
+      checkSchema({
+        id: {
+          custom: isValidObject,
+          in: ["params"],
+          notEmpty: true,
+        },
+      }),
       body("_id").isEmpty(),
       body("shop").isEmpty(),
       body("collectionId").isEmpty(),
       body("productId").isEmpty(),
+      body("staff").custom(validStaffArray),
     ),
-    handleController(onlyOwner, productUpdate),
+    handleController(onlyAdmin, productUpdateApp, productUpdate),
   ],
   route: "/products/:id",
 };
 
 export const productRouteGetAvailableStaff = {
   method: "get",
-  middlewares: [handleController(onlyOwner, productGetAvailableStaff)],
+  middlewares: [
+    handleController(
+      onlyAdmin,
+      productGetAvailableStaffApp,
+      productGetAvailableStaff,
+    ),
+  ],
   route: "/products/staff/get-available",
 };

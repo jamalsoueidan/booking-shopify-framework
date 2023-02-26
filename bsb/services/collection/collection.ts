@@ -201,11 +201,11 @@ export const CollectionServiceGetAll = ({
     {
       $project: {
         "products.foreignStaff": 0,
-        "products.staff.password": 0,
-        "products.staff.timeZone": 0,
         "products.staff.address": 0,
         "products.staff.email": 0,
         "products.staff.language": 0,
+        "products.staff.password": 0,
+        "products.staff.timeZone": 0,
       },
     },
   ];

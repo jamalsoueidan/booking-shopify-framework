@@ -52,10 +52,13 @@ describe("product testing", () => {
 
     const duration = 50;
     const buffertime = 100;
-    const updateProduct = await ProductServiceUpdate(query, {
+    const updated = await ProductServiceUpdate(query, {
       buffertime,
       duration,
     });
+
+    expect(updated.modifiedCount).toEqual(1);
+    const updateProduct = await ProductServiceGetById(query);
 
     expect(updateProduct?.duration).toEqual(duration);
     expect(updateProduct?.buffertime).toEqual(buffertime);
@@ -93,7 +96,7 @@ describe("product testing", () => {
       tag,
     });
 
-    const staffToAdd = await ProductServiceGetAvailableStaff(shop);
+    const staffToAdd = await ProductServiceGetAvailableStaff({ shop });
 
     expect(staffToAdd.length).toEqual(3);
 
@@ -103,16 +106,19 @@ describe("product testing", () => {
       shop,
     };
 
-    let updatedProduct = await ProductServiceUpdate(query, {
+    let updated = await ProductServiceUpdate(query, {
       staff: [{ _id: pickStaff._id, tag: pickStaff.tags[0] }],
     });
+    expect(updated.modifiedCount).toEqual(1);
 
+    let updatedProduct = await ProductServiceGetById(query);
     expect(updatedProduct?.staff.length).toEqual(1);
 
-    updatedProduct = await ProductServiceUpdate(query, {
+    updated = await ProductServiceUpdate(query, {
       staff: [],
     });
 
+    updatedProduct = await ProductServiceGetById(query);
     expect(updatedProduct?.staff.length).toEqual(0);
   });
 });

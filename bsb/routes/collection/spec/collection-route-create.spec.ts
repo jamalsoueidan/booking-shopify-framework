@@ -1,7 +1,7 @@
 import { StaffRole } from "@jamalsoueidan/bsb.types.staff";
 import { createAppExpress } from "@jamalsoueidan/bsd.testing-library.express";
 import { createStaff } from "@jamalsoueidan/bsd.testing-library.mongodb";
-import { collectionRouteCreate } from "./../collection.routes";
+import { collectionRouteCreate } from "../collection.routes";
 
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 

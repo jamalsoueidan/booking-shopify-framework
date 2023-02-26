@@ -1,17 +1,105 @@
 import { ScheduleModel } from "@jamalsoueidan/bsb.services.schedule";
 import { ShopQuery } from "@jamalsoueidan/bsb.types.api";
 import {
+  ProductServiceGetAllProps,
+  ProductServiceGetAvailableStaffProps,
   ProductServiceGetAvailableStaffReturn,
   ProductServiceGetByIdProps,
   ProductServiceUpdateBodyProps,
   ProductServiceUpdateQueryProps,
+  ProductServiceUpdateReturn,
 } from "@jamalsoueidan/bsb.types.product";
 import { startOfDay } from "date-fns";
-import mongoose from "mongoose";
+import mongoose, { PipelineStage } from "mongoose";
 import { ProductModel } from "./product.model";
+
+export const ProductServiceGetAll = async ({
+  staff,
+  group,
+  shop,
+}: ProductServiceGetAllProps & ShopQuery) => {
+  const pipeline: PipelineStage[] = [
+    {
+      $match: {
+        shop,
+      },
+    },
+    {
+      $unwind: { path: "$staff", preserveNullAndEmptyArrays: true },
+    },
+    {
+      $lookup: {
+        as: "staff.staff",
+        foreignField: "_id",
+        from: "Staff",
+        localField: "staff.staff",
+      },
+    },
+    {
+      $unwind: {
+        path: "$staff.staff",
+      },
+    },
+    {
+      $addFields: {
+        "staff.staff.tag": "$staff.tag",
+      },
+    },
+    {
+      $addFields: {
+        staff: "$staff.staff",
+      },
+    },
+    { $sort: { "staff.fullname": 1 } },
+    {
+      $project: {
+        "staff.address": 0,
+        "staff.email": 0,
+        "staff.language": 0,
+        "staff.password": 0,
+        "staff.timeZone": 0,
+      },
+    },
+  ];
+
+  if (staff) {
+    pipeline.push({
+      $match: {
+        "staff._id": new mongoose.Types.ObjectId(staff),
+      },
+    });
+  }
+
+  if (group) {
+    pipeline.push({
+      $match: {
+        "staff.group": group,
+      },
+    });
+  }
+
+  pipeline.push(
+    {
+      $group: {
+        _id: "$_id",
+        product: { $first: "$$ROOT" },
+        staff: { $push: "$staff" },
+      },
+    },
+    {
+      $addFields: {
+        "product.staff": "$staff",
+      },
+    },
+    { $replaceRoot: { newRoot: "$product" } },
+  );
+
+  return ProductModel.aggregate(pipeline);
+};
 
 export const ProductServiceGetById = async ({
   id,
+  group,
   shop,
 }: ProductServiceGetByIdProps & ShopQuery) => {
   const product = await ProductModel.findOne({
@@ -24,7 +112,7 @@ export const ProductServiceGetById = async ({
     return product;
   }
 
-  const products = await ProductModel.aggregate([
+  const pipeline: PipelineStage[] = [
     {
       $match: { _id: new mongoose.Types.ObjectId(id), shop },
     },
@@ -56,6 +144,26 @@ export const ProductServiceGetById = async ({
     },
     { $sort: { "staff.fullname": 1 } },
     {
+      $project: {
+        "staff.address": 0,
+        "staff.email": 0,
+        "staff.language": 0,
+        "staff.password": 0,
+        "staff.timeZone": 0,
+      },
+    },
+  ];
+
+  if (group) {
+    pipeline.push({
+      $match: {
+        "staff.group": group,
+      },
+    });
+  }
+
+  pipeline.push(
+    {
       $group: {
         _id: "$_id",
         product: { $first: "$$ROOT" },
@@ -68,7 +176,9 @@ export const ProductServiceGetById = async ({
       },
     },
     { $replaceRoot: { newRoot: "$product" } },
-  ]);
+  );
+
+  const products = await ProductModel.aggregate(pipeline);
 
   return products.length > 0 ? products[0] : null;
 };
@@ -76,7 +186,7 @@ export const ProductServiceGetById = async ({
 export const ProductServiceUpdate = async (
   query: ProductServiceUpdateQueryProps & ShopQuery,
   body: ProductServiceUpdateBodyProps,
-) => {
+): Promise<ProductServiceUpdateReturn> => {
   const { staff, ...properties } = body;
 
   const newStaffier =
@@ -98,7 +208,7 @@ export const ProductServiceUpdate = async (
     active = false;
   }
 
-  return ProductModel.findOneAndUpdate(
+  return ProductModel.updateOne(
     {
       _id: new mongoose.Types.ObjectId(query.id),
       shop: query.shop,
@@ -109,12 +219,15 @@ export const ProductServiceUpdate = async (
     {
       new: true,
     },
-  ).lean();
+  );
 };
 
 // @description return all staff that don't belong yet to the product
-export const ProductServiceGetAvailableStaff = (shop: string) =>
-  ScheduleModel.aggregate<ProductServiceGetAvailableStaffReturn>([
+export const ProductServiceGetAvailableStaff = ({
+  shop,
+  group,
+}: ProductServiceGetAvailableStaffProps & ShopQuery) => {
+  const pipeline: PipelineStage[] = [
     {
       $match: {
         shop,
@@ -172,4 +285,26 @@ export const ProductServiceGetAvailableStaff = (shop: string) =>
       },
     },
     { $sort: { fullname: 1 } },
-  ]);
+    {
+      $project: {
+        address: 0,
+        email: 0,
+        language: 0,
+        password: 0,
+        timeZone: 0,
+      },
+    },
+  ];
+
+  if (group) {
+    pipeline.push({
+      $match: {
+        group,
+      },
+    });
+  }
+
+  return ScheduleModel.aggregate<ProductServiceGetAvailableStaffReturn>(
+    pipeline,
+  );
+};

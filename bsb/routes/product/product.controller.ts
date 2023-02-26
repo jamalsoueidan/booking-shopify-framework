@@ -1,5 +1,5 @@
 import {
-  ProductModel,
+  ProductServiceGetAll,
   ProductServiceGetAvailableStaff,
   ProductServiceGetById,
   ProductServiceUpdate,
@@ -7,19 +7,21 @@ import {
 import { ControllerProps, ShopQuery } from "@jamalsoueidan/bsb.types.api";
 
 import {
+  ProductServiceGetAllProps,
+  ProductServiceGetAvailableStaffProps,
+  ProductServiceGetByIdProps,
   ProductServiceUpdateBodyProps,
   ProductServiceUpdateQueryProps,
 } from "@jamalsoueidan/bsb.types.product";
 
-export const productGetAll = ({ query }: ControllerProps<ShopQuery>) =>
-  ProductModel.find({ shop: query.shop });
+export const productGetAll = ({
+  query,
+}: ControllerProps<ProductServiceGetAllProps & ShopQuery>) =>
+  ProductServiceGetAll(query);
 
-interface Query {
-  id: string;
-}
-
-export const productGetById = async ({ query }: ControllerProps<Query>) =>
-  ProductServiceGetById(query);
+export const productGetById = async ({
+  query,
+}: ControllerProps<ProductServiceGetByIdProps>) => ProductServiceGetById(query);
 
 export const productUpdate = ({
   query,
@@ -31,4 +33,5 @@ export const productUpdate = ({
 
 export const productGetAvailableStaff = ({
   query,
-}: ControllerProps<ShopQuery>) => ProductServiceGetAvailableStaff(query.shop);
+}: ControllerProps<ProductServiceGetAvailableStaffProps>) =>
+  ProductServiceGetAvailableStaff(query);
