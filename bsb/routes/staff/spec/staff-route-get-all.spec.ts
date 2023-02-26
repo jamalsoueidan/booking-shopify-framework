@@ -9,7 +9,7 @@ import { staffRouteGetAll } from "../staff.routes";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 describe("Shopify: staff get all route test", () => {
-  it("Should be able to get all staff in all groups", async () => {
+  it("Owner: Should be able to get all staff in all groups", async () => {
     await createStaff({
       group: "a",
     });

@@ -10,7 +10,7 @@ import { staffRouteCreate } from "../staff.routes";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 describe("Shopify: staff create route test", () => {
-  it("Should be able to create staff for all groups", async () => {
+  it("Owner: Should be able to create staff for all groups", async () => {
     const newStaff = {
       active: true,
       address: "asdiojdsajioadsoji",

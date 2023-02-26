@@ -9,7 +9,7 @@ import { staffRouteUpdate } from "../staff.routes";
 require("@jamalsoueidan/bsd.testing-library.mongodb/mongodb.jest");
 
 describe("Shopify: staff update route test", () => {
-  it("Should be able to update staff for all groups", async () => {
+  it("Owner: Should be able to update staff for all groups", async () => {
     const staff = await createStaff({
       group: "a",
     });
