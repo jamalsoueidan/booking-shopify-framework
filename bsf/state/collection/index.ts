@@ -1,2 +1,1 @@
-export { Collection } from './collection';
-export type { CollectionProps } from './collection';
+export * from "./collection";
