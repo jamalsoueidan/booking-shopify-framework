@@ -1,11 +1,11 @@
 import { body, checkSchema } from "express-validator";
 
+import { handleController } from "@jamalsoueidan/bsb.middlewares.handle-controller";
 import { onlyAdmin } from "@jamalsoueidan/bsb.middlewares.roles";
 import {
   isValidObject,
   validate,
 } from "@jamalsoueidan/bsb.middlewares.validate";
-import { handleController } from "@jamalsoueidan/pkg.bsb";
 import {
   productGetAllApp,
   productGetAvailableStaffApp,
