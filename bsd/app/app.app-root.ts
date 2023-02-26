@@ -11,6 +11,7 @@ import Application from "express";
 
 import { bookingRouter } from "@jamalsoueidan/bsb.routes.booking";
 import { widgetRouter } from "@jamalsoueidan/bsb.routes.widget";
+
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { getPort } from "./get-port";
 
@@ -33,9 +34,12 @@ export const expressApp = async () => {
     tag: Tag.all_day,
   });
 
-  await createBooking({ productId, staff: staff._id });
+  const booking = await createBooking({ productId, staff: staff._id });
 
-  console.log();
+  console.log(`http://localhost:3000/products/${product._id.toString()}`);
+  console.log(
+    `http://localhost:3000/bookings?start=${booking.start.toJSON()}&end=${booking.end.toJSON()}`,
+  );
 
   const app = Application();
 

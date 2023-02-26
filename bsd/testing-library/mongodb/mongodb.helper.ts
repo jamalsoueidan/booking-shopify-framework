@@ -4,6 +4,7 @@ import { CustomerModel } from "@jamalsoueidan/bsb.services.customer";
 import {
   IProductDocument,
   ProductModel,
+  ProductServiceGetById,
   ProductServiceUpdate,
 } from "@jamalsoueidan/bsb.services.product";
 import {
@@ -199,7 +200,8 @@ export const createStaffWithScheduleAndUpdateProduct = async ({
     role,
     tag,
   });
-  const updatedProduct = await ProductServiceUpdate(
+
+  await ProductServiceUpdate(
     {
       id: product._id,
       shop,
@@ -208,6 +210,8 @@ export const createStaffWithScheduleAndUpdateProduct = async ({
       staff: [{ _id: staff._id, tag }],
     },
   );
+
+  const updatedProduct = await ProductServiceGetById({ id: product.id, shop });
 
   return { schedule, staff, updatedProduct };
 };
