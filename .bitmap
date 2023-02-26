@@ -23,7 +23,7 @@
     },
     "bsb": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.59",
+        "version": "0.0.62",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsb"
     },
@@ -35,7 +35,7 @@
     },
     "bsf": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.79",
+        "version": "0.0.81",
         "mainFile": "index.ts",
         "rootDir": "pkg/bsf"
     },
@@ -423,9 +423,15 @@
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/collection"
     },
+    "routes/customer": {
+        "scope": "jamalsoueidan.bsb",
+        "version": "0.0.2",
+        "mainFile": "index.ts",
+        "rootDir": "bsb/routes/customer"
+    },
     "routes/product": {
         "scope": "jamalsoueidan.bsb",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "bsb/routes/product"
     },
@@ -530,6 +536,18 @@
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "bsf/state/collection"
+    },
+    "state/customer": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/state/customer"
+    },
+    "state/product": {
+        "scope": "jamalsoueidan.bsf",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "bsf/state/product"
     },
     "state/schedule": {
         "scope": "jamalsoueidan.bsf",

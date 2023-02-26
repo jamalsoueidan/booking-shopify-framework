@@ -3,6 +3,7 @@ export * from "@jamalsoueidan/bsb.express.mongodb";
 export * from "@jamalsoueidan/bsb.middlewares.handle-controller";
 export * from "@jamalsoueidan/bsb.routes.booking";
 export * from "@jamalsoueidan/bsb.routes.collection";
+export * from "@jamalsoueidan/bsb.routes.customer";
 export * from "@jamalsoueidan/bsb.routes.product";
 export * from "@jamalsoueidan/bsb.routes.schedule";
 export * from "@jamalsoueidan/bsb.routes.staff";

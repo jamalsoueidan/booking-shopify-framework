@@ -55,6 +55,8 @@ export * from "@jamalsoueidan/bsf.providers.toast";
 // SERVICES
 export * from "@jamalsoueidan/bsf.state.booking";
 export * from "@jamalsoueidan/bsf.state.collection";
+export * from "@jamalsoueidan/bsf.state.customer";
+export * from "@jamalsoueidan/bsf.state.product";
 export * from "@jamalsoueidan/bsf.state.schedule";
 export * from "@jamalsoueidan/bsf.state.staff";
 export * from "@jamalsoueidan/bsf.state.widget";
