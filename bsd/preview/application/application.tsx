@@ -1,8 +1,11 @@
 import { InputLanguage } from "@jamalsoueidan/bsf.components.inputs.input-language";
 import { InputTimeZone } from "@jamalsoueidan/bsf.components.inputs.input-time-zone";
-import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
 import { SaveBarProvider } from "@jamalsoueidan/bsf.providers.save-bar";
-import { SettingsProvider } from "@jamalsoueidan/bsf.providers.settings";
+import {
+  SettingsProvider,
+  useSettings,
+} from "@jamalsoueidan/bsf.providers.settings";
+
 import { ToastProvider } from "@jamalsoueidan/bsf.providers.toast";
 import { AppProvider, Frame, Page, Stack } from "@shopify/polaris";
 import "@shopify/polaris/build/esm/styles.css";
@@ -20,13 +23,11 @@ export interface ApplicationProps {
   children?: React.ReactNode;
 }
 
-export const Application = ({ children }: ApplicationProps) => {
-  return (
-    <I18nContext.Provider value={i18nManager}>
-      <PolarisProvider>{children}</PolarisProvider>
-    </I18nContext.Provider>
-  );
-};
+export const Application = ({ children }: ApplicationProps) => (
+  <I18nContext.Provider value={i18nManager}>
+    <PolarisProvider>{children}</PolarisProvider>
+  </I18nContext.Provider>
+);
 
 export interface ApplicationFrameProps {
   children?: React.ReactNode;
@@ -93,23 +94,21 @@ interface FrameChangeLanguageProps {
   children: ReactNode;
 }
 
-const FrameChangeLanguage = ({ children }: FrameChangeLanguageProps) => {
-  return (
-    <SettingsProvider>
-      <Frame>
-        <Page fullWidth>
-          <Stack>
-            <TimeZone />
-            <Language />
-          </Stack>
-        </Page>
-        <ToastProvider>
-          <SaveBarProvider>{children}</SaveBarProvider>
-        </ToastProvider>
-      </Frame>
-    </SettingsProvider>
-  );
-};
+const FrameChangeLanguage = ({ children }: FrameChangeLanguageProps) => (
+  <SettingsProvider>
+    <Frame>
+      <Page fullWidth>
+        <Stack>
+          <TimeZone />
+          <Language />
+        </Stack>
+      </Page>
+      <ToastProvider>
+        <SaveBarProvider>{children}</SaveBarProvider>
+      </ToastProvider>
+    </Frame>
+  </SettingsProvider>
+);
 
 const TimeZone = () => {
   const { update, timeZone } = useSettings();

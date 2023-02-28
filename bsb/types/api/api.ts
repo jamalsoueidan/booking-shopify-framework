@@ -33,6 +33,7 @@ export interface AppSession {
   group: string;
   iat?: number;
   exp?: number;
+  isOwner: boolean;
   isAdmin: boolean;
   isUser: boolean;
 }

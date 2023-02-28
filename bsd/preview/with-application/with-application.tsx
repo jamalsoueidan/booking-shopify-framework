@@ -12,10 +12,9 @@ interface Options {
 
 export const withApplication =
   (WrappedComponent: any, options: Options = {}) =>
-  ({ children, ...props }: WithApplicationProps) => {
-    return (
+  ({ children, ...props }: WithApplicationProps) =>
+    (
       <ApplicationFramePage title={options?.pageTitle}>
         <WrappedComponent {...props}>{children}</WrappedComponent>
       </ApplicationFramePage>
     );
-  };

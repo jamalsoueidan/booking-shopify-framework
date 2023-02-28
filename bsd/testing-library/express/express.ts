@@ -49,6 +49,7 @@ export const createAppExpress = (route: Route, staff: Staff) => {
       _id: "a",
       group: staff.group,
       isAdmin: staff.role === StaffRole.admin,
+      isOwner: staff.role === StaffRole.owner,
       isUser: staff.role === StaffRole.user,
       role: staff.role,
       shop,
