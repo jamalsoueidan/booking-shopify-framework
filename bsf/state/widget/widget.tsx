@@ -5,7 +5,7 @@ import {
   WidgetServiceGetStaffProps,
   WidgetStaff,
 } from "@jamalsoueidan/bsb.types.widget";
-import { useFetch } from "@jamalsoueidan/bsf.hooks.use-fetch";
+import { useFetch } from "@jamalsoueidan/bsf.providers.fetch";
 import { useQuery } from "react-query";
 
 export const useWidgetStaff = (params: WidgetServiceGetStaffProps) => {

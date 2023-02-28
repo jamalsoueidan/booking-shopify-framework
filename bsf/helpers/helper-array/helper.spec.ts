@@ -1,5 +1,5 @@
 import { addDays, addMonths, subMonths } from "date-fns";
-import { sortbyDate, sortbyText } from "./helper-array";
+import { sortByDate, sortByText } from "./helper-array";
 
 type Person = {
   name: string;
@@ -22,7 +22,7 @@ describe("test helper-array", () => {
     ];
 
     const sortedPeople = [...unsortedPeople].sort(
-      sortbyText((unsortedPeople) => unsortedPeople.name),
+      sortByText((unsortedPeople) => unsortedPeople.name),
     );
 
     expect(sortedPeople[0]).toMatchObject(unsortedPeople[1]);
@@ -40,7 +40,7 @@ describe("test helper-array", () => {
     ];
 
     const sortedPeople = [...unsortedPeople].sort(
-      sortbyDate((unsortedPeople) => unsortedPeople.date),
+      sortByDate((unsortedPeople) => unsortedPeople.date),
     );
 
     expect(sortedPeople[0]).toMatchObject(unsortedPeople[3]);

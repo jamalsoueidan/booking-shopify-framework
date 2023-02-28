@@ -1,4 +1,7 @@
-import { ModalContext, ModalContextType } from "@jamalsoueidan/bsf.providers.modal";
+import {
+  ModalContext,
+  ModalContextType,
+} from "@jamalsoueidan/bsf.providers.modal";
 import { useContext } from "react";
 
 export const useModal = () => {

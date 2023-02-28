@@ -9,7 +9,7 @@ import multiMonthPlugin from "@fullcalendar/multimonth";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
+import { useSettings } from "@jamalsoueidan/bsf.providers.settings";
 import { isEqual } from "date-fns";
 import React, { forwardRef, useCallback, useMemo, useState } from "react";
 

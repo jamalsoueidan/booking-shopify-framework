@@ -1,8 +1,5 @@
-import {
-  FetchContext,
-  FetchContextType,
-} from "@jamalsoueidan/bsf.providers.fetch";
 import { useContext } from "react";
+import { FetchContext, FetchContextType } from "./fetch-context";
 
 export function useFetch() {
   const context = useContext<FetchContextType>(FetchContext);

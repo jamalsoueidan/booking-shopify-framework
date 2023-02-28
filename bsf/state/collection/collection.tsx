@@ -3,7 +3,7 @@ import {
   CollectionServiceCreateBodyProps,
   CollectionServiceGetAllReturn,
 } from "@jamalsoueidan/bsb.types.collection";
-import { useFetch } from "@jamalsoueidan/bsf.hooks.use-fetch";
+import { useFetch } from "@jamalsoueidan/bsf.providers.fetch";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 

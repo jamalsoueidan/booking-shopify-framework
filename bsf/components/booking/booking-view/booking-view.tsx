@@ -4,7 +4,7 @@ import {
   BookingFulfillmentStatus,
 } from "@jamalsoueidan/bsb.types.booking";
 import { useDate } from "@jamalsoueidan/bsf.hooks.use-date";
-import { useModal } from "@jamalsoueidan/bsf.hooks.use-modal";
+import { useModal } from "@jamalsoueidan/bsf.providers.modal";
 import { Banner, Link, Modal, TextContainer } from "@shopify/polaris";
 import { differenceInHours, isAfter } from "date-fns";
 import React, { useEffect } from "react";

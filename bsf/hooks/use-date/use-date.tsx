@@ -1,4 +1,4 @@
-import { useSettings } from "@jamalsoueidan/bsf.hooks.use-settings";
+import { useSettings } from "@jamalsoueidan/bsf.providers.settings";
 import { formatRelative as fnsFormatRelative } from "date-fns";
 import {
   format as fnsFormat,

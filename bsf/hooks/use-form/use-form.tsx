@@ -1,4 +1,4 @@
-import { useSaveBar } from "@jamalsoueidan/bsf.hooks.use-save-bar";
+import { useSaveBar } from "@jamalsoueidan/bsf.providers.save-bar";
 import { Action } from "@shopify/polaris";
 import {
   DynamicListBag,
@@ -9,18 +9,27 @@ import {
 } from "@shopify/react-form";
 import { useEffect, useState } from "react";
 
-interface FormReturn<T extends FieldBag, D extends DynamicListBag> extends Partial<FormWithDynamicLists<T, D>> {
+interface FormReturn<T extends FieldBag, D extends DynamicListBag>
+  extends Partial<FormWithDynamicLists<T, D>> {
   isSubmitted: boolean;
   isValid: boolean;
   primaryAction?: Action;
 }
 
-interface FormProps<T extends FieldBag, D extends DynamicListBag> extends FormInput<T, D> {
+interface FormProps<T extends FieldBag, D extends DynamicListBag>
+  extends FormInput<T, D> {
   enableSaveBar?: boolean;
 }
 
-export const useForm = <T extends FieldBag, D extends DynamicListBag>(form: FormProps<T, D>): FormReturn<T, D> => {
-  const { updateSaveAction, updateDiscardAction, updateVisibility, saveAction: primaryAction } = useSaveBar();
+export const useForm = <T extends FieldBag, D extends DynamicListBag>(
+  form: FormProps<T, D>,
+): FormReturn<T, D> => {
+  const {
+    updateSaveAction,
+    updateDiscardAction,
+    updateVisibility,
+    saveAction: primaryAction,
+  } = useSaveBar();
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);

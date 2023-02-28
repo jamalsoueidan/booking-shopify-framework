@@ -1,0 +1,41 @@
+---
+description: Ability context.
+labels: ['context']
+---
+
+import { AbilityContext } from './ability-context';
+import { AbilityProvider } from './ability-context-provider';
+import { MockComponent } from './ability-context.composition';
+
+## React Theme Context
+
+This is a simple [React Context](https://reactjs.org/docs/context.html) shared as a Bit component.
+Use this component to apply a theme as a context to set on it's children.
+
+### Component usage
+
+```tsx
+() => {
+import React, { useContext } from 'react';
+import { ThemeProvider } from './theme-context-provider';
+import { ThemeContext } from './theme-context';
+
+<AbilityProvider color="blue">
+  // My lovely children now get a theme!
+  <MockComponent />
+</AbilityProvider>;
+```
+
+### Using props to customize the theme
+
+Change the color to see the text change:
+
+```tsx live
+() => {
+  return (
+    <AbilityProvider color="red">
+      <MockComponent />
+    </AbilityProvider>
+  );
+};
+```

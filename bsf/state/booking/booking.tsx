@@ -5,7 +5,7 @@ import {
   BookingServiceGetAllProps,
   BookingServiceUpdateProps,
 } from "@jamalsoueidan/bsb.types.booking";
-import { useFetch } from "@jamalsoueidan/bsf.hooks.use-fetch";
+import { useFetch } from "@jamalsoueidan/bsf.providers.fetch";
 import { useCallback } from "react";
 import { useQuery } from "react-query";
 
