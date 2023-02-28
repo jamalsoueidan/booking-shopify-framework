@@ -83,6 +83,7 @@ export const en = {
     label: "Avatar URL",
     placeholder: "http://...",
   },
+  created: "Staff created",
   email: {
     empty_invalid_email: "Email is invalid",
     error_empty: "Email must be filled",
@@ -135,9 +136,8 @@ export const en = {
     user: "User",
   },
   save: "Save",
-  updated: "Staff has been updated",
-  created: "Staff created",
   title: "New staff",
+  updated: "Staff has been updated",
   user: {
     title: "Staff settings",
   },

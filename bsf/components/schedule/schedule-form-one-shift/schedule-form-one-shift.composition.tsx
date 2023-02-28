@@ -1,6 +1,6 @@
 import { Tag } from "@jamalsoueidan/bsb.types.tag";
 import { ApplicationFramePage } from "@jamalsoueidan/bsd.preview.application";
-import { useToast } from "@jamalsoueidan/bsf.hooks.use-toast";
+import { useToast } from "@jamalsoueidan/bsf.providers.toast";
 import { Card } from "@shopify/polaris";
 import { setHours, setMinutes } from "date-fns";
 import React, { useCallback, useRef, useState } from "react";

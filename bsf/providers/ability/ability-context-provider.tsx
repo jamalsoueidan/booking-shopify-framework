@@ -1,18 +1,14 @@
-import React, { ReactNode } from 'react';
-import { AbilityContext } from './ability-context';
+import React, { ReactNode } from "react";
+import { AbilityContext, AbilityContextType } from "./ability-context";
 
 export type AbilityProviderProps = {
-  /**
-   * primary color of theme.
-   */
-  color?: string,
-
-  /**
-   * children to be rendered within this theme.
-   */
-  children: ReactNode
+  ability: AbilityContextType;
+  children: ReactNode;
 };
 
-export function AbilityProvider({ color, children }: AbilityProviderProps) {
-  return <AbilityContext.Provider value={{ color }}>{children}</AbilityContext.Provider>
-}
+export const AbilityProvider = ({
+  ability,
+  children,
+}: AbilityProviderProps) => (
+  <AbilityContext.Provider value={ability}>{children}</AbilityContext.Provider>
+);

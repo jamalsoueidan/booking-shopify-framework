@@ -7,8 +7,8 @@ import { FormErrors } from "@jamalsoueidan/bsf.components.form-errors";
 import { Validators } from "@jamalsoueidan/bsf.helpers.validators";
 import { useForm } from "@jamalsoueidan/bsf.hooks.use-form";
 import { usePosition } from "@jamalsoueidan/bsf.hooks.use-position";
-import { useToast } from "@jamalsoueidan/bsf.hooks.use-toast";
 import { useTranslation } from "@jamalsoueidan/bsf.hooks.use-translation";
+import { useToast } from "@jamalsoueidan/bsf.providers.toast";
 import {
   Box,
   BreadcrumbsProps,
