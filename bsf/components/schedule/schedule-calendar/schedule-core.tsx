@@ -18,8 +18,8 @@ import React, { forwardRef, useCallback, useMemo } from "react";
 
 export type ScheduleCalendarProps = {
   data: Array<Schedule>;
-  onClick: (date: Date) => void;
-  onClickSchedule: (schedule: Schedule) => void;
+  onClick?: (date: Date) => void;
+  onClickSchedule?: (schedule: Schedule) => void;
   onChangeDate: (date: CalendarDate) => void;
   headerToolbar?: CalendarOptions["headerToolbar"];
   initialView?: CalendarView;
@@ -92,14 +92,18 @@ export const ScheduleCalendarCore = forwardRef<
 
     const handleClickEvent = useCallback(
       ({ event }: EventClickArg) => {
-        onClickSchedule(event._def.extendedProps as Schedule);
+        if (onClickSchedule) {
+          onClickSchedule(event._def.extendedProps as Schedule);
+        }
       },
       [onClickSchedule],
     );
 
     const handleOnClick = useCallback(
       ({ dateStr }: DateClickArg) => {
-        onClick(new Date(dateStr));
+        if (onClick) {
+          onClick(new Date(dateStr));
+        }
       },
       [onClick],
     );

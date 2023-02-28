@@ -1,30 +1,29 @@
-export const soryTextBy =
-  <T extends string>(key: T) =>
-  <K extends Record<T, string>>(a: K, b: K) => {
-    if (a && b) {
-      if (a[key] < b[key]) {
-        return -1;
-      }
-      if (a[key] > b[key]) {
-        return 1;
-      }
+//https://medium.com/@tormodhaugene/comparator-for-sorting-generic-objects-in-typescript-1ca5fb2b2815
+
+export const sortbyText =
+  <T>(getTextProperty: (object: T) => string) =>
+  (objectA: T, objectB: T) => {
+    const upperA = getTextProperty(objectA).toUpperCase();
+    const upperB = getTextProperty(objectB).toUpperCase();
+    if (upperA < upperB) {
+      return -1;
+    }
+    if (upperA > upperB) {
+      return 1;
     }
     return 0;
   };
 
-export const sortDateBy =
-  <T extends string>(key: T) =>
-  <K extends Record<T, Date>>(a: K, b: K) => {
-    if (a && b) {
-      const dateA = new Date(a[key]);
-      const dateB = new Date(b[key]);
-
-      if (dateA < dateB) {
-        return -1;
-      }
-      if (dateA > dateB) {
-        return 1;
-      }
+export const sortbyDate =
+  <T>(getDateProperty: (object: T) => Date) =>
+  (objectA: T, objectB: T) => {
+    const upperA = getDateProperty(objectA).getTime();
+    const upperB = getDateProperty(objectB).getTime();
+    if (upperA < upperB) {
+      return -1;
+    }
+    if (upperA > upperB) {
+      return 1;
     }
     return 0;
   };

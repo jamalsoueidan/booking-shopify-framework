@@ -17,7 +17,7 @@ import React, { Suspense, forwardRef, useCallback, useMemo } from "react";
 
 export interface BookingCalendarCoreProps {
   data: Array<BookingServiceGetByIdReturn>;
-  onClickBooking: (booking: BookingServiceGetByIdReturn) => void;
+  onClickBooking?: (booking: BookingServiceGetByIdReturn) => void;
   onChangeDate: (date: CalendarDate) => void;
   headerToolbar?: CalendarOptions["headerToolbar"];
 }
@@ -103,7 +103,9 @@ export const BookingCalendarCore = forwardRef<
 
   const handleClickEvent = useCallback(
     ({ event }: EventClickArg) => {
-      onClickBooking(event._def.extendedProps as BookingServiceGetByIdReturn);
+      if (onClickBooking) {
+        onClickBooking(event._def.extendedProps as BookingServiceGetByIdReturn);
+      }
     },
     [onClickBooking],
   );
