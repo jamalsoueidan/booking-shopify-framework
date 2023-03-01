@@ -4,15 +4,7 @@ import { StaffAvatarStack } from "@jamalsoueidan/frontend.components.staff.staff
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { AbilityCan } from "@jamalsoueidan/frontend.providers.ability";
 
-import {
-  AlphaStack,
-  Avatar,
-  Badge,
-  Box,
-  Stack,
-  Text,
-  TextContainer,
-} from "@shopify/polaris";
+import { AlphaStack, Avatar, Badge, Box, Stack, Text } from "@shopify/polaris";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -42,21 +34,19 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
               source={`${product.imageUrl}&width=80`}
             />
             <Stack.Item fill>
-              <TextContainer spacing="loose">
-                <Text as="h1" variant="bodyLg">
-                  {product.title}{" "}
-                  <AbilityCan I="update" a="product">
-                    <Badge status={status}>
-                      {product.active ? "Active" : "Deactive"}
-                    </Badge>
-                  </AbilityCan>
-                </Text>
-                <Text as="span" variant="bodyMd" color="subdued">
-                  {tdynamic("staff", {
-                    count: product.staff?.length || 0,
-                  })}
-                </Text>
-              </TextContainer>
+              <Text as="h1" variant="bodyLg">
+                {product.title}{" "}
+                <AbilityCan I="update" a="product">
+                  <Badge status={status}>
+                    {product.active ? "Active" : "Deactive"}
+                  </Badge>
+                </AbilityCan>
+              </Text>
+              <Text as="span" variant="bodyMd" color="subdued">
+                {tdynamic("staff", {
+                  count: product.staff?.length || 0,
+                })}
+              </Text>
             </Stack.Item>
             <StaffAvatarStack staff={product.staff} size={"small"} />
           </Stack>

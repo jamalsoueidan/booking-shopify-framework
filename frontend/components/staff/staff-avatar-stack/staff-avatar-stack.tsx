@@ -1,5 +1,5 @@
-import { Staff } from "@jamalsoueidan/pkg.backend-types";
-import { HelperArray } from "@jamalsoueidan/pkg.frontend";
+import { Staff } from "@jamalsoueidan/backend.types.staff";
+import { HelperArray } from "@jamalsoueidan/frontend.helpers.helper-array";
 import { Avatar, AvatarProps, Stack } from "@shopify/polaris";
 import React, { useMemo } from "react";
 

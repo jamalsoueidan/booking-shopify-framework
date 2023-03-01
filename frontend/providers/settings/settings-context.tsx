@@ -1,9 +1,11 @@
 import { FeaturesConfig } from "@shopify/polaris/build/ts/latest/src/utilities/features";
+import { LinkLikeComponent } from "@shopify/polaris/build/ts/latest/src/utilities/link";
 import { createContext } from "react";
 
 export interface SettingsContextValues {
   timeZone: string;
   language: string;
+  linkComponent?: LinkLikeComponent;
   features?: FeaturesConfig;
 }
 

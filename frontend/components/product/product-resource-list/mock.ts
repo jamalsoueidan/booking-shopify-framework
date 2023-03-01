@@ -1,6 +1,6 @@
 export const mock = [
   {
-    _id: "63f3b154ec0ff414e3f386fd",
+    _id: "534354",
     productId: 8006173360445,
     active: true,
     buffertime: 0,
@@ -46,7 +46,7 @@ export const mock = [
     imageUrl: "",
   },
   {
-    _id: "63f3b154ec0ff414e3f386fe",
+    _id: "23432432342",
     productId: 7971304571197,
     active: true,
     buffertime: 0,
@@ -77,7 +77,7 @@ export const mock = [
     title: "Hair",
   },
   {
-    _id: "63f3b154ec0ff414e3f386fe",
+    _id: "342324",
     productId: 7971304571197,
     active: true,
     buffertime: 0,
