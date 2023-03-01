@@ -171,6 +171,18 @@
         "mainFile": "index.ts",
         "rootDir": "frontend/components/loading/loading-spinner"
     },
+    "components/product/product-resource-item": {
+        "scope": "jamalsoueidan.frontend",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "frontend/components/product/product-resource-item"
+    },
+    "components/product/product-resource-list": {
+        "scope": "jamalsoueidan.frontend",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "frontend/components/product/product-resource-list"
+    },
     "components/schedule/schedule-calendar": {
         "scope": "jamalsoueidan.frontend",
         "version": "0.0.1",
@@ -188,6 +200,12 @@
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/schedule/schedule-form-one-shift"
+    },
+    "components/staff/staff-avatar-stack": {
+        "scope": "jamalsoueidan.frontend",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "frontend/components/staff/staff-avatar-stack"
     },
     "components/staff/staff-form": {
         "scope": "jamalsoueidan.frontend",
@@ -215,7 +233,7 @@
     },
     "frontend": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "pkg/frontend"
     },
@@ -347,7 +365,7 @@
     },
     "providers/ability": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/providers/ability"
     },
