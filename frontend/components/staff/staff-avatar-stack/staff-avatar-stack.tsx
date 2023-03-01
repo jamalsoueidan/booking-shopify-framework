@@ -1,6 +1,6 @@
 import { Staff } from "@jamalsoueidan/pkg.backend-types";
 import { HelperArray } from "@jamalsoueidan/pkg.frontend";
-import { Avatar, AvatarProps } from "@shopify/polaris";
+import { Avatar, AvatarProps, Stack } from "@shopify/polaris";
 import React, { useMemo } from "react";
 
 export type StaffAvatarStackProps = {
@@ -25,5 +25,5 @@ export const StaffAvatarStack = ({ staff, size }: StaffAvatarStackProps) => {
     [size, staff],
   );
 
-  return <>{staffMarkup}</>;
+  return <Stack>{staffMarkup}</Stack>;
 };

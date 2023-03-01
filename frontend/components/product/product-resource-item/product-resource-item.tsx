@@ -1,7 +1,9 @@
+import { Product } from "@jamalsoueidan/backend.types.product";
+import { Staff } from "@jamalsoueidan/backend.types.staff";
 import { StaffAvatarStack } from "@jamalsoueidan/frontend.components.staff.staff-avatar-stack";
+import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { AbilityCan } from "@jamalsoueidan/frontend.providers.ability";
-import { Product, Staff } from "@jamalsoueidan/pkg.backend-types";
-import { useTranslation } from "@jamalsoueidan/pkg.frontend";
+
 import {
   AlphaStack,
   Avatar,

@@ -1,8 +1,9 @@
 import React from "react";
 
+import { Product } from "@jamalsoueidan/backend.types.product";
+import { Staff } from "@jamalsoueidan/backend.types.staff";
 import { ProductResourceItem } from "@jamalsoueidan/frontend.components.product.product-resource-item";
-import { Product, Staff } from "@jamalsoueidan/pkg.backend-types";
-import { HelperArray } from "@jamalsoueidan/pkg.frontend";
+import { HelperArray } from "@jamalsoueidan/frontend.helpers.helper-array";
 import { useMemo } from "react";
 import styled from "styled-components";
 
