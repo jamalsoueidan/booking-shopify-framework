@@ -12,16 +12,15 @@ export const defineAbilityFor = (
   if (user.isOwner) {
     can("manage", "product");
     can("manage", "staff");
+    can("manage", "collection");
   }
 
   if (user.isAdmin) {
-    can("read", "product");
-    can("update", "product");
     can("manage", "staff");
+    can("update", "product");
   }
 
   if (user.isUser) {
-    can("read", "staff");
     can("update", "staff", { _id: user.staff });
   }
 

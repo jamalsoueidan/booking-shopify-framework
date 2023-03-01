@@ -4,7 +4,7 @@ import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application
 import { Select } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useMemo } from "react";
-import { Can } from "./ability-context";
+import { AbilityCan } from "./ability-context";
 import { AbilityProvider } from "./ability-context-provider";
 import { defineAbilityFor } from "./ability-context.define";
 
@@ -29,24 +29,24 @@ const staff = {
 const MockComponent = () => (
   <>
     <strong>Can I create Product?:</strong>
-    <Can I="create" a="product" passThrough>
+    <AbilityCan I="create" a="product" passThrough>
       {(can) => (can ? "yes" : "no")}
-    </Can>
+    </AbilityCan>
     <br />
     <strong>Can I update Product?:</strong>
-    <Can I="update" a="product" passThrough>
+    <AbilityCan I="update" a="product" passThrough>
       {(can) => (can ? "yes" : "no")}
-    </Can>
+    </AbilityCan>
     <br />
     <strong>Can I create Staff?:</strong>
-    <Can I="create" a="staff" this={staff} passThrough>
+    <AbilityCan I="create" a="staff" this={staff} passThrough>
       {(can) => (can ? "yes" : "no")}
-    </Can>
+    </AbilityCan>
     <br />
     <strong>Can I update Staff?:</strong>
-    <Can I="update" a="staff" this={staff} passThrough>
+    <AbilityCan I="update" a="staff" this={staff} passThrough>
       {(can) => (can ? "yes" : "no")}
-    </Can>
+    </AbilityCan>
   </>
 );
 
