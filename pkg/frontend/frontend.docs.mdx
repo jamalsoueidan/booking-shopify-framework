@@ -1,0 +1,16 @@
+---
+labels: ["package"]
+description: Frontend - components
+---
+
+A package (all components)
+
+### Component usage
+
+```js
+const StaffForm = lazy(() =>
+  import("@jamalsoueidan/pkg.frontend").then((module) => ({
+    default: module.StaffForm,
+  })),
+);
+```
