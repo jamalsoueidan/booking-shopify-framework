@@ -4,7 +4,7 @@
  **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
 
-  "jamalsoueidan.bsd/app": {},
+  //"jamalsoueidan.bsd/app": {},
   /**
    * main configuration of the Bit workspace.
    **/
@@ -29,7 +29,7 @@
     /**
      * default scope for all components in workspace.
      **/
-    "defaultScope": "jamalsoueidan.bsf"
+    "defaultScope": "jamalsoueidan.frontend"
   },
   "teambit.component/issues": {
     "ignoreIssues": ["CircularDependencies", "ImportNonMainFiles"]
@@ -48,7 +48,10 @@
         "@types/express": "4.17.17",
         "mongodb-memory-server": "8.11.4",
         "wait-for-expect": "^3.0.2",
-        "supertest": "6.3.3"
+        "supertest": "6.3.3",
+        "@testing-library/react": "13.4.0",
+        "@testing-library/dom": "8.17.1",
+        "@testing-library/react-hooks": "8.0.1"
       },
       "peerDependencies": {
         "@fullcalendar/core": "^6.1.4",
@@ -58,6 +61,7 @@
         "@fullcalendar/multimonth": "^6.1.4",
         "@fullcalendar/react": "^6.1.4",
         "@fullcalendar/timegrid": "^6.1.4",
+        "@shopify/shopify-app-express": "^1.1.0",
         "@shopify/polaris": "^10.27.2",
         "@shopify/polaris-icons": "^6.11.1",
         "@shopify/react-form": "^2.5.0",
@@ -91,8 +95,8 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {hocs/**}, {state/**}, {bsf}": {
-      "jamalsoueidan.bsd/envs/jest-esm": {}
+    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {state/**}, {frontend}": {
+      "jamalsoueidan.bit-dev/envs/jest-esm": {}
     }
   }
 }
