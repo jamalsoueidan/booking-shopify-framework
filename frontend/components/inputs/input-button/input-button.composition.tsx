@@ -1,28 +1,28 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Card } from "@shopify/polaris";
 import React from "react";
 import { InputButton } from "./input-button";
 
 export const BasicInputButtonWithError = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="Button (error)" sectioned>
       <InputButton error="error">Error</InputButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );
 
 export const BasicInputButtonNoError = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="Button (no error)" sectioned>
       <InputButton>No error</InputButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );
 
 export const BasicInputButtonLoading = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="Loading" sectioned>
       <InputButton loading>Loading</InputButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );

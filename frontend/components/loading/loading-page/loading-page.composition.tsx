@@ -1,11 +1,8 @@
-import { Application } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import React from "react";
 import { LoadingPage } from "./loading-page";
 
-export const BasicLoadingPage = () => {
-  return (
-    <Application>
-      <LoadingPage title="Loading Data"></LoadingPage>
-    </Application>
-  );
-};
+export const BasicLoadingPage = withApplication(
+  () => <LoadingPage title="Loading Data"></LoadingPage>,
+  { hideControls: true },
+);

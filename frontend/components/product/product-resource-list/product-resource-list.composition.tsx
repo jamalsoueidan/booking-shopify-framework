@@ -3,6 +3,7 @@ import React from "react";
 import { mock } from "./mock";
 import { ProductResourceList } from "./product-resource-list";
 
-export const BasicProductResourceList = withApplication(() => (
-  <ProductResourceList items={mock} />
-));
+export const BasicProductResourceList = withApplication(
+  () => <ProductResourceList items={mock} />,
+  { title: "Product Resource List" },
+);

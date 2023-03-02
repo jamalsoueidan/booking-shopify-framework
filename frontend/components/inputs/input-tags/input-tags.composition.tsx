@@ -18,7 +18,7 @@ export const Basic = withApplication(
       </>
     );
   },
-  { pageTitle: "Tag Input" },
+  { title: "Tag Input" },
 );
 
 export const BasicLabelHidden = withApplication(
@@ -35,5 +35,5 @@ export const BasicLabelHidden = withApplication(
       </>
     );
   },
-  { pageTitle: "Tag Input" },
+  { title: "Tag Input" },
 );

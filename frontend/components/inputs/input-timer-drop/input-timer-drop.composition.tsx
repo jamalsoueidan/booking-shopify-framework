@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addHours, eachHourOfInterval, setHours } from "date-fns";
@@ -9,14 +9,14 @@ export const Basic = () => {
   const field = useField<InputTimerDropField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Basic" sectioned>
         <InputTimerDrop data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -29,7 +29,7 @@ export const Error = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Error" sectioned>
         <InputTimerDrop
           data={mock}
@@ -40,7 +40,7 @@ export const Error = () => {
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -51,14 +51,14 @@ export const Selected = () => {
   });
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Selected" sectioned>
         <InputTimerDrop data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -66,14 +66,14 @@ export const Empty = () => {
   const field = useField<InputTimerDropField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Empty" sectioned>
         <InputTimerDrop field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -81,7 +81,7 @@ export const WithOptionLabel = () => {
   const field = useField<InputTimerDropField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="WithOptionLabel" sectioned>
         <InputTimerDrop
           data={mock}
@@ -92,7 +92,7 @@ export const WithOptionLabel = () => {
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -101,7 +101,7 @@ export const LazyLoad = () => {
   const [data, setData] = useState(mock);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Lazy Load" sectioned>
         <InputTimerDrop field={field} data={data} />
       </Card>
@@ -113,7 +113,7 @@ export const LazyLoad = () => {
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 

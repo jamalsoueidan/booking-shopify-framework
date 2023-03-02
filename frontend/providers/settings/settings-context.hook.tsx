@@ -15,20 +15,13 @@ export const useSettings = () => {
   return context;
 };
 
-export const useNavigate = () => {
-  const context = useContext<SettingsContextType>(SettingsContext);
-  if (context === undefined) {
-    throw new Error("useSettings must be used within a SettingsProvider");
-  }
+export const useNavigate = () => useSettings().useNavigate;
 
-  return context.useNavigate;
-};
-
-export const Link = ({ url, children, external, ...rest }: any) => {
+export const Link = ({ children, ...rest }: any) => {
   const { LinkComponent } = useSettings();
 
   if (LinkComponent) {
-    return <LinkComponent url={url}>{children}</LinkComponent>;
+    return <LinkComponent {...rest}>{children}</LinkComponent>;
   }
   return <>{children}</>;
 };

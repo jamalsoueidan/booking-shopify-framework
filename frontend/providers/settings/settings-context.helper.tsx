@@ -4,7 +4,7 @@ import React, { useCallback } from "react";
 export function LinkComponent({ url, children, external, ...rest }: any) {
   const handleClick = useCallback(() => {
     // eslint-disable-next-line no-console
-    console.log(url);
+    throw new Error("implement your own linkComponent in SettingsProvider");
   }, [url]);
 
   const IS_EXTERNAL_LINK_REGEX = /^(?:[a-z][a-z\d+.-]*:|\/\/)/;

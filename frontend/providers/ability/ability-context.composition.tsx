@@ -86,5 +86,5 @@ export const BasicThemeUsage = withApplication(
       </>
     );
   },
-  { pageTitle: "Ability" },
+  { title: "Ability" },
 );

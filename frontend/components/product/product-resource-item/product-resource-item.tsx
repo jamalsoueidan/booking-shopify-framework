@@ -39,7 +39,7 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
               <Stack.Item fill>
                 <Text as="h1" variant="bodyLg">
                   {product.title}{" "}
-                  <AbilityCan I="update" a="product">
+                  <AbilityCan I="update" a="product" this={product}>
                     <Badge status={status}>
                       {product.active ? "Active" : "Deactive"}
                     </Badge>

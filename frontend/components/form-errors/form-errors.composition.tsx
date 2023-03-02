@@ -1,9 +1,8 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import React from "react";
 import { FormErrors } from "./form-errors";
 
-export const BasicFormErrors = () => (
-  <ApplicationFramePage title="formErrors">
-    <FormErrors errors={[{ message: "fejl i din besked" }]} />
-  </ApplicationFramePage>
+export const Basic = withApplication(
+  () => <FormErrors errors={[{ message: "fejl i din besked" }]} />,
+  { title: "formErrors" },
 );

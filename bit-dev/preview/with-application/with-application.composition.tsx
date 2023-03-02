@@ -5,5 +5,5 @@ export const Basic = withApplication(
   () => {
     return <>This is for Bit.dev, works as wrapper!</>;
   },
-  { pageTitle: "page title" },
+  { title: "page title" },
 );

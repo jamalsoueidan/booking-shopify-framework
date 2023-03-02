@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 
 import React, { ReactNode } from "react";
 
@@ -7,14 +7,15 @@ export type WithApplicationProps = {
 };
 
 interface Options {
-  pageTitle?: string;
+  title?: string;
+  hideControls?: boolean;
 }
 
 export const withApplication =
   (WrappedComponent: any, options: Options = {}) =>
   ({ children, ...props }: WithApplicationProps) =>
     (
-      <ApplicationFramePage title={options?.pageTitle}>
+      <PreviwApplication {...options}>
         <WrappedComponent {...props}>{children}</WrappedComponent>
-      </ApplicationFramePage>
+      </PreviwApplication>
     );

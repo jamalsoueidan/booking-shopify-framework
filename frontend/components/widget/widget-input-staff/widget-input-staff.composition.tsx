@@ -1,6 +1,6 @@
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import { WidgetStaff } from "@jamalsoueidan/backend.types.widget";
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useEffect, useState } from "react";
@@ -22,14 +22,14 @@ const data: WidgetStaff[] = [
 export const Basic = () => {
   const field = useField<WidgetInputStaffField>(undefined);
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Basic" sectioned>
         <WidgetInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -41,14 +41,14 @@ export const Error = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Error" sectioned>
         <WidgetInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -62,7 +62,7 @@ export const DisabledWithError = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Disabled with error" sectioned>
         <WidgetInputStaff
           data={staff}
@@ -78,7 +78,7 @@ export const DisabledWithError = () => {
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -87,7 +87,7 @@ export const LazyLoad = () => {
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="LazyLoad" sectioned>
         <WidgetInputStaff
           data={staff}
@@ -103,6 +103,6 @@ export const LazyLoad = () => {
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };

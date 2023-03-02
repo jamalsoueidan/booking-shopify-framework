@@ -1,30 +1,30 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Card } from "@shopify/polaris";
 import React from "react";
 import { InputLabelButton } from "./input-label-button";
 
 export const InputLabelButtonError = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="LabelButton (error)" sectioned>
       <InputLabelButton labelled={{ error: "error", label: "label" }}>
         Error
       </InputLabelButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );
 
 export const InputLabelButtonNoError = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="LabelButton (no error)" sectioned>
       <InputLabelButton labelled={{ label: "label" }}>
         No error
       </InputLabelButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );
 
 export const InputLabelButtonLoading = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <Card title="LabelButton (loading)" sectioned>
       <InputLabelButton
         labelled={{ label: "label" }}
@@ -33,5 +33,5 @@ export const InputLabelButtonLoading = () => (
         Loading
       </InputLabelButton>
     </Card>
-  </ApplicationFramePage>
+  </PreviwApplication>
 );
