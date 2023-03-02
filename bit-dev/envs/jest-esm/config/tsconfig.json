@@ -1,5 +1,6 @@
 {
   "extends": "@teambit/react.react-env/config/tsconfig.json",
+  //"extends": "@teambit/react/typescript/tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
     "strict": true,
