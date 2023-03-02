@@ -51,10 +51,7 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
                   })}
                 </Text>
               </Stack.Item>
-              <StaffAvatarStack
-                staff={[...product.staff, ...product.staff, ...product.staff]}
-                size={"small"}
-              />
+              <StaffAvatarStack staff={product.staff} size={"small"} />
             </Stack>
           </Box>
         </AlphaStack>
