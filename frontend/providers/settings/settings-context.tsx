@@ -2,10 +2,18 @@ import { FeaturesConfig } from "@shopify/polaris/build/ts/latest/src/utilities/f
 import { LinkLikeComponent } from "@shopify/polaris/build/ts/latest/src/utilities/link";
 import { createContext } from "react";
 
+export interface Navigator {
+  (to: string, options?: { replace?: boolean }): void;
+  (delta: number): void;
+}
+
+export type UseNavigate = () => Navigator;
+
 export interface SettingsContextValues {
   timeZone: string;
   language: string;
-  linkComponent?: LinkLikeComponent;
+  LinkComponent: LinkLikeComponent;
+  useNavigate: UseNavigate;
   features?: FeaturesConfig;
 }
 
@@ -16,8 +24,10 @@ export interface SettingsContextType extends SettingsContextValues {
 export const defaultValues = {
   language: "da",
   timeZone: "Europe/Copenhagen",
+  LinkComponent: () => {},
+  useNavigate: () => {},
   update: () => {},
-};
+} as any;
 
 export const SettingsContext =
   createContext<SettingsContextType>(defaultValues);

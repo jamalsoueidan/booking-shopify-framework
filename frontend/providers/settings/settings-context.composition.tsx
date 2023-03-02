@@ -5,6 +5,12 @@ import React, { useState } from "react";
 import { SettingsProvider } from "./settings-context-provider";
 import { LinkComponent } from "./settings-context.helper";
 
+const value = {
+  timeZone: "Europe",
+  LinkComponent,
+  useNavigate: () => {},
+} as any;
+
 const locales = {
   da: {
     danish: "Dansk",
@@ -48,7 +54,7 @@ export const Basic = () => {
   const [language, setLanguage] = useState<string>("da");
 
   return (
-    <SettingsProvider value={{ language, timeZone: "Europe" }}>
+    <SettingsProvider value={{ ...value, language }}>
       <MockComponent setLanguage={setLanguage} />
     </SettingsProvider>
   );
@@ -58,10 +64,7 @@ export const WithLinkComponent = () => {
   const [language] = useState<string>("da");
 
   return (
-    <SettingsProvider
-      value={{ language, timeZone: "Europe" }}
-      linkComponent={LinkComponent}
-    >
+    <SettingsProvider value={{ ...value, language }}>
       <Page title="LinkComponent">
         <Text variant="bodyLg" as="h1">
           Provide a linkComponent to settiingsProvider, so all polaris component

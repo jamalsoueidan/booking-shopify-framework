@@ -1,4 +1,5 @@
 import { AppProvider } from "@shopify/polaris";
+import { LinkLikeComponent } from "@shopify/polaris/build/ts/latest/src/utilities/link";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
@@ -18,14 +19,12 @@ import {
 
 export type SettingsProviderProps = {
   children: ReactNode;
-  value?: Partial<SettingsContextValues>;
-  linkComponent?: (props: unknown) => JSX.Element;
+  value?: SettingsContextValues;
 };
 
 export const SettingsProvider = ({
   children,
   value,
-  linkComponent,
 }: SettingsProviderProps) => {
   const [data, setData] = useState<SettingsContextValues>(defaultValues);
 
@@ -44,7 +43,7 @@ export const SettingsProvider = ({
   return (
     <SettingsContext.Provider value={{ ...data, update }}>
       <I18nProvider>
-        <PolarisProvider linkComponent={linkComponent}>
+        <PolarisProvider linkComponent={value?.LinkComponent}>
           {children}
         </PolarisProvider>
       </I18nProvider>
@@ -84,7 +83,7 @@ export const I18nProvider = ({ children }: I18nProviderProps) => {
 
 export interface PolarisProviderProps {
   children: ReactNode;
-  linkComponent?: (props: unknown) => JSX.Element;
+  linkComponent?: LinkLikeComponent;
 }
 
 export const PolarisProvider = ({

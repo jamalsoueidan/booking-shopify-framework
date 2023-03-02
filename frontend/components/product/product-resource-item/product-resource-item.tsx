@@ -3,15 +3,13 @@ import { Staff } from "@jamalsoueidan/backend.types.staff";
 import { StaffAvatarStack } from "@jamalsoueidan/frontend.components.staff.staff-avatar-stack";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { AbilityCan } from "@jamalsoueidan/frontend.providers.ability";
-
+import { Link } from "@jamalsoueidan/frontend.providers.settings";
 import { AlphaStack, Avatar, Badge, Box, Stack, Text } from "@shopify/polaris";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const CollectionProductStyled = styled.div`
   padding: 0.5em 1em;
-  cursor: pointer;
 `;
 
 export type ProductResourceItemProps = {
@@ -21,37 +19,46 @@ export type ProductResourceItemProps = {
 export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
   const { tdynamic } = useTranslation({ id: "collection-product", locales });
   const status = product.active ? "success" : "critical";
-  const navigate = useNavigate();
 
   return (
-    <CollectionProductStyled onClick={() => navigate(`product/${product._id}`)}>
-      <AlphaStack fullWidth>
-        <Box background="surface" border="divider" borderRadius="1" padding="2">
-          <Stack alignment="center">
-            <Avatar
-              customer
-              size="medium"
-              source={`${product.imageUrl}&width=80`}
-            />
-            <Stack.Item fill>
-              <Text as="h1" variant="bodyLg">
-                {product.title}{" "}
-                <AbilityCan I="update" a="product">
-                  <Badge status={status}>
-                    {product.active ? "Active" : "Deactive"}
-                  </Badge>
-                </AbilityCan>
-              </Text>
-              <Text as="span" variant="bodyMd" color="subdued">
-                {tdynamic("staff", {
-                  count: product.staff?.length || 0,
-                })}
-              </Text>
-            </Stack.Item>
-            <StaffAvatarStack staff={product.staff} size={"small"} />
-          </Stack>
-        </Box>
-      </AlphaStack>
+    <CollectionProductStyled>
+      <Link url={`product/${product._id}`}>
+        <AlphaStack fullWidth>
+          <Box
+            background="surface"
+            border="divider"
+            borderRadius="1"
+            padding="2"
+          >
+            <Stack alignment="center">
+              <Avatar
+                customer
+                size="medium"
+                source={`${product.imageUrl}&width=80`}
+              />
+              <Stack.Item fill>
+                <Text as="h1" variant="bodyLg">
+                  {product.title}{" "}
+                  <AbilityCan I="update" a="product">
+                    <Badge status={status}>
+                      {product.active ? "Active" : "Deactive"}
+                    </Badge>
+                  </AbilityCan>
+                </Text>
+                <Text as="span" variant="bodyMd" color="subdued">
+                  {tdynamic("staff", {
+                    count: product.staff?.length || 0,
+                  })}
+                </Text>
+              </Stack.Item>
+              <StaffAvatarStack
+                staff={[...product.staff, ...product.staff, ...product.staff]}
+                size={"small"}
+              />
+            </Stack>
+          </Box>
+        </AlphaStack>
+      </Link>
     </CollectionProductStyled>
   );
 };
