@@ -48,7 +48,7 @@ export const BookingInputFulfillment = ({
       options={options}
       selected={selected}
       error={field.error}
-      onChange={field.onChange}
+      onChange={(item) => field.onChange(item)}
     />
   );
 };

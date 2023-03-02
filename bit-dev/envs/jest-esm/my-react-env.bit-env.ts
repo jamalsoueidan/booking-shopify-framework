@@ -1,12 +1,10 @@
 import { Pipeline } from "@teambit/builder";
 import { Compiler } from "@teambit/compiler";
-import { ESLintLinter, EslintTask } from "@teambit/defender.eslint-linter";
-import { JestTask, JestTester } from "@teambit/defender.jest-tester";
+import { ESLintLinter } from "@teambit/defender.eslint-linter";
 import { EnvHandler } from "@teambit/envs";
 import { PackageGenerator } from "@teambit/pkg";
 import type { ReactEnvInterface } from "@teambit/react.react-env";
 import { ReactEnv } from "@teambit/react.react-env";
-import { Tester } from "@teambit/tester";
 import {
   TypescriptCompiler,
   TypescriptTask,
@@ -38,13 +36,6 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
     });
   }
 
-  tester(): EnvHandler<Tester> {
-    return JestTester.from({
-      jest: require.resolve("jest"),
-      config: require.resolve("./config/jest.config"),
-    });
-  }
-
   /**
    * configure and control the packaging process of components.
    */
@@ -66,18 +57,6 @@ export class MyReactEnv extends ReactEnv implements ReactEnvInterface {
         tsconfig: require.resolve("./config/tsconfig.json"),
         types: resolveTypes(__dirname, ["./types"]),
         typescript,
-      }),
-      EslintTask.from({
-        tsconfig: require.resolve("./config/tsconfig.json"),
-        eslint: ESLintLib,
-        configPath: require.resolve("./config/eslintrc.js"),
-        // resolve all plugins from the react environment.
-        pluginsPath: __dirname,
-        extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
-      }),
-      JestTask.from({
-        config: require.resolve("./config/jest.config"),
-        jest: require.resolve("jest"),
       }),
     ]);
   }

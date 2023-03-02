@@ -60,7 +60,7 @@ export function InputDropdown<T>({
   const internalRenderItem = useCallback(
     (item: InputDropdownOption<T>) => (
       <ResourceList.Item
-        id={item.value as string}
+        id={item.label}
         media={item?.prefix}
         onClick={handleResourceListItemClick as never}
       >
