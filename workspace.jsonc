@@ -1,7 +1,7 @@
 /**
  * this is the main configuration file of your bit workspace.
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
- **/{
+ **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
   //"jamalsoueidan.bsd/app": {},
   /**
@@ -31,10 +31,7 @@
     "defaultScope": "jamalsoueidan.frontend"
   },
   "teambit.component/issues": {
-    "ignoreIssues": [
-      "CircularDependencies",
-      "ImportNonMainFiles"
-    ]
+    "ignoreIssues": ["CircularDependencies", "ImportNonMainFiles"]
   },
   /**
    * main configuration for component dependency resolution.
