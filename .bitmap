@@ -15,6 +15,18 @@
         "mainFile": "index.ts",
         "rootDir": "backend/api/sms-dk"
     },
+    "backend": {
+        "scope": "jamalsoueidan.pkg",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "pkg/backend"
+    },
+    "backend-types": {
+        "scope": "jamalsoueidan.pkg",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "pkg/backend-types"
+    },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.frontend",
         "version": "0.0.1",
@@ -218,6 +230,12 @@
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "backend/express/mongodb"
+    },
+    "frontend": {
+        "scope": "jamalsoueidan.pkg",
+        "version": "0.0.1",
+        "mainFile": "index.ts",
+        "rootDir": "pkg/frontend"
     },
     "helpers/date": {
         "scope": "jamalsoueidan.backend",
