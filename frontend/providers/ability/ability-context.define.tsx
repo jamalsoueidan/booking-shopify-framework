@@ -4,7 +4,7 @@ import { AbilityContextType } from "./ability-context";
 
 export const defineAbilityFor = (
   user: Pick<AppSession, "isAdmin" | "isOwner" | "isUser" | "staff">,
-): AbilityContextType => {
+) => {
   const { can, build } = new AbilityBuilder<AbilityContextType>(
     createMongoAbility,
   );

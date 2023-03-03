@@ -10,6 +10,7 @@ import {
 
 import {
   ScheduleServiceCreateGroupBodyProps,
+  ScheduleServiceDaysInterval,
   ScheduleServiceUpdateGroupBodyProps,
 } from "@jamalsoueidan/backend.types.schedule";
 import { Tag } from "@jamalsoueidan/backend.types.tag";
@@ -75,7 +76,7 @@ export const ScheduleFormManyShifts = forwardRef<
 
   const { fields, submit, validate } = useForm({
     fields: {
-      days: useField({
+      days: useField<Array<ScheduleServiceDaysInterval>>({
         validates: [Validators.isSelectedDays(t("select_days.error_empty"))],
         value: data.days || [],
       }),
