@@ -4,7 +4,6 @@
     "jsx": "react-jsx",
     "target": "es2020",
     "lib": ["esnext", "dom", "dom.Iterable"],
-    "experimentalDecorators": true,
     "strict": true,
     "preserveSymlinks": true
   },

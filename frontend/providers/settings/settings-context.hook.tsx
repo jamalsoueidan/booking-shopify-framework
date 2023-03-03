@@ -2,9 +2,7 @@ import {
   SettingsContext,
   SettingsContextType,
 } from "@jamalsoueidan/frontend.providers.settings";
-import React from "react";
-
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 export const useSettings = () => {
   const context = useContext<SettingsContextType>(SettingsContext);
@@ -17,6 +15,7 @@ export const useSettings = () => {
 
 export const useNavigate = () => useSettings().useNavigate;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Link = ({ children, ...rest }: any) => {
   const { LinkComponent } = useSettings();
 

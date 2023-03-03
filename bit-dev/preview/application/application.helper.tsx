@@ -1,8 +1,10 @@
 import { StaffRole } from "@jamalsoueidan/backend.types.staff";
 import { InputLanguage } from "@jamalsoueidan/frontend.components.inputs.input-language";
 import { InputTimeZone } from "@jamalsoueidan/frontend.components.inputs.input-time-zone";
-import { AbilityProvider } from "@jamalsoueidan/frontend.providers.ability";
-import { defineAbilityFor } from "@jamalsoueidan/frontend.providers.ability/ability-context.define";
+import {
+  AbilityProvider,
+  defineAbilityFor,
+} from "@jamalsoueidan/frontend.providers.ability";
 import { SaveBarProvider } from "@jamalsoueidan/frontend.providers.save-bar";
 import {
   SettingsProvider,
