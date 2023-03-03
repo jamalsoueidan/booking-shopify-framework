@@ -3,6 +3,6 @@ import React from "react";
 import { LoadingPage } from "./loading-page";
 
 export const BasicLoadingPage = withApplication(
-  () => <LoadingPage title="Loading Data"></LoadingPage>,
+  () => <LoadingPage title="Loading Data" />,
   { hideControls: true },
 );

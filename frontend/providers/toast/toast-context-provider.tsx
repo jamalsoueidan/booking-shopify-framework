@@ -1,7 +1,6 @@
-import React, { ReactNode } from "react";
-import { ToastContext } from "./toast-context";
 import { Toast, ToastProps } from "@shopify/polaris";
-import { useCallback, useMemo, useState } from "react";
+import React, { ReactNode, useCallback, useMemo, useState } from "react";
+import { ToastContext } from "./toast-context";
 
 export type ToastProviderProps = {
   children: ReactNode;

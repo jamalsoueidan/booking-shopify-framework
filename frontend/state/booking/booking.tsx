@@ -16,7 +16,7 @@ export const useBookings = (
 
   const { data, isLoading } = useQuery<ApiResponse<Array<Booking>>>({
     enabled: !!params.start && !!params.end,
-    queryFn: () => get({ url: "bookings", params }),
+    queryFn: () => get({ params, url: "bookings" }),
     queryKey: ["/bookings", params],
   });
 
@@ -52,7 +52,7 @@ export const useBookingUpdate = ({
 
   const update = useCallback(
     async (body: BookingServiceUpdateProps["body"]) => {
-      await put({ url: `/bookings/${id}`, body });
+      await put({ body, url: `/bookings/${id}` });
       await mutate(["bookings"]);
       await mutate(["booking", id]);
       await mutate(["widget", "availability"]);
@@ -70,7 +70,7 @@ export const useBookingCreate = () => {
 
   const create = useCallback(
     async (body: BookingServiceCreateProps) => {
-      await post({ url: "/bookings", body });
+      await post({ body, url: "/bookings" });
       await mutate(["bookings"]);
       await mutate(["widget", "availability"]);
     },

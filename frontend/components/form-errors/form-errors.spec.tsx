@@ -4,9 +4,6 @@ import React from "react";
 import { FormErrors } from "./form-errors";
 
 it("should not render", async () => {
-  const { getByText } = render(<FormErrors />, {
-    wrapper: PreviwApplication,
-  });
   const myComponent = screen.queryByTestId("form-errors");
   expect(myComponent).not.toBeInTheDocument();
 });

@@ -1,6 +1,6 @@
 import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 
-import React, { ReactNode } from "react";
+import React, { ComponentType, ReactNode } from "react";
 
 export type WithApplicationProps = {
   children?: ReactNode;
@@ -12,10 +12,10 @@ interface Options {
 }
 
 export const withApplication =
-  (WrappedComponent: any, options: Options = {}) =>
-  ({ children, ...props }: WithApplicationProps) =>
+  <T,>(WrappedComponent: ComponentType<T>, options: Options = {}) =>
+  (props: T & WithApplicationProps) =>
     (
       <PreviwApplication {...options}>
-        <WrappedComponent {...props}>{children}</WrappedComponent>
+        <WrappedComponent {...props} />
       </PreviwApplication>
     );

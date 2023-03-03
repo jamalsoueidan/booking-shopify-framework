@@ -15,10 +15,10 @@ const date4 = subMonths(new Date(), 2);
 describe("test helper-array", () => {
   it("should sort by text", () => {
     const unsortedPeople: Person[] = [
-      { name: "Bob", age: 32, date: date1 },
-      { name: "Andrew", age: 55, date: date2 },
-      { name: "Olga", age: 101, date: date3 },
-      { name: "Caroline", age: 21, date: date4 },
+      { age: 32, date: date1, name: "Bob" },
+      { age: 55, date: date2, name: "Andrew" },
+      { age: 101, date: date3, name: "Olga" },
+      { age: 21, date: date4, name: "Caroline" },
     ];
 
     const sortedPeople = [...unsortedPeople].sort(
@@ -33,10 +33,10 @@ describe("test helper-array", () => {
 
   it("should sort by date", () => {
     const unsortedPeople: Person[] = [
-      { name: "Bob", age: 32, date: date1 },
-      { name: "Andrew", age: 55, date: date2 },
-      { name: "Olga", age: 101, date: date3 },
-      { name: "Caroline", age: 21, date: date4 },
+      { age: 32, date: date1, name: "Bob" },
+      { age: 55, date: date2, name: "Andrew" },
+      { age: 101, date: date3, name: "Olga" },
+      { age: 21, date: date4, name: "Caroline" },
     ];
 
     const sortedPeople = [...unsortedPeople].sort(

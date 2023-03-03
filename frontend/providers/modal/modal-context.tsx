@@ -7,6 +7,6 @@ export interface ModalContextType extends Partial<ModalProps> {
 }
 
 export const ModalContext = createContext<ModalContextType>({
-  setPrimaryAction(value) {},
-  setSecondaryActions(value) {},
+  setPrimaryAction() {},
+  setSecondaryActions() {},
 });

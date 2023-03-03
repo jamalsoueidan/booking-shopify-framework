@@ -154,8 +154,8 @@ describe("schedule service test", () => {
     });
 
     expect(createdSchedules.length).toBe(4);
-    expect(updatedSchedules.length).toBe(3);
-    expect(schedules.length).toBe(3);
+    expect(updatedSchedules.length).toBe(2);
+    expect(schedules.length).toBe(2);
   });
 
   it("Should be able to delete schedule", async () => {

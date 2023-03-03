@@ -48,15 +48,11 @@ const staff = [
 ];
 
 export const BasicLarge = withApplication(
-  () => {
-    return <StaffAvatarStack staff={staff} size="large" />;
-  },
+  () => <StaffAvatarStack staff={staff} size="large" />,
   { title: "render staff avatar list" },
 );
 
 export const BasicSmall = withApplication(
-  () => {
-    return <StaffAvatarStack staff={staff} size="small" />;
-  },
+  () => <StaffAvatarStack staff={staff} size="small" />,
   { title: "render staff avatar list" },
 );

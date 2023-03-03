@@ -31,9 +31,9 @@ export const StaffAvatarStack = ({ staff, size }: StaffAvatarStackProps) => {
 
 const sizes: Record<string, string[]> = {
   extraSmall: ["1.5", "0.5"],
-  small: ["2", "0.75"],
-  medium: ["2.5", "1"],
   large: ["3.75", "1.5"],
+  medium: ["2.5", "1"],
+  small: ["2", "0.75"],
 };
 
 const StaffAvatarStackStyled = styled.div`
