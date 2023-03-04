@@ -30,7 +30,7 @@ export const useWidgetAvailability = (
   const { data } = useQuery<ApiResponse<Array<WidgetSchedule>>>({
     enabled:
       !!params.staff && !!params.productId && !!params.start && !!params.end,
-    queryFn: () => get({ url: "/widget/availability", params }),
+    queryFn: () => get({ params, url: "/widget/availability" }),
     queryKey: ["widget", "availability", params],
   });
 

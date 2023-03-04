@@ -2,14 +2,19 @@ import { Button, Page, Text } from "@shopify/polaris";
 import "@shopify/polaris/build/esm/styles.css";
 import { useI18n } from "@shopify/react-i18n";
 import React, { useState } from "react";
+import { SettingsContextValues } from "./settings-context";
 import { SettingsProvider } from "./settings-context-provider";
 import { LinkComponent } from "./settings-context.helper";
 
-const value = {
-  timeZone: "Europe",
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const useNavigate: any = () => {};
+
+const value: SettingsContextValues = {
   LinkComponent,
-  useNavigate: () => {},
-} as any;
+  language: "da",
+  timeZone: "Europe",
+  useNavigate,
+};
 
 const locales = {
   da: {

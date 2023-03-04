@@ -47,7 +47,7 @@ export const Basic = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Booking Calendar" },
+  { title: "Booking Calendar" },
 );
 
 export const NoToolbar = withApplication(
@@ -65,7 +65,7 @@ export const NoToolbar = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Booking Calendar" },
+  { title: "Booking Calendar" },
 );
 
 export const BasicNoStaff = withApplication(
@@ -79,5 +79,5 @@ export const BasicNoStaff = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Booking Calendar" },
+  { title: "Booking Calendar" },
 );

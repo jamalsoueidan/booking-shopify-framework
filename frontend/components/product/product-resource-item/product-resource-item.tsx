@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Product } from "@jamalsoueidan/backend.types.product";
 import { Staff } from "@jamalsoueidan/backend.types.staff";
 import { StaffAvatarStack } from "@jamalsoueidan/frontend.components.staff.staff-avatar-stack";
@@ -39,7 +40,7 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
               <Stack.Item fill>
                 <Text as="h1" variant="bodyLg">
                   {product.title}{" "}
-                  <AbilityCan I="update" a="product">
+                  <AbilityCan I="update" a="product" this={product}>
                     <Badge status={status}>
                       {product.active ? "Active" : "Deactive"}
                     </Badge>
@@ -51,7 +52,7 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
                   })}
                 </Text>
               </Stack.Item>
-              <StaffAvatarStack staff={product.staff} size={"small"} />
+              <StaffAvatarStack staff={product.staff} size="small" />
             </Stack>
           </Box>
         </AlphaStack>

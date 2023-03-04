@@ -3,7 +3,6 @@
  * for full documentation, please see: https://bit.dev/docs/workspace/workspace-configuration
  **/ {
   "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
-  //"jamalsoueidan.bsd/app": {},
   /**
    * main configuration of the Bit workspace.
    **/
@@ -43,15 +42,36 @@
     "packageManager": "teambit.dependencies/yarn",
     "policy": {
       "dependencies": {
-        "@faker-js/faker": "7.6.0",
-        "@testing-library/dom": "8.17.1",
-        "@testing-library/react": "13.4.0",
+        "@types/jest": "^29.2.2",
+        "@testing-library/react": "^13.4.0",
         "@testing-library/react-hooks": "8.0.1",
+        "@teambit/defender.eslint-linter": "0.0.7",
+        "@teambit/defender.jest-tester": "0.0.8",
+        "@teambit/defender.prettier-formatter": "0.0.4",
+        "@teambit/dependencies.modules.packages-excluder": "0.0.70",
+        "@teambit/docs.docs-template": "0.0.9",
+        "@teambit/mdx.ui.mdx-scope-context": "0.0.496",
+        "@teambit/preview.react-preview": "0.0.20",
+        "@teambit/react.apps.react-app-types": "0.0.15",
+        "@teambit/react.eslint-config-bit-react": "0.0.691",
+        "@teambit/react.generator.react-starters": "0.0.9",
+        "@teambit/react.generator.react-templates": "0.0.5",
+        "@teambit/react.jest.react-jest": "0.0.4",
+        "@teambit/react.mounter": "0.0.8",
+        "@teambit/typescript.typescript-compiler": "0.0.6",
+        "@testing-library/dom": "^9.0.0",
+        "@testing-library/jest-dom": "5.16.5",
+        "@types/eslint": "7.28.0",
+        "eslint-plugin-sort-keys": "2.3.5",
+        "eslint": "7.32.0",
+        "@faker-js/faker": "7.6.0",
         "@types/express": "4.17.17",
         "@types/styled-components": "5.1.26",
+        "body-parser": "^1.20.2",
         "mongodb-memory-server": "8.11.4",
         "styled-components": "5.3.6",
         "supertest": "6.3.3",
+        "typescript": "4.9.3",
         "wait-for-expect": "^3.0.2"
       },
       "peerDependencies": {
@@ -97,7 +117,7 @@
      * "*" is a special rule which applied on all components in the workspace.
      **/
     "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {state/**}, {frontend}": {
-      "jamalsoueidan.bit-dev/envs/jest-esm": {}
+      "jamalsoueidan.bit-dev/envs/react": {}
     }
   }
 }

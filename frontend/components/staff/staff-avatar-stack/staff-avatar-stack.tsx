@@ -9,45 +9,51 @@ export type StaffAvatarStackProps = {
   size: AvatarProps["size"];
 };
 
-export const StaffAvatarStack = ({ staff, size }: StaffAvatarStackProps) => {
+const DEFAULT_SIZE: AvatarProps["size"] = "medium";
+
+export const StaffAvatarStack = ({
+  staff,
+  size = DEFAULT_SIZE,
+}: StaffAvatarStackProps) => {
   const staffMarkup = useMemo(
     () =>
       [...staff]
         .sort(HelperArray.sortByText((d) => d.fullname))
         .map(({ _id, fullname, avatar }) => (
-          <StaffAvatarItemStyled
-            key={_id}
-            size={size || "medium"}
-            length={staff.length}
-          >
+          <StaffAvatarItemStyled key={_id} size={size} length={staff.length}>
             <Avatar customer size={size} name={fullname} source={avatar} />
           </StaffAvatarItemStyled>
         )),
     [size, staff],
   );
 
-  return <StaffAvatarStackStyled>{staffMarkup}</StaffAvatarStackStyled>;
+  return (
+    <StaffAvatarStackStyled size={size}>{staffMarkup}</StaffAvatarStackStyled>
+  );
 };
 
 const sizes: Record<string, string[]> = {
   extraSmall: ["1.5", "0.5"],
-  small: ["2", "0.75"],
-  medium: ["2.5", "1"],
   large: ["3.75", "1.5"],
+  medium: ["2.5", "1"],
+  small: ["2", "0.75"],
 };
-
-const StaffAvatarStackStyled = styled.div`
-  display: flex;
-  list-style-type: none;
-  margin: auto;
-  padding: 0px;
-  flex-direction: row;
-`;
 
 type StyledAvatarItemStyledProps = {
   size: string;
   length: number;
 };
+
+const StaffAvatarStackStyled = styled.div<
+  Pick<StyledAvatarItemStyledProps, "size">
+>`
+  display: flex;
+  list-style-type: none;
+  margin: auto;
+  padding: 0px;
+  flex-direction: row;
+  padding-right: ${(props) => `${sizes[props.size][1]}rem`};
+`;
 
 // https://codepen.io/landrik/pen/pGVJbq
 const StaffAvatarItemStyled = styled.div<StyledAvatarItemStyledProps>`
@@ -58,7 +64,7 @@ const StaffAvatarItemStyled = styled.div<StyledAvatarItemStyledProps>`
   width: ${(props) => `${sizes[props.size][0]}rem`};
   text-align: center;
   overflow: hidden;
-  margin-left: -${(props) => `${sizes[props.size][1]}rem`};
+  margin-right: -${(props) => `${sizes[props.size][1]}rem`};
 
   ${(props) => getIndex(props)}
 `;

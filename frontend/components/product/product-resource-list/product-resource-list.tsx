@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { Product } from "@jamalsoueidan/backend.types.product";
 import { Staff } from "@jamalsoueidan/backend.types.staff";
 import { ProductResourceItem } from "@jamalsoueidan/frontend.components.product.product-resource-item";
 import { HelperArray } from "@jamalsoueidan/frontend.helpers.helper-array";
-import { useMemo } from "react";
 import styled from "styled-components";
 
 export type ProductResourceListProps = {

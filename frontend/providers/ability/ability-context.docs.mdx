@@ -6,15 +6,3 @@ labels: ["context"]
 ## React Ability Context
 
 Provider which restricts what resources a given user is allowed to access.
-
-### Component usage
-
-```tsx
-() => {
-  const parse = parseJwt(localStorage.getItem("token") || "");
-  <AbilityProvider ability={defineAbilityFor(parse)}>
-    // My lovely children now get a theme!
-    <MockComponent />
-  </AbilityProvider>;
-};
-```

@@ -23,5 +23,6 @@ package-lock.json
 public/bit
 pnpm-lock.yaml
 .prettierrc.js
-bsd/testing-library/react
-bsd/testing-library/react-hooks
+backend/middlewares/handle-controller
+bit-dev/testing-library/react
+bit-dev/testing-library/react-hooks

@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Card, Icon } from "@shopify/polaris";
 import { CustomerPlusMajor } from "@shopify/polaris-icons";
 import { Field, useField } from "@shopify/react-form";
@@ -74,11 +74,11 @@ const CustomerInputAutoComplete = ({ field }: CustomerAutoCompleteProps) => {
 export const BasicInputAutoComplete = () => {
   const field = useField<CustomerAutoDompleteField>(undefined);
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <CustomerInputAutoComplete field={field} />
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -91,10 +91,10 @@ export const BasicInputAutoCompleteWithError = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <CustomerInputAutoComplete field={field} />
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };

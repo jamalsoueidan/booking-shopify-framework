@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-console */
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Link } from "@shopify/polaris";
 import React from "react";
 import da from "./translations/da.json";
@@ -58,9 +58,9 @@ const ExternalTranslation = () => {
 };
 
 export const Basic = () => (
-  <ApplicationFramePage>
+  <PreviwApplication>
     <FilesTranslation />
     <br />
     <ExternalTranslation />
-  </ApplicationFramePage>
+  </PreviwApplication>
 );

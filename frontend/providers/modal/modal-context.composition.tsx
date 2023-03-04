@@ -29,5 +29,5 @@ export const BasicThemeUsage = withApplication(
       <MockComponent />
     </ModalProvider>
   ),
-  { pageTitle: "ModalProvider" },
+  { title: "ModalProvider" },
 );

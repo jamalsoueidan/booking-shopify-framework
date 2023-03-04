@@ -16,7 +16,7 @@ export const Basic = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Schedule Calendar" },
+  { title: "Schedule Calendar" },
 );
 
 export const Notoolbar = withApplication(
@@ -35,5 +35,5 @@ export const Notoolbar = withApplication(
       />
     </Card>
   ),
-  { pageTitle: "Schedule Calendar no toolbar" },
+  { title: "Schedule Calendar no toolbar" },
 );

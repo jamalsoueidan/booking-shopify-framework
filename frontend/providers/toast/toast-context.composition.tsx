@@ -11,17 +11,15 @@ const MockComponent = () => {
       toast?.show({ content: "hej there" });
     }, 4000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [toast]);
 
   return <></>;
 };
 
-export const BasicToastUsage = () => {
-  return (
-    <PreviewI18n>
-      <ToastProvider>
-        <MockComponent />
-      </ToastProvider>
-    </PreviewI18n>
-  );
-};
+export const BasicToastUsage = () => (
+  <PreviewI18n>
+    <ToastProvider>
+      <MockComponent />
+    </ToastProvider>
+  </PreviewI18n>
+);

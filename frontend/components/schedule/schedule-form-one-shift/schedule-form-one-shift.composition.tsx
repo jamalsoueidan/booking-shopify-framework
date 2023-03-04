@@ -1,5 +1,5 @@
 import { Tag } from "@jamalsoueidan/backend.types.tag";
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { useToast } from "@jamalsoueidan/frontend.providers.toast";
 import { Card } from "@shopify/polaris";
 import { setHours, setMinutes } from "date-fns";
@@ -65,14 +65,12 @@ const initData: ScheduleFormOneShiftBody = {
   tag: Tag.all_day,
 };
 
-export const BasicCreateOneShift = () => (
-  <ApplicationFramePage title="Create one shift">
-    <MockComponent data={initData} allowEditing={{ tag: true }} />
-  </ApplicationFramePage>
+export const BasicCreateOneShift = withApplication(
+  () => <MockComponent data={initData} allowEditing={{ tag: true }} />,
+  { title: "Create one shift" },
 );
 
-export const BasicEditOneShift = () => (
-  <ApplicationFramePage title="Create one shift">
-    <MockComponent data={initData} />
-  </ApplicationFramePage>
+export const BasicEditOneShift = withApplication(
+  () => <MockComponent data={initData} />,
+  { title: "Create one shift" },
 );

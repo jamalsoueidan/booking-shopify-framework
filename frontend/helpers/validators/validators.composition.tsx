@@ -1,5 +1,3 @@
 import React from "react";
 
-export const BasicValidators = () => {
-  return <>Validators Package</>;
-};
+export const BasicValidators = () => <>Validators Package</>;

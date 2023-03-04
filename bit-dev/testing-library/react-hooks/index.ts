@@ -1,4 +1,6 @@
-import * as _ from "@testing-library/dom";
+/**
+ * @jest-environment jsdom
+ */
 
 // https://github.com/microsoft/TypeScript/issues/36800
 

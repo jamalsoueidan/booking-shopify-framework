@@ -1,3 +1,4 @@
+import { ScheduleServiceDaysInterval } from "@jamalsoueidan/backend.types.schedule";
 import { HelperText } from "@jamalsoueidan/frontend.helpers.helper-text";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { Button, Labelled, LabelledProps } from "@shopify/polaris";
@@ -6,7 +7,7 @@ import React, { useCallback, useId, useMemo } from "react";
 
 export interface InputDaysProps {
   input?: Partial<Omit<LabelledProps, "error">>;
-  field: Field<string[]>;
+  field: Field<ScheduleServiceDaysInterval[]>;
 }
 
 export const InputDays = ({ input, field }: InputDaysProps) => {
@@ -25,7 +26,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
           .toLocaleString("en-US", {
             weekday: "long",
           })
-          .toLowerCase();
+          .toLowerCase() as ScheduleServiceDaysInterval;
 
         return {
           label,
@@ -36,7 +37,7 @@ export const InputDays = ({ input, field }: InputDaysProps) => {
   );
 
   const onClickDay = useCallback(
-    (value: string) => {
+    (value: ScheduleServiceDaysInterval) => {
       const values = field.value;
       if (values.includes(value)) {
         field.onChange(values.filter((v) => v !== value));

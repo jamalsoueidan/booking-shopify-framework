@@ -1,16 +1,20 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { ScheduleServiceDaysInterval } from "@jamalsoueidan/backend.types.schedule";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { useField } from "@shopify/react-form";
 import React from "react";
 import { InputDays } from "./input-days";
 
-export const BasicInputDays = () => {
-  const field = useField<string[]>([]);
-  return (
-    <ApplicationFramePage title="Select days input">
-      <InputDays field={field} />
-      <div>
-        <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
-      </div>
-    </ApplicationFramePage>
-  );
-};
+export const Basic = withApplication(
+  () => {
+    const field = useField<ScheduleServiceDaysInterval[]>([]);
+    return (
+      <>
+        <InputDays field={field} />
+        <div>
+          <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
+        </div>
+      </>
+    );
+  },
+  { title: "Select days input" },
+);

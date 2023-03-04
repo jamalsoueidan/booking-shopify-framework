@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Card, Select } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
@@ -26,14 +26,14 @@ export const Basic = () => {
   const field = useField<UseTimerField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputTimerDrop field={field} data={mock} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 

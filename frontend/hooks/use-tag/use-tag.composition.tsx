@@ -9,5 +9,5 @@ function MockComponent() {
 }
 
 export const Basic = withApplication(() => <MockComponent />, {
-  pageTitle: "useTag",
+  title: "useTag",
 });

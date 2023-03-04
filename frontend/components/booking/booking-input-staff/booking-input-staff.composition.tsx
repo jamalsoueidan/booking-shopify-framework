@@ -1,5 +1,5 @@
 import { Staff } from "@jamalsoueidan/backend.types.staff";
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Button, Card } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useEffect, useState } from "react";
@@ -44,14 +44,14 @@ const data = [
 export const Basic = () => {
   const field = useField<BookingInputStaffField>(undefined);
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Basic" sectioned>
         <BookingInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?._id}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -63,14 +63,14 @@ export const Error = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Error" sectioned>
         <BookingInputStaff data={data} field={field} />
       </Card>
       <div>
         <pre>staffId: {field.value?._id}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -84,7 +84,7 @@ export const DisabledWithError = () => {
   }, []);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Disabled with error" sectioned>
         <BookingInputStaff
           data={staff}
@@ -100,7 +100,7 @@ export const DisabledWithError = () => {
       <div>
         <pre>staffId: {field.value?._id}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -109,7 +109,7 @@ export const LazyLoad = () => {
   const [staff, setStaff] = useState<Array<Staff>>([]);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="LazyLoad" sectioned>
         <BookingInputStaff
           data={staff}
@@ -125,6 +125,6 @@ export const LazyLoad = () => {
       <div>
         <pre>staffId: {field.value?._id}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };

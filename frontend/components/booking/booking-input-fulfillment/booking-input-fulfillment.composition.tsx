@@ -21,7 +21,7 @@ export const Basic = withApplication(
       </>
     );
   },
-  { pageTitle: "Booking Input Fulfillment" },
+  { title: "Booking Input Fulfillment" },
 );
 
 export const BasicLabelHidden = withApplication(
@@ -41,5 +41,5 @@ export const BasicLabelHidden = withApplication(
       </>
     );
   },
-  { pageTitle: "Booking Input Fulfillment" },
+  { title: "Booking Input Fulfillment" },
 );

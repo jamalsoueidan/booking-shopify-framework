@@ -1,4 +1,28 @@
-import { defineAbilityFor } from "./ability-context.define";
+import { AbilityBuilder, createMongoAbility } from "@casl/ability";
+import { AbilityContextType, AbilityUser } from "./ability-context";
+
+export const defineAbilityFor = (user: AbilityUser): AbilityContextType => {
+  const { can, build } = new AbilityBuilder<AbilityContextType>(
+    createMongoAbility,
+  );
+
+  if (user.isOwner) {
+    can("manage", "product");
+    can("manage", "staff");
+    can("manage", "collection");
+  }
+
+  if (user.isAdmin) {
+    can("manage", "staff");
+    can("update", "product");
+  }
+
+  if (user.isUser) {
+    can("update", "staff", { _id: user.staff });
+  }
+
+  return build();
+};
 
 export const getAbilityFromToken = () => {
   const parse = parseJwt(localStorage.getItem("token") || "");

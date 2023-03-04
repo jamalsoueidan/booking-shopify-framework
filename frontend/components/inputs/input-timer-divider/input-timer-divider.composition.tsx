@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Validators } from "@jamalsoueidan/frontend.helpers.validators";
 import { Button, Card, Form } from "@shopify/polaris";
 import { SubmitResult, useField, useForm } from "@shopify/react-form";
@@ -13,14 +13,14 @@ export const Basic = () => {
   const field = useField<InputTimerDividerField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Basic" sectioned>
         <InputTimerDivider data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -38,7 +38,7 @@ export const Error = () => {
   });
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Selected" sectioned>
         <Form onSubmit={submit}>
           <InputTimerDivider data={mock} field={fields.time} />
@@ -48,7 +48,7 @@ export const Error = () => {
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -59,14 +59,14 @@ export const Selected = () => {
   });
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Selected" sectioned>
         <InputTimerDivider data={mock} field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -74,14 +74,14 @@ export const Disabled = () => {
   const field = useField<InputTimerDividerField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Empty" sectioned>
         <InputTimerDivider field={field} input={{ disabled: true }} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -89,14 +89,14 @@ export const Empty = () => {
   const field = useField<InputTimerDividerField>(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Empty" sectioned>
         <InputTimerDivider field={field} />
       </Card>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -105,7 +105,7 @@ export const LazyLoad = () => {
   const [data, setData] = useState(mock);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Lazy Load" sectioned>
         <InputTimerDivider field={field} data={data} />
       </Card>
@@ -117,7 +117,7 @@ export const LazyLoad = () => {
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 

@@ -1,5 +1,3 @@
 import React from "react";
 
-export const Basic = () => {
-  return <>Helper Text Package</>;
-};
+export const Basic = () => <>Helper Text Package</>;

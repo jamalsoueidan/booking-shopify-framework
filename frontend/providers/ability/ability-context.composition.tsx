@@ -6,7 +6,7 @@ import { useField } from "@shopify/react-form";
 import React, { useMemo } from "react";
 import { AbilityCan } from "./ability-context";
 import { AbilityProvider } from "./ability-context-provider";
-import { defineAbilityFor } from "./ability-context.define";
+import { defineAbilityFor } from "./ability-context.helper";
 
 const staff = {
   _id: "1",
@@ -86,5 +86,5 @@ export const BasicThemeUsage = withApplication(
       </>
     );
   },
-  { pageTitle: "Ability" },
+  { title: "Ability" },
 );

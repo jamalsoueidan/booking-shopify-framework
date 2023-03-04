@@ -4,8 +4,8 @@ import React, { useCallback } from "react";
 export function LinkComponent({ url, children, external, ...rest }: any) {
   const handleClick = useCallback(() => {
     // eslint-disable-next-line no-console
-    console.log(url);
-  }, [url]);
+    throw new Error("implement your own linkComponent in SettingsProvider");
+  }, []);
 
   const IS_EXTERNAL_LINK_REGEX = /^(?:[a-z][a-z\d+.-]*:|\/\/)/;
 
@@ -24,3 +24,8 @@ export function LinkComponent({ url, children, external, ...rest }: any) {
     </a>
   );
 }
+
+export const useNavigate = () => () => {
+  if (typeof window === "undefined")
+    throw new Error("cannot use native navigator outside of browser. ");
+};

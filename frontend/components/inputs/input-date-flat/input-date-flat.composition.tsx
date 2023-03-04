@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
@@ -11,7 +11,7 @@ export const Basic = () => {
   const field = useField(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputDateFlat field={field} onMonthChange={setDate} />
         <Text variant="bodyMd" as="p">
@@ -21,7 +21,7 @@ export const Basic = () => {
           <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
         </div>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -30,14 +30,14 @@ export const SelectedTodayDate = () => {
   const field = useField(date);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputDateFlat field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -45,14 +45,14 @@ export const LabelHidden = () => {
   const field = useField(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputDateFlat field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -60,14 +60,14 @@ export const WithData = () => {
   const field = useField(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputDateFlat data={mock} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -120,7 +120,7 @@ export const WithDataChange = () => {
   }, [field]);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card sectioned>
         <InputDateFlat data={data} field={field} />
         <br />
@@ -129,7 +129,7 @@ export const WithDataChange = () => {
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 

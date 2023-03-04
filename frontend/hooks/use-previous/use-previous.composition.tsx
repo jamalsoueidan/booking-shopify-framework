@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePrevious } from "./use-previous";
-import { useState } from "react";
 
 export const BasicusePrevious = () => {
   const [date, setDate] = useState<string | undefined>();
@@ -9,15 +8,16 @@ export const BasicusePrevious = () => {
   usePrevious(
     ([prevDate, setPrevDate]) => {
       if (typeof setPrevDate === "function") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setPrevDate(prevDate as any);
       }
     },
-    [date, setPrevDate]
+    [date, setPrevDate],
   );
 
   return (
     <>
-      <button onClick={() => setDate(new Date().toJSON())}>
+      <button onClick={() => setDate(new Date().toJSON())} type="button">
         Generate date
       </button>
       <p>prev: {prevDate || "undefined"}</p>

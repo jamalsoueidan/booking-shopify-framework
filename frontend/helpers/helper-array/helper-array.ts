@@ -1,4 +1,4 @@
-//https://medium.com/@tormodhaugene/comparator-for-sorting-generic-objects-in-typescript-1ca5fb2b2815
+// https://medium.com/@tormodhaugene/comparator-for-sorting-generic-objects-in-typescript-1ca5fb2b2815
 
 export const sortByText =
   <T>(getTextProperty: (object: T) => string) =>

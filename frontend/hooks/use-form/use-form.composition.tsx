@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { SaveBarProvider } from "@jamalsoueidan/frontend.providers.save-bar";
 import { TextField } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
@@ -18,10 +18,13 @@ const Mock = () => {
   return <TextField label="Fullname" autoComplete="" {...fields?.fullname} />;
 };
 
-export const BasicuseForm = () => (
-  <ApplicationFramePage title="useForm()">
-    <SaveBarProvider>
-      <Mock />
-    </SaveBarProvider>
-  </ApplicationFramePage>
+export const Basic = withApplication(
+  () => (
+    <>
+      <SaveBarProvider>
+        <Mock />
+      </SaveBarProvider>
+    </>
+  ),
+  { title: "useForm" },
 );

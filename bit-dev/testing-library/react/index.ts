@@ -4,6 +4,10 @@
 // https://stackoverflow.com/questions/74318005/reactdom-render-is-no-longer-supported-in-react-18
 // https://github.com/microsoft/TypeScript/issues/36800
 
+/**
+ * @jest-environment jsdom
+ */
+
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {
     value: jest.fn().mockImplementation((query) => ({

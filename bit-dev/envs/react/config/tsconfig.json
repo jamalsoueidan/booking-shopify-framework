@@ -1,0 +1,12 @@
+{
+  "extends": "@teambit/react/typescript/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "es2020",
+    "lib": ["esnext", "dom", "dom.Iterable"],
+    "strict": true,
+    "preserveSymlinks": true
+  },
+  "exclude": ["artifacts", "public", "dist", "node_modules", "package.json"],
+  "include": ["**/*", "**/*.json"]
+}

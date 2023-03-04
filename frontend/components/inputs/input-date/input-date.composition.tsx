@@ -1,4 +1,4 @@
-import { ApplicationFramePage } from "@jamalsoueidan/bit-dev.preview.application";
+import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
 import { Button, Card, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
@@ -10,7 +10,7 @@ export const Basic = () => {
   const field = useField(undefined);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Normal mode" sectioned>
         <InputDate field={field} input={{ onMonthChange: setDate }} />
         <Text variant="bodyMd" as="p">
@@ -20,7 +20,7 @@ export const Basic = () => {
           <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
         </div>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -29,14 +29,14 @@ export const Selected = () => {
   const field = useField(date);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Inline mode" sectioned>
         <InputDate field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -59,7 +59,7 @@ export const DisableDates = () => {
   }, [field]);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Inline mode with data" sectioned>
         <InputDate data={data} field={field} disableDates />
         <Button onClick={changeData}>Change Data</Button>
@@ -67,7 +67,7 @@ export const DisableDates = () => {
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 
@@ -90,7 +90,7 @@ export const WithDataChange = () => {
   }, [field]);
 
   return (
-    <ApplicationFramePage>
+    <PreviwApplication>
       <Card title="Inline mode with data" sectioned>
         <InputDate data={data} field={field} />
         <Button onClick={changeData}>Change Data</Button>
@@ -98,7 +98,7 @@ export const WithDataChange = () => {
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
       </Card>
-    </ApplicationFramePage>
+    </PreviwApplication>
   );
 };
 

@@ -26,5 +26,5 @@ export const BasicInputDropdown = withApplication(
       </Card>
     );
   },
-  { pageTitle: "Multi select input" },
+  { title: "Multi select input" },
 );
