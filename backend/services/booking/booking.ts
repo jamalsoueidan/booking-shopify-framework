@@ -1,5 +1,4 @@
-/* eslint-disable spaced-comment */
-import { DateHelpers } from "@jamalsoueidan/backend.helpers.date";
+import { DateHelpers } from "@jamalsoueidan/backend.express.helper-date";
 import {
   NotifcationServiceSendBookingUpdateCustomer,
   NotificationServiceCancelAll,

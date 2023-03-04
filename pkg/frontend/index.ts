@@ -23,11 +23,14 @@ export * from "@jamalsoueidan/frontend.components.loading.loading-page";
 export * from "@jamalsoueidan/frontend.components.loading.loading-spinner";
 export * from "@jamalsoueidan/frontend.components.product.product-resource-item";
 export * from "@jamalsoueidan/frontend.components.product.product-resource-list";
+export * from "@jamalsoueidan/frontend.components.product.product-staff-empty";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-calendar";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-form-many-shifts";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-form-one-shift";
 export * from "@jamalsoueidan/frontend.components.staff.staff-avatar-stack";
 export * from "@jamalsoueidan/frontend.components.staff.staff-form";
+export * from "@jamalsoueidan/frontend.components.staff.staff-resource-item";
+export * from "@jamalsoueidan/frontend.components.staff.staff-resource-list";
 export * from "@jamalsoueidan/frontend.components.widget.widget-input-staff";
 // HELPERS
 export * from "@jamalsoueidan/frontend.helpers.helper-array";

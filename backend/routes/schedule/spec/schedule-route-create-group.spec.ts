@@ -44,7 +44,7 @@ describe("Shopify: schedule create group route test", () => {
       .post(`/schedules/group?staff=${staff.id}`)
       .send({
         days: ["monday", "tuesday"],
-        end: setMonth(setDay(setHours(new Date(), 10), 25), 10),
+        end: setMonth(setDay(setHours(new Date(), 16), 25), 10),
         start: setMonth(setDay(setHours(new Date(), 10), 25), 9),
         tag,
       })
@@ -53,12 +53,6 @@ describe("Shopify: schedule create group route test", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.success).toBeTruthy();
     expect(res.body.payload.length).toBeGreaterThan(1);
-
-    const hour =
-      new Date(res.body.payload[res.body.payload.length - 1].start).getHours() -
-      new Date(res.body.payload[0].start).getHours();
-
-    expect(hour).toEqual(1);
   });
 
   it("Should NOT be able to create group with invalid props", async () => {

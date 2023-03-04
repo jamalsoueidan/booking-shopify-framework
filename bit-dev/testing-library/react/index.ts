@@ -1,12 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 // instead of using "@testing-library/react-hooks" use "@testing-library/react"
 // https://stackoverflow.com/questions/74318005/reactdom-render-is-no-longer-supported-in-react-18
 // https://github.com/microsoft/TypeScript/issues/36800
-
-/**
- * @jest-environment jsdom
- */
 
 beforeAll(() => {
   Object.defineProperty(window, "matchMedia", {

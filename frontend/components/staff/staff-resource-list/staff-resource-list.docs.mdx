@@ -1,0 +1,30 @@
+---
+description: A StaffResourceList component.
+---
+
+A component that render list of staff, you can use it for rendering a list of title, description, avatar.
+
+### Component usage
+
+```js
+const renderItem = useCallback((item: number) => {
+  if (item === 0) {
+    return {
+      desc: "front-end",
+      title: "jamal",
+      url: "http://google.com",
+    };
+  }
+  if (item === 1) {
+    return {
+      desc: "enginner",
+      title: "thomas",
+    };
+  }
+  return {
+    desc: "teamlead",
+    title: "mikkel",
+  };
+}, []);
+return <StaffResourceList items={[1, 2, 3]} renderItem={renderItem} />;
+```

@@ -2,7 +2,7 @@ import {
   SmsDkApiCancel,
   SmsDkApiSend,
 } from "@jamalsoueidan/backend.api.sms-dk";
-import { DateHelpers } from "@jamalsoueidan/backend.helpers.date";
+import { DateHelpers } from "@jamalsoueidan/backend.express.helper-date";
 import {
   BookingModel,
   IBooking,
