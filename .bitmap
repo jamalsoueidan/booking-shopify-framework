@@ -184,7 +184,7 @@
         "rootDir": "frontend/components/product/product-resource-list"
     },
     "components/product/product-staff-empty": {
-        "scope": "",
+        "scope": "jamalsoueidan.frontend",
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/product/product-staff-empty"
@@ -220,13 +220,13 @@
         "rootDir": "frontend/components/staff/staff-form"
     },
     "components/staff/staff-resource-item": {
-        "scope": "",
+        "scope": "jamalsoueidan.frontend",
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/staff/staff-resource-item"
     },
     "components/staff/staff-resource-list": {
-        "scope": "",
+        "scope": "jamalsoueidan.frontend",
         "version": "0.0.1",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/staff/staff-resource-list"
@@ -244,9 +244,8 @@
         "rootDir": "bit-dev/envs/react"
     },
     "express/helper-date": {
-        "scope": "",
+        "scope": "jamalsoueidan.backend",
         "version": "0.0.1",
-        "defaultScope": "jamalsoueidan.backend",
         "mainFile": "index.ts",
         "rootDir": "backend/express/helper-date"
     },
@@ -266,7 +265,12 @@
         "scope": "jamalsoueidan.backend",
         "version": "0.0.2",
         "mainFile": "index.ts",
-        "rootDir": "backend/helpers/date"
+        "rootDir": "backend/helpers/date",
+        "config": {
+            "teambit.component/deprecation": {
+                "deprecate": true
+            }
+        }
     },
     "helpers/helper-array": {
         "scope": "jamalsoueidan.frontend",
