@@ -62,7 +62,7 @@ export function InputDropdown<T>({
       <ResourceList.Item
         id={item.label}
         media={item?.prefix}
-        onClick={handleResourceListItemClick as never}
+        onClick={() => handleResourceListItemClick(item.value)}
       >
         {item.label}
       </ResourceList.Item>

@@ -29,10 +29,11 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
     ref.current?.getApi().next();
   }, []);
 
-  const data = useMemo(() => {
-    const { data } = props;
-    return tag.value ? data.filter((d) => d.tag === tag.value) : data;
-  }, [props, tag.value]);
+  const data = useMemo(
+    () =>
+      tag.value ? props?.data.filter((d) => d.tag === tag.value) : props?.data,
+    [props?.data, tag.value],
+  );
 
   return (
     <>
