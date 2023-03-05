@@ -29,6 +29,7 @@ export const CalendarTitle = ({ calendarRef }: CalendarTitleProps) => {
     return <></>;
   }
 
+  const multimonth = view === "multiMonthYear" && onlyFormat(date, "MMMM yyyy");
   const dayGridMonth = view === "dayGridMonth" && onlyFormat(date, "MMMM yyyy");
   const timeGridWeek =
     view === "timeGridWeek" &&
@@ -40,6 +41,7 @@ export const CalendarTitle = ({ calendarRef }: CalendarTitleProps) => {
 
   return (
     <Text as="h1" variant="heading2xl">
+      {multimonth}
       {dayGridMonth}
       {timeGridWeek}
       {timeGridDay}

@@ -120,7 +120,14 @@ export const ScheduleCalendarCore = forwardRef<
         dateClick={handleOnClick}
         eventClick={handleClickEvent}
         validRange={validRange}
-        initialView={initialView || "dayGridMonth"}
+        initialView={"dayGridMonth"}
+        /*showNonCurrentDates={false}
+        views={{
+          multiMonthFourMonth: {
+            type: "multiMonth",
+            duration: { months: 4 },
+          },
+        }}*/
       />
     );
   },
