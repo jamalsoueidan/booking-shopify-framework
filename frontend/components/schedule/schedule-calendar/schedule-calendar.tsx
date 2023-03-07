@@ -32,7 +32,7 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
   const data = useMemo(
     () =>
       tag.value ? props?.data.filter((d) => d.tag === tag.value) : props?.data,
-    [props?.data, tag.value],
+    [props, tag.value],
   );
 
   return (
@@ -76,6 +76,7 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
         }}
         data={data}
         ref={ref}
+        initialView="dayGridMonth"
       />
     </>
   );

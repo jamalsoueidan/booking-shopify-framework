@@ -29,7 +29,7 @@
     },
     "components/booking/booking-calendar": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/booking/booking-calendar"
     },
@@ -41,13 +41,13 @@
     },
     "components/booking/booking-input-fulfillment": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/booking/booking-input-fulfillment"
     },
     "components/booking/booking-input-staff": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/booking/booking-input-staff"
     },
@@ -59,7 +59,7 @@
     },
     "components/calendar": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/calendar"
     },
@@ -107,7 +107,7 @@
     },
     "components/inputs/input-dropdown": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/inputs/input-dropdown"
     },
@@ -131,7 +131,7 @@
     },
     "components/inputs/input-tags": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/inputs/input-tags"
     },
@@ -191,19 +191,19 @@
     },
     "components/schedule/schedule-calendar": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/schedule/schedule-calendar"
     },
     "components/schedule/schedule-form-many-shifts": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/schedule/schedule-form-many-shifts"
     },
     "components/schedule/schedule-form-one-shift": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/schedule/schedule-form-one-shift"
     },
@@ -221,19 +221,19 @@
     },
     "components/staff/staff-resource-item": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/staff/staff-resource-item"
     },
     "components/staff/staff-resource-list": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/staff/staff-resource-list"
     },
     "components/widget/widget-input-staff": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/widget/widget-input-staff"
     },
@@ -257,20 +257,15 @@
     },
     "frontend": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "pkg/frontend"
     },
     "helpers/date": {
         "scope": "jamalsoueidan.backend",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "mainFile": "index.ts",
-        "rootDir": "backend/helpers/date",
-        "config": {
-            "teambit.component/deprecation": {
-                "deprecate": true
-            }
-        }
+        "rootDir": "backend/helpers/date"
     },
     "helpers/helper-array": {
         "scope": "jamalsoueidan.frontend",
