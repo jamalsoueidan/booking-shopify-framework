@@ -122,7 +122,7 @@ const ColumnPeriod = memo(
     });
 
     return (
-      <AlphaStack gap="1" fullWidth>
+      <AlphaStack gap="1">
         <Text variant="headingSm" as="p" alignment="center">
           {format(date, "B")}
         </Text>
