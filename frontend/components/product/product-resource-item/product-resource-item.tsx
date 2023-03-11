@@ -5,7 +5,7 @@ import { StaffAvatarStack } from "@jamalsoueidan/frontend.components.staff.staff
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { AbilityCan } from "@jamalsoueidan/frontend.providers.ability";
 import { Link } from "@jamalsoueidan/frontend.providers.settings";
-import { AlphaStack, Avatar, Badge, Box, Stack, Text } from "@shopify/polaris";
+import { AlphaStack, Avatar, Badge, Box, Inline, Text } from "@shopify/polaris";
 import React from "react";
 import styled from "styled-components";
 
@@ -24,20 +24,20 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
   return (
     <CollectionProductStyled>
       <Link url={`product/${product._id}`}>
-        <AlphaStack fullWidth>
+        <AlphaStack>
           <Box
             background="surface"
             border="divider"
             borderRadius="1"
             padding="2"
           >
-            <Stack alignment="center">
+            <Inline gap="2">
               <Avatar
                 customer
                 size="medium"
                 source={`${product.imageUrl}&width=80`}
               />
-              <Stack.Item fill>
+              <AlphaStack>
                 <Text as="h1" variant="bodyLg">
                   {product.title}{" "}
                   <AbilityCan I="update" a="product" this={product}>
@@ -51,9 +51,13 @@ export const ProductResourceItem = ({ product }: ProductResourceItemProps) => {
                     count: product.staff?.length || 0,
                   })}
                 </Text>
-              </Stack.Item>
-              <StaffAvatarStack staff={product.staff} size="small" />
-            </Stack>
+              </AlphaStack>
+              <StaffAvatarStack
+                staff={product.staff}
+                size="small"
+                align="right"
+              />
+            </Inline>
           </Box>
         </AlphaStack>
       </Link>

@@ -7,6 +7,7 @@ import styled from "styled-components";
 export type StaffAvatarStackProps = {
   staff: Staff[];
   size: AvatarProps["size"];
+  align?: "left" | "right";
 };
 
 const DEFAULT_SIZE: AvatarProps["size"] = "medium";
@@ -14,13 +15,19 @@ const DEFAULT_SIZE: AvatarProps["size"] = "medium";
 export const StaffAvatarStack = ({
   staff,
   size = DEFAULT_SIZE,
+  align = "left",
 }: StaffAvatarStackProps) => {
   const staffMarkup = useMemo(
     () =>
       [...staff]
         .sort(HelperArray.sortByText((d) => d.fullname))
         .map(({ _id, fullname, avatar }) => (
-          <StaffAvatarItemStyled key={_id} size={size} length={staff.length}>
+          <StaffAvatarItemStyled
+            key={_id}
+            size={size}
+            length={staff.length}
+            align={align}
+          >
             <Avatar customer size={size} name={fullname} source={avatar} />
           </StaffAvatarItemStyled>
         )),
@@ -28,7 +35,9 @@ export const StaffAvatarStack = ({
   );
 
   return (
-    <StaffAvatarStackStyled size={size}>{staffMarkup}</StaffAvatarStackStyled>
+    <StaffAvatarStackStyled size={size} align={align}>
+      {staffMarkup}
+    </StaffAvatarStackStyled>
   );
 };
 
@@ -42,16 +51,19 @@ const sizes: Record<string, string[]> = {
 type StyledAvatarItemStyledProps = {
   size: string;
   length: number;
+  align: string;
 };
 
 const StaffAvatarStackStyled = styled.div<
-  Pick<StyledAvatarItemStyledProps, "size">
+  Pick<StyledAvatarItemStyledProps, "size" | "align">
 >`
   display: flex;
+  flex: 1;
   list-style-type: none;
   margin: auto;
   padding: 0px;
   flex-direction: row;
+  justify-content: ${(props) => (props.align === "right" ? "end" : "start")};
   padding-right: ${(props) => `${sizes[props.size][1]}rem`};
 `;
 

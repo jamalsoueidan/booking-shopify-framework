@@ -29,7 +29,7 @@ export const StaffResourceItem = ({
   action,
 }: StaffResourceItemProps) => (
   <Link url={url}>
-    <AlphaStack fullWidth>
+    <AlphaStack>
       <Box
         paddingInlineStart="4"
         paddingInlineEnd="4"
