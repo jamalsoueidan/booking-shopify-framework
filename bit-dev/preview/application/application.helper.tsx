@@ -12,7 +12,7 @@ import {
 } from "@jamalsoueidan/frontend.providers.settings";
 import { ToastProvider } from "@jamalsoueidan/frontend.providers.toast";
 
-import { AppProvider, Frame, Page, Select, Stack } from "@shopify/polaris";
+import { AppProvider, Frame, Inline, Page, Select } from "@shopify/polaris";
 import "@shopify/polaris/build/esm/styles.css";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
@@ -41,11 +41,11 @@ export const ApplicationWrapper = ({
             <Frame>
               {!hideControls && (
                 <Page fullWidth>
-                  <Stack>
+                  <Inline gap="4">
                     <TimeZone />
                     <Language />
                     <UserRole field={field} />
-                  </Stack>
+                  </Inline>
                 </Page>
               )}
               <ToastProvider>
