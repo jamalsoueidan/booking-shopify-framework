@@ -1,7 +1,7 @@
 import {
+  AlphaStack,
   Autocomplete,
   InlineError,
-  Stack,
   Tag,
   TextFieldProps,
 } from "@shopify/polaris";
@@ -65,7 +65,7 @@ export const InputMultiSelect = ({
 
   const verticalContentMarkup =
     field.value && field.value.length > 0 ? (
-      <Stack spacing="extraTight" alignment="center">
+      <AlphaStack>
         {field.value.map((option) => {
           let tagLabel = "";
           tagLabel = option.replace("_", " ");
@@ -75,7 +75,7 @@ export const InputMultiSelect = ({
             </Tag>
           );
         })}
-      </Stack>
+      </AlphaStack>
     ) : null;
 
   const textField = (

@@ -1,37 +1,28 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Card } from "@shopify/polaris";
+import { withApplicationCard } from "@jamalsoueidan/bit-dev.preview.with-application";
 import React from "react";
 import { InputLabelButton } from "./input-label-button";
 
-export const InputLabelButtonError = () => (
-  <PreviwApplication>
-    <Card title="LabelButton (error)" sectioned>
-      <InputLabelButton labelled={{ error: "error", label: "label" }}>
-        Error
-      </InputLabelButton>
-    </Card>
-  </PreviwApplication>
+export const InputLabelButtonError = withApplicationCard(
+  () => (
+    <InputLabelButton labelled={{ error: "error", label: "label" }}>
+      Error
+    </InputLabelButton>
+  ),
+  { title: "LabelButton (error)" },
 );
 
-export const InputLabelButtonNoError = () => (
-  <PreviwApplication>
-    <Card title="LabelButton (no error)" sectioned>
-      <InputLabelButton labelled={{ label: "label" }}>
-        No error
-      </InputLabelButton>
-    </Card>
-  </PreviwApplication>
+export const InputLabelButtonNoError = withApplicationCard(
+  () => (
+    <InputLabelButton labelled={{ label: "label" }}>No error</InputLabelButton>
+  ),
+  { title: "LabelButton (no error)" },
 );
 
-export const InputLabelButtonLoading = () => (
-  <PreviwApplication>
-    <Card title="LabelButton (loading)" sectioned>
-      <InputLabelButton
-        labelled={{ label: "label" }}
-        button={{ loading: true }}
-      >
-        Loading
-      </InputLabelButton>
-    </Card>
-  </PreviwApplication>
+export const InputLabelButtonLoading = withApplicationCard(
+  () => (
+    <InputLabelButton labelled={{ label: "label" }} button={{ loading: true }}>
+      Loading
+    </InputLabelButton>
+  ),
+  { title: "LabelButton (loading)" },
 );

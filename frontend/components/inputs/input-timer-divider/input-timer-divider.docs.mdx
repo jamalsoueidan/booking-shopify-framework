@@ -2,8 +2,6 @@
 description: A InputTimerDivider component.
 ---
 
-import { InputTimerDivider } from "./input-timer-divider";
-
 A component that render time in divider (morning, afternoon, evening)
 
 ### Component usage
@@ -11,9 +9,8 @@ A component that render time in divider (morning, afternoon, evening)
 ```js
 const field = useField<InputTimerDividerField>(undefined);
 
-<Card title="no optionLabel" sectioned>
-  <InputTimerDivider data={mock} field={field} />
-</Card>
+<InputTimerDivider data={mock} field={field} />
+
 <div>
   <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
 </div>

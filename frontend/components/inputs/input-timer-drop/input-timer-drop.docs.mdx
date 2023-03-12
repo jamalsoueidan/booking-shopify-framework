@@ -11,9 +11,8 @@ A component that render time in a select
 ```js
 const field = useField<InputTimerField>(undefined);
 
-<Card title="no optionLabel" sectioned>
-  <InputTimerDrop data={mock} field={field} />
-</Card>
+<InputTimerDrop data={mock} field={field} />
+
 <div>
   <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
 </div>

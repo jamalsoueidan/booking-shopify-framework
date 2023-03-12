@@ -1,7 +1,7 @@
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { useToast } from "@jamalsoueidan/frontend.providers.toast";
-import { Card } from "@shopify/polaris";
+import { AlphaCard, Button } from "@shopify/polaris";
 import { addMonths, setHours, setMinutes } from "date-fns";
 import React, { useCallback, useRef, useState } from "react";
 import {
@@ -41,21 +41,21 @@ const MockComponent = ({
   }, [ref]);
 
   return (
-    <Card
-      sectioned
-      primaryFooterAction={{ content: "Submit", onAction: submit }}
-    >
-      <ScheduleFormManyShifts
-        data={data}
-        allowEditing={allowEditing}
-        onSubmit={onSubmit}
-        ref={ref}
-      />
+    <>
+      <AlphaCard>
+        <ScheduleFormManyShifts
+          data={data}
+          allowEditing={allowEditing}
+          onSubmit={onSubmit}
+          ref={ref}
+        />
 
+        <Button onClick={submit}>Submit</Button>
+      </AlphaCard>
       <div>
         <pre>{JSON.stringify(body, null, 2)}</pre>
       </div>
-    </Card>
+    </>
   );
 };
 

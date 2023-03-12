@@ -1,5 +1,5 @@
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Card } from "@shopify/polaris";
+import { AlphaCard } from "@shopify/polaris";
 import React from "react";
 import { BookingCalendar } from "./booking-calendar";
 import { BookingCalendarCore } from "./booking-calendar-core";
@@ -38,21 +38,21 @@ const payload = [
 
 export const Basic = withApplication(
   () => (
-    <Card sectioned>
+    <AlphaCard>
       <BookingCalendar
         staff={payload}
         data={mock}
         onChangeDate={() => null}
         onClickBooking={() => null}
       />
-    </Card>
+    </AlphaCard>
   ),
   { title: "Booking Calendar" },
 );
 
 export const NoToolbar = withApplication(
   () => (
-    <Card sectioned>
+    <AlphaCard>
       <BookingCalendarCore
         data={mock}
         onChangeDate={() => null}
@@ -63,21 +63,21 @@ export const NoToolbar = withApplication(
           right: undefined,
         }}
       />
-    </Card>
+    </AlphaCard>
   ),
   { title: "Booking Calendar" },
 );
 
 export const BasicNoStaff = withApplication(
   () => (
-    <Card sectioned>
+    <AlphaCard>
       <BookingCalendar
         staff={[]}
         data={mock}
         onChangeDate={() => null}
         onClickBooking={() => null}
       />
-    </Card>
+    </AlphaCard>
   ),
   { title: "Booking Calendar" },
 );

@@ -1,10 +1,10 @@
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Card } from "@shopify/polaris";
+import { AlphaCard } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useMemo } from "react";
 import { InputMultiSelect, InputMultiSelectField } from "./input-multi-select";
 
-export const BasicInputDropdown = withApplication(
+export const Basic = withApplication(
   () => {
     const options = useMemo(
       () => [
@@ -17,13 +17,13 @@ export const BasicInputDropdown = withApplication(
     const field = useField<InputMultiSelectField>(undefined);
 
     return (
-      <Card sectioned>
+      <AlphaCard>
         <InputMultiSelect
           field={field}
           options={options}
           input={{ label: "User list", placeholder: "Click and pick a user" }}
         />
-      </Card>
+      </AlphaCard>
     );
   },
   { title: "Multi select input" },

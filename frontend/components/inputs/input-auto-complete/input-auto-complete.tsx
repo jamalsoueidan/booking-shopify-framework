@@ -1,6 +1,7 @@
 import { InputLabelButton } from "@jamalsoueidan/frontend.components.inputs.input-label-button";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import {
+  AlphaStack,
   AutoSelection,
   ButtonProps,
   Icon,
@@ -8,7 +9,6 @@ import {
   Listbox,
   Popover,
   Scrollable,
-  Stack,
   Text,
   TextField,
 } from "@shopify/polaris";
@@ -173,11 +173,11 @@ export const InputAutoComplete = ({
   const emptyMarkup = useMemo(
     () =>
       options.length === 0 && (
-        <Stack alignment="center" vertical>
+        <AlphaStack align="center">
           <Text variant="bodyMd" as="span" color="subdued">
             {t("not_found", { query })}
           </Text>
-        </Stack>
+        </AlphaStack>
       ),
     [options.length, query, t],
   );

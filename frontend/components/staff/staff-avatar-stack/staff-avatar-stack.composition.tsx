@@ -1,5 +1,4 @@
-import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { AlphaCard } from "@shopify/polaris";
+import { withApplicationCard } from "@jamalsoueidan/bit-dev.preview.with-application";
 import React from "react";
 import { StaffAvatarStack } from "./staff-avatar-stack";
 
@@ -48,29 +47,17 @@ const staff = [
   },
 ];
 
-export const BasicLarge = withApplication(
-  () => (
-    <AlphaCard>
-      <StaffAvatarStack staff={staff} size="large" />
-    </AlphaCard>
-  ),
+export const BasicLarge = withApplicationCard(
+  () => <StaffAvatarStack staff={staff} size="large" />,
   { title: "Size: large" },
 );
 
-export const BasicSmall = withApplication(
-  () => (
-    <AlphaCard>
-      <StaffAvatarStack staff={staff} size="small" />
-    </AlphaCard>
-  ),
+export const BasicSmall = withApplicationCard(
+  () => <StaffAvatarStack staff={staff} size="small" />,
   { title: "Size: small" },
 );
 
-export const BasicSmallRight = withApplication(
-  () => (
-    <AlphaCard>
-      <StaffAvatarStack staff={staff} size="small" align="right" />
-    </AlphaCard>
-  ),
+export const BasicSmallRight = withApplicationCard(
+  () => <StaffAvatarStack staff={staff} size="small" align="right" />,
   { title: "Align: right" },
 );

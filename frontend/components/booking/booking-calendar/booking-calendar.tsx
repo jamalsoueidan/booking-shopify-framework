@@ -13,7 +13,7 @@ import {
 } from "@jamalsoueidan/frontend.components.calendar";
 import { CalendarView } from "@jamalsoueidan/frontend.components.calendar/calendar";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
-import { Box, Button, ButtonGroup, Stack } from "@shopify/polaris";
+import { Box, Button, ButtonGroup, Columns, Inline } from "@shopify/polaris";
 import {
   Column1Major,
   Columns2Major,
@@ -75,21 +75,20 @@ export const BookingCalendar = (props: BookingCalendarProps) => {
 
   return (
     <>
-      <Stack>
-        <Stack.Item fill>
-          <Stack alignment="center">
-            <CalendarTitle calendarRef={ref.current} />
-            <ButtonGroup segmented>
-              <Button onClick={handlePrev} size="slim">
-                &#60;
-              </Button>
-              <Button onClick={handleNext} size="slim">
-                &#62;
-              </Button>
-            </ButtonGroup>
-          </Stack>
-        </Stack.Item>
-        <Stack>
+      <Columns columns={["oneThird", "twoThirds"]}>
+        <Inline gap="4">
+          <CalendarTitle calendarRef={ref.current} />
+          <ButtonGroup segmented>
+            <Button onClick={handlePrev} size="slim">
+              &#60;
+            </Button>
+            <Button onClick={handleNext} size="slim">
+              &#62;
+            </Button>
+          </ButtonGroup>
+        </Inline>
+
+        <Inline gap="4" align="end">
           <Button onClick={reset} icon={ResetMinor}>
             {t("reset")}
           </Button>
@@ -102,6 +101,7 @@ export const BookingCalendar = (props: BookingCalendarProps) => {
               size: "medium",
             }}
           />
+
           <BookingInputStaff
             data={staffData}
             field={staffField}
@@ -111,11 +111,11 @@ export const BookingCalendar = (props: BookingCalendarProps) => {
               size: staffField.value ? "slim" : "medium",
             }}
           />
-        </Stack>
-      </Stack>
+        </Inline>
+      </Columns>
 
       <Box paddingBlockStart="5">
-        <Stack>
+        <Inline>
           <ButtonGroup segmented>
             <Button
               onClick={() => changeView("dayGridMonth")}
@@ -142,7 +142,7 @@ export const BookingCalendar = (props: BookingCalendarProps) => {
               {t("listWeek")}
             </Button>
           </ButtonGroup>
-        </Stack>
+        </Inline>
       </Box>
 
       <BookingCalendarCore

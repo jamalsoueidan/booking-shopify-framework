@@ -1,22 +1,14 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplicationCard } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { useField } from "@shopify/react-form";
 import React from "react";
 import { InputTimeZone } from "./input-time-zone";
 
-export const BasicTimeZoneInput = () => {
+export const BasicTimeZoneInput = withApplicationCard(() => {
   const field = useField("");
-  return (
-    <PreviwApplication>
-      <InputTimeZone {...field} />
-    </PreviwApplication>
-  );
-};
+  return <InputTimeZone {...field} />;
+});
 
-export const PreSelectTimeZoneInput = () => {
+export const PreSelectTimeZoneInput = withApplicationCard(() => {
   const field = useField("Europe/Istanbul");
-  return (
-    <PreviwApplication>
-      <InputTimeZone {...field} />
-    </PreviwApplication>
-  );
-};
+  return <InputTimeZone {...field} />;
+});

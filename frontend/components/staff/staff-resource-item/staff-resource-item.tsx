@@ -5,7 +5,7 @@ import {
   Avatar,
   AvatarProps,
   Box,
-  Stack,
+  Inline,
   Text,
   ThumbnailProps,
 } from "@shopify/polaris";
@@ -37,18 +37,20 @@ export const StaffResourceItem = ({
         paddingBlockEnd="3"
         borderBlockStart="divider"
       >
-        <Stack alignment="center">
-          {media || <Avatar customer size="medium" name={title} />}
-          <Stack.Item fill>
-            <Text as="h1" variant="bodyMd" fontWeight="bold">
-              {title}
-            </Text>
-            <Text as="span" variant="bodyMd">
-              {desc}
-            </Text>
-          </Stack.Item>
-          {action && <Stack.Item>{action}</Stack.Item>}
-        </Stack>
+        <Inline align="space-between">
+          <Inline gap="2">
+            {media || <Avatar customer size="medium" name={title} />}
+            <AlphaStack>
+              <Text as="h1" variant="bodyMd" fontWeight="bold">
+                {title}
+              </Text>
+              <Text as="span" variant="bodyMd">
+                {desc}
+              </Text>
+            </AlphaStack>
+          </Inline>
+          {action && <Inline align="end">{action}</Inline>}
+        </Inline>
       </Box>
     </AlphaStack>
   </Link>

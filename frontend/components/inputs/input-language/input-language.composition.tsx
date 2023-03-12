@@ -1,31 +1,19 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
+import { withApplicationCard } from "@jamalsoueidan/bit-dev.preview.with-application";
 import { useField } from "@shopify/react-form";
 import React from "react";
 import { InputLanguage } from "./input-language";
 
-export const BasicLanguageInput = () => {
+export const BasicLanguageInput = withApplicationCard(() => {
   const field = useField("");
-  return (
-    <PreviwApplication>
-      <InputLanguage {...field} />
-    </PreviwApplication>
-  );
-};
+  return <InputLanguage {...field} />;
+});
 
-export const CustomLabelPlaceholderLanguageInput = () => {
+export const CustomLabelPlaceholderLanguageInput = withApplicationCard(() => {
   const field = useField("");
-  return (
-    <PreviwApplication>
-      <InputLanguage label="speech" placeholder="hej" {...field} />
-    </PreviwApplication>
-  );
-};
+  return <InputLanguage label="speech" placeholder="hej" {...field} />;
+});
 
-export const PreSelectValueLanguageInput = () => {
+export const PreSelectValueLanguageInput = withApplicationCard(() => {
   const field = useField("da");
-  return (
-    <PreviwApplication>
-      <InputLanguage {...field} />
-    </PreviwApplication>
-  );
-};
+  return <InputLanguage {...field} />;
+});

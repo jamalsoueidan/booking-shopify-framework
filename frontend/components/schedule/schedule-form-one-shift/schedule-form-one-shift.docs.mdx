@@ -7,7 +7,7 @@ You must handle submit via ref because this component can be used in modal and o
 
 ### Component usage
 
-```ts
+```tsx
 const ref = useRef < CreateOneShiftRefMethod > null;
 
 const onSubmit = useCallback((fieldValues): CreateOneShiftSubmitResult => {
@@ -27,8 +27,9 @@ const initData: ScheduleFormOneShiftBody = {
 };
 
 return (
-  <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
+  <>
     <ScheduleFormOneShift data={initData} onSubmit={onSubmit} ref={ref} />
-  </Card>
+    <Button onClick={submit}>Submit</Button>
+  </>
 );
 ```

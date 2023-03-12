@@ -1,5 +1,5 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Card, Icon } from "@shopify/polaris";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
+import { AlphaCard, Icon } from "@shopify/polaris";
 import { CustomerPlusMajor } from "@shopify/polaris-icons";
 import { Field, useField } from "@shopify/react-form";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -71,18 +71,16 @@ const CustomerInputAutoComplete = ({ field }: CustomerAutoCompleteProps) => {
   );
 };
 
-export const BasicInputAutoComplete = () => {
+export const BasicInputAutoComplete = withApplication(() => {
   const field = useField<CustomerAutoDompleteField>(undefined);
   return (
-    <PreviwApplication>
-      <Card sectioned>
-        <CustomerInputAutoComplete field={field} />
-      </Card>
-    </PreviwApplication>
+    <AlphaCard>
+      <CustomerInputAutoComplete field={field} />
+    </AlphaCard>
   );
-};
+});
 
-export const BasicInputAutoCompleteWithError = () => {
+export const BasicInputAutoCompleteWithError = withApplication(() => {
   const field = useField<CustomerAutoDompleteField>(undefined);
 
   useEffect(() => {
@@ -91,10 +89,8 @@ export const BasicInputAutoCompleteWithError = () => {
   }, []);
 
   return (
-    <PreviwApplication>
-      <Card sectioned>
-        <CustomerInputAutoComplete field={field} />
-      </Card>
-    </PreviwApplication>
+    <AlphaCard>
+      <CustomerInputAutoComplete field={field} />
+    </AlphaCard>
   );
-};
+});

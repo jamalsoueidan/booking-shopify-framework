@@ -1,5 +1,5 @@
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Card } from "@shopify/polaris";
+import { AlphaCard } from "@shopify/polaris";
 import React from "react";
 import mock from "./mock";
 import { ScheduleCalendar } from "./schedule-calendar";
@@ -7,21 +7,21 @@ import { ScheduleCalendarCore } from "./schedule-core";
 
 export const Basic = withApplication(
   () => (
-    <Card sectioned>
+    <AlphaCard>
       <ScheduleCalendar
         data={mock}
         onChangeDate={() => null}
         onClick={() => null}
         onClickSchedule={() => null}
       />
-    </Card>
+    </AlphaCard>
   ),
   { title: "Schedule Calendar" },
 );
 
 export const Notoolbar = withApplication(
   () => (
-    <Card sectioned>
+    <AlphaCard>
       <ScheduleCalendarCore
         data={mock}
         onChangeDate={() => null}
@@ -33,7 +33,7 @@ export const Notoolbar = withApplication(
           right: undefined,
         }}
       />
-    </Card>
+    </AlphaCard>
   ),
   { title: "Schedule Calendar no toolbar" },
 );

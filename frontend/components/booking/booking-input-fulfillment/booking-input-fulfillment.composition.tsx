@@ -1,5 +1,5 @@
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Card } from "@shopify/polaris";
+import { AlphaCard } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React from "react";
 import {
@@ -12,9 +12,9 @@ export const Basic = withApplication(
     const field = useField<BookingInputFulfillmentField>(undefined);
     return (
       <>
-        <Card sectioned>
+        <AlphaCard>
           <BookingInputFulfillment field={field} />
-        </Card>
+        </AlphaCard>
         <div>
           <pre>choice: {field.value}</pre>
         </div>
@@ -29,12 +29,12 @@ export const BasicLabelHidden = withApplication(
     const field = useField<BookingInputFulfillmentField>(undefined);
     return (
       <>
-        <Card sectioned>
+        <AlphaCard>
           <BookingInputFulfillment
             field={field}
             input={{ labelHidden: true }}
           />
-        </Card>
+        </AlphaCard>
         <div>
           <pre>choice: {field.value}</pre>
         </div>

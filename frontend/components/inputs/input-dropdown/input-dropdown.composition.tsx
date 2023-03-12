@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import { WidgetStaff } from "@jamalsoueidan/backend.types.widget";
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Button, Card, Icon } from "@shopify/polaris";
+import { AlphaCard, Button, Icon } from "@shopify/polaris";
 import { DynamicSourceMajor, FavoriteMajor } from "@shopify/polaris-icons";
 import { useField } from "@shopify/react-form";
 import React, { useEffect, useState } from "react";
@@ -39,14 +39,14 @@ export const Basic = withApplication(() => {
 
   return (
     <>
-      <Card title="Basic" sectioned>
+      <AlphaCard>
         <InputDropdown
           options={options}
           error={field.error}
           onChange={field.onChange}
           selected={options.find((o) => o.value === field.value)}
         />
-      </Card>
+      </AlphaCard>
       <div>
         <pre>staffId: {field?.value}</pre>
       </div>
@@ -54,76 +54,85 @@ export const Basic = withApplication(() => {
   );
 });
 
-export const Error = withApplication(() => {
-  const field = useField<InputDropdownField>(undefined);
-  useEffect(() => {
-    field.setError("error");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+export const Error = withApplication(
+  () => {
+    const field = useField<InputDropdownField>(undefined);
+    useEffect(() => {
+      field.setError("error");
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  return (
-    <>
-      <Card title="Error" sectioned>
-        <InputDropdown options={options} {...field} />
-      </Card>
-      <div>
-        <pre>staffId: {field.value}</pre>
-      </div>
-    </>
-  );
-});
+    return (
+      <>
+        <AlphaCard>
+          <InputDropdown options={options} {...field} />
+        </AlphaCard>
+        <div>
+          <pre>staffId: {field.value}</pre>
+        </div>
+      </>
+    );
+  },
+  { title: "Error" },
+);
 
-export const DisabledWithError = withApplication(() => {
-  const field = useField<InputDropdownField>(undefined);
-  const [staff, setStaff] = useState<Array<InputDropdownOption<string>>>([]);
+export const DisabledWithError = withApplication(
+  () => {
+    const field = useField<InputDropdownField>(undefined);
+    const [staff, setStaff] = useState<Array<InputDropdownOption<string>>>([]);
 
-  useEffect(() => {
-    field.setError("fejl");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    useEffect(() => {
+      field.setError("fejl");
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  return (
-    <>
-      <Card title="Disabled with error" sectioned>
-        <InputDropdown
-          options={staff}
-          input={{
-            disabled: !staff || staff.length === 0,
-            helpText: "klik på knap og vælge bruger",
-          }}
-          {...field}
-        />
-      </Card>
-      <br />
-      <Button onClick={() => setStaff(options)}>Load staff</Button>
-      <div>
-        <pre>staffId: {field.value}</pre>
-      </div>
-    </>
-  );
-});
+    return (
+      <>
+        <AlphaCard>
+          <InputDropdown
+            options={staff}
+            input={{
+              disabled: !staff || staff.length === 0,
+              helpText: "klik på knap og vælge bruger",
+            }}
+            {...field}
+          />
+        </AlphaCard>
+        <br />
+        <Button onClick={() => setStaff(options)}>Load staff</Button>
+        <div>
+          <pre>staffId: {field.value}</pre>
+        </div>
+      </>
+    );
+  },
+  { title: "Disabled with error" },
+);
 
-export const LazyLoad = withApplication(() => {
-  const field = useField<InputDropdownField>(undefined);
-  const [staff, setStaff] = useState<Array<InputDropdownOption<string>>>([]);
+export const LazyLoad = withApplication(
+  () => {
+    const field = useField<InputDropdownField>(undefined);
+    const [staff, setStaff] = useState<Array<InputDropdownOption<string>>>([]);
 
-  return (
-    <>
-      <Card title="LazyLoad" sectioned>
-        <InputDropdown
-          options={staff}
-          input={{
-            disabled: !staff || staff.length === 0,
-            helpText: "klik på knap og vælge bruger",
-          }}
-          {...field}
-        />
-      </Card>
-      <br />
-      <Button onClick={() => setStaff(options)}>Load staff</Button>
-      <div>
-        <pre>staffId: {field.value}</pre>
-      </div>
-    </>
-  );
-});
+    return (
+      <>
+        <AlphaCard>
+          <InputDropdown
+            options={staff}
+            input={{
+              disabled: !staff || staff.length === 0,
+              helpText: "klik på knap og vælge bruger",
+            }}
+            {...field}
+          />
+        </AlphaCard>
+        <br />
+        <Button onClick={() => setStaff(options)}>Load staff</Button>
+        <div>
+          <pre>staffId: {field.value}</pre>
+        </div>
+      </>
+    );
+  },
+  { title: "Lazyload" },
+);

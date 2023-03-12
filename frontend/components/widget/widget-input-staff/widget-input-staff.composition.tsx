@@ -1,7 +1,7 @@
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import { WidgetStaff } from "@jamalsoueidan/backend.types.widget";
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Button, Card } from "@shopify/polaris";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
+import { AlphaCard, Button } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import React, { useEffect, useState } from "react";
 import { WidgetInputStaff, WidgetInputStaffField } from "./widget-input-staff";
@@ -19,21 +19,21 @@ const data: WidgetStaff[] = [
   },
 ];
 
-export const Basic = () => {
+export const Basic = withApplication(() => {
   const field = useField<WidgetInputStaffField>(undefined);
   return (
-    <PreviwApplication>
-      <Card title="Basic" sectioned>
+    <>
+      <AlphaCard>
         <WidgetInputStaff data={data} field={field} />
-      </Card>
+      </AlphaCard>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </PreviwApplication>
+    </>
   );
-};
+}, {title: 'Basic'});
 
-export const Error = () => {
+export const Error = withApplication(() => {
   const field = useField<WidgetInputStaffField>(undefined);
   useEffect(() => {
     field.setError("error");
@@ -41,18 +41,18 @@ export const Error = () => {
   }, []);
 
   return (
-    <PreviwApplication>
-      <Card title="Error" sectioned>
+    <>
+      <AlphaCard>
         <WidgetInputStaff data={data} field={field} />
-      </Card>
+      </AlphaCard>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </PreviwApplication>
+    </>
   );
-};
+}, {title: 'Error'});
 
-export const DisabledWithError = () => {
+export const DisabledWithError = withApplication(() => {
   const field = useField<WidgetInputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
@@ -62,8 +62,8 @@ export const DisabledWithError = () => {
   }, []);
 
   return (
-    <PreviwApplication>
-      <Card title="Disabled with error" sectioned>
+    <>
+      <AlphaCard>
         <WidgetInputStaff
           data={staff}
           field={field}
@@ -72,23 +72,23 @@ export const DisabledWithError = () => {
             helpText: "klik på knap og vælge bruger",
           }}
         />
-      </Card>
+      </AlphaCard>
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </PreviwApplication>
+    </>
   );
-};
+}, {title: 'Disabled with error'})
 
-export const LazyLoad = () => {
+export const LazyLoad = withApplication(() => {
   const field = useField<WidgetInputStaffField>(undefined);
   const [staff, setStaff] = useState<Array<WidgetStaff>>([]);
 
   return (
-    <PreviwApplication>
-      <Card title="LazyLoad" sectioned>
+    <>
+      <AlphaCard>
         <WidgetInputStaff
           data={staff}
           field={field}
@@ -97,12 +97,12 @@ export const LazyLoad = () => {
             helpText: "klik på knap og vælge bruger",
           }}
         />
-      </Card>
+      </AlphaCard>
       <br />
       <Button onClick={() => setStaff(data)}>Load staff</Button>
       <div>
         <pre>staffId: {field.value?.staff}</pre>
       </div>
-    </PreviwApplication>
+    </>
   );
-};
+}, {title: 'Lazyload'});

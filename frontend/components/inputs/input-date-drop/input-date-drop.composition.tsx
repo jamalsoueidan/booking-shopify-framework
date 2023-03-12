@@ -1,5 +1,5 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Button, Card, Range, Text } from "@shopify/polaris";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
+import { AlphaCard, Button, Range, Text } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addDays, addMonths, eachDayOfInterval, format } from "date-fns";
 import React, { useCallback, useMemo, useState } from "react";
@@ -9,77 +9,74 @@ import {
   InputDateDropField,
 } from "./input-date-drop";
 
-export const Basic = () => {
+export const Basic = withApplication(() => {
   const [date, setDate] = useState<Range | undefined>(undefined);
   const field = useField(undefined);
 
   return (
-    <PreviwApplication>
-      <Card sectioned>
-        <InputDateDrop field={field} onMonthChange={setDate} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-        <div>
-          <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
-        </div>
-      </Card>
-    </PreviwApplication>
+    <AlphaCard>
+      <InputDateDrop field={field} onMonthChange={setDate} />
+      <Text variant="bodyMd" as="p">
+        {field.value ? format(field.value, "PPP") : ""}
+      </Text>
+      <div>
+        <pre>onMonthChange: {JSON.stringify(date || {}, null, 2)}</pre>
+      </div>
+    </AlphaCard>
   );
-};
+});
 
-export const SelectedTodayDate = () => {
+export const SelectedTodayDate = withApplication(() => {
   const date = useMemo(() => addMonths(new Date(), 1), []);
   const field = useField(date);
 
   return (
-    <PreviwApplication>
-      <Card sectioned>
-        <InputDateDrop field={field} />
-        <Text variant="bodyMd" as="p">
-          {field.value ? format(field.value, "PPP") : ""}
-        </Text>
-      </Card>
-    </PreviwApplication>
+    <AlphaCard>
+      <InputDateDrop field={field} />
+      <Text variant="bodyMd" as="p">
+        {field.value ? format(field.value, "PPP") : ""}
+      </Text>
+    </AlphaCard>
   );
-};
+});
 
-export const WithData = () => {
-  const field = useField(undefined);
+export const WithData = withApplication(
+  () => {
+    const field = useField(undefined);
 
-  return (
-    <PreviwApplication>
-      <Card title="with data" sectioned>
+    return (
+      <AlphaCard>
         <InputDateDrop data={mock} field={field} />
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
-      </Card>
-    </PreviwApplication>
-  );
-};
-
-export const DisableDates = () => {
-  const field = useField<InputDateDropField>(undefined);
-  const [data, setData] = useState<InputDataDropData>([]);
-
-  const changeData = useCallback(() => {
-    const result = eachDayOfInterval({
-      end: addDays(new Date(), 9),
-      start: addDays(new Date(), 5),
-    });
-    setData(
-      result.map((r) => ({
-        date: r,
-        hours: [],
-      })),
+      </AlphaCard>
     );
-    field.onChange(undefined);
-  }, [field]);
+  },
+  { title: "With data" },
+);
 
-  return (
-    <PreviwApplication>
-      <Card title="Inline mode with data" sectioned>
+export const DisableDates = withApplication(
+  () => {
+    const field = useField<InputDateDropField>(undefined);
+    const [data, setData] = useState<InputDataDropData>([]);
+
+    const changeData = useCallback(() => {
+      const result = eachDayOfInterval({
+        end: addDays(new Date(), 9),
+        start: addDays(new Date(), 5),
+      });
+      setData(
+        result.map((r) => ({
+          date: r,
+          hours: [],
+        })),
+      );
+      field.onChange(undefined);
+    }, [field]);
+
+    return (
+      <AlphaCard>
         <InputDateDrop
           data={data}
           field={field}
@@ -91,32 +88,33 @@ export const DisableDates = () => {
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
-      </Card>
-    </PreviwApplication>
-  );
-};
-
-export const WithDataChange = () => {
-  const field = useField<InputDateDropField>(undefined);
-  const [data, setData] = useState<InputDataDropData>([]);
-
-  const changeData = useCallback(() => {
-    const result = eachDayOfInterval({
-      end: addDays(new Date(), 9),
-      start: addDays(new Date(), 5),
-    });
-    setData(
-      result.map((r) => ({
-        date: r,
-        hours: [],
-      })),
+      </AlphaCard>
     );
-    field.onChange(undefined);
-  }, [field]);
+  },
+  { title: "Inline mode with data" },
+);
 
-  return (
-    <PreviwApplication>
-      <Card title="Inline mode with data" sectioned>
+export const WithDataChange = withApplication(
+  () => {
+    const field = useField<InputDateDropField>(undefined);
+    const [data, setData] = useState<InputDataDropData>([]);
+
+    const changeData = useCallback(() => {
+      const result = eachDayOfInterval({
+        end: addDays(new Date(), 9),
+        start: addDays(new Date(), 5),
+      });
+      setData(
+        result.map((r) => ({
+          date: r,
+          hours: [],
+        })),
+      );
+      field.onChange(undefined);
+    }, [field]);
+
+    return (
+      <AlphaCard>
         <InputDateDrop
           data={data}
           field={field}
@@ -127,10 +125,11 @@ export const WithDataChange = () => {
         <Text variant="bodyMd" as="p">
           {field.value ? format(field.value, "PPP") : ""}
         </Text>
-      </Card>
-    </PreviwApplication>
-  );
-};
+      </AlphaCard>
+    );
+  },
+  { title: "Inline mode with data" },
+);
 
 const result = eachDayOfInterval({
   end: addDays(new Date(), 4),

@@ -1,5 +1,5 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Card, Select } from "@shopify/polaris";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
+import { AlphaCard, Select } from "@shopify/polaris";
 import { useField } from "@shopify/react-form";
 import { addHours, eachHourOfInterval, setHours } from "date-fns";
 import React from "react";
@@ -22,20 +22,20 @@ const InputTimerDrop = ({ data, field }: UseTimerProps) => {
   );
 };
 
-export const Basic = () => {
+export const Basic = withApplication(() => {
   const field = useField<UseTimerField>(undefined);
 
   return (
-    <PreviwApplication>
-      <Card sectioned>
+    <>
+      <AlphaCard>
         <InputTimerDrop field={field} data={mock} />
-      </Card>
+      </AlphaCard>
       <div>
         <pre>{JSON.stringify(field?.value || {}, null, 2)}</pre>
       </div>
-    </PreviwApplication>
+    </>
   );
-};
+});
 
 const result = eachHourOfInterval({
   end: setHours(new Date(), 21),

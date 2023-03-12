@@ -18,7 +18,7 @@ You must handle submit via ref because this component can be used in both modal 
 
 ### Component usage
 
-```js
+```tsx
 const ref = useRef < CreateManyShiftsRefMethod > null;
 const onSubmit = useCallback((fieldValues): CreateManyShiftsSubmitResult => {
   return {
@@ -38,8 +38,9 @@ const submit = useCallback(() => {
 }, [ref]);
 
 return (
-  <Card sectioned primaryFooterAction={{ content: "Submit", onAction: submit }}>
+  <>
     <ScheduleFormManyShifts data={initData} onSubmit={onSubmit} ref={ref} />
-  </Card>
+    <Button onClick={submit}>Submit</Button>
+  </>
 );
 ```

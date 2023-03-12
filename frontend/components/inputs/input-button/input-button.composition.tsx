@@ -1,28 +1,31 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
-import { Card } from "@shopify/polaris";
+import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
+import { AlphaCard } from "@shopify/polaris";
 import React from "react";
 import { InputButton } from "./input-button";
 
-export const BasicInputButtonWithError = () => (
-  <PreviwApplication>
-    <Card title="Button (error)" sectioned>
+export const BasicInputButtonWithError = withApplication(
+  () => (
+    <AlphaCard>
       <InputButton error="error">Error</InputButton>
-    </Card>
-  </PreviwApplication>
+    </AlphaCard>
+  ),
+  { title: "Button (Error)" },
 );
 
-export const BasicInputButtonNoError = () => (
-  <PreviwApplication>
-    <Card title="Button (no error)" sectioned>
+export const BasicInputButtonNoError = withApplication(
+  () => (
+    <AlphaCard>
       <InputButton>No error</InputButton>
-    </Card>
-  </PreviwApplication>
+    </AlphaCard>
+  ),
+  { title: "Button (no error)" },
 );
 
-export const BasicInputButtonLoading = () => (
-  <PreviwApplication>
-    <Card title="Loading" sectioned>
+export const BasicInputButtonLoading = withApplication(
+  () => (
+    <AlphaCard>
       <InputButton loading>Loading</InputButton>
-    </Card>
-  </PreviwApplication>
+    </AlphaCard>
+  ),
+  { title: "Loading" },
 );

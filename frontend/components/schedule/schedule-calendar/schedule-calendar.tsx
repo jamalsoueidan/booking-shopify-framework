@@ -5,7 +5,7 @@ import {
   InputTagsField,
 } from "@jamalsoueidan/frontend.components.inputs.input-tags";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
-import { Button, ButtonGroup, Stack } from "@shopify/polaris";
+import { Button, ButtonGroup, Columns, Inline } from "@shopify/polaris";
 import { ResetMinor } from "@shopify/polaris-icons";
 import { useField } from "@shopify/react-form";
 import React, { useCallback, useMemo, useRef } from "react";
@@ -37,25 +37,22 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
 
   return (
     <>
-      <Stack>
-        <Stack.Item fill>
-          <Stack alignment="center">
-            <CalendarTitle calendarRef={ref.current} />
-            <ButtonGroup segmented>
-              <Button onClick={handlePrev} size="slim">
-                &#60;
-              </Button>
-              <Button onClick={handleNext} size="slim">
-                &#62;
-              </Button>
-            </ButtonGroup>
-          </Stack>
-        </Stack.Item>
-        <Stack>
+      <Columns columns={["oneThird", "twoThirds"]}>
+        <Inline gap="4">
+          <CalendarTitle calendarRef={ref.current} />
+          <ButtonGroup segmented>
+            <Button onClick={handlePrev} size="slim">
+              &#60;
+            </Button>
+            <Button onClick={handleNext} size="slim">
+              &#62;
+            </Button>
+          </ButtonGroup>
+        </Inline>
+        <Inline gap="4" align="end">
           <Button onClick={reset} icon={ResetMinor}>
             {t("reset")}
           </Button>
-
           <InputTags
             field={tag}
             input={{
@@ -64,8 +61,8 @@ export const ScheduleCalendar = (props: ScheduleCalendarProps) => {
               size: "medium",
             }}
           />
-        </Stack>
-      </Stack>
+        </Inline>
+      </Columns>
 
       <ScheduleCalendarCore
         {...props}

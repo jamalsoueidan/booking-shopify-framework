@@ -10,9 +10,9 @@ import { usePosition } from "@jamalsoueidan/frontend.hooks.use-position";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { useToast } from "@jamalsoueidan/frontend.providers.toast";
 import {
+  AlphaCard,
   Box,
   BreadcrumbsProps,
-  Card,
   Form,
   FormLayout,
   Image,
@@ -160,7 +160,7 @@ export const StaffForm = memo(
           <Layout>
             <FormErrors errors={submitErrors} />
             <Layout.AnnotatedSection title={t("form.title")}>
-              <Card sectioned>
+              <AlphaCard>
                 <FormLayout>
                   <TextField
                     label={t("fullname.label")}
@@ -203,10 +203,10 @@ export const StaffForm = memo(
                     onChange={changePostal}
                   />
                 </FormLayout>
-              </Card>
+              </AlphaCard>
             </Layout.AnnotatedSection>
             <Layout.AnnotatedSection title={t("user.title")}>
-              <Card sectioned>
+              <AlphaCard>
                 <FormLayout>
                   <Select
                     label={t("position.label")}
@@ -234,30 +234,28 @@ export const StaffForm = memo(
                     />
                   ) : null}
                 </FormLayout>
-              </Card>
+              </AlphaCard>
             </Layout.AnnotatedSection>
             <Layout.AnnotatedSection title={t("image.title")}>
-              <Card>
-                <Card.Section>
-                  <TextField
-                    label={t("avatar.label")}
-                    type="text"
-                    autoComplete="avatar"
-                    placeholder={t("avatar.placeholder")}
-                    helpText={<span>{t("avatar.help")}</span>}
-                    {...fields?.avatar}
-                  />
-                  {fields?.avatar.value && (
-                    <Box paddingBlockStart="4">
-                      <Image
-                        source={fields?.avatar.value}
-                        alt="avatar url"
-                        width="100px"
-                      />
-                    </Box>
-                  )}
-                </Card.Section>
-              </Card>
+              <AlphaCard>
+                <TextField
+                  label={t("avatar.label")}
+                  type="text"
+                  autoComplete="avatar"
+                  placeholder={t("avatar.placeholder")}
+                  helpText={<span>{t("avatar.help")}</span>}
+                  {...fields?.avatar}
+                />
+                {fields?.avatar.value && (
+                  <Box paddingBlockStart="4">
+                    <Image
+                      source={fields?.avatar.value}
+                      alt="avatar url"
+                      width="100px"
+                    />
+                  </Box>
+                )}
+              </AlphaCard>
             </Layout.AnnotatedSection>
           </Layout>
           <br />

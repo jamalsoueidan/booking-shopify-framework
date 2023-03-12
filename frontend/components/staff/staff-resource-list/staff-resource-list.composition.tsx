@@ -1,9 +1,9 @@
 import { withApplication } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { Card } from "@shopify/polaris";
+import { AlphaCard, Box, Text } from "@shopify/polaris";
 import React, { useCallback } from "react";
 import { StaffResourceList } from "./staff-resource-list";
 
-export const BasicStaffResourceList = withApplication(() => {
+export const Basic = withApplication(() => {
   const renderItem = useCallback((item: number) => {
     if (item === 1) {
       return {
@@ -23,8 +23,13 @@ export const BasicStaffResourceList = withApplication(() => {
     };
   }, []);
   return (
-    <Card title="StaffResourceItem">
+    <AlphaCard padding="0">
+      <Box padding="4">
+        <Text as="h1" variant="bodyLg">
+          Staff Resource List
+        </Text>
+      </Box>
       <StaffResourceList items={[1, 2, 3]} renderItem={renderItem} />
-    </Card>
+    </AlphaCard>
   );
 });

@@ -3,7 +3,7 @@ import { InputTags } from "@jamalsoueidan/frontend.components.inputs.input-tags"
 import { useDate } from "@jamalsoueidan/frontend.hooks.use-date";
 import { useTag } from "@jamalsoueidan/frontend.hooks.use-tag";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
-import { Card, Columns, Layout, TextField } from "@shopify/polaris";
+import { Columns, Layout, TextField } from "@shopify/polaris";
 import {
   FormError,
   SubmitResult,
@@ -80,14 +80,10 @@ export const ScheduleFormOneShift = forwardRef<
   return (
     <Layout>
       <Layout.Section>
-        <Card>
-          <Card.Section>
-            {t("title", {
-              date: <strong>{format(data?.start, "PPP")}</strong>,
-              day: <strong>{format(data?.start, "EEEE")}</strong>,
-            })}
-          </Card.Section>
-        </Card>
+        {t("title", {
+          date: <strong>{format(data?.start, "PPP")}</strong>,
+          day: <strong>{format(data?.start, "EEEE")}</strong>,
+        })}
       </Layout.Section>
       <Layout.Section>
         <Columns
