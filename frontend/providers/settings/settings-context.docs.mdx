@@ -7,7 +7,7 @@ labels: ["context"]
 
 The setting provider is an essential component that must be present in order to enable the sharing of global settings across all levels of your application's.
 Additionally, it adds nested instances of i18nProvider and AppProvider.
-If this Provider is not a wrapper for the entire application, then you will not be able to use the components that are provided in BSF.
+If this Provider is not a wrapper for the entire application, then you will not be able to use the components that are provided in frontend ui.
 
 ### Component usage
 
@@ -21,6 +21,8 @@ If this Provider is not a wrapper for the entire application, then you will not 
       value={{
         language: data?.language || "da",
         timeZone: data?.timeZone || "Europe/Copenhagen",
+        LinkComponent,
+        navigate: useNavigate(),
         features: {
           newShop: true
         }

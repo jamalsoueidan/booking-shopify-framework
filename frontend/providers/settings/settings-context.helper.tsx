@@ -24,8 +24,3 @@ export function LinkComponent({ url, children, external, ...rest }: any) {
     </a>
   );
 }
-
-export const useNavigate = () => () => {
-  if (typeof window === "undefined")
-    throw new Error("cannot use native navigator outside of browser. ");
-};

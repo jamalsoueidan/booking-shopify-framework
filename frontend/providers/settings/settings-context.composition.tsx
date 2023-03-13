@@ -7,13 +7,15 @@ import { SettingsProvider } from "./settings-context-provider";
 import { LinkComponent } from "./settings-context.helper";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const useNavigate: any = () => {};
+const navigate = (to: any, options?: any) => {
+  return console.log(to);
+};
 
 const value: SettingsContextValues = {
   LinkComponent,
   language: "da",
   timeZone: "Europe",
-  useNavigate,
+  navigate,
 };
 
 const locales = {

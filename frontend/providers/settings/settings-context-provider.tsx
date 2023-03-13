@@ -19,7 +19,7 @@ import {
 
 export type SettingsProviderProps = {
   children: ReactNode;
-  value?: SettingsContextValues;
+  value: SettingsContextValues;
 };
 
 export const SettingsProvider = ({

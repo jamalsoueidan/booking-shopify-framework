@@ -13,7 +13,12 @@ export const useSettings = () => {
   return context;
 };
 
-export const useNavigate = () => useSettings().useNavigate;
+export const useNavigate = () => {
+  if (typeof window === "undefined")
+    throw new Error("cannot use native navigator outside of browser. ");
+
+  return useSettings().navigate;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Link = ({ children, ...rest }: any) => {

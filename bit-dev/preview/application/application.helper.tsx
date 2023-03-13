@@ -7,6 +7,7 @@ import {
 } from "@jamalsoueidan/frontend.providers.ability";
 import { SaveBarProvider } from "@jamalsoueidan/frontend.providers.save-bar";
 import {
+  SettingsContextValues,
   SettingsProvider,
   useSettings,
 } from "@jamalsoueidan/frontend.providers.settings";
@@ -18,11 +19,35 @@ import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { Field, useField } from "@shopify/react-form";
 import { I18nContext, I18nManager, useI18n } from "@shopify/react-i18n";
-import React, { ReactNode, useEffect, useMemo } from "react";
+import React, { ReactNode, useCallback, useEffect, useMemo } from "react";
 
 const i18nManager = new I18nManager({
   locale: "da",
 });
+
+const navigate = (to: any, options?: any) => {
+  return console.log(to);
+};
+
+export function LinkComponent({ url, children, external, ...rest }: any) {
+  const handleClick = useCallback(() => {
+    console.log("link");
+  }, []);
+
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+    <a {...rest} onClick={handleClick} role="alert">
+      {children}
+    </a>
+  );
+}
+
+const value: SettingsContextValues = {
+  LinkComponent,
+  language: "da",
+  timeZone: "Europe/Copenhagen",
+  navigate,
+};
 
 export interface ApplicationProps {
   children?: React.ReactNode;
@@ -35,7 +60,7 @@ export const ApplicationWrapper = ({
 }: ApplicationProps) => (
   <I18nContext.Provider value={i18nManager}>
     <PolarisProvider>
-      <SettingsProvider>
+      <SettingsProvider value={value}>
         <AbilityPreview>
           {(field: Field<StaffRole>) => (
             <Frame>

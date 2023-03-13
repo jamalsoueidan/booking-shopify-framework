@@ -116,7 +116,7 @@
     /**
      * "*" is a special rule which applied on all components in the workspace.
      **/
-    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {state/**}, {frontend}": {
+    "{preview/**}, {components/**}, {components/*/**}, {hooks/**}, {providers/**}, {helpers/**}, {state/**}, {pages/**}, {frontend}": {
       "jamalsoueidan.bit-dev/envs/react": {}
     }
   }
