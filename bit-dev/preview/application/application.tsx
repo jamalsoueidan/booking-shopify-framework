@@ -1,17 +1,20 @@
+import "@jamalsoueidan/frontend.polyfills.json";
 import { Page } from "@shopify/polaris";
 import "@shopify/polaris/build/esm/styles.css";
 import React from "react";
-import { ApplicationWrapper } from "./application.helper";
+import { ApplicationWrapper } from "./application-wrapper";
 
 export interface PreviewApplicationProps {
   children?: React.ReactNode;
   title?: string;
+  initialEntries?: Array<string>;
   hideControls?: boolean;
 }
 
-export const PreviwApplication = ({
+export const Application = ({
   children,
   title,
+  initialEntries,
   hideControls,
 }: PreviewApplicationProps) => {
   const h = window.location.href;
@@ -23,6 +26,7 @@ export const PreviwApplication = ({
       hideControls={
         isOnProfile || isOnOverview || isOnDoc || hideControls === true
       }
+      initialEntries={initialEntries}
     >
       <Page fullWidth title={title || ""}>
         {children}
