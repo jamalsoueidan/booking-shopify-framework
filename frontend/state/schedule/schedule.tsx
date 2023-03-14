@@ -19,7 +19,9 @@ import { useFetch } from "@jamalsoueidan/frontend.providers.fetch";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
 
-export const useStaffSchedule = (params: ScheduleServiceGetAllProps) => {
+export const useStaffSchedule = (
+  params: Partial<ScheduleServiceGetAllProps>,
+) => {
   const { get } = useFetch();
   const { data } = useQuery<ApiResponse<Array<Schedule>>>({
     enabled: !!params.start && !!params.end,

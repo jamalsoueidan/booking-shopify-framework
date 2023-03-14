@@ -1,4 +1,4 @@
-import { PreviwApplication } from "@jamalsoueidan/bit-dev.preview.application";
+import { Application } from "@jamalsoueidan/bit-dev.preview.application";
 import { SaveBarProvider } from "@jamalsoueidan/frontend.providers.save-bar";
 import { ToastProvider } from "@jamalsoueidan/frontend.providers.toast";
 import { Badge } from "@shopify/polaris";
@@ -22,7 +22,7 @@ const staff = {
 };
 
 export const BasicStaffForm = () => (
-  <PreviwApplication>
+  <Application>
     <SaveBarProvider>
       <ToastProvider>
         <StaffForm
@@ -32,11 +32,11 @@ export const BasicStaffForm = () => (
         />
       </ToastProvider>
     </SaveBarProvider>
-  </PreviwApplication>
+  </Application>
 );
 
 export const BasicStaffFormAllow = () => (
-  <PreviwApplication>
+  <Application>
     <SaveBarProvider>
       <ToastProvider>
         <StaffForm
@@ -47,5 +47,5 @@ export const BasicStaffFormAllow = () => (
         />
       </ToastProvider>
     </SaveBarProvider>
-  </PreviwApplication>
+  </Application>
 );

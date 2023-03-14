@@ -11,11 +11,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  SettingsContext,
-  SettingsContextValues,
-  defaultValues,
-} from "./settings-context";
+import { SettingsContext, defaultValues } from "./settings-context";
+import { SettingsContextValues } from "./settings-context.types";
 
 export type SettingsProviderProps = {
   children: ReactNode;

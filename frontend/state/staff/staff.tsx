@@ -11,25 +11,26 @@ import { useQuery } from "react-query";
 export const useStaff = () => {
   const { get } = useFetch();
 
-  const { data } = useQuery<ApiResponse<Array<Staff>>>(
-    ["staff"],
-    () => get({ url: "/staff" }),
-    { suspense: true },
-  );
+  const { data } = useQuery<ApiResponse<Array<Staff>>>({
+    queryFn: () => get({ url: "/staff" }),
+    queryKey: ["staff"],
+  });
 
   return { data: data?.payload };
 };
 
 interface UseStaffGetProps {
-  userId: string;
+  userId?: string;
 }
 
 export const useStaffGet = ({ userId }: UseStaffGetProps) => {
   const { get } = useFetch();
 
-  const { data } = useQuery(["staff", userId], () =>
-    get<ApiResponse<Staff>>({ url: `/staff/${userId}` }),
-  );
+  const { data } = useQuery({
+    enabled: !!userId,
+    queryFn: () => get<ApiResponse<Staff>>({ url: `/staff/${userId}` }),
+    queryKey: ["staff", userId],
+  });
 
   return {
     data: data?.payload,

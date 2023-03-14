@@ -4,8 +4,8 @@ import React from "react";
 import { useFulfillment } from "./use-fulfillment";
 
 function MockComponent() {
-  const { selectFulfillment } = useFulfillment();
-  return <>{selectFulfillment(BookingFulfillmentStatus.CANCELLED)}</>;
+  const { selectFulfillmentLabel } = useFulfillment();
+  return <>{selectFulfillmentLabel(BookingFulfillmentStatus.CANCELLED)}</>;
 }
 
 export const Basic = withApplication(() => <MockComponent />, {

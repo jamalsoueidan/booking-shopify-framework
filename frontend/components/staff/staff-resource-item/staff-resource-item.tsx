@@ -28,7 +28,7 @@ export const StaffResourceItem = ({
   url,
   action,
 }: StaffResourceItemProps) => (
-  <Link url={url}>
+  <Link url={url || ""}>
     <AlphaStack>
       <Box
         paddingInlineStart="4"

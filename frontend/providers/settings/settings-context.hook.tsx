@@ -1,8 +1,9 @@
-import {
-  SettingsContext,
-  SettingsContextType,
-} from "@jamalsoueidan/frontend.providers.settings";
 import React, { useContext } from "react";
+import { SettingsContext } from "./settings-context";
+import {
+  LinkComponentProps,
+  SettingsContextType,
+} from "./settings-context.types";
 
 export const useSettings = () => {
   const context = useContext<SettingsContextType>(SettingsContext);
@@ -20,8 +21,7 @@ export const useNavigate = () => {
   return useSettings().navigate;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Link = ({ children, ...rest }: any) => {
+export const Link = ({ children, ...rest }: LinkComponentProps) => {
   const { LinkComponent } = useSettings();
 
   if (LinkComponent) {

@@ -2,20 +2,15 @@ import { Button, Page, Text } from "@shopify/polaris";
 import "@shopify/polaris/build/esm/styles.css";
 import { useI18n } from "@shopify/react-i18n";
 import React, { useState } from "react";
-import { SettingsContextValues } from "./settings-context";
 import { SettingsProvider } from "./settings-context-provider";
-import { LinkComponent } from "./settings-context.helper";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const navigate = (to: any, options?: any) => {
-  return console.log(to);
-};
+import { LinkComponent, Navigate } from "./settings-context.helper";
+import { SettingsContextValues } from "./settings-context.types";
 
 const value: SettingsContextValues = {
   LinkComponent,
   language: "da",
+  navigate: Navigate(),
   timeZone: "Europe",
-  navigate,
 };
 
 const locales = {

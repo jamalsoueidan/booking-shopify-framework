@@ -1,5 +1,6 @@
 import {
   Staff,
+  StaffBodyCreate,
   StaffBodyUpdate,
   StaffRole,
 } from "@jamalsoueidan/backend.types.staff";
@@ -27,8 +28,8 @@ import React, { memo, useCallback, useMemo } from "react";
 import { da, en } from "./translations";
 
 export interface StaffFormProps {
-  action: (body: StaffBodyUpdate) => void;
-  breadcrumbs?: BreadcrumbsProps["breadcrumbs"];
+  action: (body: StaffBodyUpdate | StaffBodyCreate) => void;
+  breadcrumbs?: BreadcrumbsProps["backAction"];
   titleMetadata?: React.ReactNode;
   data?: Staff;
   allowEditing?: Record<string, boolean>;
@@ -154,7 +155,7 @@ export const StaffForm = memo(
         <Page
           fullWidth
           title={data ? data?.fullname : t("title")}
-          breadcrumbs={breadcrumbs}
+          backAction={breadcrumbs}
           titleMetadata={titleMetadata}
         >
           <Layout>
