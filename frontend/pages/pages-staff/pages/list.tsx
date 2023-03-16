@@ -53,10 +53,12 @@ export const List = () => {
       fullWidth
       title={t("title")}
       primaryAction={
-        ability.can("create", "staff") && {
-          content: t("add"),
-          url: "new",
-        }
+        ability.can("create", "staff")
+          ? {
+              content: t("add"),
+              url: "new",
+            }
+          : null
       }
     >
       <AlphaCard padding="0">

@@ -16,12 +16,17 @@ import { Schedule } from "@jamalsoueidan/backend.types.schedule";
 import { BadgeStatus } from "@jamalsoueidan/frontend.components.badge-status";
 import { LoadingModal } from "@jamalsoueidan/frontend.components.loading.loading-modal";
 import { LoadingSpinner } from "@jamalsoueidan/frontend.components.loading.loading-spinner";
+import { endOfMonth } from "date-fns";
 
 export const View = () => {
   const { t } = useTranslation({ id: "staff-schedule", locales });
   const ability = useAbility();
   const params = useParams();
-  const [rangeDate, setRangeDate] = useState<{ start: Date; end: Date }>();
+  const [rangeDate, setRangeDate] = useState<{ start: Date; end: Date }>({
+    end: endOfMonth(new Date()),
+    start: new Date(),
+  });
+
   const [date, setDate] = useState<Date>();
   const [editOneSchedule, setEditOneSchedule] = useState<Schedule>();
   const [editManySchedule, setEditManySchedule] = useState<Schedule>();
@@ -40,11 +45,11 @@ export const View = () => {
     }
   }, []);
 
-  const { data: staff } = useStaffGet({ userId: params.id });
+  const { data: staff } = useStaffGet({ userId: params.id || "" });
 
   const { data: calendar } = useStaffSchedule({
     end: rangeDate?.end,
-    staff: params.id,
+    staff: params.id || "",
     start: rangeDate?.start,
   });
 
@@ -68,18 +73,22 @@ export const View = () => {
       titleMetadata={<BadgeStatus active={active} />}
       backAction={{ content: "staff", url: "../" }}
       primaryAction={
-        ability.can("update", subject("staff", staff)) && {
-          content: t("edit", { fullname }),
-          url: `../edit/${_id}`,
-        }
+        ability.can("update", subject("staff", staff))
+          ? {
+              content: t("edit", { fullname }),
+              url: `../edit/${_id}`,
+            }
+          : null
       }
       secondaryActions={
-        ability.can("update", subject("staff", staff)) && [
-          {
-            content: t("add"),
-            onAction: () => setDate(new Date()),
-          },
-        ]
+        ability.can("update", subject("staff", staff))
+          ? [
+              {
+                content: t("add"),
+                onAction: () => setDate(new Date()),
+              },
+            ]
+          : []
       }
     >
       <>
