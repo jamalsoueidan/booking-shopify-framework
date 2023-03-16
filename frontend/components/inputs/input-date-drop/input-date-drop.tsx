@@ -3,6 +3,7 @@ import {
   InputDate,
   InputDateField,
 } from "@jamalsoueidan/frontend.components.inputs.input-date";
+import { useDate } from "@jamalsoueidan/frontend.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import {
   Icon,
@@ -13,7 +14,6 @@ import {
 } from "@shopify/polaris";
 import { CalendarMajor } from "@shopify/polaris-icons";
 import { Field } from "@shopify/react-form";
-import { format } from "date-fns";
 import React, { useCallback, useState } from "react";
 
 export type InputDateDropField = InputDateField;
@@ -39,6 +39,7 @@ export const InputDateDrop = ({
 }: InputDateDropProps) => {
   const { t } = useTranslation({ id: "input-date-drop", locales });
   const [popoverActive, setPopoverActive] = useState(false);
+  const { format } = useDate();
 
   const togglePopoverActive = useCallback(
     () => setPopoverActive((popoverActive) => !popoverActive),
