@@ -63,7 +63,7 @@ export class ReactEnv implements ReactEnvInterface {
    */
   packageJson = {
     main: "dist/index.js",
-    // type: "module",
+    type: "module",
     types: "index.ts",
   };
 
