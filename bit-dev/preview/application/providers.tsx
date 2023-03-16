@@ -5,7 +5,6 @@ import {
 } from "@jamalsoueidan/frontend.providers.ability";
 import { FetchProvider as FP } from "@jamalsoueidan/frontend.providers.fetch";
 import { AppProvider } from "@shopify/polaris";
-import "@shopify/polaris/build/esm/styles.css";
 import da from "@shopify/polaris/locales/da.json";
 import en from "@shopify/polaris/locales/en.json";
 import { Field, useField } from "@shopify/react-form";

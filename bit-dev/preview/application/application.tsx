@@ -4,19 +4,26 @@ import "@shopify/polaris/build/esm/styles.css";
 import React from "react";
 import { ApplicationWrapper } from "./application-wrapper";
 
-export interface PreviewApplicationProps {
-  children?: React.ReactNode;
+export interface ApplicationOptionsProps {
   title?: string;
+  isLive?: boolean;
   initialEntries?: Array<string>;
+  wrapPage?: boolean;
   hideControls?: boolean;
+}
+
+export interface ApplicationProps extends ApplicationOptionsProps {
+  children?: React.ReactNode;
 }
 
 export const Application = ({
   children,
   title,
   initialEntries,
+  wrapPage = true,
+  isLive = false,
   hideControls,
-}: PreviewApplicationProps) => {
+}: ApplicationProps) => {
   const h = window.location.href;
   const isOnProfile = h.endsWith("compositions&");
   const isOnOverview = h.includes("viewport");
@@ -27,10 +34,15 @@ export const Application = ({
         isOnProfile || isOnOverview || isOnDoc || hideControls === true
       }
       initialEntries={initialEntries}
+      isLive={isLive}
     >
-      <Page fullWidth title={title || ""}>
-        {children}
-      </Page>
+      {wrapPage ? (
+        <Page fullWidth title={title || ""}>
+          {children}
+        </Page>
+      ) : (
+        children
+      )}
     </ApplicationWrapper>
   );
 };

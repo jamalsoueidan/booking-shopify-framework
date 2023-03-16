@@ -5,8 +5,14 @@ import { Link } from "react-router-dom";
 export const LinkComponent = ({
   children,
   ...rest
-}: LinkLikeComponentProps) => (
-  <Link to={rest.url} relative="route" style={{ cursor: "pointer" }}>
-    {children}
-  </Link>
-);
+}: LinkLikeComponentProps) => {
+  if (rest.url === "" || !rest.url) {
+    return <>{children}</>;
+  }
+
+  return (
+    <Link to={rest.url} relative="route" style={{ cursor: "pointer" }}>
+      {children}
+    </Link>
+  );
+};
