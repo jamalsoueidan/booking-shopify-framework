@@ -1,4 +1,5 @@
 // COMPONENTS
+export * from "@jamalsoueidan/frontend.components.badge-status";
 export * from "@jamalsoueidan/frontend.components.booking.booking-calendar";
 export * from "@jamalsoueidan/frontend.components.booking.booking-customer";
 export * from "@jamalsoueidan/frontend.components.booking.booking-input-fulfillment";
@@ -27,11 +28,17 @@ export * from "@jamalsoueidan/frontend.components.product.product-staff-empty";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-calendar";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-form-many-shifts";
 export * from "@jamalsoueidan/frontend.components.schedule.schedule-form-one-shift";
+export * from "@jamalsoueidan/frontend.components.schedule.schedule-modal-create-many-shifts";
+export * from "@jamalsoueidan/frontend.components.schedule.schedule-modal-create-one-shift";
+export * from "@jamalsoueidan/frontend.components.schedule.schedule-modal-create-shift";
+export * from "@jamalsoueidan/frontend.components.schedule.schedule-modal-edit-many-shifts";
+export * from "@jamalsoueidan/frontend.components.schedule.schedule-modal-edit-one-shift";
 export * from "@jamalsoueidan/frontend.components.staff.staff-avatar-stack";
 export * from "@jamalsoueidan/frontend.components.staff.staff-form";
 export * from "@jamalsoueidan/frontend.components.staff.staff-resource-item";
 export * from "@jamalsoueidan/frontend.components.staff.staff-resource-list";
 export * from "@jamalsoueidan/frontend.components.widget.widget-input-staff";
+export * from "@jamalsoueidan/frontend.pages.pages-staff";
 // HELPERS
 export * from "@jamalsoueidan/frontend.helpers.helper-array";
 export * from "@jamalsoueidan/frontend.helpers.helper-date";
