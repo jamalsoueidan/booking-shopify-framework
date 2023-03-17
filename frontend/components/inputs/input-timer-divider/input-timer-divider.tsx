@@ -31,7 +31,7 @@ export const InputTimerDivider = ({
   field,
   input,
 }: InputTimerDividerProps) => {
-  const { format } = useDate();
+  const { formatInTimezone } = useDate();
   const { options, onChange } = useTimer({
     autoSelectFirst: false,
     data,
@@ -41,18 +41,19 @@ export const InputTimerDivider = ({
   const { t } = useTranslation({ id: "input-timer-divider", locales });
 
   const morning =
-    options?.filter((f) => parseInt(format(new Date(f.value), "k"), 10) < 12) ||
-    [];
+    options?.filter(
+      (f) => parseInt(formatInTimezone(new Date(f.value), "k"), 10) < 12,
+    ) || [];
 
   const afternoon =
     options?.filter((f) => {
-      const hour = parseInt(format(new Date(f.value), "k"), 10);
+      const hour = parseInt(formatInTimezone(new Date(f.value), "k"), 10);
       return hour > 12 && hour < 18;
     }) || [];
 
   const evening =
     options?.filter((f) => {
-      const hour = parseInt(format(new Date(f.value), "k"), 10);
+      const hour = parseInt(formatInTimezone(new Date(f.value), "k"), 10);
       return hour > 18;
     }) || [];
 
@@ -108,7 +109,7 @@ interface ColumnPeriodProps {
 
 const ColumnPeriod = memo(
   ({ date, hours, onChange, selected }: ColumnPeriodProps) => {
-    const { format } = useDate();
+    const { formatInTimezone } = useDate();
     const { t } = useTranslation({
       id: "column-period",
       locales: {
@@ -124,7 +125,7 @@ const ColumnPeriod = memo(
     return (
       <AlphaStack gap="1">
         <Text variant="headingSm" as="p" alignment="center">
-          {format(date, "B")}
+          {formatInTimezone(date, "B")}
         </Text>
         {hours.length === 0 ? (
           <Text variant="bodyMd" as="span" alignment="center">

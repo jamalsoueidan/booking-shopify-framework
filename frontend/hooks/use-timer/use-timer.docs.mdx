@@ -1,9 +1,9 @@
 ---
-description: "A React Hook that increments a count by 1 each time it is called."
+description: "A React Hook that handle time and field together."
 labels: ["hook", "timer"]
 ---
 
-## A React Hook to increment a count
+## A React Hook that handle time and field together.
 
 A hook component that extend timer components.
 
@@ -15,5 +15,13 @@ const { options, onChange } = useTimer({
   field,
 });
 
-return <Select labelHidden label="-" options={options} onChange={onChange} value={field.value?.start} />;
+return (
+  <Select
+    labelHidden
+    label="-"
+    options={options}
+    onChange={onChange}
+    value={field.value?.start}
+  />
+);
 ```

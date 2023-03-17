@@ -2,6 +2,7 @@ import { ScheduleFormManyShiftsRefMethod } from "@jamalsoueidan/frontend.compone
 import { ScheduleFormOneShiftRefMethod } from "@jamalsoueidan/frontend.components.schedule.schedule-form-one-shift";
 import { ScheduleModalCreateManyShifts } from "@jamalsoueidan/frontend.components.schedule.schedule-modal-create-many-shifts";
 import { ScheduleModalCreateOneShift } from "@jamalsoueidan/frontend.components.schedule.schedule-modal-create-one-shift";
+import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import { Modal, Tabs } from "@shopify/polaris";
 import React, { useCallback, useRef, useState } from "react";
 
@@ -19,6 +20,10 @@ export const ScheduleModalCreateShift = ({
   const ref = useRef<
     ScheduleFormManyShiftsRefMethod | ScheduleFormOneShiftRefMethod
   >(null);
+  const { t } = useTranslation({
+    id: "schedule-modal-create-shift",
+    locales,
+  });
   const [loading, setLoading] = useState<boolean>(false);
   const [selected, setSelected] = useState(0);
   const handleTabChange = useCallback(
@@ -31,16 +36,18 @@ export const ScheduleModalCreateShift = ({
     setLoading(true);
     if (noErrors) {
       close();
+    } else {
+      setLoading(false);
     }
   }, [close]);
 
   const tabs = [
     {
-      content: "Create for range",
+      content: t("create_range"),
       id: "create-all",
     },
     {
-      content: `Create for day`,
+      content: t("create_day"),
       id: "create-day",
     },
   ];
@@ -49,7 +56,7 @@ export const ScheduleModalCreateShift = ({
     <Modal
       open
       onClose={close}
-      title="New availability"
+      title={t("title")}
       primaryAction={{
         content: `${tabs[selected].content}`,
         loading,
@@ -57,7 +64,7 @@ export const ScheduleModalCreateShift = ({
       }}
       secondaryActions={[
         {
-          content: "Luk",
+          content: t("close"),
           onAction: close,
         },
       ]}
@@ -81,4 +88,19 @@ export const ScheduleModalCreateShift = ({
       </Tabs>
     </Modal>
   );
+};
+
+const locales = {
+  da: {
+    close: "Close",
+    create_day: "Create for day",
+    create_range: "Create for range",
+    title: "New availability",
+  },
+  en: {
+    close: "Close",
+    create_day: "Create for day",
+    create_range: "Create for range",
+    title: "New availability",
+  },
 };

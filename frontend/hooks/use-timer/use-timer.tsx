@@ -32,7 +32,7 @@ export interface UseTimerProps {
 }
 
 export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
-  const { format } = useDate();
+  const { formatInTimezone } = useDate();
 
   const options = useMemo(() => {
     if (!data || data.length === 0) {
@@ -42,12 +42,15 @@ export const useTimer = ({ data, field, autoSelectFirst }: UseTimerProps) => {
     const hours: Array<UseTimerOption> =
       [...data].sort(HelperArray.sortByDate((d) => d.start)).map((t) => ({
         key: t.start.toJSON(),
-        label: `${format(t.start, "p")} - ${format(t.end, "p")}`,
+        label: `${formatInTimezone(t.start, "p")} - ${formatInTimezone(
+          t.end,
+          "p",
+        )}`,
         value: t.start.toJSON(),
       })) || [];
 
     return hours;
-  }, [data, format]);
+  }, [data, formatInTimezone]);
 
   const handleOnChange = useCallback(
     (startDate: string) => {

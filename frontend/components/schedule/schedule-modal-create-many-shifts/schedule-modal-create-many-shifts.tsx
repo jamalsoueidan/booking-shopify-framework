@@ -1,3 +1,7 @@
+import {
+  ScheduleServiceCreateGroupBodyProps,
+  ScheduleServiceDaysInterval,
+} from "@jamalsoueidan/backend.types.schedule";
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import {
   ScheduleFormManyShifts,
@@ -23,7 +27,10 @@ export const ScheduleModalCreateManyShifts = forwardRef<
 >(({ date, staff }, ref) => {
   const { show } = useToast();
   const { createGroup } = useStaffScheduleCreateGroup({ staff });
-  const { t } = useTranslation({ id: "create-many-shifts-modal", locales });
+  const { t } = useTranslation({
+    id: "schedule-modal-create-many-shifts",
+    locales,
+  });
 
   const onSubmit = useCallback(
     (
@@ -36,9 +43,15 @@ export const ScheduleModalCreateManyShifts = forwardRef<
     [createGroup, show, t],
   );
 
-  const initData = useMemo(
+  const initData: ScheduleServiceCreateGroupBodyProps = useMemo(
     () => ({
-      days: [],
+      days: [
+        date
+          .toLocaleString("en-US", {
+            weekday: "long",
+          })
+          .toLowerCase() as ScheduleServiceDaysInterval,
+      ],
       end: HelperDate.resetDateTime(endOfMonth(date), 16),
       start: HelperDate.resetDateTime(date, 10),
       tag: Tag.all_day,

@@ -26,7 +26,10 @@ export const ScheduleModalEditOneShift = ({
 }: ScheduleModalEditOneShiftProps) => {
   const ref = useRef<ScheduleFormOneShiftRefMethod>(null);
   const { show } = useToast();
-  const { t } = useTranslation({ id: "edit-one-shifts-modal", locales });
+  const { t } = useTranslation({
+    id: "schedule-modal-edit-one-shift",
+    locales,
+  });
 
   const { update } = useStaffScheduleUpdate({
     schedule: schedule._id,

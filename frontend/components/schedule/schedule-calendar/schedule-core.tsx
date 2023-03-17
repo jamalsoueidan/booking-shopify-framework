@@ -40,7 +40,7 @@ export const ScheduleCalendarCore = forwardRef<
     }: ScheduleCalendarProps,
     ref,
   ) => {
-    const { onlyFormat } = useDate();
+    const { format } = useDate();
     const { selectTagLabel, selectTagBackgroundColor, selectTagColor } =
       useTag();
 
@@ -60,9 +60,9 @@ export const ScheduleCalendarCore = forwardRef<
       (arg: EventContentArg) => {
         const hour = arg?.event?.start && arg?.event.end && (
           <i>
-            {onlyFormat(arg.event.start, "p")}
+            {format(arg.event.start, "p")}
             {" - "}
-            {onlyFormat(arg.event.end, "p")}
+            {format(arg.event.end, "p")}
           </i>
         );
 
@@ -87,7 +87,7 @@ export const ScheduleCalendarCore = forwardRef<
           </div>
         );
       },
-      [onlyFormat, selectTagColor, selectTagLabel],
+      [format, selectTagColor, selectTagLabel],
     );
 
     const handleClickEvent = useCallback(

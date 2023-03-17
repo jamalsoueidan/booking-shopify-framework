@@ -17,7 +17,7 @@ import { Modal } from "@shopify/polaris";
 import React, { useCallback, useRef } from "react";
 
 export interface ScheduleModalEditManyShiftsProps {
-  schedule: Schedule;
+  schedule: Pick<Schedule, "_id" | "staff" | "groupId">;
   close: () => void;
 }
 
@@ -27,7 +27,10 @@ export const ScheduleModalEditManyShifts = ({
 }: ScheduleModalEditManyShiftsProps) => {
   const ref = useRef<ScheduleFormManyShiftsRefMethod>(null);
   const { show } = useToast();
-  const { t } = useTranslation({ id: "edit-many-shifts-modal", locales });
+  const { t } = useTranslation({
+    id: "schedule-modal-edit-many-shifts",
+    locales,
+  });
 
   const { data: group } = useStaffScheduleGetGroup({
     groupId: schedule.groupId || "",

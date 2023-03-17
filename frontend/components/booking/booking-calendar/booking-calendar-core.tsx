@@ -27,7 +27,7 @@ export const BookingCalendarCore = forwardRef<
   BookingCalendarCoreProps
 >(({ data, onClickBooking, onChangeDate, headerToolbar }, ref) => {
   const { selectFulfillmentColor } = useFulfillment();
-  const { onlyFormat } = useDate();
+  const { format } = useDate();
 
   const events = useMemo(
     () =>
@@ -47,9 +47,9 @@ export const BookingCalendarCore = forwardRef<
       const extendHour =
         arg?.event?.start && arg?.event?.end ? (
           <i>
-            {onlyFormat(arg.event.start, "p")}
+            {format(arg.event.start, "p")}
             {" - "}
-            {onlyFormat(arg.event.end, "p")}
+            {format(arg.event.end, "p")}
           </i>
         ) : null;
 
@@ -98,7 +98,7 @@ export const BookingCalendarCore = forwardRef<
         </Tooltip>
       );
     },
-    [onlyFormat],
+    [format],
   );
 
   const handleClickEvent = useCallback(

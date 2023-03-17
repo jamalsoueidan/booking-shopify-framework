@@ -1,19 +1,29 @@
 import { withApplicationCard } from "@jamalsoueidan/bit-dev.preview.with-application";
-import { useStaff } from "@jamalsoueidan/frontend.state.staff";
-import React from "react";
+import { Button } from "@shopify/polaris";
+import React, { useCallback, useState } from "react";
 import { ScheduleModalCreateShift } from "./schedule-modal-create-shift";
 
-export const BasicScheduleModalCreateShift = withApplicationCard(() => {
-  const { data } = useStaff();
-  if (!data) {
-    return <>Loading</>;
-  }
+const MockComponent = ({ close }: { close: () => void }) => (
+  <ScheduleModalCreateShift
+    selectedDate={new Date()}
+    staff="640c3580a44a7de77c8d17c6"
+    close={close}
+  />
+);
 
-  return (
-    <ScheduleModalCreateShift
-      selectedDate={new Date()}
-      staff={data[0]._id}
-      close={() => {}}
-    />
-  );
-});
+export const Basic = withApplicationCard(
+  () => {
+    const [open, setOpen] = useState(true);
+    const onClick = useCallback(() => {
+      setOpen((state) => !state);
+    }, []);
+
+    return (
+      <>
+        <Button onClick={onClick}>Show Create Shift</Button>
+        {open ? <MockComponent close={onClick} /> : null}
+      </>
+    );
+  },
+  { isLive: true, title: "Create Shift" },
+);

@@ -21,7 +21,10 @@ export const ScheduleModalCreateOneShift = forwardRef<
   ScheduleModalCreateOneShiftProps
 >(({ date, staff }, ref) => {
   const { show } = useToast();
-  const { t } = useTranslation({ id: "create-one-shifts-modal", locales });
+  const { t } = useTranslation({
+    id: "schedule-modal-create-one-shift",
+    locales,
+  });
   const { create } = useStaffScheduleCreate({ staff });
 
   const onSubmit = useCallback(

@@ -11,7 +11,7 @@ export type CalendarTitleProps = {
 export const CalendarTitle = ({ calendarRef }: CalendarTitleProps) => {
   const [date, setDate] = useState<Date>();
   const [view, setView] = useState<CalendarView>();
-  const { onlyFormat } = useDate();
+  const { format } = useDate();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
@@ -29,15 +29,15 @@ export const CalendarTitle = ({ calendarRef }: CalendarTitleProps) => {
     return <></>;
   }
 
-  const multimonth = view === "multiMonthYear" && onlyFormat(date, "MMMM yyyy");
-  const dayGridMonth = view === "dayGridMonth" && onlyFormat(date, "MMMM yyyy");
+  const multimonth = view === "multiMonthYear" && format(date, "MMMM yyyy");
+  const dayGridMonth = view === "dayGridMonth" && format(date, "MMMM yyyy");
   const timeGridWeek =
     view === "timeGridWeek" &&
-    `${onlyFormat(date, "PP")} - ${onlyFormat(addDays(date, 6), "PP")}`;
-  const timeGridDay = view === "timeGridDay" && onlyFormat(date, "PPP");
+    `${format(date, "PP")} - ${format(addDays(date, 6), "PP")}`;
+  const timeGridDay = view === "timeGridDay" && format(date, "PPP");
   const listWeek =
     view === "listWeek" &&
-    `${onlyFormat(date, "PP")} - ${onlyFormat(addDays(date, 6), "PP")}`;
+    `${format(date, "PP")} - ${format(addDays(date, 6), "PP")}`;
 
   return (
     <Text as="h1" variant="heading2xl">

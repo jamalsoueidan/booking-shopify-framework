@@ -38,29 +38,31 @@ export const ScheduleFormOneShift = forwardRef<
   ScheduleFormOneShiftRefMethod,
   ScheduleFormOneShiftProps
 >(({ data, onSubmit, allowEditing }, ref) => {
-  const { t } = useTranslation({ id: "create-one-day", locales });
+  const { t } = useTranslation({ id: "schedule-form-one-shift", locales });
   const { options } = useTag();
-  const { toUtc, format } = useDate();
+  const { toUtc, formatInTimezone } = useDate();
 
-  const convert = useCallback(
-    (time: string) => {
+  const convertToUtc = useCallback(
+    (date: Date, time: string) => {
       const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
       return toUtc(
-        new Date(`${format(data.start, "yyyy-MM-dd")} ${hour}:${minuttes}:00`),
+        new Date(
+          `${formatInTimezone(date, "yyyy-MM-dd")} ${hour}:${minuttes}:00`,
+        ),
       );
     },
-    [format, data, toUtc],
+    [formatInTimezone, toUtc],
   );
 
   const { fields, submit, validate } = useForm({
     fields: {
-      endTime: useField(format(data.end, "HH:mm")),
-      startTime: useField(format(data.start, "HH:mm")),
+      endTime: useField(formatInTimezone(data.end, "HH:mm")),
+      startTime: useField(formatInTimezone(data.start, "HH:mm")),
       tag: useField<Tag>(options[0].value),
     },
     onSubmit: async (fieldValues) => {
-      const start = convert(fieldValues.startTime);
-      const end = convert(fieldValues.endTime);
+      const start = convertToUtc(data.start, fieldValues.startTime);
+      const end = convertToUtc(data.start, fieldValues.endTime);
 
       return onSubmit({
         end,
@@ -81,8 +83,8 @@ export const ScheduleFormOneShift = forwardRef<
     <Layout>
       <Layout.Section>
         {t("title", {
-          date: <strong>{format(data?.start, "PPP")}</strong>,
-          day: <strong>{format(data?.start, "EEEE")}</strong>,
+          date: <strong>{formatInTimezone(data?.start, "PPP")}</strong>,
+          day: <strong>{formatInTimezone(data?.start, "EEEE")}</strong>,
         })}
       </Layout.Section>
       <Layout.Section>

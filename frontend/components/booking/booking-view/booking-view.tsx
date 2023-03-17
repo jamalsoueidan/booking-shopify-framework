@@ -19,7 +19,7 @@ export const BookingView = ({ booking, navigate }: BookingViewProps) => {
   const orderUrl = `https://${booking.shop}/admin/orders/${booking.orderId}`;
   const productUrl = `https://${booking.shop}/admin/products/${booking.productId}`;
 
-  const { format, toTimeZone, formatRelative } = useDate();
+  const { formatInTimezone, toTimeZone, formatRelative } = useDate();
   const { setSecondaryActions } = useModal();
 
   useEffect(() => {
@@ -112,15 +112,15 @@ export const BookingView = ({ booking, navigate }: BookingViewProps) => {
 
       <Modal.Section>
         <TextContainer>
-          <strong>Dato:</strong> {format(booking.start, "PPP")}{" "}
+          <strong>Dato:</strong> {formatInTimezone(booking.start, "PPP")}{" "}
           <i>({formatRelative(toTimeZone(booking.start))})</i>
         </TextContainer>
       </Modal.Section>
 
       <Modal.Section>
         <TextContainer>
-          <strong>Tidspunkt:</strong> {format(booking.start, "p")} -{" "}
-          {format(booking.end, "p")} (
+          <strong>Tidspunkt:</strong> {formatInTimezone(booking.start, "p")} -{" "}
+          {formatInTimezone(booking.end, "p")} (
           <i>
             {differenceInHours(new Date(booking.end), new Date(booking.start))}{" "}
             time)

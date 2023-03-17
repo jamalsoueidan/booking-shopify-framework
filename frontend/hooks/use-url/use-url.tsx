@@ -15,12 +15,13 @@ export function useUrl(
     const p: Array<string> = [];
     const keys = Object.keys(params);
     keys.forEach((param) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const value = params[param];
-      if (typeof value === "object") {
-        p.push(`${param}=${value.toJSON()}`);
-      } else {
-        p.push(`${param}=${value}`);
+      if (value !== undefined && value !== null) {
+        if (typeof value === "object") {
+          p.push(`${param}=${value.toJSON()}`);
+        } else {
+          p.push(`${param}=${value}`);
+        }
       }
     });
     return p;

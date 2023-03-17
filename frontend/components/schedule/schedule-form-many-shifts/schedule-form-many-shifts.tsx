@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { InputDateDrop } from "@jamalsoueidan/frontend.components.inputs.input-date-drop";
 import { InputDays } from "@jamalsoueidan/frontend.components.inputs.input-days";
 import { Columns, Layout, TextField } from "@shopify/polaris";
@@ -15,10 +16,10 @@ import {
 } from "@jamalsoueidan/backend.types.schedule";
 import { Tag } from "@jamalsoueidan/backend.types.tag";
 import { InputTags } from "@jamalsoueidan/frontend.components.inputs.input-tags";
+import { HelperDate } from "@jamalsoueidan/frontend.helpers.helper-date";
 import { Validators } from "@jamalsoueidan/frontend.helpers.validators";
 import { useDate } from "@jamalsoueidan/frontend.hooks.use-date";
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
-import { endOfMonth, setHours, setMinutes } from "date-fns";
 import React, {
   forwardRef,
   useCallback,
@@ -51,27 +52,33 @@ export const ScheduleFormManyShifts = forwardRef<
   ScheduleFormManyShiftsRefMethod,
   ScheduleFormManyShiftsProps
 >(({ data, onSubmit, allowEditing }, ref) => {
-  const { format, toUtc } = useDate();
-  const { t } = useTranslation({ id: "create-many-shifts", locales });
+  const { formatInTimezone, toUtc } = useDate();
+  const { t } = useTranslation({ id: "schedule-form-many-shifts", locales });
 
-  const convertToDate = useCallback(
-    (date: Date, time: string) =>
-      toUtc(new Date(`${format(date, "yyyy-MM-dd")} ${time}:00`)),
-    [format, toUtc],
+  const convertToUtc = useCallback(
+    (date: Date, time: string) => {
+      const [hour, minuttes] = time.split(":").map((_) => parseInt(_, 10));
+      return toUtc(
+        new Date(
+          `${formatInTimezone(date, "yyyy-MM-dd")} ${hour}:${minuttes}:00`,
+        ),
+      );
+    },
+    [formatInTimezone, toUtc],
   );
 
   const endDate = useMemo(() => {
     if (data.end) {
       return data.end;
     }
-    return setMinutes(endOfMonth(setHours(new Date(), 17)), 0);
+    return HelperDate.resetDateTime(new Date(), 16);
   }, [data]);
 
   const startDate = useMemo(() => {
     if (data.start) {
       return data.start;
     }
-    return setMinutes(setHours(new Date(), 10), 0);
+    return HelperDate.resetDateTime(new Date(), 8);
   }, [data]);
 
   const { fields, submit, validate } = useForm({
@@ -84,21 +91,24 @@ export const ScheduleFormManyShifts = forwardRef<
         validates: [Validators.isDate("invalid date")],
         value: endDate,
       }),
-      endTime: useField(format(endDate, "HH:mm")),
+      endTime: useField(formatInTimezone(endDate, "HH:mm")),
       startDate: useField<Date>({
         validates: [Validators.isDate("invalid date")],
         value: startDate,
       }),
-      startTime: useField(format(startDate, "HH:mm")),
+      startTime: useField(formatInTimezone(startDate, "HH:mm")),
       tag: useField<Tag>(data.tag),
     },
-    onSubmit: async (fieldValues) =>
-      onSubmit({
+    onSubmit: async (fieldValues) => {
+      const end = convertToUtc(fieldValues.endDate, fieldValues.endTime);
+      const start = convertToUtc(fieldValues.startDate, fieldValues.startTime);
+      return onSubmit({
         days: fieldValues.days,
-        end: convertToDate(fieldValues.endDate, fieldValues.endTime),
-        start: convertToDate(fieldValues.startDate, fieldValues.startTime),
+        end,
+        start,
         tag: fieldValues.tag,
-      }),
+      });
+    },
   });
 
   useImperativeHandle(ref, () => ({

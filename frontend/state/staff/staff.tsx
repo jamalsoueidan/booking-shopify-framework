@@ -20,7 +20,7 @@ export const useStaff = () => {
 };
 
 interface UseStaffGetProps {
-  userId?: string;
+  userId: string;
 }
 
 export const useStaffGet = ({ userId }: UseStaffGetProps) => {

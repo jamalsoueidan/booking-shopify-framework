@@ -19,8 +19,8 @@ export const useDate = () => {
     [timeZone],
   );
 
-  // from timezone to format show user datetime
-  const format = useCallback(
+  // format date in settings timezone, or by overriding timezone
+  const formatInTimezone = useCallback(
     (
       date: Date | string | number,
       formatStr: string,
@@ -33,7 +33,7 @@ export const useDate = () => {
   );
 
   // render the date as it is
-  const onlyFormat = useCallback(
+  const format = useCallback(
     (date: Date, formatStr: string) =>
       fnsFormat(date, formatStr, {
         locale: language === "da" ? da : undefined,
@@ -58,8 +58,8 @@ export const useDate = () => {
 
   return {
     format,
+    formatInTimezone,
     formatRelative,
-    onlyFormat,
     timeZone,
     toTimeZone,
     toUtc,
