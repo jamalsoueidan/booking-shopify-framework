@@ -17,10 +17,10 @@ describe("test formatInTimeZone use-date", () => {
       const { formatInTimezone } = result.current;
       const localtime = new Date("2023-03-25T12:00:00.341Z");
       expect(formatInTimezone(localtime, "pppPPP", "Europe/Copenhagen")).toBe(
-        "13:00:00 GMT+025. marts 2023",
+        "13:00:00 GMT+125. marts 2023",
       );
       expect(formatInTimezone(localtime, "pppPPP", "Europe/Istanbul")).toBe(
-        "15:00:00 GMT+025. marts 2023",
+        "15:00:00 GMT+125. marts 2023",
       );
     });
   });
@@ -34,7 +34,7 @@ describe("test formatInTimeZone use-date", () => {
       const localtime = new Date("2023-03-25T12:00:00.341Z");
       expect(timeZone).toBe(defaultValues.timeZone);
       expect(formatInTimezone(localtime, "pppPPP")).toBe(
-        "13:00:00 GMT+025. marts 2023",
+        "13:00:00 GMT+125. marts 2023",
       );
     });
   });
