@@ -91,7 +91,7 @@ export const View = () => {
           <AlphaStack gap="4">
             <ProductStatus
               active={fields.active}
-              staffLength={product.staff.length}
+              disabled={product.staff.length === 0}
             />
             <ProductOptions
               buffertime={fields.buffertime}

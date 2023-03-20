@@ -92,10 +92,10 @@ export const ScheduleModalCreateShift = ({
 
 const locales = {
   da: {
-    close: "Close",
-    create_day: "Create for day",
-    create_range: "Create for range",
-    title: "New availability",
+    close: "Luk",
+    create_day: "Opret en vagtplan",
+    create_range: "Opret flere vagtplan",
+    title: "Tilføj vagt til skema",
   },
   en: {
     close: "Close",

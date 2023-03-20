@@ -87,5 +87,5 @@ export const BasicThemeUsage = withApplication(
       </>
     );
   },
-  { title: "Ability" },
+  { hideControls: true, title: "Ability" },
 );

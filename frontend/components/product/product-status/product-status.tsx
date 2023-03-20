@@ -4,11 +4,11 @@ import React, { memo, useCallback, useMemo } from "react";
 
 export interface ProductStatusProps {
   active: Field<boolean | undefined>;
-  staffLength: number;
+  disabled?: boolean;
 }
 
 export const ProductStatus = memo(
-  ({ active, staffLength }: ProductStatusProps) => {
+  ({ active, disabled }: ProductStatusProps) => {
     const onChange = useCallback(
       (value: string) => {
         active.onChange(value === "true");
@@ -42,7 +42,7 @@ export const ProductStatus = memo(
           options={options}
           onChange={onChange}
           value={active.value ? "true" : "false"}
-          disabled={staffLength === 0}
+          disabled={disabled}
           onBlur={active.onBlur}
         />
       </AlphaCard>

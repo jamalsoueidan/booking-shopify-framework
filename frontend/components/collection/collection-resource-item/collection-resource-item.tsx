@@ -25,7 +25,7 @@ export const CollectionResourceItem = memo(
     const { destroy } = useCollectionDestroy({ collectionId: collection._id });
     const { t } = useTranslation({ id: "collection-item", locales });
 
-    const setActive = useCallback(
+    const close = useCallback(
       async (shouldDestroy: boolean) => {
         if (shouldDestroy) {
           destroy();
@@ -36,8 +36,8 @@ export const CollectionResourceItem = memo(
     );
 
     const removeCollection = useCallback(() => {
-      setModalConfirm(<ModalConfirm active setActive={setActive} />);
-    }, [setActive]);
+      setModalConfirm(<ModalConfirm show close={close} />);
+    }, [close]);
 
     return (
       <>

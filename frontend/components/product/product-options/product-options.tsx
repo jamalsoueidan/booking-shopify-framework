@@ -1,6 +1,7 @@
 import { useTranslation } from "@jamalsoueidan/frontend.hooks.use-translation";
 import {
   AlphaCard,
+  AlphaStack,
   Button,
   ButtonGroup,
   FormLayout,
@@ -61,7 +62,7 @@ export const ProductOptions = memo(
     );
 
     return (
-      <>
+      <AlphaStack gap="4">
         <AlphaCard>
           <FormLayout>
             <Text variant="bodyMd" as="span" fontWeight="semibold">
@@ -94,7 +95,7 @@ export const ProductOptions = memo(
             />
           </FormLayout>
         </AlphaCard>
-      </>
+      </AlphaStack>
     );
   },
 );
