@@ -10,6 +10,9 @@ export const defineAbilityFor = (user: AbilityUser): AbilityContextType => {
     can("manage", "product");
     can("manage", "staff");
     can("manage", "collection");
+    if (user.onShopify) {
+      can("manage", "shopify");
+    }
   }
 
   if (user.isAdmin) {

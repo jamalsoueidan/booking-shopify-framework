@@ -9,7 +9,7 @@ import { createContext } from "react";
 
 export type AbilityUser = Pick<
   AppSession,
-  "isAdmin" | "isOwner" | "isUser" | "staff"
+  "isAdmin" | "isOwner" | "isUser" | "onShopify" | "staff"
 >;
 
 export type AbilityActions = "manage" | "create" | "read" | "update" | "delete";
@@ -17,6 +17,7 @@ export type AbilitySubjects =
   | "product"
   | "staff"
   | "collection"
+  | "shopify"
   | Staff
   | Product
   | Collection;

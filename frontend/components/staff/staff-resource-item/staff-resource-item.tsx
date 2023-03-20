@@ -13,7 +13,7 @@ import React, { ReactNode } from "react";
 
 export type StaffResourceItemProps = {
   title: string;
-  desc: string;
+  desc?: string;
   media?: React.ReactElement<AvatarProps | ThumbnailProps>;
   action?: ReactNode;
   url?: string;

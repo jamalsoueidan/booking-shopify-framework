@@ -1,1 +1,1 @@
-export { PagesStaffRoutes } from "./pages-staff";
+export * from "./pages-staff";

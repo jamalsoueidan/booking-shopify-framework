@@ -57,6 +57,7 @@ export const BasicThemeUsage = withApplication(
       isAdmin: role.value === StaffRole.admin,
       isOwner: role.value === StaffRole.owner,
       isUser: role.value === StaffRole.user,
+      onShopify: false,
       staff: "1",
     });
 
