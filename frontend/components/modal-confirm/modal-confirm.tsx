@@ -2,35 +2,35 @@ import { Modal } from "@shopify/polaris";
 import React, { useCallback, useMemo } from "react";
 
 export interface ModalConfirmProps {
-  active: boolean;
-  setActive: (value: boolean) => void;
+  show: boolean;
+  close: (value: boolean) => void;
 }
 
-export const ModalConfirm = ({ active, setActive }: ModalConfirmProps) => {
+export const ModalConfirm = ({ show, close }: ModalConfirmProps) => {
   const primaryAction = useMemo(
     () => ({
       content: "Delete",
-      onAction: () => setActive(true),
+      onAction: () => close(true),
     }),
-    [setActive],
+    [close],
   );
 
   const secondaryActions = useMemo(
     () => [
       {
         content: "Cancel",
-        onAction: () => setActive(false),
+        onAction: () => close(false),
       },
     ],
-    [setActive],
+    [close],
   );
 
-  const onClose = useCallback(() => setActive(false), [setActive]);
+  const onClose = useCallback(() => close(false), [close]);
 
   return (
     <Modal
       small
-      open={active}
+      open={show}
       onClose={onClose}
       title="Remove product"
       primaryAction={primaryAction}
