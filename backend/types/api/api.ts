@@ -36,6 +36,7 @@ export interface AppSession {
   isOwner: boolean;
   isAdmin: boolean;
   isUser: boolean;
+  onShopify?: boolean; // in shopify app or external app?
 }
 
 export type AppControllerProps<Q = never, B = never> = ControllerProps<

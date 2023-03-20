@@ -38,6 +38,7 @@ export * from "@jamalsoueidan/frontend.components.staff.staff-form";
 export * from "@jamalsoueidan/frontend.components.staff.staff-resource-item";
 export * from "@jamalsoueidan/frontend.components.staff.staff-resource-list";
 export * from "@jamalsoueidan/frontend.components.widget.widget-input-staff";
+export * from "@jamalsoueidan/frontend.pages.pages-collection";
 export * from "@jamalsoueidan/frontend.pages.pages-staff";
 // HELPERS
 export * from "@jamalsoueidan/frontend.helpers.helper-array";

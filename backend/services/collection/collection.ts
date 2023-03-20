@@ -48,9 +48,9 @@ export const CollectionServiceCreate = async (
   const { shop } = query.session;
 
   const collections = await getCollections({
+    selections: body.selections,
     session: query.session,
     shopify: query.session.shopify,
-    selections: body.selections,
   });
 
   await CollectionServerCreateBulk({ collections, shop });
