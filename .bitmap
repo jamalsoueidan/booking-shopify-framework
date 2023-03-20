@@ -77,13 +77,13 @@
     },
     "components/collection/collection-resource-item": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/collection/collection-resource-item"
     },
     "components/collection/collection-resource-list": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/collection/collection-resource-list"
     },
@@ -203,7 +203,7 @@
     },
     "components/modal-confirm": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/modal-confirm"
     },
@@ -215,7 +215,7 @@
     },
     "components/product/product-options": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/product/product-options"
     },
@@ -233,7 +233,7 @@
     },
     "components/product/product-staff": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/product/product-staff"
     },
@@ -281,7 +281,7 @@
     },
     "components/schedule/schedule-modal-create-shift": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.14",
+        "version": "0.0.15",
         "mainFile": "index.ts",
         "rootDir": "frontend/components/schedule/schedule-modal-create-shift"
     },
@@ -347,7 +347,7 @@
     },
     "frontend": {
         "scope": "jamalsoueidan.pkg",
-        "version": "0.0.22",
+        "version": "0.0.24",
         "mainFile": "index.ts",
         "rootDir": "pkg/frontend"
     },
@@ -461,13 +461,13 @@
     },
     "pages/pages-collection": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.1",
+        "version": "0.0.3",
         "mainFile": "index.ts",
         "rootDir": "frontend/pages/pages-collection"
     },
     "pages/pages-staff": {
         "scope": "jamalsoueidan.frontend",
-        "version": "0.0.17",
+        "version": "0.0.18",
         "mainFile": "index.ts",
         "rootDir": "frontend/pages/pages-staff"
     },
