@@ -7,7 +7,7 @@ import { createContext } from "react";
 
 export type FormContextProps = {
   product: Product<ProductServiceUpdateBodyStaffProperty>;
-  field: DynamicList<ProductServiceUpdateBodyStaffProperty>;
+  staffField: DynamicList<ProductServiceUpdateBodyStaffProperty>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

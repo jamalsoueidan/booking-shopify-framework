@@ -23,6 +23,8 @@ import { useDynamicList, useField } from "@shopify/react-form";
 import React from "react";
 import { useParams } from "react-router-dom";
 
+type StaffProperty = Pick<ProductServiceUpdateBodyStaffProperty, "_id" | "tag">;
+
 export const View = () => {
   const { t } = useTranslation({ id: "collection-product-view", locales });
   const params = useParams();
@@ -31,44 +33,41 @@ export const View = () => {
     id: params.id || "",
   });
 
-  const staff = useDynamicList<ProductServiceUpdateBodyStaffProperty>(
-    product?.staff || [],
-    (staff: ProductServiceUpdateBodyStaffProperty) => staff,
+  const { fields, dynamicLists, submit, submitErrors, primaryAction } = useForm(
+    {
+      dynamicLists: {
+        staff: useDynamicList<StaffProperty>(
+          product?.staff || [],
+          (staff: StaffProperty) => staff,
+        ),
+      },
+      fields: {
+        active: useField({
+          validates: [],
+          value: product?.active || false,
+        }),
+        buffertime: useField({
+          validates: [],
+          value: product?.buffertime,
+        }),
+        duration: useField({
+          validates: [],
+          value: product?.duration,
+        }),
+      },
+      onSubmit: async (fieldValues) => {
+        await update({
+          active: fieldValues.active,
+          buffertime: fieldValues.buffertime,
+          duration: fieldValues.duration,
+          staff: fieldValues.staff,
+        });
+        return { status: "success" };
+      },
+    },
   );
 
-  const { fields, submit, submitErrors, primaryAction } = useForm({
-    dynamicLists: {
-      staff: useDynamicList<ProductServiceUpdateBodyStaffProperty>(
-        product?.staff || [],
-        (staff: ProductServiceUpdateBodyStaffProperty) => staff,
-      ),
-    },
-    fields: {
-      active: useField({
-        validates: [],
-        value: product?.active || false,
-      }),
-      buffertime: useField({
-        validates: [],
-        value: product?.buffertime,
-      }),
-      duration: useField({
-        validates: [],
-        value: product?.duration,
-      }),
-    },
-    onSubmit: async (fieldValues) => {
-      await update({
-        active: fieldValues.active,
-        buffertime: fieldValues.buffertime,
-        duration: fieldValues.duration,
-        staff: staff.value,
-      });
-      return { status: "success" };
-    },
-  });
-
-  if (!product || !submit || !fields) {
+  if (!product || !submit || !fields || !dynamicLists) {
     return <LoadingPage title={t("loading")} />;
   }
 
@@ -87,7 +86,7 @@ export const View = () => {
         <FormErrors errors={submitErrors} />
         {product.staff.length === 0 && <ProductNotification />}
         <Columns columns={["twoThirds", "oneThird"]} gap="4" alignItems="start">
-          <ProductStaff product={product} field={staff} />
+          <ProductStaff product={product} staffField={dynamicLists.staff} />
           <AlphaStack gap="4">
             <ProductStatus
               active={fields.active}
